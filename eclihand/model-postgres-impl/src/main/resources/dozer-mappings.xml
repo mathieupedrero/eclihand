@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+          
+  <mapping map-id="team"> 
+    <class-a>com.pedrero.eclihand.model.domain.impl.TeamImpl</class-a>
+    <class-b>com.pedrero.eclihand.model.dto.TeamDto</class-b>   
+    <field map-id="player-light">
+      <a>players</a>
+      <b>players</b>
+    </field>  
+    <field-exclude>
+      <a>otherProperties</a>
+      <b>otherProperties</b>
+    </field-exclude>
+  </mapping>  
+  <mapping map-id="team-light"> 
+    <class-a>com.pedrero.eclihand.model.domain.impl.TeamImpl</class-a>
+    <class-b>com.pedrero.eclihand.model.dto.TeamDto</class-b>  
+    <field-exclude>
+      <a>players</a>
+      <b>players</b>
+    </field-exclude>
+    <field-exclude>
+      <a>otherProperties</a>
+      <b>otherProperties</b>
+    </field-exclude>
+  </mapping>  
+  
+  <mapping map-id="player"> 
+    <class-a>com.pedrero.eclihand.model.domain.impl.PlayerImpl</class-a>
+    <class-b>com.pedrero.eclihand.model.dto.PlayerDto</class-b>   
+    <field map-id="team-light">
+      <a>teams</a>
+      <b>teams</b>
+    </field>
+    <field-exclude>
+      <a>otherProperties</a>
+      <b>otherProperties</b>
+    </field-exclude>
+  </mapping> 
+  <mapping map-id="player-light">
+    <class-a>com.pedrero.eclihand.model.domain.impl.PlayerImpl</class-a>
+    <class-b>com.pedrero.eclihand.model.dto.PlayerDto</class-b>     
+    <field-exclude>
+      <a>teams</a>
+      <b>teams</b>
+    </field-exclude>
+    <field-exclude>
+      <a>otherProperties</a>
+      <b>otherProperties</b>
+    </field-exclude>
+  </mapping> 
+   
+  <mapping map-id="person"> 
+    <class-a>com.pedrero.eclihand.model.domain.impl.PersonImpl</class-a>
+    <class-b>com.pedrero.eclihand.model.dto.PersonDto</class-b>   
+    <field-exclude>
+      <a>otherProperties</a>
+      <b>otherProperties</b>
+    </field-exclude>
+  </mapping>  
+  <mapping map-id="person-light"> 
+    <class-a>com.pedrero.eclihand.model.domain.impl.PersonImpl</class-a>
+    <class-b>com.pedrero.eclihand.model.dto.PersonDto</class-b>     
+    <field-exclude>
+      <a>otherProperties</a>
+      <b>otherProperties</b>
+    </field-exclude>
+  </mapping>  
+
+</mappings>
