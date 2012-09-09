@@ -1,0 +1,32 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Eclihand</display-name>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/config/application-context.xml</param-value> <!--  /WEB-INF/config/security-application-context.xml -->
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <listener>
+        <!-- To allow session-scoped beans -->
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
+    <servlet>
+  		<!-- The Vaadin application servlet -->
+        <servlet-name>Eclihand</servlet-name>
+        <servlet-class>com.pedrero.eclihand.servlet.SpringVaadinServlet</servlet-class>
+        <init-param>
+            <param-name>applicationBean</param-name>
+            <!-- The name of the application bean is defined by annotating the application class -->
+            <param-value>applicationBean</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Eclihand</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+</web-app>
