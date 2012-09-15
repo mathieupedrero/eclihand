@@ -26,6 +26,15 @@
     				<property name="labelKey" value="common.season"/>
     				<property name="valuePath" value="year"/>
     				<property name="formatter" ref="seasonFormatter"/>
+    				<property name="dataType" value="java.lang.Integer" />
+    				<property name="minValue" value="1990" />
+    				<property name="maxValue" value="2012" />
+    			</bean>
+    			<bean class="com.pedrero.eclihand.ui.custom.config.PropertyConfig">
+    				<property name="labelKey" value="common.gender"/>
+    				<property name="valuePath" value="gender"/>
+    				<property name="formatter" ref="teamGenderFormatter"/>
+    				<property name="dataType" value="com.pedrero.eclihand.model.domain.Gender" />
     			</bean>
     		</list>
     	</property>
@@ -45,11 +54,13 @@
     				<property name="labelKey" value="common.gender"/>
     				<property name="valuePath" value="playerPerson.gender"/>
     				<property name="formatter" ref="playerGenderFormatter"/>
+    				<property name="dataType" value="com.pedrero.eclihand.model.domain.Gender" />
     			</bean>
     			<bean class="com.pedrero.eclihand.ui.custom.config.PropertyConfig">
     				<property name="labelKey" value="common.birth.date"/>
     				<property name="valuePath" value="playerPerson.birthDate"/>
     				<property name="formatter" ref="eclihandDateFormatter"/>
+    				<property name="dataType" value="java.util.Date" />
     			</bean>
     		</list>
     	</property>
