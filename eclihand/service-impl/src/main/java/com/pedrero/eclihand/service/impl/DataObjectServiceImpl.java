@@ -56,6 +56,16 @@ public abstract class DataObjectServiceImpl<T extends DataObjectDto, U extends D
 		return result;
 	}
 
+	@Override
+	@Transactional
+	public List<T> searchByCriterium(Object criterium) {
+		List<T> result = new ArrayList<T>();
+		for (U entity : getDao().searchByCriterium(criterium.toString())) {
+			result.add(getConverter().convertToDto(entity));
+		}
+		return result;
+	}
+
 	abstract public DataObjectDao<U> getDao();
 
 	abstract public Converter<U, T> getConverter();

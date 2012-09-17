@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -12,6 +13,7 @@ import com.pedrero.eclihand.model.domain.Player;
 
 @Entity
 @Table(name = "PLA_PLAYER")
+@NamedNativeQuery(name="PlayerImpl.searchByCriterium", query="select pla.* from PLA_PLAYER pla LEFT JOIN PER_PERSON per ON per.id = pla.pla_per_id WHERE upper(pla::text) ~ upper(?1) OR upper(per::text) ~ upper(?1)")
 public class PlayerImpl extends DataObjectImpl implements
 		Player<PersonImpl, TeamImpl> {
 

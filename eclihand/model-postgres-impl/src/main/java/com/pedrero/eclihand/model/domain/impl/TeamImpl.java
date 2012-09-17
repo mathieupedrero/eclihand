@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
 
 import com.pedrero.eclihand.model.domain.Gender;
@@ -16,6 +17,7 @@ import com.pedrero.eclihand.model.domain.Team;
 
 @Entity
 @Table(name = "TEA_TEAM")
+@NamedNativeQuery(name="TeamImpl.searchByCriterium", query="select * from TEA_TEAM WHERE upper(TEA_TEAM::text) ~ upper(?1)")
 public class TeamImpl extends DataObjectImpl implements Team<PlayerImpl> {
 
 	private Integer year;

@@ -14,5 +14,7 @@ public interface DataObjectService<T extends DataObjectDto> {
 	public void delete(T dto);
 
 	public List<T> findAll();
+	
+	public List<T> searchByCriterium(Object criterium);
 
 }

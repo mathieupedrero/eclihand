@@ -22,5 +22,7 @@ public interface DataObjectDao<T extends DataObject> {
 	public boolean exists(Long id);
 
 	long count();
+	
+	public List<T> searchByCriterium(String criterium);
 
 }
