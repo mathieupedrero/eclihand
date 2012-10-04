@@ -8,13 +8,13 @@ import com.pedrero.eclihand.controller.panel.TeamPanelController;
 import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.ui.EntityDisplayerComponent;
 import com.pedrero.eclihand.ui.custom.entity.TeamPropertyDisplayer;
+import com.pedrero.eclihand.ui.panel.EclihandMainPanel;
 import com.pedrero.eclihand.ui.table.entity.PlayerTable;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 @Component
-public class TeamPanel extends Panel implements
+public class TeamPanel extends EclihandMainPanel implements
 		EntityDisplayerComponent<TeamDto> {
 
 	/**

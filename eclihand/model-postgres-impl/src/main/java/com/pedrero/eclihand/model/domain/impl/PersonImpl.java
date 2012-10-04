@@ -16,7 +16,7 @@ import com.pedrero.eclihand.model.domain.Person;
 
 @Entity
 @Table(name = "PER_PERSON")
-@NamedNativeQuery(name="PersonImpl.searchByCriterium", query="select * from PER_PERSON WHERE upper(PER_PERSON::text) ~ upper(?1)")
+@NamedNativeQuery(name="PersonImpl.searchByCriterium", query="select * from PER_PERSON WHERE upper(PER_PERSON::text) ~ upper(?1)", resultClass= PersonImpl.class)
 public class PersonImpl extends DataObjectImpl implements Person {
 	private String firstName;
 

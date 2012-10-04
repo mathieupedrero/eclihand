@@ -1,36 +1,42 @@
 package com.pedrero.eclihand.ui.panel;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
-import com.pedrero.eclihand.controller.panel.TeamsPanelController;
-import com.pedrero.eclihand.model.dto.TeamDto;
+import com.pedrero.eclihand.controller.panel.PlayersPanelController;
 import com.pedrero.eclihand.ui.table.entity.TeamTable;
 import com.pedrero.eclihand.utils.Displayer;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
+import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.Table;
+import com.vaadin.ui.Link;
 import com.vaadin.ui.VerticalLayout;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class TeamsPanel extends EclihandMainPanel implements Initiable, Displayer {
+public class PlayersPanel extends EclihandMainPanel implements Initiable, Displayer {
 	@Resource
 	private MessageResolver messageResolver;
 
 	@Resource
-	private TeamsPanelController teamsPanelController;
+	private PlayersPanelController playersPanelController;
 
 	@Resource(name = "playerTeamTable")
 	private TeamTable teamsTable;
 
 	private Layout layout;
+
+	private Label titleLabel;
+
+	private Link linkToFind;
+
+	@Resource
+	private EclihandUiFactory eclihandUiFactory;
 
 	/**
 	 * 
@@ -39,26 +45,25 @@ public class TeamsPanel extends EclihandMainPanel implements Initiable, Displaye
 
 	@Override
 	public void init() {
-		this.setCaption(messageResolver.getMessage("teams.panel.title"));
+		this.setCaption(messageResolver.getMessage("players.panel.title"));
 		if (layout == null) {
 			layout = new VerticalLayout();
 			this.setContent(layout);
+
+			this.titleLabel = eclihandUiFactory.createTitleLabel();
+			this.titleLabel.setValue(messageResolver
+					.getMessage("players.panel.title"));
+			this.linkToFind = eclihandUiFactory.createSimpleLink();
+			this.linkToFind.setCaption(messageResolver
+					.getMessage("common.find"));
+
+			this.layout.addComponent(titleLabel);
+			this.layout.addComponent(linkToFind);
 		}
-		this.addComponent(teamsTable);
-		teamsTable.init();
 	}
 
 	@Override
 	public void display() {
-		teamsPanelController.searchTeamsAndDisplay();
-	}
-
-	public Table getTeamsTable() {
-		return teamsTable;
-	}
-
-	public void refreshTeams(List<TeamDto> teams) {
-		teamsTable.removeAllValidators();
-		teamsTable.add(teams);
+		//teamsPanelController.searchTeamsAndDisplay();
 	}
 }

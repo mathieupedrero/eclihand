@@ -17,7 +17,7 @@ import com.pedrero.eclihand.model.domain.Team;
 
 @Entity
 @Table(name = "TEA_TEAM")
-@NamedNativeQuery(name="TeamImpl.searchByCriterium", query="select * from TEA_TEAM WHERE upper(TEA_TEAM::text) ~ upper(?1)")
+@NamedNativeQuery(name="TeamImpl.searchByCriterium", query="select * from TEA_TEAM WHERE upper(TEA_TEAM::text) ~ upper(?1)", resultClass= TeamImpl.class)
 public class TeamImpl extends DataObjectImpl implements Team<PlayerImpl> {
 
 	private Integer year;

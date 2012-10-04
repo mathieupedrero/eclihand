@@ -12,12 +12,11 @@ import com.pedrero.eclihand.utils.Displayer;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class HomePanel extends Panel implements Initiable, Displayer {
+public class HomePanel extends EclihandMainPanel implements Initiable, Displayer {
 
 	@Resource
 	private HomePanelController homePanelController;

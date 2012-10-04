@@ -30,6 +30,8 @@ public class MainMenuBar extends MenuBar implements Initiable {
 
 	private MenuItem teamsMenuItem;
 
+	private MenuItem playersMenuItem;
+
 	@Override
 	public void init() {
 		homeMenuItem = new MenuItem(messageResolver.getMessage("common.home"),
@@ -52,8 +54,23 @@ public class MainMenuBar extends MenuBar implements Initiable {
 						mainMenuBarController.goToTeams();
 					}
 				});
+		playersMenuItem = new MenuItem(
+				messageResolver.getMessage("common.players"), null,
+				new Command() {
+
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = -6952213770665073413L;
+
+					@Override
+					public void menuSelected(MenuItem selectedItem) {
+						mainMenuBarController.goToPlayers();
+					}
+				});
 		this.getItems().add(homeMenuItem);
 		this.getItems().add(teamsMenuItem);
+		this.getItems().add(playersMenuItem);
 		this.requestRepaint();
 	}
 

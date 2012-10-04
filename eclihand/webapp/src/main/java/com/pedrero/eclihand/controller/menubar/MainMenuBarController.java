@@ -31,6 +31,10 @@ public class MainMenuBarController extends Object implements EclihandController 
 		bodyPanelController.showHomePanel();
 	}
 
+	public void goToPlayers() {
+		bodyPanelController.showPlayersPanel();
+	}
+
 	public void goToTeams() {
 		bodyPanelController.showTeamsPanel();
 	}

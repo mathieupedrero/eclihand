@@ -12,12 +12,11 @@ import org.springframework.stereotype.Component;
 import com.pedrero.eclihand.controller.panel.LeftPanelController;
 import com.pedrero.eclihand.utils.Initiable;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class LeftPanel extends Panel implements Initiable {
+public class LeftPanel extends EclihandMainPanel implements Initiable {
 	@Resource
 	private LeftPanelController leftPanelController;
 

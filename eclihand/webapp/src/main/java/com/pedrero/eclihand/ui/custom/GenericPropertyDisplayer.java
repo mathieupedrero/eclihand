@@ -14,6 +14,7 @@ import com.pedrero.eclihand.utils.EclihandUiException;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.Formatter;
 import com.pedrero.eclihand.utils.text.MessageResolver;
+import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -47,15 +48,22 @@ public abstract class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	
 	private Boolean updatable = false;
 
-	private Button switchUpdateModeButton = new Button(MAKE_UPDATABLE_KEY);
+	private Button switchUpdateModeButton;
 
-	private Button validateChanges = new Button(VALIDATE_CHANGES_KEY);
+	private Button validateChanges;
 
 	@Resource
 	private MessageResolver messageResolver;
+	
+	@Resource
+	private EclihandUiFactory eclihandUiFactory;
 
 	@Override
 	public void init() {
+		switchUpdateModeButton = eclihandUiFactory.createButton();
+		switchUpdateModeButton.setCaption(MAKE_UPDATABLE_KEY);
+		validateChanges = eclihandUiFactory.createButton();
+		validateChanges.setCaption(VALIDATE_CHANGES_KEY);
 		Integer rowNumber = getConfig().getProperties().size();
 		layout = new GridLayout(2, rowNumber +1);
 		this.setContent(layout);

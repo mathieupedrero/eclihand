@@ -9,17 +9,19 @@ import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Panel;
 
 @org.springframework.stereotype.Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class BodyPanel extends Panel implements Initiable {
+public class BodyPanel extends EclihandMainPanel implements Initiable {
 
 	@Resource
 	private HomePanel homePanel;
 
 	@Resource
 	private TeamsPanel teamsPanel;
+
+	@Resource
+	private PlayersPanel playersPanel;
 
 	@Resource
 	private LeftPanel leftPanel;
@@ -47,6 +49,11 @@ public class BodyPanel extends Panel implements Initiable {
 	public void showTeamsPanel() {
 		this.replaceComponent(currentPanel, teamsPanel);
 		currentPanel = teamsPanel;
+	}
+
+	public void showPlayersPanel() {
+		this.replaceComponent(currentPanel, playersPanel);
+		currentPanel = playersPanel;
 	}
 
 	public void showComponent(Component panel) {
