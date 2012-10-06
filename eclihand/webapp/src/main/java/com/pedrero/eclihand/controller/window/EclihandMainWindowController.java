@@ -5,12 +5,15 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 
 import com.pedrero.eclihand.controller.EclihandController;
+import com.pedrero.eclihand.controller.WindowController;
 import com.pedrero.eclihand.controller.panel.BodyPanelController;
 import com.pedrero.eclihand.controller.panel.HeaderPanelController;
 import com.pedrero.eclihand.ui.window.EclihandMainWindow;
+import com.vaadin.ui.Window;
 
 @Controller
-public class EclihandMainWindowController implements EclihandController {
+public class EclihandMainWindowController implements WindowController,
+		EclihandController {
 
 	/**
 	 * 
@@ -32,5 +35,10 @@ public class EclihandMainWindowController implements EclihandController {
 		bodyPanelController.init();
 
 		eclihandMainWindow.init();
+	}
+
+	@Override
+	public void addWindow(Window window) {
+		eclihandMainWindow.addWindow(window);
 	}
 }

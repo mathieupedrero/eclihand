@@ -1,6 +1,7 @@
 package com.pedrero.eclihand.ui.table;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,8 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 	}
 
 	public void init() {
+		setSelectable(getTableConfig().getCanSelect());
+		setMultiSelect(getTableConfig().getCanMultiSelect());
 		container = new IndexedContainer();
 		for (TableColumnConfig columnConfig : getTableConfig()
 				.getColumnConfigs()) {
@@ -136,6 +139,16 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 	public void removeAllDataObjects() {
 		container.removeAllItems();
 		dataObjects.clear();
+	}
+
+	public Collection<T> retrieveSelection() {
+		List<T> selection = new ArrayList<T>();
+		for (Object itemId : this.getItemIds()) {
+			if (isSelected(itemId)) {
+				selection.add(dataObjects.get(itemId).getEntity());
+			}
+		}
+		return selection;
 	}
 
 	public abstract TableConfig getTableConfig();

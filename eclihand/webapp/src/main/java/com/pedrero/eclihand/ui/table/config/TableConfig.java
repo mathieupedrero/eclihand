@@ -12,6 +12,10 @@ public class TableConfig {
 
 	private Boolean canRedirectToEntityDisplayer = false;
 
+	private Boolean canSelect = false;
+
+	private Boolean canMultiSelect = false;
+
 	public List<TableColumnConfig> getColumnConfigs() {
 		return columnConfigs;
 	}
@@ -43,5 +47,21 @@ public class TableConfig {
 
 	public void setLineDescriptionKey(String lineDescriptionKey) {
 		this.lineDescriptionKey = lineDescriptionKey;
+	}
+
+	public Boolean getCanSelect() {
+		return canSelect;
+	}
+
+	public void setCanSelect(Boolean canSelect) {
+		this.canSelect = canSelect;
+	}
+
+	public Boolean getCanMultiSelect() {
+		return canMultiSelect;
+	}
+
+	public void setCanMultiSelect(Boolean canMultiSelect) {
+		this.canMultiSelect = canMultiSelect;
 	}
 }

@@ -6,12 +6,12 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 
 import com.pedrero.eclihand.controller.EclihandController;
+import com.pedrero.eclihand.controller.window.entity.PlayerSearchModalWindowController;
 import com.pedrero.eclihand.service.PlayerService;
 import com.pedrero.eclihand.ui.panel.PlayersPanel;
-import com.pedrero.eclihand.utils.Displayer;
 
 @Controller
-public class PlayersPanelController implements EclihandController, Displayer {
+public class PlayersPanelController implements EclihandController {
 	/**
 	 * 
 	 */
@@ -23,20 +23,17 @@ public class PlayersPanelController implements EclihandController, Displayer {
 	@Resource
 	private PlayerService playerService;
 
+	@Resource
+	private PlayerSearchModalWindowController playerSearchModalWindowController;
+
 	@Override
 	public void init() {
 		playersPanel.init();
 	}
 
-	public void searchTeamsAndDisplay() {
-		//playersPanel.getTeamsTable().removeAllItems();
-		//List<TeamDto> teams = teamService.findAll();
-		//playersPanel.refreshTeams(teams);
+	public void openPlayerSearchModalWindow() {
+		playerSearchModalWindowController.openWindow();
 	}
 
-	@Override
-	public void display() {
-		playersPanel.display();
-	};
 
 }

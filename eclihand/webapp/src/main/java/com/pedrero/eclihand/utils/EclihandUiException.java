@@ -2,6 +2,11 @@ package com.pedrero.eclihand.utils;
 
 public class EclihandUiException extends RuntimeException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6474255049253637667L;
+
 	public EclihandUiException() {
 	}
 
@@ -15,11 +20,6 @@ public class EclihandUiException extends RuntimeException {
 
 	public EclihandUiException(String message, Throwable cause) {
 		super(message, cause);
-	}
-
-	public EclihandUiException(String message, Throwable cause,
-			boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
 	}
 
 }

@@ -7,33 +7,30 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.controller.panel.PlayersPanelController;
-import com.pedrero.eclihand.ui.table.entity.TeamTable;
-import com.pedrero.eclihand.utils.Displayer;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.Link;
 import com.vaadin.ui.VerticalLayout;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class PlayersPanel extends EclihandMainPanel implements Initiable, Displayer {
+public class PlayersPanel extends EclihandMainPanel implements Initiable {
 	@Resource
 	private MessageResolver messageResolver;
 
 	@Resource
 	private PlayersPanelController playersPanelController;
 
-	@Resource(name = "playerTeamTable")
-	private TeamTable teamsTable;
-
 	private Layout layout;
 
 	private Label titleLabel;
 
-	private Link linkToFind;
+	private Button searchButton;
 
 	@Resource
 	private EclihandUiFactory eclihandUiFactory;
@@ -53,17 +50,27 @@ public class PlayersPanel extends EclihandMainPanel implements Initiable, Displa
 			this.titleLabel = eclihandUiFactory.createTitleLabel();
 			this.titleLabel.setValue(messageResolver
 					.getMessage("players.panel.title"));
-			this.linkToFind = eclihandUiFactory.createSimpleLink();
-			this.linkToFind.setCaption(messageResolver
+			this.searchButton = eclihandUiFactory.createButton();
+			this.searchButton.setCaption(messageResolver
 					.getMessage("common.find"));
+			
+			this.searchButton.addListener(new ClickListener() {
+				
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -7117656998497854385L;
+
+				@Override
+				public void buttonClick(ClickEvent event) {
+					playersPanelController.openPlayerSearchModalWindow();
+					
+				}
+			});
 
 			this.layout.addComponent(titleLabel);
-			this.layout.addComponent(linkToFind);
+			this.layout.addComponent(searchButton);
 		}
-	}
-
-	@Override
-	public void display() {
-		//teamsPanelController.searchTeamsAndDisplay();
 	}
 }

@@ -44,10 +44,7 @@
     		</list>
     	</property>
 	</bean>
-	<bean id="playerTableConfig" class="com.pedrero.eclihand.ui.table.config.TableConfig">
-    	<property name="captionKey" value="players.table.caption"/>
-    	<property name="lineDescriptionKey" value="players.table.line.description"/>
-    	<property name="canRedirectToEntityDisplayer" value="true"/>
+	<bean id="playerTableConfigPrototype" class="com.pedrero.eclihand.ui.table.config.TableConfig">
     	<property name="columnConfigs">
     		<list>
     			<bean class="com.pedrero.eclihand.ui.table.config.TableColumnConfig">
@@ -79,6 +76,18 @@
     			</bean>
     		</list>
     	</property>
+	</bean>
+	<bean id="playerTableConfig" class="com.pedrero.eclihand.ui.table.config.TableConfig" parent="playerTableConfigPrototype">
+    	<property name="captionKey" value="players.table.caption"/>
+    	<property name="lineDescriptionKey" value="players.table.line.description"/>
+    	<property name="canRedirectToEntityDisplayer" value="true"/>
+	</bean>
+	<bean id="searchPlayerTableConfigOneSelect" class="com.pedrero.eclihand.ui.table.config.TableConfig" parent="playerTableConfigPrototype">
+    	<property name="captionKey" value="players.table.caption"/>
+    	<property name="lineDescriptionKey" value="players.table.line.description"/>
+    	<property name="canRedirectToEntityDisplayer" value="false"/>
+    	<property name="canSelect" value="true"/>
+    	<property name="canMultiSelect" value="false"/>
 	</bean>
 	
 </beans>
