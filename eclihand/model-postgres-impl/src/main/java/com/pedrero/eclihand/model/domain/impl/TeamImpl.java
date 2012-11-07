@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedNativeQuery;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.pedrero.eclihand.model.domain.Gender;
@@ -17,6 +18,7 @@ import com.pedrero.eclihand.model.domain.Team;
 
 @Entity
 @Table(name = "TEA_TEAM")
+@PrimaryKeyJoinColumn(name = "ID")
 @NamedNativeQuery(name="TeamImpl.searchByCriterium", query="select * from TEA_TEAM WHERE upper(TEA_TEAM::text) ~ upper(?1)", resultClass= TeamImpl.class)
 public class TeamImpl extends DataObjectImpl implements Team<PlayerImpl> {
 

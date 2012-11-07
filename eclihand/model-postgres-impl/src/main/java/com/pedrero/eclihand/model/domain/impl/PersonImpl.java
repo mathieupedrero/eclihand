@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.NamedNativeQuery;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,6 +17,7 @@ import com.pedrero.eclihand.model.domain.Person;
 
 @Entity
 @Table(name = "PER_PERSON")
+@PrimaryKeyJoinColumn(name = "ID")
 @NamedNativeQuery(name="PersonImpl.searchByCriterium", query="select * from PER_PERSON WHERE upper(PER_PERSON::text) ~ upper(?1)", resultClass= PersonImpl.class)
 public class PersonImpl extends DataObjectImpl implements Person {
 	private String firstName;
