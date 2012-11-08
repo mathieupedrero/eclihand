@@ -19,7 +19,7 @@ import com.pedrero.eclihand.model.domain.Person;
 @Table(name = "PER_PERSON")
 @PrimaryKeyJoinColumn(name = "ID")
 @NamedNativeQuery(name="PersonImpl.searchByCriterium", query="select * from PER_PERSON WHERE upper(PER_PERSON::text) ~ upper(?1)", resultClass= PersonImpl.class)
-public class PersonImpl extends DataObjectImpl implements Person {
+public class PersonImpl extends IllustrableImpl implements Person {
 	private String firstName;
 
 	private String lastName;

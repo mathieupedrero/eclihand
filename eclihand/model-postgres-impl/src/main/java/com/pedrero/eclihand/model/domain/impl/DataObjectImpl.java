@@ -15,6 +15,8 @@ import com.pedrero.eclihand.model.domain.DataObject;
 public class DataObjectImpl implements DataObject {
 
 	private Long id;
+	
+	private String index;
 
 	public DataObjectImpl() {
 		super();
@@ -30,6 +32,18 @@ public class DataObjectImpl implements DataObject {
 	@Override
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	@Override
+	@Id
+	@Column(name = "OBJ_INDEX")
+	public String getIndex() {
+		return index;
+	}
+
+	@Override
+	public void setIndex(String index) {
+		this.index = index;
 	}
 
 }
