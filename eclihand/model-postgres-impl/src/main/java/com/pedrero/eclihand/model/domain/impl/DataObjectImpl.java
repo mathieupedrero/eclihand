@@ -35,7 +35,6 @@ public class DataObjectImpl implements DataObject {
 	}
 
 	@Override
-	@Id
 	@Column(name = "OBJ_INDEX")
 	public String getIndex() {
 		return index;
