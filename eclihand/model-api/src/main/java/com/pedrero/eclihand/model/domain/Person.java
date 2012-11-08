@@ -3,7 +3,7 @@ package com.pedrero.eclihand.model.domain;
 import java.util.Date;
 
 
-public interface Person extends DataObject {
+public interface Person extends Illustrable {
 
 	public abstract String getFirstName();
 

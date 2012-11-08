@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.pedrero.eclihand.model.domain.Gender;
 
-public class TeamDto extends DataObjectDto {
+public class TeamDto extends IllustrableDto {
 	private Integer year;
 
 	private List<PlayerDto> players;

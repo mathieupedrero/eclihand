@@ -3,7 +3,7 @@ package com.pedrero.eclihand.model.domain;
 import java.util.List;
 
 @SuppressWarnings("rawtypes")
-public interface Player<P extends Person, T extends Team> extends DataObject {
+public interface Player<P extends Person, T extends Team> extends Illustrable {
 
 	public abstract P getPlayerPerson();
 

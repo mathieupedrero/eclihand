@@ -6,4 +6,8 @@ public interface DataObject {
 
 	public abstract void setId(Long id);
 
+	public String getIndex();
+
+	public void setIndex(String index);
+
 }

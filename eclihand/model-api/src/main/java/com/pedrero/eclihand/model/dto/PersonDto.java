@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.pedrero.eclihand.model.domain.Gender;
 
-public class PersonDto extends DataObjectDto {
+public class PersonDto extends IllustrableDto {
 	private String firstName;
 
 	private String lastName;

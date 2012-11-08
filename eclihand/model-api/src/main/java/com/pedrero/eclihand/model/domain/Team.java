@@ -4,7 +4,7 @@ import java.util.List;
 
 
 @SuppressWarnings("rawtypes")
-public interface Team<P extends Player> extends DataObject {
+public interface Team<P extends Player> extends Illustrable {
 
 	public abstract Integer getYear();
 

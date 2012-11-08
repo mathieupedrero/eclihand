@@ -2,7 +2,7 @@ package com.pedrero.eclihand.model.dto;
 
 import java.util.List;
 
-public class PlayerDto extends DataObjectDto {
+public class PlayerDto extends IllustrableDto {
 	private PersonDto playerPerson;
 
 	private List<TeamDto> teams;
