@@ -2,6 +2,8 @@ package com.pedrero.eclihand.controller.window.entity;
 
 import javax.annotation.Resource;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
 
 import com.pedrero.eclihand.controller.WindowController;
@@ -16,6 +18,7 @@ import com.pedrero.eclihand.utils.ui.UICallback;
 import com.pedrero.eclihand.utils.ui.impl.PlayerDisplayUICallback;
 
 @Controller
+
 public class PlayerSearchModalWindowController extends
 		GenericSearchModalWindowController<PlayerDto> {
 

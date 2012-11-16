@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.pedrero.eclihand.dao.TeamDao;
+import com.pedrero.eclihand.model.domain.impl.PersonImpl;
 import com.pedrero.eclihand.model.domain.impl.PlayerImpl;
 import com.pedrero.eclihand.model.domain.impl.TeamImpl;
 
@@ -13,6 +14,7 @@ import com.pedrero.eclihand.model.domain.impl.TeamImpl;
 public interface TeamDaoRepository extends TeamDao<TeamImpl>,
 		JpaRepository<TeamImpl, Long> {
 	
-	public List<TeamImpl> searchByCriterium(String criterium);
+	@Override
+	public List<TeamImpl> findByIndexLike(String index);
 
 }

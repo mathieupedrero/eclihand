@@ -40,7 +40,7 @@ public abstract class GenericSearchModalWindowController<T extends DataObjectDto
 
 	public void openWindow(){
 		init();
-		getSuperWindowController().addWindow(getGenericSearchModalWindow());
+		getSuperWindowController().addWindow(getGenericSearchModalWindow().getThis());
 	}
 
 	public void searchAndDisplay(String criterium) {

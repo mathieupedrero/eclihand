@@ -20,7 +20,12 @@ import com.vaadin.ui.Window;
 public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 		Window
 		implements Initiable {
-	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4962193726818757682L;
+
 	@Resource
 	private EclihandUiFactory eclihandUiFactory;
 	
@@ -82,7 +87,7 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				close();
+				GenericSearchModalWindow.this.close();
 			}
 		});
 
@@ -101,6 +106,7 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 		this.addComponent(searchFormLayout);
 		this.addComponent(getDisplayGenericTable());
 		this.addComponent(buttonsLayout);
+		
 	}
 
 	public abstract GenericTable<T> getDisplayGenericTable();
@@ -110,6 +116,10 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 	public void feedTableWith(Iterable<T> objects) {
 		getDisplayGenericTable().removeAllItems();
 		getDisplayGenericTable().add(objects);
+	}
+	
+	public GenericSearchModalWindow<T> getThis(){
+		return this;
 	}
 
 	public Label getTitleLabel() {

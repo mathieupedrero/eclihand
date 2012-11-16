@@ -13,6 +13,7 @@ import com.pedrero.eclihand.model.domain.impl.PlayerImpl;
 public interface PlayerDaoRepository extends PlayerDao<PlayerImpl>,
 		JpaRepository<PlayerImpl, Long> {
 	
-	public List<PlayerImpl> searchByCriterium(String criterium);
+	@Override
+	public List<PlayerImpl> findByIndexLike(String index);
 
 }

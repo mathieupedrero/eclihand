@@ -23,6 +23,6 @@ public interface DataObjectDao<T extends DataObject> {
 
 	long count();
 	
-	public List<T> searchByCriterium(String criterium);
+	public List<T> findByIndexLike(String index);
 
 }

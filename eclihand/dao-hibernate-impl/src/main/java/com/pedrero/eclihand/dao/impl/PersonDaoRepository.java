@@ -12,6 +12,7 @@ import com.pedrero.eclihand.model.domain.impl.PersonImpl;
 public interface PersonDaoRepository extends PersonDao<PersonImpl>,
 		JpaRepository<PersonImpl, Long> {
 	
-	public List<PersonImpl> searchByCriterium(String criterium);
-
+	@Override
+	public List<PersonImpl> findByIndexLike(String index);
+	
 }

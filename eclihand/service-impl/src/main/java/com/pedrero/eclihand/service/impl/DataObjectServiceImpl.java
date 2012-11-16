@@ -60,7 +60,7 @@ public abstract class DataObjectServiceImpl<T extends DataObjectDto, U extends D
 	@Transactional
 	public List<T> searchByCriterium(Object criterium) {
 		List<T> result = new ArrayList<T>();
-		for (U entity : getDao().searchByCriterium(criterium.toString())) {
+		for (U entity : getDao().findByIndexLike("%"+criterium.toString()+"%")) {
 			result.add(getConverter().convertToDto(entity));
 		}
 		return result;
