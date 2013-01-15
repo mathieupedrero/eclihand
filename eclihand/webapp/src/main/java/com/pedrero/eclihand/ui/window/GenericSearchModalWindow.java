@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import com.pedrero.eclihand.controller.window.GenericSearchModalWindowController;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.ui.table.GenericTable;
+import com.pedrero.eclihand.utils.Identifiable;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
 import com.vaadin.ui.Button;
@@ -19,7 +20,7 @@ import com.vaadin.ui.Window;
 
 public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 		Window
-		implements Initiable {
+		implements Initiable, Identifiable {
 
 	/**
 	 * 
@@ -38,6 +39,8 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 	private Button validateButton;
 
 	private Button cancelButton;
+	
+	private String id;
 
 	@Override
 	public void init() {
@@ -136,6 +139,39 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 
 	public Button getCancelButton() {
 		return cancelButton;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	@Override
+	public final int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+		return result;
+	}
+
+	@Override
+	public final boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (! (obj instanceof Identifiable) )
+			return false;
+		Identifiable other = (Identifiable) obj;
+		if (getId() == null) {
+			if (other.getId() != null)
+				return false;
+		} else if (!getId().equals(other.getId()))
+			return false;
+		return true;
 	}
 
 }
