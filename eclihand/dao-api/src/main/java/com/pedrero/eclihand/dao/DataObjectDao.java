@@ -23,6 +23,6 @@ public interface DataObjectDao<T extends DataObject> {
 
 	long count();
 	
-	public List<T> findByIndexLike(String index);
+	public List<T> findByIndexLikeIgnoreCase(String index);
 
 }

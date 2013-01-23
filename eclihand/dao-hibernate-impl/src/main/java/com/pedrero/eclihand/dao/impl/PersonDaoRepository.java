@@ -13,6 +13,6 @@ public interface PersonDaoRepository extends PersonDao<PersonImpl>,
 		JpaRepository<PersonImpl, Long> {
 	
 	@Override
-	public List<PersonImpl> findByIndexLike(String index);
+	public List<PersonImpl> findByIndexLikeIgnoreCase(String index);
 	
 }

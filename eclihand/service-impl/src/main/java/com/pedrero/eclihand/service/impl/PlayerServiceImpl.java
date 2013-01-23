@@ -1,10 +1,13 @@
 package com.pedrero.eclihand.service.impl;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.pedrero.eclihand.converter.PlayerConverter;
 import com.pedrero.eclihand.dao.PlayerDao;
@@ -57,6 +60,16 @@ public class PlayerServiceImpl extends
 		Integer playerBirthDateMonth = playerBirthDate
 				.get(GregorianCalendar.MONTH);
 		return team.getYear() - playerBirthDateYear - ( playerBirthDateMonth<GregorianCalendar.SEPTEMBER ? 1 : 2);
+	}
+
+	@Override
+	@Transactional
+	public List<PlayerDto> searchByCriterium(Object criterium) {
+		List<PlayerDto> result = new ArrayList<PlayerDto>();
+		for (Player player : getDao().findByPlayerPersonIndexLikeIgnoreCase("%"+criterium.toString()+"%")) {
+			result.add(getConverter().convertToDto(player));
+		}
+		return result;
 	}
 
 }

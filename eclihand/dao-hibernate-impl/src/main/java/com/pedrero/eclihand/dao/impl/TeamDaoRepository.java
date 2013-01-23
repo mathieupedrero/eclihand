@@ -15,6 +15,6 @@ public interface TeamDaoRepository extends TeamDao<TeamImpl>,
 		JpaRepository<TeamImpl, Long> {
 	
 	@Override
-	public List<TeamImpl> findByIndexLike(String index);
+	public List<TeamImpl> findByIndexLikeIgnoreCase(String index);
 
 }

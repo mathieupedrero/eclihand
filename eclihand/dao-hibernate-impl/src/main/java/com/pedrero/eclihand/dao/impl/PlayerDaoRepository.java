@@ -14,6 +14,9 @@ public interface PlayerDaoRepository extends PlayerDao<PlayerImpl>,
 		JpaRepository<PlayerImpl, Long> {
 	
 	@Override
-	public List<PlayerImpl> findByIndexLike(String index);
+	public List<PlayerImpl> findByIndexLikeIgnoreCase(String index);
+
+	@Override
+	public List<PlayerImpl> findByPlayerPersonIndexLikeIgnoreCase(String index);
 
 }
