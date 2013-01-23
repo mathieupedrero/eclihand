@@ -9,6 +9,7 @@ import com.pedrero.eclihand.utils.Identifiable;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -87,6 +88,7 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 						searchTextField.getValue().toString());
 			}
 		});
+		searchButton.setClickShortcut(KeyCode.ENTER);
 		cancelButton = eclihandUiFactory.createButton();
 		cancelButton.addListener(new ClickListener() {
 			
