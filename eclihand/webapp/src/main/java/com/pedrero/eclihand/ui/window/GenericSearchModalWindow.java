@@ -14,6 +14,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -40,6 +41,8 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 
 	private Button cancelButton;
 	
+	private ProgressIndicator progressIndicator;
+
 	private String id;
 
 	@Override
@@ -96,6 +99,9 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 
 		titleLabel = eclihandUiFactory.createTitleLabel();
 
+		progressIndicator = eclihandUiFactory
+				.createIndeterminateProgressIndicator();
+
 		GridLayout searchFormLayout = new GridLayout(2, 1);
 		searchFormLayout.addComponent(searchTextField);
 		searchFormLayout.addComponent(searchButton);
@@ -109,6 +115,7 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 		this.addComponent(searchFormLayout);
 		this.addComponent(getDisplayGenericTable());
 		this.addComponent(buttonsLayout);
+		this.addComponent(progressIndicator);
 		
 	}
 
@@ -141,10 +148,20 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 		return cancelButton;
 	}
 
+	public ProgressIndicator getProgressIndicator() {
+		return progressIndicator;
+	}
+
+	public void setProgressIndicator(ProgressIndicator progressIndicator) {
+		this.progressIndicator = progressIndicator;
+	}
+
+	@Override
 	public String getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(String id) {
 		this.id = id;
 	}

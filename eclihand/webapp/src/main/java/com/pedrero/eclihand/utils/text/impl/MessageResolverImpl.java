@@ -13,7 +13,7 @@ import com.pedrero.eclihand.utils.text.LocaleContainer;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 
 @Component
-@Scope(value = "request", proxyMode = ScopedProxyMode.INTERFACES)
+@Scope(value = "session", proxyMode = ScopedProxyMode.INTERFACES)
 public class MessageResolverImpl implements MessageResolver, Serializable {
 	/**
 	 * 

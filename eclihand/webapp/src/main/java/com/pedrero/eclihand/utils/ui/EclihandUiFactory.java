@@ -6,6 +6,7 @@ import com.vaadin.ui.DateField;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 
@@ -34,5 +35,7 @@ public interface EclihandUiFactory {
 	public Button createButton();
 	
 	public Link createSimpleLink();
+
+	public ProgressIndicator createIndeterminateProgressIndicator();
 
 }
