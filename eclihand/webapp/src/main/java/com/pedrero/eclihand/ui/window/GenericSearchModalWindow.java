@@ -7,6 +7,7 @@ import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.Identifiable;
 import com.pedrero.eclihand.utils.Initiable;
+import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -21,7 +22,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
+public class GenericSearchModalWindow<T extends DataObjectDto> extends
 		Window
 		implements Initiable, Identifiable {
 
@@ -30,11 +31,16 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 	 */
 	private static final long serialVersionUID = 4962193726818757682L;
 
+	private String id;
+
 	@Resource
 	private EclihandUiFactory eclihandUiFactory;
 	
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
+
+	@Resource
+	private MessageResolver messageResolver;
 
 	private Label titleLabel;
 
@@ -48,7 +54,21 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 	
 	private ProgressIndicator progressIndicator;
 
-	private String id;
+	private GenericTable<T> displayGenericTable;
+
+	// Fields feeded by spring configuration
+
+	private GenericSearchModalWindowController<T> searchModalWindowController;
+
+	private String captionKey;
+
+	private String titleKey;
+
+	private String cancelButtonKey;
+
+	private String validateButtonKey;
+
+	private String searchButtonKey;
 
 	@Override
 	public void init() {
@@ -57,51 +77,9 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 		getDisplayGenericTable().init();
 		searchTextField = eclihandUiFactory.createTextField();
 
-		validateButton = eclihandUiFactory.createButton();
-		validateButton.addListener(new ClickListener() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -1488315635459822992L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				getController().validateChoice(
-						getDisplayGenericTable().retrieveSelection());
-				close();
-
-			}
-		});
-		searchButton = eclihandUiFactory.createButton();
-		searchButton.addListener(new ClickListener() {
-			
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -4346027959455235032L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				getController().searchAndDisplay(
-						searchTextField.getValue().toString());
-			}
-		});
-		searchButton.setClickShortcut(KeyCode.ENTER);
-		cancelButton = eclihandUiFactory.createButton();
-		cancelButton.addListener(new ClickListener() {
-			
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 4314433951375040900L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				GenericSearchModalWindow.this.close();
-			}
-		});
+		initValidateButton();
+		initSearchButton();
+		initCancelButton();
 
 		titleLabel = eclihandUiFactory.createTitleLabel();
 
@@ -124,17 +102,97 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 				.createCommonVerticalLayout();
 
 		this.setContent(windowsLayout);
+
 		this.addComponent(titleLabel);
 		this.addComponent(searchFormLayout);
 		this.addComponent(getDisplayGenericTable());
 		this.addComponent(buttonsLayout);
 		this.addComponent(progressIndicator);
-		
+
+		initLabels();
 	}
 
-	public abstract GenericTable<T> getDisplayGenericTable();
+	private void initCancelButton() {
+		cancelButton = eclihandUiFactory.createButton();
+		cancelButton.addListener(new ClickListener() {
 
-	public abstract GenericSearchModalWindowController<T> getController();
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 4314433951375040900L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				GenericSearchModalWindow.this.close();
+			}
+		});
+	}
+
+	private void initSearchButton() {
+		searchButton = eclihandUiFactory.createButton();
+		searchButton.addListener(new ClickListener() {
+			
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4346027959455235032L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				getSearchModalWindowController().searchAndDisplay(
+						searchTextField.getValue().toString());
+			}
+		});
+		searchButton.setClickShortcut(KeyCode.ENTER);
+	}
+
+	private void initValidateButton() {
+		validateButton = eclihandUiFactory.createButton();
+		validateButton.addListener(new ClickListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -1488315635459822992L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				getSearchModalWindowController().validateChoice(
+						getDisplayGenericTable().retrieveSelection());
+				close();
+
+			}
+		});
+	}
+
+	private void initLabels() {
+		this.setCaption(messageResolver.getMessage(captionKey));
+		this.getTitleLabel().setCaption(messageResolver.getMessage(titleKey));
+		this.getCancelButton().setCaption(
+				messageResolver.getMessage(cancelButtonKey));
+		this.getValidateButton().setCaption(
+				messageResolver.getMessage(validateButtonKey));
+		this.getSearchButton().setCaption(
+				messageResolver.getMessage(searchButtonKey));
+	}
+
+	public GenericTable<T> getDisplayGenericTable() {
+		return displayGenericTable;
+	}
+
+	public void setDisplayGenericTable(GenericTable<T> displayGenericTable) {
+		this.displayGenericTable = displayGenericTable;
+	}
+
+	public GenericSearchModalWindowController<T> getSearchModalWindowController() {
+		return searchModalWindowController;
+	}
+
+	public void setSearchModalWindowController(
+			GenericSearchModalWindowController<T> searchModalWindowController) {
+		this.searchModalWindowController = searchModalWindowController;
+	}
 
 	public void feedTableWith(Iterable<T> objects) {
 		getDisplayGenericTable().removeAllItems();
@@ -177,6 +235,46 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 	@Override
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getCaptionKey() {
+		return captionKey;
+	}
+
+	public void setCaptionKey(String captionKey) {
+		this.captionKey = captionKey;
+	}
+
+	public String getTitleKey() {
+		return titleKey;
+	}
+
+	public void setTitleKey(String titleKey) {
+		this.titleKey = titleKey;
+	}
+
+	public String getCancelButtonKey() {
+		return cancelButtonKey;
+	}
+
+	public void setCancelButtonKey(String cancelButtonKey) {
+		this.cancelButtonKey = cancelButtonKey;
+	}
+
+	public String getValidateButtonKey() {
+		return validateButtonKey;
+	}
+
+	public void setValidateButtonKey(String validateButtonKey) {
+		this.validateButtonKey = validateButtonKey;
+	}
+
+	public String getSearchButtonKey() {
+		return searchButtonKey;
+	}
+
+	public void setSearchButtonKey(String searchButtonKey) {
+		this.searchButtonKey = searchButtonKey;
 	}
 
 	@Override
