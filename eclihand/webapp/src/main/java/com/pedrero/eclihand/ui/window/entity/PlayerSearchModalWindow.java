@@ -36,6 +36,7 @@ public class PlayerSearchModalWindow extends
 	@Override
 	public void init() {
 		super.init();
+		this.setCaption(messageResolver.getMessage("search.players"));
 		this.getTitleLabel().setCaption(
 				messageResolver.getMessage("search.players"));
 		this.getCancelButton().setCaption(
