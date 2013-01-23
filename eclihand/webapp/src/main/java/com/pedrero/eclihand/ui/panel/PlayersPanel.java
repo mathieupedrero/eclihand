@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 import com.pedrero.eclihand.controller.panel.PlayersPanelController;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
+import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.VerticalLayout;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -35,6 +35,9 @@ public class PlayersPanel extends EclihandMainPanel implements Initiable {
 	@Resource
 	private EclihandUiFactory eclihandUiFactory;
 
+	@Resource
+	private EclihandLayoutFactory eclihandLayoutFactory;
+
 	/**
 	 * 
 	 */
@@ -44,7 +47,7 @@ public class PlayersPanel extends EclihandMainPanel implements Initiable {
 	public void init() {
 		this.setCaption(messageResolver.getMessage("players.panel.title"));
 		if (layout == null) {
-			layout = new VerticalLayout();
+			layout = eclihandLayoutFactory.createCommonVerticalLayout();
 			this.setContent(layout);
 
 			this.titleLabel = eclihandUiFactory.createTitleLabel();

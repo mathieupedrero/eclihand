@@ -14,6 +14,7 @@ import com.pedrero.eclihand.utils.EclihandUiException;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.Formatter;
 import com.pedrero.eclihand.utils.text.MessageResolver;
+import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Alignment;
@@ -48,7 +49,7 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	 * 
 	 */
 	private static final long serialVersionUID = 5698759988513402341L;
-	
+
 	/**
 	 * The configuration of this Property Displayer
 	 */
@@ -85,6 +86,9 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	@Resource
 	private EclihandUiFactory eclihandUiFactory;
 
+	@Resource
+	private EclihandLayoutFactory eclihandLayoutFactory;
+
 	@Override
 	public void init() {
 		switchUpdateModeButton = eclihandUiFactory.createButton();
@@ -92,7 +96,7 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 		validateChanges = eclihandUiFactory.createButton();
 		validateChanges.setCaption(VALIDATE_CHANGES_KEY);
 		Integer rowNumber = getConfig().getProperties().size();
-		layout = new GridLayout(2, rowNumber +1);
+		layout = eclihandLayoutFactory.createCommonGridLayout(2, rowNumber + 1);
 		this.setContent(layout);
 
 		Integer currentRow = 0;

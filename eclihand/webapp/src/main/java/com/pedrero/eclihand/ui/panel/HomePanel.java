@@ -11,8 +11,8 @@ import com.pedrero.eclihand.controller.panel.HomePanelController;
 import com.pedrero.eclihand.utils.Displayer;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
+import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.VerticalLayout;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -27,6 +27,9 @@ public class HomePanel extends EclihandMainPanel implements Initiable, Displayer
 	@Value(value = "${main.panel.width}")
 	private String panelWidth;
 
+	@Resource
+	private EclihandLayoutFactory eclihandLayoutFactory;
+
 	private Layout layout;
 
 	/**
@@ -36,7 +39,7 @@ public class HomePanel extends EclihandMainPanel implements Initiable, Displayer
 
 	@Override
 	public void init() {
-		layout = new VerticalLayout();
+		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		layout.setWidth(panelWidth);
 		this.setContent(layout);
 		this.setCaption(messageResolver.getMessage("home.caption"));

@@ -7,6 +7,7 @@ import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.Identifiable;
 import com.pedrero.eclihand.utils.Initiable;
+import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -31,6 +32,9 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 	@Resource
 	private EclihandUiFactory eclihandUiFactory;
 	
+	@Resource
+	private EclihandLayoutFactory eclihandLayoutFactory;
+
 	private Label titleLabel;
 
 	private TextField searchTextField;
@@ -102,15 +106,22 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 		progressIndicator = eclihandUiFactory
 				.createIndeterminateProgressIndicator();
 
-		GridLayout searchFormLayout = new GridLayout(2, 1);
+		GridLayout searchFormLayout = eclihandLayoutFactory
+				.createCommonGridLayout(2, 1);
 		searchFormLayout.addComponent(searchTextField);
 		searchFormLayout.addComponent(searchButton);
 
-		HorizontalLayout buttonsLayout = new HorizontalLayout();
+		searchFormLayout.setSizeUndefined();
+
+		HorizontalLayout buttonsLayout = eclihandLayoutFactory
+				.createCommonHorizontalLayout();
 		buttonsLayout.addComponent(validateButton);
 		buttonsLayout.addComponent(cancelButton);
 
-		this.setContent(new VerticalLayout());
+		VerticalLayout windowsLayout = eclihandLayoutFactory
+				.createCommonVerticalLayout();
+
+		this.setContent(windowsLayout);
 		this.addComponent(titleLabel);
 		this.addComponent(searchFormLayout);
 		this.addComponent(getDisplayGenericTable());

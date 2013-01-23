@@ -8,7 +8,7 @@ import com.pedrero.eclihand.controller.window.EclihandMainWindowController;
 import com.pedrero.eclihand.ui.panel.BodyPanel;
 import com.pedrero.eclihand.ui.panel.HeaderPanel;
 import com.pedrero.eclihand.utils.Initiable;
-import com.vaadin.ui.VerticalLayout;
+import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Window;
 
 @Component
@@ -27,9 +27,12 @@ public class EclihandMainWindow extends Window implements Initiable {
 	@Resource
 	private BodyPanel bodyPanel;
 
+	@Resource
+	private EclihandLayoutFactory eclihandLayoutFactory;
+
 	@Override
 	public void init() {
-		this.setContent(new VerticalLayout());
+		this.setContent(eclihandLayoutFactory.createCommonVerticalLayout());
 		this.addComponent(headerPanel);
 		this.addComponent(bodyPanel);
 

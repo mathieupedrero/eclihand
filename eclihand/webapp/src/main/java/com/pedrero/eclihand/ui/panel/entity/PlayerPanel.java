@@ -11,8 +11,8 @@ import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
 import com.pedrero.eclihand.ui.panel.EclihandMainPanel;
 import com.pedrero.eclihand.ui.table.entity.TeamTable;
 import com.pedrero.eclihand.utils.Initiable;
+import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.VerticalLayout;
 
 @Component
 public class PlayerPanel extends EclihandMainPanel implements
@@ -33,6 +33,9 @@ public class PlayerPanel extends EclihandMainPanel implements
 	@Resource(name = "teamTable")
 	private TeamTable teamTable;
 
+	@Resource
+	private EclihandLayoutFactory eclihandLayoutFactory;
+
 	private Layout layout;
 
 	@Override
@@ -45,7 +48,7 @@ public class PlayerPanel extends EclihandMainPanel implements
 
 	@Override
 	public void init() {
-		layout = new VerticalLayout();
+		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		this.setContent(layout);
 
 		playerPropertyDisplayer.init();

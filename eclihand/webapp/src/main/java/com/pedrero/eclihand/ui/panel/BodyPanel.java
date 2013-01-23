@@ -7,8 +7,8 @@ import org.springframework.context.annotation.ScopedProxyMode;
 
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
+import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
 
 @org.springframework.stereotype.Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -29,6 +29,9 @@ public class BodyPanel extends EclihandMainPanel implements Initiable {
 	@Resource
 	private MessageResolver messageResolver;
 
+	@Resource
+	private EclihandLayoutFactory eclihandLayoutFactory;
+
 	private Component currentPanel;
 
 	/**
@@ -38,7 +41,7 @@ public class BodyPanel extends EclihandMainPanel implements Initiable {
 
 	@Override
 	public void init() {
-		this.setContent(new HorizontalLayout());
+		this.setContent(eclihandLayoutFactory.createCommonHorizontalLayout());
 		this.addComponent(leftPanel);
 		this.addComponent(homePanel);
 		currentPanel = homePanel;
