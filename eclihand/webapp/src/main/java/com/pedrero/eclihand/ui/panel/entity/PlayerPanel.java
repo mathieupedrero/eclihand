@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.pedrero.eclihand.controller.panel.PlayerPanelController;
 import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.ui.EntityDisplayerComponent;
-import com.pedrero.eclihand.ui.custom.entity.PlayerPropertyDisplayer;
+import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
 import com.pedrero.eclihand.ui.panel.EclihandMainPanel;
 import com.pedrero.eclihand.ui.table.entity.TeamTable;
 import com.pedrero.eclihand.utils.Initiable;
@@ -28,7 +28,7 @@ public class PlayerPanel extends EclihandMainPanel implements
 	private PlayerPanelController playerPanelController;
 
 	@Resource
-	private PlayerPropertyDisplayer playerPropertyDisplayer;
+	private GenericPropertyDisplayer<PlayerDto> playerPropertyDisplayer;
 
 	@Resource(name = "teamTable")
 	private TeamTable teamTable;

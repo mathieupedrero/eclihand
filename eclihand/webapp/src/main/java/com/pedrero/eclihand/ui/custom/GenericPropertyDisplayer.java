@@ -18,16 +18,23 @@ import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.TextField;
 
-public abstract class GenericPropertyDisplayer<T extends DataObjectDto> extends
+/**
+ * @author mpedrero
+ *
+ *	This component can display properties of any Data Object
+ *
+ * @param <T>
+ */
+public class GenericPropertyDisplayer<T extends DataObjectDto> extends
  Panel
  implements Initiable, EntityDisplayerComponent<T> {
 
@@ -41,15 +48,35 @@ public abstract class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	 * 
 	 */
 	private static final long serialVersionUID = 5698759988513402341L;
+	
+	/**
+	 * The configuration of this Property Displayer
+	 */
+	private PropertyDisplayerConfig config;
 
+	/**
+	 * The Data Object displayed by this entity displayer
+	 */
 	private T displayed;
 
+	/**
+	 * The display of the property displayer (as a grid)
+	 */
 	private GridLayout layout;
 	
+	/**
+	 * Tells wether the data displayed can be updated or not
+	 */
 	private Boolean updatable = false;
 
+	/**
+	 * Button to switch to update mode
+	 */
 	private Button switchUpdateModeButton;
 
+	/**
+	 * Button to validate changes made in update mode
+	 */
 	private Button validateChanges;
 
 	@Resource
@@ -229,6 +256,12 @@ public abstract class GenericPropertyDisplayer<T extends DataObjectDto> extends
 		}
 	}
 
-	public abstract PropertyDisplayerConfig getConfig();
+	public PropertyDisplayerConfig getConfig() {
+		return config;
+	}
+
+	public void setConfig(PropertyDisplayerConfig config) {
+		this.config = config;
+	}
 
 }

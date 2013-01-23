@@ -29,8 +29,8 @@
 	<!-- Entity Table import-->
 	<import resource="classpath:/config/entity-table-application-context.xml"/>
 
-	<!-- Property Displayer Config import-->
-	<import resource="classpath:/config/property-displayer-config-application-context.xml"/>
+	<!-- Property Displayer import-->
+	<import resource="classpath:/config/property-displayer-application-context.xml"/>
 
 	<!-- Formater Config import-->
 	<import resource="classpath:/config/formater-application-context.xml"/>

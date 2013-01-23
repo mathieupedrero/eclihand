@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.pedrero.eclihand.controller.panel.TeamPanelController;
 import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.ui.EntityDisplayerComponent;
-import com.pedrero.eclihand.ui.custom.entity.TeamPropertyDisplayer;
+import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
 import com.pedrero.eclihand.ui.panel.EclihandMainPanel;
 import com.pedrero.eclihand.ui.table.entity.PlayerTable;
 import com.vaadin.ui.Layout;
@@ -23,7 +23,7 @@ public class TeamPanel extends EclihandMainPanel implements
 	private static final long serialVersionUID = -6976637745365811486L;
 
 	@Resource
-	private TeamPropertyDisplayer teamPropertyDisplayer;
+	private GenericPropertyDisplayer<TeamDto> teamPropertyDisplayer;
 
 	@Resource
 	private PlayerTable playerTable;
