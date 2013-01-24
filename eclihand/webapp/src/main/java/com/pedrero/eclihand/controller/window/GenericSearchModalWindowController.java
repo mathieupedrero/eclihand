@@ -16,7 +16,7 @@ import com.pedrero.eclihand.utils.ui.worker.AsynchronousUIWorker;
 import com.pedrero.eclihand.utils.ui.worker.UIAction;
 import com.vaadin.ui.Window;
 
-public abstract class GenericSearchModalWindowController<T extends DataObjectDto>
+public class GenericSearchModalWindowController<T extends DataObjectDto>
 		implements EclihandController, WindowController {
 
 	/**
@@ -25,13 +25,13 @@ public abstract class GenericSearchModalWindowController<T extends DataObjectDto
 	private static final long serialVersionUID = -5117454372676672562L;
 
 
-	public abstract GenericSearchModalWindow<T> getGenericSearchModalWindow();
+	private GenericSearchModalWindow<T> genericSearchModalWindow;
+
+	private DataObjectService<T> service;
+
+	private UICallback<T> callback;
 	
-	public abstract DataObjectService<T> getService();
-
-	public abstract UICallback<T> getCallback();
-
-	public abstract WindowController getSuperWindowController();
+	private WindowController superWindowController;
 
 	@Override
 	public void addWindow(Window window) {
@@ -89,5 +89,38 @@ public abstract class GenericSearchModalWindowController<T extends DataObjectDto
 			
 		}
 		
+	}
+
+	public GenericSearchModalWindow<T> getGenericSearchModalWindow() {
+		return genericSearchModalWindow;
+	}
+
+	public void setGenericSearchModalWindow(
+			GenericSearchModalWindow<T> genericSearchModalWindow) {
+		this.genericSearchModalWindow = genericSearchModalWindow;
+	}
+
+	public DataObjectService<T> getService() {
+		return service;
+	}
+
+	public void setService(DataObjectService<T> service) {
+		this.service = service;
+	}
+
+	public UICallback<T> getCallback() {
+		return callback;
+	}
+
+	public void setCallback(UICallback<T> callback) {
+		this.callback = callback;
+	}
+
+	public WindowController getSuperWindowController() {
+		return superWindowController;
+	}
+
+	public void setSuperWindowController(WindowController superWindowController) {
+		this.superWindowController = superWindowController;
 	}
 }

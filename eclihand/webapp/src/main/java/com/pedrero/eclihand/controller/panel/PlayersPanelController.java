@@ -6,7 +6,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 
 import com.pedrero.eclihand.controller.EclihandController;
-import com.pedrero.eclihand.controller.window.entity.PlayerSearchModalWindowController;
+import com.pedrero.eclihand.controller.window.GenericSearchModalWindowController;
+import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.service.PlayerService;
 import com.pedrero.eclihand.ui.panel.PlayersPanel;
 
@@ -24,7 +25,7 @@ public class PlayersPanelController implements EclihandController {
 	private PlayerService playerService;
 
 	@Resource
-	private PlayerSearchModalWindowController playerSearchModalWindowController;
+	private GenericSearchModalWindowController<PlayerDto> playerSearchModalWindowController;
 
 	@Override
 	public void init() {
