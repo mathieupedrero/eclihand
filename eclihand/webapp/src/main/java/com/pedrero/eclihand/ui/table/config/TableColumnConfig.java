@@ -15,6 +15,8 @@ public class TableColumnConfig {
 
 	private Boolean isDescriptionParam = false;
 
+	private Boolean isLink = false;
+
 	private Formatter formatter;
 
 	public String getId() {
@@ -55,6 +57,14 @@ public class TableColumnConfig {
 
 	public void setIsDescriptionParam(Boolean isDescriptionParam) {
 		this.isDescriptionParam = isDescriptionParam;
+	}
+
+	public Boolean getIsLink() {
+		return isLink;
+	}
+
+	public void setIsLink(Boolean isLink) {
+		this.isLink = isLink;
 	}
 
 	public Formatter getFormatter() {

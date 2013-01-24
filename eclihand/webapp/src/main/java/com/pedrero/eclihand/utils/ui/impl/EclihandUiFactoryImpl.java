@@ -15,6 +15,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.themes.BaseTheme;
 
 @Component
 public class EclihandUiFactoryImpl implements EclihandUiFactory{
@@ -95,6 +96,14 @@ public class EclihandUiFactoryImpl implements EclihandUiFactory{
 	@Override
 	public Button createButton(){
 		Button button = new Button();
+		button.setLocale(localeContainer.getLocale());
+		return button;
+	}
+
+	@Override
+	public Button createLinkButton() {
+		Button button = new Button();
+		button.setStyleName(BaseTheme.BUTTON_LINK);
 		button.setLocale(localeContainer.getLocale());
 		return button;
 	}

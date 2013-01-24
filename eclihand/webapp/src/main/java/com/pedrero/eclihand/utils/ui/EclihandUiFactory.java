@@ -34,6 +34,8 @@ public interface EclihandUiFactory {
 	
 	public Button createButton();
 	
+	public Button createLinkButton();
+
 	public Link createSimpleLink();
 
 	public ProgressIndicator createIndeterminateProgressIndicator();
