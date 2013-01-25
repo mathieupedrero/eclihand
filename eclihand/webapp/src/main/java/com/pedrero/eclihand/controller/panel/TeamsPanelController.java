@@ -31,7 +31,7 @@ public class TeamsPanelController implements EclihandController, Displayer {
 	}
 
 	public void searchTeamsAndDisplay() {
-		teamsPanel.getTeamsTable().removeAllItems();
+		teamsPanel.getTeamsTable().removeAllDataObjects();
 		List<TeamDto> teams = teamService.findAll();
 		teamsPanel.refreshTeams(teams);
 	}

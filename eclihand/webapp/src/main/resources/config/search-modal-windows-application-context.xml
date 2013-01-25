@@ -15,8 +15,35 @@
 
 	
 	<bean id="playerSearchModalWindow" class="com.pedrero.eclihand.ui.window.GenericSearchModalWindow" scope="session">
+		<property name="id" value="playerSearchModalWindow"/>
     	<property name="displayGenericTable" ref="playerTableSelectOne" />
     	<property name="searchModalWindowController" ref="playerSearchModalWindowController" />
+    	<property name="captionKey" value="search.players" />
+    	<property name="titleKey" value="search.players" />
+    	<property name="cancelButtonKey" value="common.cancel" />
+    	<property name="validateButtonKey" value="common.lets.go" />
+    	<property name="searchButtonKey" value="common.search" />
+    	
+    	<aop:scoped-proxy proxy-target-class="true"/>
+	</bean>
+	
+	<bean id="pickingPlayerSearchModalWindow" class="com.pedrero.eclihand.ui.window.GenericSearchModalWindow" scope="session">
+		<property name="id" value="pickingPlayerSearchModalWindow"/>
+    	<property name="displayGenericTable" ref="pickingPlayerTable" />
+    	<property name="searchModalWindowController" ref="pickingPlayerSearchModalWindowController" />
+    	<property name="captionKey" value="search.players" />
+    	<property name="titleKey" value="search.players" />
+    	<property name="cancelButtonKey" value="common.cancel" />
+    	<property name="validateButtonKey" value="common.lets.go" />
+    	<property name="searchButtonKey" value="common.search" />
+    	
+    	<aop:scoped-proxy proxy-target-class="true"/>
+	</bean>
+	
+	<bean id="pickingTeamSearchModalWindow" class="com.pedrero.eclihand.ui.window.GenericSearchModalWindow" scope="session">
+		<property name="id" value="pickingTeamSearchModalWindow"/>
+    	<property name="displayGenericTable" ref="pickingTeamTable" />
+    	<property name="searchModalWindowController" ref="pickingTeamSearchModalWindowController" />
     	<property name="captionKey" value="search.players" />
     	<property name="titleKey" value="search.players" />
     	<property name="cancelButtonKey" value="common.cancel" />

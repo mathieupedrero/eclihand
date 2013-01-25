@@ -12,11 +12,51 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
-
-
 	
-	<bean id="teamTable" class="com.pedrero.eclihand.ui.table.entity.TeamTable">
+	<bean id="teamTable" class="com.pedrero.eclihand.ui.table.GenericTable" scope="session">
+		<property name="tableConfig" ref="teamTableConfig"/>
+		<property name="entityDisplayerController" ref="teamPanelController"/>
+		<property name="genericTableController" ref="teamTableController"/>
+    	
+    	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
-	<bean id="playerTeamTable" class="com.pedrero.eclihand.ui.table.entity.TeamTable">
+	
+	<bean id="playerTable" class="com.pedrero.eclihand.ui.table.GenericTable" scope="session">
+		<property name="tableConfig" ref="playerTableConfig"/>
+		<property name="entityDisplayerController" ref="playerPanelController"/>
+		<property name="genericTableController" ref="playerTableController"/>
+    	
+    	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
+	
+	<bean id="playerTableSelectOne" class="com.pedrero.eclihand.ui.table.GenericTable" scope="session">
+		<property name="tableConfig" ref="searchPlayerTableConfigOneSelect"/>
+    	
+    	<aop:scoped-proxy proxy-target-class="true"/>
+	</bean>
+	
+	<bean id="pickingTeamTable" class="com.pedrero.eclihand.ui.table.GenericTable" scope="session">
+		<property name="tableConfig" ref="searchTeamTableConfigOneSelect"/>
+    	
+    	<aop:scoped-proxy proxy-target-class="true"/>
+	</bean>
+	
+	<bean id="pickingPlayerTable" class="com.pedrero.eclihand.ui.table.GenericTable" scope="session">
+		<property name="tableConfig" ref="searchPlayerTableConfigOneSelect"/>
+    	
+    	<aop:scoped-proxy proxy-target-class="true"/>
+	</bean>
+	
+	<bean id="teamTableController" class="com.pedrero.eclihand.controller.GenericTableController">
+		<property name="genericTable" ref="teamTable"/>
+		<property name="service" ref="teamServiceImpl"/>
+		<property name="genericSearchModalWindowController" ref="pickingTeamSearchModalWindowController"/>
+	</bean>
+	
+	<bean id="playerTableController" class="com.pedrero.eclihand.controller.GenericTableController">
+		<property name="genericTable" ref="playerTable"/>
+		<property name="service" ref="playerServiceImpl"/>
+		<property name="genericSearchModalWindowController" ref="pickingTeamSearchModalWindowController"/>
+	</bean>
+	
 </beans>

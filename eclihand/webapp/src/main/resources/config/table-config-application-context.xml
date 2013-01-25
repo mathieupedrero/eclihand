@@ -15,10 +15,7 @@
 
 
 	
-	<bean id="teamTableConfig" class="com.pedrero.eclihand.ui.table.config.TableConfig">
-    	<property name="captionKey" value="team.table.caption"/>
-    	<property name="lineDescriptionKey" value="team.table.line.description"/>
-    	<property name="canRedirectToEntityDisplayer" value="true"/>
+	<bean id="teamTableConfigPrototype" class="com.pedrero.eclihand.ui.table.config.TableConfig" scope="prototype">
     	<property name="columnConfigs">
     		<list>
     			<bean class="com.pedrero.eclihand.ui.table.config.TableColumnConfig">
@@ -91,6 +88,20 @@
 	<bean id="searchPlayerTableConfigOneSelect" class="com.pedrero.eclihand.ui.table.config.TableConfig" parent="playerTableConfigPrototype">
     	<property name="captionKey" value="players.table.caption"/>
     	<property name="lineDescriptionKey" value="players.table.line.description"/>
+    	<property name="canRedirectToEntityDisplayer" value="false"/>
+    	<property name="canSelect" value="true"/>
+    	<property name="canMultiSelect" value="false"/>
+	</bean>
+	
+	<bean id="teamTableConfig" class="com.pedrero.eclihand.ui.table.config.TableConfig" parent="teamTableConfigPrototype">
+    	<property name="captionKey" value="team.table.caption"/>
+    	<property name="lineDescriptionKey" value="team.table.line.description"/>
+    	<property name="canRedirectToEntityDisplayer" value="true"/>
+	</bean>
+	
+	<bean id="searchTeamTableConfigOneSelect" class="com.pedrero.eclihand.ui.table.config.TableConfig" parent="teamTableConfigPrototype">
+    	<property name="captionKey" value="team.table.caption"/>
+    	<property name="lineDescriptionKey" value="team.table.line.description"/>
     	<property name="canRedirectToEntityDisplayer" value="false"/>
     	<property name="canSelect" value="true"/>
     	<property name="canMultiSelect" value="false"/>

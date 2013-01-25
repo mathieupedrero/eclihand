@@ -5,11 +5,12 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.controller.panel.TeamPanelController;
+import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.ui.EntityDisplayerComponent;
 import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
 import com.pedrero.eclihand.ui.panel.EclihandMainPanel;
-import com.pedrero.eclihand.ui.table.entity.PlayerTable;
+import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Layout;
 
@@ -26,7 +27,7 @@ public class TeamPanel extends EclihandMainPanel implements
 	private GenericPropertyDisplayer<TeamDto> teamPropertyDisplayer;
 
 	@Resource
-	private PlayerTable playerTable;
+	private GenericTable<PlayerDto> playerTable;
 
 	@Resource
 	private TeamPanelController teamPanelController;
@@ -40,7 +41,7 @@ public class TeamPanel extends EclihandMainPanel implements
 	public void display(TeamDto entity) {
 		teamPropertyDisplayer.display(entity);
 		playerTable.removeAllDataObjects();
-		playerTable.add(entity.getPlayers());
+		playerTable.feed(entity.getPlayers());
 	}
 
 	@Override

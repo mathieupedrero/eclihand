@@ -195,12 +195,8 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends
 	}
 
 	public void feedTableWith(Iterable<T> objects) {
-		getDisplayGenericTable().removeAllItems();
+		getDisplayGenericTable().removeAllDataObjects();
 		getDisplayGenericTable().add(objects);
-	}
-	
-	public GenericSearchModalWindow<T> getThis(){
-		return this;
 	}
 
 	public Label getTitleLabel() {
@@ -291,7 +287,7 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends
 			return true;
 		if (obj == null)
 			return false;
-		if (! (obj instanceof Identifiable) )
+		if (!(obj instanceof Identifiable))
 			return false;
 		Identifiable other = (Identifiable) obj;
 		if (getId() == null) {

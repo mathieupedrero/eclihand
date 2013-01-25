@@ -11,25 +11,34 @@ import javax.annotation.Resource;
 import org.mvel2.MVEL;
 
 import com.pedrero.eclihand.controller.EntityDisplayerController;
+import com.pedrero.eclihand.controller.GenericTableController;
 import com.pedrero.eclihand.controller.panel.BodyPanelController;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.ui.table.config.TableColumnConfig;
 import com.pedrero.eclihand.ui.table.config.TableConfig;
 import com.pedrero.eclihand.utils.DisplayedEntity;
+import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
 import com.pedrero.eclihand.utils.text.MessageResolver;
+import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 
-public abstract class GenericTable<T extends DataObjectDto> extends
-		Table {
+public class GenericTable<T extends DataObjectDto> extends
+ Panel {
+
+	private Table dataTable;
 
 	private IndexedContainer container;
 	
 	private final Map<Long, DisplayedEntity<T>> dataObjects = new HashMap<Long, DisplayedEntity<T>>();
+
+	private Iterable<T> initialDataObjectsList;
 
 	@Resource
 	private MessageResolver messageResolver;
@@ -39,6 +48,40 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 	
 	@Resource
 	private EclihandUiFactory eclihandUiFactory;
+
+	@Resource
+	private EclihandLayoutFactory eclihandLayoutFactory;
+
+	private EntityDisplayerController<T> entityDisplayerController;
+
+	private TableConfig tableConfig;
+
+	private GenericTableController<T> genericTableController;
+
+	/**
+	 * Tells wether the data displayed can be updated or not
+	 */
+	private Boolean updatable = false;
+
+	/**
+	 * Button to switch to update mode
+	 */
+	private Button switchUpdateModeButton;
+
+	/**
+	 * Button to validate changes made in update mode
+	 */
+	private Button validateChanges;
+
+	/**
+	 * Button to remove all data from dataTable
+	 */
+	private Button removeAll;
+
+	/**
+	 * Button to add data to dataTable
+	 */
+	private Button add;
 
 	/**
 	 * 
@@ -50,8 +93,124 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 	}
 
 	public void init() {
-		setSelectable(getTableConfig().getCanSelect());
-		setMultiSelect(getTableConfig().getCanMultiSelect());
+		this.removeAllComponents();
+
+		initializeUIComponents();
+
+		HorizontalLayout buttonsLayout = initializeButtonsLayout();
+
+		refreshButtonsState();
+
+		dataTableInit();
+
+		this.addComponent(dataTable);
+		this.addComponent(buttonsLayout);
+	}
+
+	public void refreshButtonsState() {
+		removeAll.setVisible(updatable);
+		removeAll.setEnabled(updatable);
+		add.setVisible(updatable);
+		add.setEnabled(updatable);
+		validateChanges.setVisible(updatable);
+		validateChanges.setEnabled(updatable);
+	}
+
+	private HorizontalLayout initializeButtonsLayout() {
+		HorizontalLayout buttonsLayout = eclihandLayoutFactory
+				.createCommonHorizontalLayout();
+
+		buttonsLayout.addComponent(switchUpdateModeButton);
+		buttonsLayout.addComponent(validateChanges);
+		buttonsLayout.addComponent(removeAll);
+		buttonsLayout.addComponent(add);
+		return buttonsLayout;
+	}
+
+	private void initializeUIComponents() {
+		dataTable = new Table();
+
+		switchUpdateModeButton = eclihandUiFactory.createButton();
+		getGenericTableController();
+		switchUpdateModeButton
+				.setCaption(UpdatableContentDisplayer.MAKE_UPDATABLE_KEY);
+		switchUpdateModeButton.addListener(new Button.ClickListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -6563780592033942016L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				if (updatable) {
+					getGenericTableController().makeReadOnly();
+				} else {
+					getGenericTableController().makeUpdatable();
+				}
+			}
+		});
+
+		validateChanges = eclihandUiFactory.createButton();
+		getGenericTableController();
+		validateChanges
+				.setCaption(UpdatableContentDisplayer.VALIDATE_CHANGES_KEY);
+		validateChanges.addListener(new Button.ClickListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -6563780592033942016L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				if (updatable) {
+					getGenericTableController().validateChanges();
+					getGenericTableController().makeReadOnly();
+				}
+			}
+		});
+
+		removeAll = eclihandUiFactory.createButton();
+		removeAll.setCaption("remove.all");
+		removeAll.addListener(new Button.ClickListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -6563780592033942016L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				if (updatable) {
+					removeAllDataObjects();
+				}
+			}
+		});
+
+		add = eclihandUiFactory.createButton();
+		add.setCaption("add");
+		add.addListener(new Button.ClickListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -6563780592033942016L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				if (updatable) {
+					getGenericTableController()
+							.getGenericSearchModalWindowController()
+							.openWindow();
+				}
+			}
+		});
+	}
+
+	public void dataTableInit() {
+		dataTable.setSelectable(getTableConfig().getCanSelect());
+		dataTable.setMultiSelect(getTableConfig().getCanMultiSelect());
 		container = new IndexedContainer();
 		for (TableColumnConfig columnConfig : getTableConfig()
 				.getColumnConfigs()) {
@@ -65,11 +224,20 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 				container.addContainerProperty(columnConfig.getId(),
 						columnConfig.getEnumType().getType(), null);
 			}
-			this.setColumnHeader(columnConfig.getId(),
+			dataTable.setColumnHeader(columnConfig.getId(),
 					messageResolver.getMessage(columnConfig.getLabelKey()));
 		}
-		setContainerDataSource(container);
-		setCaption(messageResolver.getMessage(getTableConfig().getCaptionKey()));
+		if (updatable) {
+			container.addContainerProperty(UpdatableContentDisplayer.class,
+					Button.class, null);
+
+			dataTable
+					.setColumnHeader(UpdatableContentDisplayer.class, "remove");
+		}
+
+		dataTable.setContainerDataSource(container);
+		dataTable.setCaption(messageResolver.getMessage(getTableConfig()
+				.getCaptionKey()));
 	}
 
 	public void add(T object) {
@@ -147,6 +315,28 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 		for (Button linkButton : linkButtonList) {
 			linkButton.setDescription(displayedEntity.getDescription());
 		}
+
+		if (updatable) {
+			Button deleteButton = eclihandUiFactory.createLinkButton();
+			deleteButton.setData(object);
+
+			deleteButton.addListener(new Button.ClickListener() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -6563780592033942016L;
+
+				@SuppressWarnings("unchecked")
+				@Override
+				public void buttonClick(ClickEvent event) {
+					remove((T) event.getButton().getData());
+				}
+			});
+			deleteButton.setCaption("delete");
+			item.getItemProperty(UpdatableContentDisplayer.class).setValue(
+					deleteButton);
+		}
 	}
 	
 	public void add(Iterable<T> objects){
@@ -155,6 +345,11 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 		}
 	}
 	
+	public void feed(Iterable<T> objects) {
+		initialDataObjectsList = objects;
+		add(objects);
+	}
+
 	public void remove(T object){
 		container.removeItem(object.getId());
 		dataObjects.remove(object.getId());
@@ -171,17 +366,63 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 		dataObjects.clear();
 	}
 
+	public void refreshData() {
+		this.removeAllDataObjects();
+		this.add(initialDataObjectsList);
+	}
+
+	public void saveData() {
+		List<T> entityDisplayed = new ArrayList<T>();
+		
+		for (DisplayedEntity<T> displayedEntity : dataObjects.values()) {
+			T entity = displayedEntity.getEntity();
+			entityDisplayed.add(entity);
+		}
+
+		initialDataObjectsList = entityDisplayed;
+	}
+
 	public Collection<T> retrieveSelection() {
 		List<T> selection = new ArrayList<T>();
-		for (Object itemId : this.getItemIds()) {
-			if (isSelected(itemId)) {
+		for (Object itemId : dataTable.getItemIds()) {
+			if (dataTable.isSelected(itemId)) {
 				selection.add(dataObjects.get(itemId).getEntity());
 			}
 		}
 		return selection;
 	}
 
-	public abstract TableConfig getTableConfig();
+	public EntityDisplayerController<T> getEntityDisplayerController() {
+		return entityDisplayerController;
+	}
 
-	public abstract EntityDisplayerController<T> getEntityDisplayerController();
+	public void setEntityDisplayerController(
+			EntityDisplayerController<T> entityDisplayerController) {
+		this.entityDisplayerController = entityDisplayerController;
+	}
+
+	public TableConfig getTableConfig() {
+		return tableConfig;
+	}
+
+	public void setTableConfig(TableConfig tableConfig) {
+		this.tableConfig = tableConfig;
+	}
+
+	public Boolean getUpdatable() {
+		return updatable;
+	}
+
+	public void setUpdatable(Boolean updatable) {
+		this.updatable = updatable;
+	}
+
+	public GenericTableController<T> getGenericTableController() {
+		return genericTableController;
+	}
+
+	public void setGenericTableController(
+			GenericTableController<T> genericTableController) {
+		this.genericTableController = genericTableController;
+	}
 }

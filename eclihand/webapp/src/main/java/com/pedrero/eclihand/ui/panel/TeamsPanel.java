@@ -10,13 +10,12 @@ import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.controller.panel.TeamsPanelController;
 import com.pedrero.eclihand.model.dto.TeamDto;
-import com.pedrero.eclihand.ui.table.entity.TeamTable;
+import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.Displayer;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.Table;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -27,8 +26,8 @@ public class TeamsPanel extends EclihandMainPanel implements Initiable, Displaye
 	@Resource
 	private TeamsPanelController teamsPanelController;
 
-	@Resource(name = "playerTeamTable")
-	private TeamTable teamsTable;
+	@Resource(name = "teamTable")
+	private GenericTable<TeamDto> teamTable;
 
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
@@ -47,8 +46,8 @@ public class TeamsPanel extends EclihandMainPanel implements Initiable, Displaye
 			layout = eclihandLayoutFactory.createCommonVerticalLayout();
 			this.setContent(layout);
 		}
-		this.addComponent(teamsTable);
-		teamsTable.init();
+		this.addComponent(teamTable);
+		teamTable.init();
 	}
 
 	@Override
@@ -56,12 +55,12 @@ public class TeamsPanel extends EclihandMainPanel implements Initiable, Displaye
 		teamsPanelController.searchTeamsAndDisplay();
 	}
 
-	public Table getTeamsTable() {
-		return teamsTable;
+	public GenericTable<TeamDto> getTeamsTable() {
+		return teamTable;
 	}
 
 	public void refreshTeams(List<TeamDto> teams) {
-		teamsTable.removeAllValidators();
-		teamsTable.add(teams);
+		teamTable.removeAllDataObjects();
+		teamTable.feed(teams);
 	}
 }

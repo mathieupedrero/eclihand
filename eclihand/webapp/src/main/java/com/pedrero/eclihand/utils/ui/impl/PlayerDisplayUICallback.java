@@ -26,4 +26,10 @@ public class PlayerDisplayUICallback implements UICallback<PlayerDto> {
 
 	}
 
+	@Override
+	public void execute(Iterable<PlayerDto> dataObject) {
+		throw new RuntimeException("No implementation for multiple selection");
+
+	}
+
 }

@@ -12,6 +12,7 @@ import com.pedrero.eclihand.ui.custom.config.PropertyConfig;
 import com.pedrero.eclihand.ui.custom.config.PropertyDisplayerConfig;
 import com.pedrero.eclihand.utils.EclihandUiException;
 import com.pedrero.eclihand.utils.Initiable;
+import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
 import com.pedrero.eclihand.utils.text.Formatter;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
@@ -37,13 +38,8 @@ import com.vaadin.ui.TextField;
  */
 public class GenericPropertyDisplayer<T extends DataObjectDto> extends
  Panel
- implements Initiable, EntityDisplayerComponent<T> {
-
-	private static final String VALIDATE_CHANGES_KEY = "validate.changes";
-
-	private static final String DISCARD_CHANGES_KEY = "discard.changes";
-
-	private static final String MAKE_UPDATABLE_KEY = "make.updatable";
+		implements Initiable, EntityDisplayerComponent<T>,
+		UpdatableContentDisplayer {
 
 	/**
 	 * 
@@ -166,6 +162,10 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 		//layout.requestRepaint();
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.pedrero.eclihand.ui.custom.UpdatableContentDisplayer#makeUpdatable()
+	 */
+	@Override
 	public void makeUpdatable(){
 
 		Integer currentRow = 0;
@@ -185,6 +185,10 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 		switchUpdateModeButton.setCaption(DISCARD_CHANGES_KEY);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.pedrero.eclihand.ui.custom.UpdatableContentDisplayer#makeReadOnly()
+	 */
+	@Override
 	public void makeReadOnly(){
 
 		Integer currentRow = 0;
@@ -250,7 +254,11 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 		throw new EclihandUiException("Configuration exception : datatype "+propertyConfig.getDataType()+" not handled in Config");
 	}
 	
-	private void validateChanges(){
+	/* (non-Javadoc)
+	 * @see com.pedrero.eclihand.ui.custom.UpdatableContentDisplayer#validateChanges()
+	 */
+	@Override
+	public void validateChanges() {
 		Integer currentRow = 0;
 		for (PropertyConfig property : getConfig().getProperties()) {
 			Property value = (Property) layout.getComponent(1, currentRow);
