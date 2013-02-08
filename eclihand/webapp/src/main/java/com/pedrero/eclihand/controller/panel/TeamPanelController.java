@@ -14,10 +14,12 @@ import com.pedrero.eclihand.service.PlayerService;
 import com.pedrero.eclihand.service.TeamService;
 import com.pedrero.eclihand.ui.EntityDisplayerComponent;
 import com.pedrero.eclihand.ui.panel.entity.TeamPanel;
+import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
 
 @Controller
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class TeamPanelController implements EntityDisplayerController<TeamDto> {
+public class TeamPanelController implements EntityDisplayerController<TeamDto>,
+		UpdatableContentDisplayer {
 	public static final String AGE_WHEN_PLAYING_FOR_TEAM = "age.when.playing.for.team";
 
 	/**
@@ -62,6 +64,24 @@ public class TeamPanelController implements EntityDisplayerController<TeamDto> {
 	@Override
 	public EntityDisplayerComponent<TeamDto> getEntityDisplayerComponent() {
 		return teamPanel;
+	}
+
+	@Override
+	public void makeUpdatable() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void makeReadOnly() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void validateChanges() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

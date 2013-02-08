@@ -9,10 +9,11 @@ import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.service.PlayerService;
 import com.pedrero.eclihand.ui.EntityDisplayerComponent;
 import com.pedrero.eclihand.ui.panel.entity.PlayerPanel;
+import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
 
 @Controller
 public class PlayerPanelController implements
-		EntityDisplayerController<PlayerDto> {
+		EntityDisplayerController<PlayerDto>, UpdatableContentDisplayer {
 	/**
 	 * 
 	 */
@@ -42,6 +43,24 @@ public class PlayerPanelController implements
 	@Override
 	public EntityDisplayerComponent<PlayerDto> getEntityDisplayerComponent() {
 		return playerPanel;
+	}
+
+	@Override
+	public void makeUpdatable() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void makeReadOnly() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void validateChanges() {
+		// TODO Auto-generated method stub
+
 	}
 
 }
