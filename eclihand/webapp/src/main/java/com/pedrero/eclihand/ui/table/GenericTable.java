@@ -95,6 +95,8 @@ public class GenericTable<T extends DataObjectDto> extends
 	public void init() {
 		this.removeAllComponents();
 
+		updatable = tableConfig.getIsEditModeDefault();
+
 		initializeUIComponents();
 
 		HorizontalLayout buttonsLayout = initializeButtonsLayout();
@@ -120,8 +122,11 @@ public class GenericTable<T extends DataObjectDto> extends
 		HorizontalLayout buttonsLayout = eclihandLayoutFactory
 				.createCommonHorizontalLayout();
 
-		buttonsLayout.addComponent(switchUpdateModeButton);
-		buttonsLayout.addComponent(validateChanges);
+		if (tableConfig.getShowsEditButtons()) {
+			buttonsLayout.addComponent(switchUpdateModeButton);
+			buttonsLayout.addComponent(validateChanges);
+		}
+
 		buttonsLayout.addComponent(removeAll);
 		buttonsLayout.addComponent(add);
 		return buttonsLayout;

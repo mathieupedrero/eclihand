@@ -87,6 +87,8 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 
 	@Override
 	public void init() {
+		updatable = config.getIsEditModeDefault();
+
 		switchUpdateModeButton = eclihandUiFactory.createButton();
 		switchUpdateModeButton.setCaption(MAKE_UPDATABLE_KEY);
 		validateChanges = eclihandUiFactory.createButton();
@@ -101,12 +103,14 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 					.getLabelKey()));
 			layout.addComponent(label, 0, currentRow);
 			layout.setComponentAlignment(label, Alignment.MIDDLE_RIGHT);
-			Label value = new Label();
-			layout.addComponent(value, 1, currentRow);
-			layout.setComponentAlignment(value, Alignment.MIDDLE_LEFT);
+			if (updatable) {
+				createEditableComponentAndAddItToLineForProperty(currentRow,
+						property);
+			} else {
+				createLabelAndAddItAsValueToLine(currentRow);
+			}
 			currentRow++;
 		}
-		layout.addComponent(switchUpdateModeButton, 0, currentRow);
 		switchUpdateModeButton.addListener(new Button.ClickListener() {
 
 			/**
@@ -138,7 +142,11 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 				}
 			}
 		});
-		layout.addComponent(validateChanges, 1, currentRow);
+
+		if (this.config.getShowsEditButtons()) {
+			layout.addComponent(switchUpdateModeButton, 0, currentRow);
+			layout.addComponent(validateChanges, 1, currentRow);
+		}
 		
 	}
 
@@ -170,19 +178,25 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 
 		Integer currentRow = 0;
 		for (PropertyConfig property : getConfig().getProperties()) {
-			Component field;
-			field = createAndConfigurePropertyComponent(property);
-			if (layout.getComponent(1, currentRow) != null){
-				layout.removeComponent(1, currentRow);
-			}
-			layout.addComponent(field, 1, currentRow);
-			layout.setComponentAlignment(field, Alignment.MIDDLE_LEFT);
+			createEditableComponentAndAddItToLineForProperty(currentRow,
+					property);
 			currentRow++;
 		}
 		//validateChanges.setVisible(true);
 		display(displayed);
 		updatable = true;
 		switchUpdateModeButton.setCaption(DISCARD_CHANGES_KEY);
+	}
+
+	private void createEditableComponentAndAddItToLineForProperty(
+			Integer lineNumber, PropertyConfig property) {
+		Component field;
+		field = createAndConfigurePropertyComponent(property);
+		if (layout.getComponent(1, lineNumber) != null){
+			layout.removeComponent(1, lineNumber);
+		}
+		layout.addComponent(field, 1, lineNumber);
+		layout.setComponentAlignment(field, Alignment.MIDDLE_LEFT);
 	}
 	
 	/* (non-Javadoc)
@@ -193,12 +207,7 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 
 		Integer currentRow = 0;
 		for (PropertyConfig property : getConfig().getProperties()) {
-			Label value = new Label();
-			if (layout.getComponent(1, currentRow) != null){
-				layout.removeComponent(1, currentRow);
-			}
-			layout.addComponent(value, 1, currentRow);
-			layout.setComponentAlignment(value, Alignment.MIDDLE_LEFT);
+			createLabelAndAddItAsValueToLine(currentRow);
 			currentRow++;
 		}
 		//validateChanges.setVisible(false);
@@ -206,6 +215,15 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 		updatable = false;
 		switchUpdateModeButton.setCaption(MAKE_UPDATABLE_KEY);
 		
+	}
+
+	private void createLabelAndAddItAsValueToLine(Integer currentRow) {
+		Label value = new Label();
+		if (layout.getComponent(1, currentRow) != null){
+			layout.removeComponent(1, currentRow);
+		}
+		layout.addComponent(value, 1, currentRow);
+		layout.setComponentAlignment(value, Alignment.MIDDLE_LEFT);
 	}
 	
 	private Component createAndConfigurePropertyComponent(PropertyConfig propertyConfig){

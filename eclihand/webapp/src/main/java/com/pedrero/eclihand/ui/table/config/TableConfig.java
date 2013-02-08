@@ -16,6 +16,26 @@ public class TableConfig {
 
 	private Boolean canMultiSelect = false;
 
+	private Boolean showsEditButtons = false;
+
+	private Boolean isEditModeDefault = false;
+
+	public Boolean getShowsEditButtons() {
+		return showsEditButtons;
+	}
+
+	public void setShowsEditButtons(Boolean showsEditButtons) {
+		this.showsEditButtons = showsEditButtons;
+	}
+
+	public Boolean getIsEditModeDefault() {
+		return isEditModeDefault;
+	}
+
+	public void setIsEditModeDefault(Boolean isEditModeDefault) {
+		this.isEditModeDefault = isEditModeDefault;
+	}
+
 	public List<TableColumnConfig> getColumnConfigs() {
 		return columnConfigs;
 	}
