@@ -112,8 +112,8 @@ public class TeamPanel extends EclihandMainPanel implements
 		teamPropertyDisplayer.init();
 		playerTable.init();
 
-		this.addComponent(teamPropertyDisplayer);
-		this.addComponent(playerTable);
+		layout.addComponent(teamPropertyDisplayer);
+		layout.addComponent(playerTable);
 
 		Layout buttonsLayout = eclihandLayoutFactory
 				.createCommonHorizontalLayout();

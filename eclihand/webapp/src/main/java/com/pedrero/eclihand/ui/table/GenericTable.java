@@ -26,16 +26,16 @@ import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 
-public class GenericTable<T extends DataObjectDto> extends
- Panel {
+public class GenericTable<T extends DataObjectDto> extends Panel {
 
 	private Table dataTable;
 
 	private IndexedContainer container;
-	
+
 	private final Map<Long, DisplayedEntity<T>> dataObjects = new HashMap<Long, DisplayedEntity<T>>();
 
 	private Iterable<T> initialDataObjectsList;
@@ -45,7 +45,7 @@ public class GenericTable<T extends DataObjectDto> extends
 
 	@Resource
 	private BodyPanelController bodyPanelController;
-	
+
 	@Resource
 	private EclihandUiFactory eclihandUiFactory;
 
@@ -83,6 +83,8 @@ public class GenericTable<T extends DataObjectDto> extends
 	 */
 	private Button add;
 
+	private Layout layout;
+
 	/**
 	 * 
 	 */
@@ -93,7 +95,10 @@ public class GenericTable<T extends DataObjectDto> extends
 	}
 
 	public void init() {
-		this.removeAllComponents();
+		layout = eclihandLayoutFactory.createCommonVerticalLayout();
+		this.setContent(layout);
+
+		layout.removeAllComponents();
 
 		updatable = tableConfig.getIsEditModeDefault();
 
@@ -105,8 +110,8 @@ public class GenericTable<T extends DataObjectDto> extends
 
 		dataTableInit();
 
-		this.addComponent(dataTable);
-		this.addComponent(buttonsLayout);
+		layout.addComponent(dataTable);
+		layout.addComponent(buttonsLayout);
 	}
 
 	public void refreshButtonsState() {
@@ -275,11 +280,11 @@ public class GenericTable<T extends DataObjectDto> extends
 					&& getTableConfig().getCanRedirectToEntityDisplayer()) {
 				// If column is a link (to redirect to entity displayer panel,
 				// adds a button link as data
-				
+
 				Button linkButton = eclihandUiFactory.createLinkButton();
 				linkButton.setCaption(displayedValue.toString());
 				linkButton.setData(object.getId());
-				
+
 				linkButton.addListener(new Button.ClickListener() {
 
 					/**
@@ -309,7 +314,7 @@ public class GenericTable<T extends DataObjectDto> extends
 				item.getItemProperty(columnConfig.getId()).setValue(
 						displayedValue);
 			}
-			
+
 		}
 		// computing description with gathered information
 		displayedEntity.setDescription(messageResolver.getMessage(
@@ -343,25 +348,25 @@ public class GenericTable<T extends DataObjectDto> extends
 					deleteButton);
 		}
 	}
-	
-	public void add(Iterable<T> objects){
-		for (T object : objects){
+
+	public void add(Iterable<T> objects) {
+		for (T object : objects) {
 			add(object);
 		}
 	}
-	
+
 	public void feed(Iterable<T> objects) {
 		initialDataObjectsList = objects;
 		add(objects);
 	}
 
-	public void remove(T object){
+	public void remove(T object) {
 		container.removeItem(object.getId());
 		dataObjects.remove(object.getId());
 	}
-	
-	public void remove(Iterable<T> objects){
-		for (T object : objects){
+
+	public void remove(Iterable<T> objects) {
+		for (T object : objects) {
 			remove(object);
 		}
 	}
@@ -378,7 +383,7 @@ public class GenericTable<T extends DataObjectDto> extends
 
 	public void saveData() {
 		List<T> entityDisplayed = new ArrayList<T>();
-		
+
 		for (DisplayedEntity<T> displayedEntity : dataObjects.values()) {
 			T entity = displayedEntity.getEntity();
 			entityDisplayed.add(entity);

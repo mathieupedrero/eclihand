@@ -17,13 +17,13 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-public class GenericSearchModalWindow<T extends DataObjectDto> extends
-		Window
+public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
 		implements Initiable, Identifiable {
 
 	/**
@@ -35,7 +35,7 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends
 
 	@Resource
 	private EclihandUiFactory eclihandUiFactory;
-	
+
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
 
@@ -51,7 +51,7 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends
 	private Button validateButton;
 
 	private Button cancelButton;
-	
+
 	private ProgressIndicator progressIndicator;
 
 	private GenericTable<T> displayGenericTable;
@@ -70,8 +70,12 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends
 
 	private String searchButtonKey;
 
+	private Layout layout;
+
 	@Override
 	public void init() {
+		layout = eclihandLayoutFactory.createCommonVerticalLayout();
+		this.setContent(layout);
 		this.setModal(true);
 
 		getDisplayGenericTable().init();
@@ -103,11 +107,11 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends
 
 		this.setContent(windowsLayout);
 
-		this.addComponent(titleLabel);
-		this.addComponent(searchFormLayout);
-		this.addComponent(getDisplayGenericTable());
-		this.addComponent(buttonsLayout);
-		this.addComponent(progressIndicator);
+		layout.addComponent(titleLabel);
+		layout.addComponent(searchFormLayout);
+		layout.addComponent(getDisplayGenericTable());
+		layout.addComponent(buttonsLayout);
+		layout.addComponent(progressIndicator);
 
 		initLabels();
 	}
@@ -131,7 +135,6 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends
 	private void initSearchButton() {
 		searchButton = eclihandUiFactory.createButton();
 		searchButton.addListener(new ClickListener() {
-			
 
 			/**
 			 * 

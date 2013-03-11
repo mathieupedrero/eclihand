@@ -9,6 +9,7 @@ import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Layout;
 
 @org.springframework.stereotype.Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -34,6 +35,8 @@ public class BodyPanel extends EclihandMainPanel implements Initiable {
 
 	private Component currentPanel;
 
+	private Layout layout;
+
 	/**
 	 * 
 	 */
@@ -42,30 +45,32 @@ public class BodyPanel extends EclihandMainPanel implements Initiable {
 	@Override
 	public void init() {
 		this.setContent(eclihandLayoutFactory.createCommonHorizontalLayout());
-		this.addComponent(leftPanel);
-		this.addComponent(homePanel);
+		layout = eclihandLayoutFactory.createCommonVerticalLayout();
+		this.setContent(layout);
+		layout.addComponent(leftPanel);
+		layout.addComponent(homePanel);
 		currentPanel = homePanel;
 		this.setCaption(messageResolver.getMessage("body.caption"));
 
 	}
 
 	public void showTeamsPanel() {
-		this.replaceComponent(currentPanel, teamsPanel);
+		layout.replaceComponent(currentPanel, teamsPanel);
 		currentPanel = teamsPanel;
 	}
 
 	public void showPlayersPanel() {
-		this.replaceComponent(currentPanel, playersPanel);
+		layout.replaceComponent(currentPanel, playersPanel);
 		currentPanel = playersPanel;
 	}
 
 	public void showComponent(Component panel) {
-		this.replaceComponent(currentPanel, panel);
+		layout.replaceComponent(currentPanel, panel);
 		currentPanel = panel;
 	}
 
 	public void showHomePanel() {
-		this.replaceComponent(currentPanel, homePanel);
+		layout.replaceComponent(currentPanel, homePanel);
 		currentPanel = homePanel;
 	}
 

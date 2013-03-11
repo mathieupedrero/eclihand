@@ -9,10 +9,13 @@ import com.pedrero.eclihand.ui.panel.BodyPanel;
 import com.pedrero.eclihand.ui.panel.HeaderPanel;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.ui.Layout;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 
 @Component
-public class EclihandMainWindow extends Window implements Initiable {
+public class EclihandMainWindow extends UI{
 	/**
 	 * 
 	 */
@@ -31,11 +34,11 @@ public class EclihandMainWindow extends Window implements Initiable {
 	private EclihandLayoutFactory eclihandLayoutFactory;
 
 	@Override
-	public void init() {
-		this.setContent(eclihandLayoutFactory.createCommonVerticalLayout());
-		this.addComponent(headerPanel);
-		this.addComponent(bodyPanel);
-
+	protected void init(VaadinRequest request) {
+		Layout layout = eclihandLayoutFactory.createCommonVerticalLayout();
+		this.setContent(layout);
+		layout.addComponent(headerPanel);
+		layout.addComponent(bodyPanel);
 	}
 
 }

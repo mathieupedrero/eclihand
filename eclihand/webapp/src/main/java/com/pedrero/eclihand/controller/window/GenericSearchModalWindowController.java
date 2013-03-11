@@ -14,36 +14,29 @@ import com.pedrero.eclihand.ui.window.GenericSearchModalWindow;
 import com.pedrero.eclihand.utils.ui.UICallback;
 import com.pedrero.eclihand.utils.ui.worker.AsynchronousUIWorker;
 import com.pedrero.eclihand.utils.ui.worker.UIAction;
-import com.vaadin.ui.Window;
 
 public class GenericSearchModalWindowController<T extends DataObjectDto>
-		implements EclihandController, WindowController {
+		implements EclihandController {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5117454372676672562L;
 
-
 	private GenericSearchModalWindow<T> genericSearchModalWindow;
 
 	private DataObjectService<T> service;
 
 	private UICallback<T> callback;
-	
-	private WindowController superWindowController;
 
-	@Override
-	public void addWindow(Window window) {
-		getGenericSearchModalWindow().addWindow(window);
-	}
+	private WindowController superWindowController;
 
 	@Override
 	public void init() {
 		getGenericSearchModalWindow().init();
 	}
 
-	public void openWindow(){
+	public void openWindow() {
 		init();
 		getSuperWindowController().addWindow(getGenericSearchModalWindow());
 	}
@@ -57,14 +50,14 @@ public class GenericSearchModalWindowController<T extends DataObjectDto>
 		worker.start();
 	}
 
-	public void validateChoice(Collection<T> selection){
+	public void validateChoice(Collection<T> selection) {
 		for (T selected : selection) {
 			getCallback().execute(selected);
 		}
 	}
-	
-	private class SearchAndDisplayUIAction implements UIAction{
-		
+
+	private class SearchAndDisplayUIAction implements UIAction {
+
 		public SearchAndDisplayUIAction(String criterium,
 				RequestAttributes attributes) {
 			super();
@@ -80,15 +73,15 @@ public class GenericSearchModalWindowController<T extends DataObjectDto>
 		public void run() {
 			RequestContextHolder.setRequestAttributes(attributes);
 			List<T> results = getService().searchByCriterium(criterium);
-			synchronized (getGenericSearchModalWindow().getApplication()) {
+			synchronized (getGenericSearchModalWindow().getUI()) {
 				getGenericSearchModalWindow().feedTableWith(results);
 				getGenericSearchModalWindow().getProgressIndicator()
 						.setEnabled(false);
 			}
 			RequestContextHolder.resetRequestAttributes();
-			
+
 		}
-		
+
 	}
 
 	public GenericSearchModalWindow<T> getGenericSearchModalWindow() {

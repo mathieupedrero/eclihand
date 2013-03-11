@@ -18,12 +18,11 @@
     <servlet>
   		<!-- The Vaadin application servlet -->
         <servlet-name>Eclihand</servlet-name>
-        <servlet-class>com.pedrero.eclihand.servlet.SpringVaadinServlet</servlet-class>
+        <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
         <init-param>
-            <param-name>applicationBean</param-name>
-            <!-- The name of the application bean is defined by annotating the application class -->
-            <param-value>applicationBean</param-value>
-        </init-param>
+      		<param-name>UI</param-name>
+      		<param-value>com.pedrero.eclihand.ui.EclihandMainUI</param-value>
+    	</init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>Eclihand</servlet-name>

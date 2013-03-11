@@ -10,6 +10,8 @@ import com.pedrero.eclihand.controller.panel.HeaderPanelController;
 import com.pedrero.eclihand.ui.menubar.MainMenuBar;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
+import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.Panel;
 
 @Component
@@ -24,6 +26,11 @@ public class HeaderPanel extends Panel implements Initiable {
 
 	@Resource
 	private MainMenuBar mainMenuBar;
+
+	@Resource
+	private EclihandLayoutFactory eclihandLayoutFactory;
+
+	private Layout layout;
 	/**
 	 * 
 	 */
@@ -32,7 +39,9 @@ public class HeaderPanel extends Panel implements Initiable {
 	@Override
 	public void init() {
 		this.setCaption(messageResolver.getMessage("header.caption"));
-		this.addComponent(mainMenuBar);
+		layout = eclihandLayoutFactory.createCommonHorizontalLayout();
+		this.setContent(layout);
+		layout.addComponent(mainMenuBar);
 	}
 
 }

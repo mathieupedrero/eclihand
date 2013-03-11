@@ -12,8 +12,8 @@ import com.pedrero.eclihand.ui.window.EclihandMainWindow;
 import com.vaadin.ui.Window;
 
 @Controller
-public class EclihandMainWindowController implements WindowController,
-		EclihandController {
+public class EclihandMainWindowController implements EclihandController,
+		WindowController {
 
 	/**
 	 * 
@@ -33,8 +33,6 @@ public class EclihandMainWindowController implements WindowController,
 	public void init() {
 		headerPanelController.init();
 		bodyPanelController.init();
-
-		eclihandMainWindow.init();
 	}
 
 	@Override

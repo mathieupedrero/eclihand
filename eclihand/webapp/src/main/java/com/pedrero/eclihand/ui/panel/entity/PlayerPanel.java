@@ -21,8 +21,7 @@ import com.vaadin.ui.Layout;
 
 @Component
 public class PlayerPanel extends EclihandMainPanel implements
-		EntityDisplayerComponent<PlayerDto>,
-		Initiable {
+		EntityDisplayerComponent<PlayerDto>, Initiable {
 
 	/**
 	 * 
@@ -115,8 +114,8 @@ public class PlayerPanel extends EclihandMainPanel implements
 		playerPropertyDisplayer.init();
 		teamTable.init();
 
-		this.addComponent(playerPropertyDisplayer);
-		this.addComponent(teamTable);
+		layout.addComponent(playerPropertyDisplayer);
+		layout.addComponent(teamTable);
 
 		Layout buttonsLayout = eclihandLayoutFactory
 				.createCommonHorizontalLayout();

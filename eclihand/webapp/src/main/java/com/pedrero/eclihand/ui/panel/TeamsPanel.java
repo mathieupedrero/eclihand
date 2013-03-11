@@ -19,7 +19,8 @@ import com.vaadin.ui.Layout;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class TeamsPanel extends EclihandMainPanel implements Initiable, Displayer {
+public class TeamsPanel extends EclihandMainPanel implements Initiable,
+		Displayer {
 	@Resource
 	private MessageResolver messageResolver;
 
@@ -46,7 +47,8 @@ public class TeamsPanel extends EclihandMainPanel implements Initiable, Displaye
 			layout = eclihandLayoutFactory.createCommonVerticalLayout();
 			this.setContent(layout);
 		}
-		this.addComponent(teamTable);
+
+		layout.addComponent(teamTable);
 		teamTable.init();
 	}
 
