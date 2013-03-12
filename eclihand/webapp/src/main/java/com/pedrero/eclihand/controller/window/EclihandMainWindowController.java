@@ -37,6 +37,6 @@ public class EclihandMainWindowController implements EclihandController,
 
 	@Override
 	public void addWindow(Window window) {
-		eclihandMainWindow.addWindow(window);
+		eclihandMainWindow.getUI().addWindow(window);
 	}
 }
