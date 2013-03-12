@@ -7,15 +7,13 @@ import org.springframework.stereotype.Component;
 import com.pedrero.eclihand.controller.window.EclihandMainWindowController;
 import com.pedrero.eclihand.ui.panel.BodyPanel;
 import com.pedrero.eclihand.ui.panel.HeaderPanel;
-import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.Window;
 
 @Component
-public class EclihandMainWindow extends UI{
+public class EclihandMainWindow extends UI {
 	/**
 	 * 
 	 */
@@ -39,6 +37,7 @@ public class EclihandMainWindow extends UI{
 		this.setContent(layout);
 		layout.addComponent(headerPanel);
 		layout.addComponent(bodyPanel);
+		eclihandMainWindowController.init();
 	}
 
 }

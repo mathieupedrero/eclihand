@@ -1,11 +1,7 @@
 package com.pedrero.eclihand.servlet;
 
-import java.io.IOException;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -29,13 +25,6 @@ public class SpringVaadinServlet extends VaadinServlet {
 
 		super.init(config);
 
-	}
-
-	@Override
-	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-
-		super.service(request, response);
 	}
 
 	// @Override
