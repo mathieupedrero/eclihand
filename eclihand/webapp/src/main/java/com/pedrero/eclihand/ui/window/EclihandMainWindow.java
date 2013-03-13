@@ -33,7 +33,7 @@ public class EclihandMainWindow extends Panel implements Initiable {
 
 	@Override
 	public void init() {
-		Layout layout = eclihandLayoutFactory.createCommonVerticalLayout();
+		Layout layout = eclihandLayoutFactory.createCommonHorizontalLayout();
 		this.setContent(layout);
 		layout.addComponent(headerPanel);
 		layout.addComponent(bodyPanel);
