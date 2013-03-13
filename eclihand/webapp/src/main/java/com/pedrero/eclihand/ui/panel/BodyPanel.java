@@ -44,8 +44,7 @@ public class BodyPanel extends EclihandMainPanel implements Initiable {
 
 	@Override
 	public void init() {
-		this.setContent(eclihandLayoutFactory.createCommonHorizontalLayout());
-		layout = eclihandLayoutFactory.createCommonVerticalLayout();
+		layout = eclihandLayoutFactory.createCommonHorizontalLayout();
 		this.setContent(layout);
 		layout.addComponent(leftPanel);
 		layout.addComponent(homePanel);
