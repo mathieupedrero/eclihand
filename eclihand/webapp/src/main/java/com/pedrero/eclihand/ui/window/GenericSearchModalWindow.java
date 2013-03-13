@@ -20,7 +20,6 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
@@ -56,7 +55,7 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
 
 	private GenericTable<T> displayGenericTable;
 
-	// Fields feeded by spring configuration
+	// Fields fed by spring configuration
 
 	private GenericSearchModalWindowController<T> searchModalWindowController;
 
@@ -101,11 +100,6 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
 				.createCommonHorizontalLayout();
 		buttonsLayout.addComponent(validateButton);
 		buttonsLayout.addComponent(cancelButton);
-
-		VerticalLayout windowsLayout = eclihandLayoutFactory
-				.createCommonVerticalLayout();
-
-		this.setContent(windowsLayout);
 
 		layout.addComponent(titleLabel);
 		layout.addComponent(searchFormLayout);
