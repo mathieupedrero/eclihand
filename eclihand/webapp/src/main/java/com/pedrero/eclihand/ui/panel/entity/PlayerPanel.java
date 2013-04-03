@@ -67,6 +67,7 @@ public class PlayerPanel extends EclihandMainPanel implements
 
 	@Override
 	public void init() {
+		updatable = false;
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		this.setContent(layout);
 
