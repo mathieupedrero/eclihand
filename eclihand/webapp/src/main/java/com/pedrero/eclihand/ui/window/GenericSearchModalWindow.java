@@ -112,7 +112,7 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
 
 	private void initCancelButton() {
 		cancelButton = eclihandUiFactory.createButton();
-		cancelButton.addListener(new ClickListener() {
+		cancelButton.addClickListener(new ClickListener() {
 
 			/**
 			 * 
@@ -128,7 +128,7 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
 
 	private void initSearchButton() {
 		searchButton = eclihandUiFactory.createButton();
-		searchButton.addListener(new ClickListener() {
+		searchButton.addClickListener(new ClickListener() {
 
 			/**
 			 * 
@@ -146,7 +146,7 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
 
 	private void initValidateButton() {
 		validateButton = eclihandUiFactory.createButton();
-		validateButton.addListener(new ClickListener() {
+		validateButton.addClickListener(new ClickListener() {
 
 			/**
 			 * 

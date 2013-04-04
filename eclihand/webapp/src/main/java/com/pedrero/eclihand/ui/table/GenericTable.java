@@ -144,7 +144,7 @@ public class GenericTable<T extends DataObjectDto> extends Panel {
 		getGenericTableController();
 		switchUpdateModeButton
 				.setCaption(UpdatableContentDisplayer.MAKE_UPDATABLE_KEY);
-		switchUpdateModeButton.addListener(new Button.ClickListener() {
+		switchUpdateModeButton.addClickListener(new Button.ClickListener() {
 
 			/**
 			 * 
@@ -165,7 +165,7 @@ public class GenericTable<T extends DataObjectDto> extends Panel {
 		getGenericTableController();
 		validateChanges
 				.setCaption(UpdatableContentDisplayer.VALIDATE_CHANGES_KEY);
-		validateChanges.addListener(new Button.ClickListener() {
+		validateChanges.addClickListener(new Button.ClickListener() {
 
 			/**
 			 * 
@@ -183,7 +183,7 @@ public class GenericTable<T extends DataObjectDto> extends Panel {
 
 		removeAll = eclihandUiFactory.createButton();
 		removeAll.setCaption("remove.all");
-		removeAll.addListener(new Button.ClickListener() {
+		removeAll.addClickListener(new Button.ClickListener() {
 
 			/**
 			 * 
@@ -200,7 +200,7 @@ public class GenericTable<T extends DataObjectDto> extends Panel {
 
 		add = eclihandUiFactory.createButton();
 		add.setCaption("add");
-		add.addListener(new Button.ClickListener() {
+		add.addClickListener(new Button.ClickListener() {
 
 			/**
 			 * 
@@ -285,7 +285,7 @@ public class GenericTable<T extends DataObjectDto> extends Panel {
 				linkButton.setCaption(displayedValue.toString());
 				linkButton.setData(object.getId());
 
-				linkButton.addListener(new Button.ClickListener() {
+				linkButton.addClickListener(new Button.ClickListener() {
 
 					/**
 					* 
@@ -330,7 +330,7 @@ public class GenericTable<T extends DataObjectDto> extends Panel {
 			Button deleteButton = eclihandUiFactory.createLinkButton();
 			deleteButton.setData(object);
 
-			deleteButton.addListener(new Button.ClickListener() {
+			deleteButton.addClickListener(new Button.ClickListener() {
 
 				/**
 				 * 

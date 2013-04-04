@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.NamedNativeQuery;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -27,7 +26,9 @@ public class PersonImpl extends IllustrableImpl implements Person {
 
 	private Gender gender;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.pedrero.eclihand.model.domain.impl.Person#getFirstName()
 	 */
 	@Override
@@ -36,15 +37,21 @@ public class PersonImpl extends IllustrableImpl implements Person {
 		return firstName;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.pedrero.eclihand.model.domain.impl.Person#setFirstName(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.model.domain.impl.Person#setFirstName(java.lang.
+	 * String)
 	 */
 	@Override
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.pedrero.eclihand.model.domain.impl.Person#getLastName()
 	 */
 	@Override
@@ -53,15 +60,21 @@ public class PersonImpl extends IllustrableImpl implements Person {
 		return lastName;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.pedrero.eclihand.model.domain.impl.Person#setLastName(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.model.domain.impl.Person#setLastName(java.lang.String
+	 * )
 	 */
 	@Override
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.pedrero.eclihand.model.domain.impl.Person#getBirthDate()
 	 */
 	@Override
@@ -71,15 +84,21 @@ public class PersonImpl extends IllustrableImpl implements Person {
 		return birthDate;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.pedrero.eclihand.model.domain.impl.Person#setBirthDate(java.util.Date)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.model.domain.impl.Person#setBirthDate(java.util.
+	 * Date)
 	 */
 	@Override
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.pedrero.eclihand.model.domain.impl.Person#getGender()
 	 */
 	@Override
@@ -89,8 +108,12 @@ public class PersonImpl extends IllustrableImpl implements Person {
 		return gender;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.pedrero.eclihand.model.domain.impl.Person#setGender(com.pedrero.eclihand.model.domain.Gender)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.model.domain.impl.Person#setGender(com.pedrero.eclihand
+	 * .model.domain.Gender)
 	 */
 	@Override
 	public void setGender(Gender gender) {

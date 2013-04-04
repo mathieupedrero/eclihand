@@ -9,7 +9,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedNativeQuery;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -22,12 +21,14 @@ import com.pedrero.eclihand.model.domain.Team;
 public class TeamImpl extends IllustrableImpl implements Team<PlayerImpl> {
 
 	private Integer year;
-	
+
 	private List<PlayerImpl> players;
 
 	private Gender gender;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.pedrero.eclihand.model.domain.Team#getYear()
 	 */
 	@Override
@@ -35,7 +36,10 @@ public class TeamImpl extends IllustrableImpl implements Team<PlayerImpl> {
 	public Integer getYear() {
 		return year;
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.pedrero.eclihand.model.domain.Team#setYear(java.lang.Integer)
 	 */
 	/*
@@ -86,6 +90,5 @@ public class TeamImpl extends IllustrableImpl implements Team<PlayerImpl> {
 	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
-
 
 }

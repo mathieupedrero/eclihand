@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -22,7 +21,9 @@ public class PlayerImpl extends IllustrableImpl implements
 
 	private List<TeamImpl> teams;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.pedrero.eclihand.model.domain.impl.Player#getPlayerPerson()
 	 */
 	@Override
@@ -32,15 +33,21 @@ public class PlayerImpl extends IllustrableImpl implements
 		return playerPerson;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.pedrero.eclihand.model.domain.impl.Player#setPlayerPerson(com.pedrero.eclihand.model.domain.impl.PersonImpl)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.model.domain.impl.Player#setPlayerPerson(com.pedrero
+	 * .eclihand.model.domain.impl.PersonImpl)
 	 */
 	@Override
 	public void setPlayerPerson(PersonImpl playerPerson) {
 		this.playerPerson = playerPerson;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.pedrero.eclihand.model.domain.impl.Player#getTeams()
 	 */
 	@Override
@@ -49,8 +56,11 @@ public class PlayerImpl extends IllustrableImpl implements
 		return teams;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.pedrero.eclihand.model.domain.impl.Player#setTeams(java.util.List)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.model.domain.impl.Player#setTeams(java.util.List)
 	 */
 	@Override
 	public void setTeams(List<TeamImpl> teams) {
