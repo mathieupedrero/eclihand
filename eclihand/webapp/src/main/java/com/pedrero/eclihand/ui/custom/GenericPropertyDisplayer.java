@@ -17,13 +17,12 @@ import com.pedrero.eclihand.utils.text.Formatter;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
-import com.vaadin.data.Property;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
@@ -31,13 +30,13 @@ import com.vaadin.ui.TextField;
 
 /**
  * @author mpedrero
- *
- *	This component can display properties of any Data Object
- *
+ * 
+ *         This component can display properties of any Data Object
+ * 
  * @param <T>
+ *            {@link DataObjectDto} type to be displayed
  */
-public class GenericPropertyDisplayer<T extends DataObjectDto> extends
- Panel
+public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 		implements Initiable, EntityDisplayerComponent<T>,
 		UpdatableContentDisplayer {
 
@@ -60,7 +59,7 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	 * The display of the property displayer (as a grid)
 	 */
 	private GridLayout layout;
-	
+
 	/**
 	 * Tells wether the data displayed can be updated or not
 	 */
@@ -78,7 +77,7 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 
 	@Resource
 	private MessageResolver messageResolver;
-	
+
 	@Resource
 	private EclihandUiFactory eclihandUiFactory;
 
@@ -99,19 +98,10 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 
 		Integer currentRow = 0;
 		for (PropertyConfig property : getConfig().getProperties()) {
-			Label label = new Label(messageResolver.getMessage(property
-					.getLabelKey()));
-			layout.addComponent(label, 0, currentRow);
-			layout.setComponentAlignment(label, Alignment.MIDDLE_RIGHT);
-			if (updatable) {
-				createEditableComponentAndAddItToLineForProperty(currentRow,
-						property);
-			} else {
-				createLabelAndAddItAsValueToLine(currentRow);
-			}
+			createLabelAndAddItToLineForProperty(currentRow, property);
 			currentRow++;
 		}
-		switchUpdateModeButton.addListener(new Button.ClickListener() {
+		switchUpdateModeButton.addClickListener(new Button.ClickListener() {
 
 			/**
 			 * 
@@ -120,14 +110,14 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if (updatable){
+				if (updatable) {
 					makeReadOnly();
-				}else{
+				} else {
 					makeUpdatable();
 				}
 			}
 		});
-		validateChanges.addListener(new Button.ClickListener() {
+		validateChanges.addClickListener(new Button.ClickListener() {
 
 			/**
 			 * 
@@ -136,7 +126,7 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if (updatable){
+				if (updatable) {
 					validateChanges();
 					makeReadOnly();
 				}
@@ -147,34 +137,50 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 			layout.addComponent(switchUpdateModeButton, 0, currentRow);
 			layout.addComponent(validateChanges, 1, currentRow);
 		}
-		
+
 	}
 
+	private void createLabelAndAddItToLineForProperty(Integer currentRow,
+			PropertyConfig property) {
+		Label label = new Label(messageResolver.getMessage(property
+				.getLabelKey()));
+		layout.addComponent(label, 0, currentRow);
+		layout.setComponentAlignment(label, Alignment.MIDDLE_RIGHT);
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void display(T entity) {
 		displayed = entity;
 		Integer currentRow = 0;
 		for (PropertyConfig property : getConfig().getProperties()) {
-			Property value = (Property) layout.getComponent(1, currentRow);
 			Object rawValue = MVEL.eval(property.getValuePath(), displayed);
-			Object displayedValue;
-			if (value instanceof Label && property.getFormatter() != null) {
-				displayedValue = property.getFormatter().format(rawValue);
+			if (updatable) {
+				Field field = createEditableComponentAndAddItToLineForProperty(
+						currentRow, property);
+				field.setValue(rawValue);
 			} else {
-				displayedValue = rawValue;
+				Label label = createLabelAndAddItAsValueToLine(currentRow);
+				if (property.getFormatter() != null) {
+					label.setValue(property.getFormatter().format(rawValue));
+				} else {
+					label.setValue(rawValue == null ? null : rawValue
+							.toString());
+				}
 			}
-
-			value.setValue(displayedValue);
 			currentRow++;
 		}
-		//layout.requestRepaint();
+		// layout.requestRepaint();
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.pedrero.eclihand.ui.custom.UpdatableContentDisplayer#makeUpdatable()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.ui.custom.UpdatableContentDisplayer#makeUpdatable()
 	 */
 	@Override
-	public void makeUpdatable(){
+	public void makeUpdatable() {
 
 		Integer currentRow = 0;
 		for (PropertyConfig property : getConfig().getProperties()) {
@@ -182,104 +188,116 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 					property);
 			currentRow++;
 		}
-		//validateChanges.setVisible(true);
+		// validateChanges.setVisible(true);
 		display(displayed);
 		updatable = true;
 		switchUpdateModeButton.setCaption(DISCARD_CHANGES_KEY);
 	}
 
-	private void createEditableComponentAndAddItToLineForProperty(
+	@SuppressWarnings("rawtypes")
+	private Field createEditableComponentAndAddItToLineForProperty(
 			Integer lineNumber, PropertyConfig property) {
-		Component field;
-		field = createAndConfigurePropertyComponent(property);
-		if (layout.getComponent(1, lineNumber) != null){
+		Field field = createAndConfigurePropertyComponent(property);
+		if (layout.getComponent(1, lineNumber) != null) {
 			layout.removeComponent(1, lineNumber);
 		}
 		layout.addComponent(field, 1, lineNumber);
 		layout.setComponentAlignment(field, Alignment.MIDDLE_LEFT);
+		return field;
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.pedrero.eclihand.ui.custom.UpdatableContentDisplayer#makeReadOnly()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.ui.custom.UpdatableContentDisplayer#makeReadOnly()
 	 */
 	@Override
-	public void makeReadOnly(){
-
-		Integer currentRow = 0;
-		for (PropertyConfig property : getConfig().getProperties()) {
-			createLabelAndAddItAsValueToLine(currentRow);
-			currentRow++;
-		}
-		//validateChanges.setVisible(false);
-		display(displayed);
+	public void makeReadOnly() {
 		updatable = false;
+		display(displayed);
 		switchUpdateModeButton.setCaption(MAKE_UPDATABLE_KEY);
-		
+
 	}
 
-	private void createLabelAndAddItAsValueToLine(Integer currentRow) {
+	private Label createLabelAndAddItAsValueToLine(Integer currentRow) {
 		Label value = new Label();
-		if (layout.getComponent(1, currentRow) != null){
+		if (layout.getComponent(1, currentRow) != null) {
 			layout.removeComponent(1, currentRow);
 		}
 		layout.addComponent(value, 1, currentRow);
 		layout.setComponentAlignment(value, Alignment.MIDDLE_LEFT);
+		return value;
 	}
-	
-	private Component createAndConfigurePropertyComponent(PropertyConfig propertyConfig){
-		Class<? extends Object> dataTypeClass = propertyConfig.retrieveClassDataType();
-		if (dataTypeClass.equals(String.class) || Number.class.isAssignableFrom(dataTypeClass) || dataTypeClass.isEnum() || dataTypeClass.equals(Date.class)){
 
-			if (propertyConfig.getMaxValue() != null && propertyConfig.getMinValue() != null && propertyConfig.getFormatter() != null){
+	@SuppressWarnings("rawtypes")
+	private Field createAndConfigurePropertyComponent(
+			PropertyConfig propertyConfig) {
+		Class<? extends Object> dataTypeClass = propertyConfig
+				.retrieveClassDataType();
+		if (dataTypeClass.equals(String.class)
+				|| Number.class.isAssignableFrom(dataTypeClass)
+				|| dataTypeClass.isEnum() || dataTypeClass.equals(Date.class)) {
+
+			if (propertyConfig.getMaxValue() != null
+					&& propertyConfig.getMinValue() != null
+					&& propertyConfig.getFormatter() != null) {
 				Formatter formatter = propertyConfig.getFormatter();
 				ComboBox combo = new ComboBox();
-				if (Integer.class.equals(dataTypeClass)){
-					Integer beginning = Integer.valueOf(propertyConfig.getMinValue());
+				if (Integer.class.equals(dataTypeClass)) {
+					Integer beginning = Integer.valueOf(propertyConfig
+							.getMinValue());
 					Integer end = Integer.valueOf(propertyConfig.getMaxValue());
-					for (Integer i = beginning; i<= end; i++){
+					for (Integer i = beginning; i <= end; i++) {
 						combo.addItem(i);
 						combo.setItemCaption(i, formatter.format(i));
 					}
-				}else if (Long.class.equals(dataTypeClass)){
+				} else if (Long.class.equals(dataTypeClass)) {
 					Long beginning = Long.valueOf(propertyConfig.getMinValue());
 					Long end = Long.valueOf(propertyConfig.getMaxValue());
-					for (Long i = beginning; i<= end; i++){
+					for (Long i = beginning; i <= end; i++) {
 						combo.addItem(i);
 						combo.setItemCaption(i, formatter.format(i));
 					}
 				}
 				return combo;
 			}
-			if (dataTypeClass.isEnum()){
+			if (dataTypeClass.isEnum()) {
 				ComboBox combo = new ComboBox();
-				for (Object value : dataTypeClass.getEnumConstants()){
+				for (Object value : dataTypeClass.getEnumConstants()) {
 					combo.addItem(value);
 					String caption;
-					if (propertyConfig.getFormatter() != null){
+					if (propertyConfig.getFormatter() != null) {
 						caption = propertyConfig.getFormatter().format(value);
-					}else{
+					} else {
 						caption = value.toString();
 					}
 					combo.setItemCaption(value, caption);
 				}
 				return combo;
 			}
-			if (dataTypeClass.equals(Date.class)){
+			if (dataTypeClass.equals(Date.class)) {
 				return new DateField();
 			}
 			return new TextField();
 		}
-		throw new EclihandUiException("Configuration exception : datatype "+propertyConfig.getDataType()+" not handled in Config");
+		throw new EclihandUiException("Configuration exception : datatype "
+				+ propertyConfig.getDataType() + " not handled in Config");
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.pedrero.eclihand.ui.custom.UpdatableContentDisplayer#validateChanges()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.ui.custom.UpdatableContentDisplayer#validateChanges
+	 * ()
 	 */
 	@Override
 	public void validateChanges() {
 		Integer currentRow = 0;
 		for (PropertyConfig property : getConfig().getProperties()) {
-			Property value = (Property) layout.getComponent(1, currentRow);
+			@SuppressWarnings("rawtypes")
+			Field value = (Field) layout.getComponent(1, currentRow);
 			Object rawValue = value.getValue();
 			MVEL.setProperty(displayed, property.getValuePath(), rawValue);
 			currentRow++;
