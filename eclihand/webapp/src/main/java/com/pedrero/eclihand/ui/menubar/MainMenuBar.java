@@ -34,6 +34,7 @@ public class MainMenuBar extends MenuBar implements Initiable {
 
 	@Override
 	public void init() {
+		this.getItems().clear();
 		homeMenuItem = new MenuItem(messageResolver.getMessage("common.home"),
 				null, new Command() {
 					private static final long serialVersionUID = 221385883825946509L;
