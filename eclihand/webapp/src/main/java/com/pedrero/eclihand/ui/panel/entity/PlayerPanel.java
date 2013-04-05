@@ -127,12 +127,66 @@ public class PlayerPanel extends EclihandMainPanel implements
 
 	}
 
+	/**
+	 * @return the playerPanelController
+	 */
+	public PlayerPanelController getPlayerPanelController() {
+		return playerPanelController;
+	}
+
+	/**
+	 * @param playerPanelController
+	 *            the playerPanelController to set
+	 */
+	public void setPlayerPanelController(
+			PlayerPanelController playerPanelController) {
+		this.playerPanelController = playerPanelController;
+	}
+
+	/**
+	 * @return the teamTable
+	 */
+	public GenericTable<TeamDto> getTeamTable() {
+		return teamTable;
+	}
+
+	/**
+	 * @param teamTable
+	 *            the teamTable to set
+	 */
+	public void setTeamTable(GenericTable<TeamDto> teamTable) {
+		this.teamTable = teamTable;
+	}
+
+	/**
+	 * @return the updatable
+	 */
 	public Boolean getUpdatable() {
 		return updatable;
 	}
 
+	/**
+	 * @param updatable
+	 *            the updatable to set
+	 */
 	public void setUpdatable(Boolean updatable) {
 		this.updatable = updatable;
+	}
+
+	/**
+	 * @return the playerPropertyDisplayer
+	 */
+	public GenericPropertyDisplayer<PlayerDto> getPlayerPropertyDisplayer() {
+		return playerPropertyDisplayer;
+	}
+
+	/**
+	 * @param playerPropertyDisplayer
+	 *            the playerPropertyDisplayer to set
+	 */
+	public void setPlayerPropertyDisplayer(
+			GenericPropertyDisplayer<PlayerDto> playerPropertyDisplayer) {
+		this.playerPropertyDisplayer = playerPropertyDisplayer;
 	}
 
 }

@@ -47,20 +47,20 @@ public class PlayerPanelController implements
 
 	@Override
 	public void makeUpdatable() {
-		// TODO Auto-generated method stub
-
+		playerPanel.getPlayerPropertyDisplayer().makeUpdatable();
+		playerPanel.getTeamTable().makeUpdatable();
 	}
 
 	@Override
 	public void makeReadOnly() {
-		// TODO Auto-generated method stub
-
+		playerPanel.getPlayerPropertyDisplayer().makeReadOnly();
+		playerPanel.getTeamTable().makeReadOnly();
 	}
 
 	@Override
 	public void validateChanges() {
-		// TODO Auto-generated method stub
-
+		playerPanel.getPlayerPropertyDisplayer().validateChanges();
+		playerPanel.getTeamTable().validateChanges();
 	}
 
 }

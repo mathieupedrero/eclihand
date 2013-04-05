@@ -30,7 +30,8 @@ import com.vaadin.ui.Layout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 
-public class GenericTable<T extends DataObjectDto> extends Panel {
+public class GenericTable<T extends DataObjectDto> extends Panel implements
+		UpdatableContentDisplayer {
 
 	private Table dataTable;
 
@@ -154,9 +155,9 @@ public class GenericTable<T extends DataObjectDto> extends Panel {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				if (updatable) {
-					getGenericTableController().makeReadOnly();
+					makeReadOnly();
 				} else {
-					getGenericTableController().makeUpdatable();
+					makeUpdatable();
 				}
 			}
 		});
@@ -175,8 +176,8 @@ public class GenericTable<T extends DataObjectDto> extends Panel {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				if (updatable) {
-					getGenericTableController().validateChanges();
-					getGenericTableController().makeReadOnly();
+					validateChanges();
+					makeReadOnly();
 				}
 			}
 		});
@@ -434,5 +435,22 @@ public class GenericTable<T extends DataObjectDto> extends Panel {
 	public void setGenericTableController(
 			GenericTableController<T> genericTableController) {
 		this.genericTableController = genericTableController;
+	}
+
+	@Override
+	public void makeUpdatable() {
+		getGenericTableController().makeUpdatable();
+
+	}
+
+	@Override
+	public void makeReadOnly() {
+		getGenericTableController().makeReadOnly();
+
+	}
+
+	@Override
+	public void validateChanges() {
+		getGenericTableController().validateChanges();
 	}
 }
