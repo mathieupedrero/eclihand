@@ -12,8 +12,7 @@ import com.pedrero.eclihand.service.PersonService;
 
 @SuppressWarnings("rawtypes")
 @Service
-public class PersonServiceImpl extends
- DataObjectServiceImpl<PersonDto, Person>
+public class PersonServiceImpl extends DataObjectServiceImpl<PersonDto, Person>
 		implements PersonService {
 	@Resource
 	private PersonConverter personConverter;
@@ -32,7 +31,7 @@ public class PersonServiceImpl extends
 
 	@Override
 	public PersonDao getDao() {
-	return personDao;
+		return personDao;
 	}
 
 	public void setPersonDao(PersonDao personDao) {

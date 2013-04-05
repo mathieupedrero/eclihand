@@ -72,7 +72,7 @@ public class TeamPanel extends EclihandMainPanel implements
 
 		switchUpdateModeButton
 				.setCaption(UpdatableContentDisplayer.MAKE_UPDATABLE_KEY);
-		switchUpdateModeButton.addListener(new Button.ClickListener() {
+		switchUpdateModeButton.addClickListener(new Button.ClickListener() {
 
 			/**
 			 * 
@@ -93,7 +93,7 @@ public class TeamPanel extends EclihandMainPanel implements
 
 		validateChanges
 				.setCaption(UpdatableContentDisplayer.VALIDATE_CHANGES_KEY);
-		validateChanges.addListener(new Button.ClickListener() {
+		validateChanges.addClickListener(new Button.ClickListener() {
 
 			/**
 			 * 

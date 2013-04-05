@@ -250,6 +250,7 @@ public class GenericTable<T extends DataObjectDto> extends Panel {
 				.getCaptionKey()));
 	}
 
+	@SuppressWarnings("unchecked")
 	public void add(T object) {
 		DisplayedEntity<T> displayedEntity = new DisplayedEntity<T>();
 		displayedEntity.setEntity(object);
@@ -337,7 +338,6 @@ public class GenericTable<T extends DataObjectDto> extends Panel {
 				 */
 				private static final long serialVersionUID = -6563780592033942016L;
 
-				@SuppressWarnings("unchecked")
 				@Override
 				public void buttonClick(ClickEvent event) {
 					remove((T) event.getButton().getData());

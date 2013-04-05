@@ -56,9 +56,8 @@ public class PlayersPanel extends EclihandMainPanel implements Initiable {
 			this.searchButton = eclihandUiFactory.createButton();
 			this.searchButton.setCaption(messageResolver
 					.getMessage("common.find"));
-			
-			this.searchButton.addListener(new ClickListener() {
-				
+
+			this.searchButton.addClickListener(new ClickListener() {
 
 				/**
 				 * 
@@ -68,7 +67,7 @@ public class PlayersPanel extends EclihandMainPanel implements Initiable {
 				@Override
 				public void buttonClick(ClickEvent event) {
 					playersPanelController.openPlayerSearchModalWindow();
-					
+
 				}
 			});
 
