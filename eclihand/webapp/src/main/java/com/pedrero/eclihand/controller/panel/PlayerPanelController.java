@@ -49,12 +49,14 @@ public class PlayerPanelController implements
 	public void makeUpdatable() {
 		playerPanel.getPlayerPropertyDisplayer().makeUpdatable();
 		playerPanel.getTeamTable().makeUpdatable();
+		playerPanel.setUpdatable(true);
 	}
 
 	@Override
 	public void makeReadOnly() {
 		playerPanel.getPlayerPropertyDisplayer().makeReadOnly();
 		playerPanel.getTeamTable().makeReadOnly();
+		playerPanel.setUpdatable(false);
 	}
 
 	@Override

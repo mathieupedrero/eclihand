@@ -181,7 +181,7 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 	 */
 	@Override
 	public void makeUpdatable() {
-
+		updatable = true;
 		Integer currentRow = 0;
 		for (PropertyConfig property : getConfig().getProperties()) {
 			createEditableComponentAndAddItToLineForProperty(currentRow,
@@ -190,7 +190,6 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 		}
 		// validateChanges.setVisible(true);
 		display(displayed);
-		updatable = true;
 		switchUpdateModeButton.setCaption(DISCARD_CHANGES_KEY);
 	}
 
