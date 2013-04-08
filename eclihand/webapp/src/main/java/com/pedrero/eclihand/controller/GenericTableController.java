@@ -79,6 +79,11 @@ public class GenericTableController<T extends DataObjectDto> implements
 		getGenericTable().refreshData();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.pedrero.eclihand.utils.UpdatableContentDisplayer#makeReadOnly()
+	 */
 	@Override
 	public void makeReadOnly() {
 		getGenericTable().setUpdatable(false);
@@ -87,16 +92,29 @@ public class GenericTableController<T extends DataObjectDto> implements
 		getGenericTable().refreshData();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.utils.UpdatableContentDisplayer#validateChanges()
+	 */
 	@Override
 	public void validateChanges() {
-
 		getGenericTable().saveData();
 	}
 
+	/**
+	 * @return the search controller to add entities to the monitored list.
+	 */
 	public GenericSearchModalWindowController<T> getGenericSearchModalWindowController() {
 		return genericSearchModalWindowController;
 	}
 
+	/**
+	 * Sets the of the search controller to add entities to the monitored list.
+	 * 
+	 * @param genericSearchModalWindowController
+	 */
 	public void setGenericSearchModalWindowController(
 			GenericSearchModalWindowController<T> genericSearchModalWindowController) {
 		this.genericSearchModalWindowController = genericSearchModalWindowController;

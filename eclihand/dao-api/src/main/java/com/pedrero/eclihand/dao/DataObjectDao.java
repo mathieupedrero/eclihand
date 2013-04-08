@@ -5,6 +5,10 @@ import java.util.List;
 import com.pedrero.eclihand.model.domain.DataObject;
 
 public interface DataObjectDao<T extends DataObject> {
+	/**
+	 * @param entity
+	 * @return
+	 */
 	public T save(T entity);
 
 	public T findById(Long id);
@@ -22,7 +26,7 @@ public interface DataObjectDao<T extends DataObject> {
 	public boolean exists(Long id);
 
 	long count();
-	
+
 	public List<T> findByIndexLikeIgnoreCase(String index);
 
 }

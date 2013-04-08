@@ -39,7 +39,7 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 
 	private final Map<Long, DisplayedEntity<T>> dataObjects = new HashMap<Long, DisplayedEntity<T>>();
 
-	private Iterable<T> initialDataObjectsList;
+	private Collection<T> initialDataObjectsList;
 
 	@Resource
 	private MessageResolver messageResolver;
@@ -356,7 +356,7 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 		}
 	}
 
-	public void feed(Iterable<T> objects) {
+	public void feed(Collection<T> objects) {
 		initialDataObjectsList = objects;
 		add(objects);
 	}
@@ -432,25 +432,52 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 		return genericTableController;
 	}
 
+	/**
+	 * @param Sets
+	 *            the controller of the Table.
+	 */
 	public void setGenericTableController(
 			GenericTableController<T> genericTableController) {
 		this.genericTableController = genericTableController;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.pedrero.eclihand.utils.UpdatableContentDisplayer#makeUpdatable()
+	 */
 	@Override
 	public void makeUpdatable() {
 		getGenericTableController().makeUpdatable();
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.pedrero.eclihand.utils.UpdatableContentDisplayer#makeReadOnly()
+	 */
 	@Override
 	public void makeReadOnly() {
 		getGenericTableController().makeReadOnly();
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.utils.UpdatableContentDisplayer#validateChanges()
+	 */
 	@Override
 	public void validateChanges() {
 		getGenericTableController().validateChanges();
+	}
+
+	/**
+	 * @return the data contained in the {@link GenericTable}.
+	 */
+	public Collection<T> retrieveData() {
+		return initialDataObjectsList;
 	}
 }
