@@ -12,8 +12,7 @@ import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.service.DataObjectService;
 
 public abstract class DataObjectServiceImpl<T extends DataObjectDto, U extends DataObject>
-		implements
-		DataObjectService<T> {
+		implements DataObjectService<T> {
 
 	@Override
 	@Transactional
@@ -26,9 +25,9 @@ public abstract class DataObjectServiceImpl<T extends DataObjectDto, U extends D
 	@Override
 	@Transactional
 	public T update(T dto) {
-		U domain = getConverter().convertToEntity(dto);
-		U saved = getDao().save(domain);
-		return getConverter().convertToDto(saved);
+		U domain = getDao().findById(dto.getId());
+		getConverter().feedEntityWithDto(domain, dto);
+		return getConverter().convertToDto(domain);
 	}
 
 	@Override
@@ -60,7 +59,8 @@ public abstract class DataObjectServiceImpl<T extends DataObjectDto, U extends D
 	@Transactional
 	public List<T> searchByCriterium(Object criterium) {
 		List<T> result = new ArrayList<T>();
-		for (U entity : getDao().findByIndexLikeIgnoreCase("%"+criterium.toString()+"%")) {
+		for (U entity : getDao().findByIndexLikeIgnoreCase(
+				"%" + criterium.toString() + "%")) {
 			result.add(getConverter().convertToDto(entity));
 		}
 		return result;

@@ -21,4 +21,9 @@ public class TeamConverterImpl extends ConverterImpl<Team, TeamDto> implements
 	public Team convertToEntity(TeamDto dto) {
 		return getDozerBeanMapper().map(dto, TeamImpl.class, "team");
 	}
+
+	@Override
+	public void feedEntityWithDto(Team domain, TeamDto dto) {
+		getDozerBeanMapper().map(dto, domain, "team");
+	}
 }

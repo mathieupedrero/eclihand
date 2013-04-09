@@ -21,4 +21,9 @@ public class PlayerConverterImpl extends ConverterImpl<Player, PlayerDto>
 	public Player convertToEntity(PlayerDto dto) {
 		return getDozerBeanMapper().map(dto, PlayerImpl.class, "player");
 	}
+
+	@Override
+	public void feedEntityWithDto(Player domain, PlayerDto dto) {
+		getDozerBeanMapper().map(dto, domain, "player");
+	}
 }

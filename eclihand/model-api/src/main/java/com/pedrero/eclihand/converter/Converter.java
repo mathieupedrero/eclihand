@@ -7,4 +7,6 @@ public interface Converter<T extends DataObject, U extends DataObjectDto> {
 	public U convertToDto(T domain);
 
 	public T convertToEntity(U dto);
+
+	public void feedEntityWithDto(T domain, U dto);
 }

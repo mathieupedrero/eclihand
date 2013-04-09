@@ -9,8 +9,7 @@ import com.pedrero.eclihand.model.dto.PersonDto;
 
 @Component
 public class PersonConverterImpl extends ConverterImpl<Person, PersonDto>
-		implements
- PersonConverter {
+		implements PersonConverter {
 
 	@Override
 	public PersonDto convertToDto(Person domain) {
@@ -20,5 +19,10 @@ public class PersonConverterImpl extends ConverterImpl<Person, PersonDto>
 	@Override
 	public Person convertToEntity(PersonDto dto) {
 		return getDozerBeanMapper().map(dto, PersonImpl.class, "person");
+	}
+
+	@Override
+	public void feedEntityWithDto(Person domain, PersonDto dto) {
+		getDozerBeanMapper().map(dto, domain, "person");
 	}
 }

@@ -23,4 +23,9 @@ public class IllustrableConverterImpl extends
 		return getDozerBeanMapper().map(dto, IllustrableImpl.class,
 				"illustrable");
 	}
+
+	@Override
+	public void feedEntityWithDto(Illustrable domain, IllustrableDto dto) {
+		getDozerBeanMapper().map(dto, domain, "illustrable");
+	}
 }

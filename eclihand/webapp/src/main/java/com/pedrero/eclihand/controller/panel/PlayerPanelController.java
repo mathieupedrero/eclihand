@@ -73,7 +73,7 @@ public class PlayerPanelController implements
 		List<TeamDto> teamList = new ArrayList<TeamDto>(playerPanel
 				.getTeamTable().retrieveData());
 		player.setTeams(teamList);
-		playerService.save(player);
+		playerService.update(player);
 	}
 
 }
