@@ -36,14 +36,18 @@ public class PlayerPanelController implements
 		playerPanel.init();
 	}
 
-	public void searchTeamAndDisplay(Long teamId) {
-		PlayerDto team = playerService.findById(teamId);
-		playerPanel.display(team);
+	public void searchPlayerAndDisplay(Long teamId) {
+		PlayerDto player = playerService.findById(teamId);
+		searchPlayerAndDisplay(player);
+	}
+
+	public void searchPlayerAndDisplay(PlayerDto entity) {
+		playerPanel.display(entity);
 	}
 
 	@Override
 	public void display(PlayerDto entity) {
-		searchTeamAndDisplay(entity.getId());
+		searchPlayerAndDisplay(entity);
 		player = entity;
 	}
 
