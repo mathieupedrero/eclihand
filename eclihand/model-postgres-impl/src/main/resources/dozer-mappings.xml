@@ -3,11 +3,15 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://dozer.sourceforge.net
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
-          
+
+	<configuration>
+		<relationship-type>non-cumulative</relationship-type>
+	</configuration>
+            
   <mapping map-id="team"> 
     <class-a>com.pedrero.eclihand.model.domain.impl.TeamImpl</class-a>
     <class-b>com.pedrero.eclihand.model.dto.TeamDto</class-b>   
-    <field map-id="player-light">
+    <field map-id="player-light" remove-orphans="true">
       <a>players</a>
       <b>players</b>
     </field>  
@@ -32,7 +36,7 @@
   <mapping map-id="player"> 
     <class-a>com.pedrero.eclihand.model.domain.impl.PlayerImpl</class-a>
     <class-b>com.pedrero.eclihand.model.dto.PlayerDto</class-b>   
-    <field map-id="team-light">
+    <field map-id="team-light" remove-orphans="true">
       <a>teams</a>
       <b>teams</b>
     </field>
