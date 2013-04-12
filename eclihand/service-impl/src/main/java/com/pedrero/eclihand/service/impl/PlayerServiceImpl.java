@@ -62,7 +62,15 @@ public class PlayerServiceImpl extends DataObjectServiceImpl<PlayerDto, Player>
 	@Override
 	@Transactional
 	public PlayerDto save(PlayerDto dto) {
-		return super.save(dto);
+		PlayerDto saved = super.save(dto);
+		Player<Person, Team> player = playerDao.findById(saved.getId());
+		for (TeamDto teamDto : dto.getTeams()) {
+			Team<Player> team = teamDao.findById(teamDto.getId());
+			team.getPlayers().add(player);
+			player.getTeams().add(team);
+			saved.getTeams().add(teamDto);
+		}
+		return saved;
 	}
 
 	/*
