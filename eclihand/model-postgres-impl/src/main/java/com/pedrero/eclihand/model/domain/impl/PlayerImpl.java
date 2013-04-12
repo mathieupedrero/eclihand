@@ -9,62 +9,43 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import com.pedrero.eclihand.model.domain.Person;
 import com.pedrero.eclihand.model.domain.Player;
+import com.pedrero.eclihand.model.domain.Team;
 
 @Entity
 @Table(name = "PLA_PLAYER")
 @PrimaryKeyJoinColumn(name = "ID")
 public class PlayerImpl extends IllustrableImpl implements
-		Player<PersonImpl, TeamImpl> {
+ Player {
 
-	private PersonImpl playerPerson;
-
-	private Set<TeamImpl> teams;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.pedrero.eclihand.model.domain.impl.Player#getPlayerPerson()
-	 */
-	@Override
 	@OneToOne
 	@JoinColumn(name = "PLA_PER_ID")
+	private PersonImpl playerPerson;
+
+	@ManyToMany(mappedBy = "players")
+	private Set<TeamImpl> teams;
+
+	@Override
 	public PersonImpl getPlayerPerson() {
 		return playerPerson;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.pedrero.eclihand.model.domain.impl.Player#setPlayerPerson(com.pedrero
-	 * .eclihand.model.domain.impl.PersonImpl)
-	 */
 	@Override
-	public void setPlayerPerson(PersonImpl playerPerson) {
-		this.playerPerson = playerPerson;
+	public void setPlayerPerson(Person playerPerson) {
+		this.playerPerson = (PersonImpl) playerPerson;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.pedrero.eclihand.model.domain.impl.Player#getTeams()
-	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	@ManyToMany(mappedBy = "players")
-	public Set<TeamImpl> getTeams() {
-		return teams;
+	public Set<Team> getTeams() {
+		return (Set) this.teams;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.pedrero.eclihand.model.domain.impl.Player#setTeams(java.util.List)
-	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public void setTeams(Set<TeamImpl> teams) {
-		this.teams = teams;
+	public void setTeams(Set<Team> teams) {
+		this.teams = (Set) teams;
 	}
 
 }

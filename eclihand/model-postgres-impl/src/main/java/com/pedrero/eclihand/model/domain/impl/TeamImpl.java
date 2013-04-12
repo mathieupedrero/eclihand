@@ -13,75 +13,48 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.pedrero.eclihand.model.domain.Gender;
+import com.pedrero.eclihand.model.domain.Player;
 import com.pedrero.eclihand.model.domain.Team;
 
 @Entity
 @Table(name = "TEA_TEAM")
 @PrimaryKeyJoinColumn(name = "ID")
-public class TeamImpl extends IllustrableImpl implements Team<PlayerImpl> {
+public class TeamImpl extends IllustrableImpl implements Team {
 
+	@Column(name = "TEA_YEAR")
 	private Integer year;
 
+	@ManyToMany
+	@JoinTable(name = "AFF_PLAYER_TEAM_AFFILIATION", joinColumns = @JoinColumn(name = "AFF_TEA_ID"), inverseJoinColumns = @JoinColumn(name = "AFF_PLA_ID"))
 	private Set<PlayerImpl> players;
 
+	@Column(name = "TEA_GENDER")
+	@Enumerated(EnumType.STRING)
 	private Gender gender;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.pedrero.eclihand.model.domain.Team#getYear()
-	 */
 	@Override
-	@Column(name = "TEA_YEAR")
 	public Integer getYear() {
 		return year;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.pedrero.eclihand.model.domain.Team#setYear(java.lang.Integer)
-	 */
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.pedrero.eclihand.model.domain.Team#setYear(java.lang.Integer)
-	 */
 	@Override
 	public void setYear(Integer year) {
 		this.year = year;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.pedrero.eclihand.model.domain.Team#getPlayers()
-	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	@ManyToMany
-	@JoinTable(name = "AFF_PLAYER_TEAM_AFFILIATION", joinColumns = @JoinColumn(name = "AFF_TEA_ID"), inverseJoinColumns = @JoinColumn(name = "AFF_PLA_ID"))
-	public Set<PlayerImpl> getPlayers() {
-		return players;
+	public Set<Player> getPlayers() {
+		return (Set) players;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.pedrero.eclihand.model.domain.Team#setPlayers(java.util.List)
-	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public void setPlayers(Set<PlayerImpl> players) {
-		this.players = players;
+	public void setPlayers(Set<Player> players) {
+		this.players = (Set) players;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.pedrero.eclihand.model.domain.Team#getGender()
-	 */
 	@Override
-	@Column(name = "TEA_GENDER")
-	@Enumerated(EnumType.STRING)
 	public Gender getGender() {
 		return gender;
 	}

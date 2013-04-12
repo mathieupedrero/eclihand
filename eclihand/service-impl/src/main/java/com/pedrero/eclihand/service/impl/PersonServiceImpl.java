@@ -10,7 +10,6 @@ import com.pedrero.eclihand.model.domain.Person;
 import com.pedrero.eclihand.model.dto.PersonDto;
 import com.pedrero.eclihand.service.PersonService;
 
-@SuppressWarnings("rawtypes")
 @Service
 public class PersonServiceImpl extends DataObjectServiceImpl<PersonDto, Person>
 		implements PersonService {
@@ -18,7 +17,7 @@ public class PersonServiceImpl extends DataObjectServiceImpl<PersonDto, Person>
 	private PersonConverter personConverter;
 
 	@Resource
-	private PersonDao personDao;
+	private PersonDao<Person> personDao;
 
 	@Override
 	public PersonConverter getConverter() {
@@ -30,11 +29,11 @@ public class PersonServiceImpl extends DataObjectServiceImpl<PersonDto, Person>
 	}
 
 	@Override
-	public PersonDao getDao() {
+	public PersonDao<Person> getDao() {
 		return personDao;
 	}
 
-	public void setPersonDao(PersonDao personDao) {
+	public void setPersonDao(PersonDao<Person> personDao) {
 		this.personDao = personDao;
 	}
 

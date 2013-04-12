@@ -12,14 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.pedrero.eclihand.converter.PlayerConverter;
 import com.pedrero.eclihand.dao.PlayerDao;
 import com.pedrero.eclihand.dao.TeamDao;
-import com.pedrero.eclihand.model.domain.Person;
 import com.pedrero.eclihand.model.domain.Player;
 import com.pedrero.eclihand.model.domain.Team;
 import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.service.PlayerService;
 
-@SuppressWarnings("rawtypes")
 @Service
 public class PlayerServiceImpl extends DataObjectServiceImpl<PlayerDto, Player>
 		implements PlayerService {
@@ -51,21 +49,13 @@ public class PlayerServiceImpl extends DataObjectServiceImpl<PlayerDto, Player>
 		this.playerDao = playerDao;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.pedrero.eclihand.service.impl.DataObjectServiceImpl#save(com.pedrero
-	 * .eclihand.model.dto.DataObjectDto)
-	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
 	public PlayerDto save(PlayerDto dto) {
 		PlayerDto saved = super.save(dto);
-		Player<Person, Team> player = playerDao.findById(saved.getId());
+		Player player = playerDao.findById(saved.getId());
 		for (TeamDto teamDto : dto.getTeams()) {
-			Team<Player> team = teamDao.findById(teamDto.getId());
+			Team team = teamDao.findById(teamDto.getId());
 			team.getPlayers().add(player);
 			player.getTeams().add(team);
 			saved.getTeams().add(teamDto);
@@ -73,24 +63,16 @@ public class PlayerServiceImpl extends DataObjectServiceImpl<PlayerDto, Player>
 		return saved;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.pedrero.eclihand.service.impl.DataObjectServiceImpl#update(com.pedrero
-	 * .eclihand.model.dto.DataObjectDto)
-	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
 	public PlayerDto update(PlayerDto dto) {
-		Player<Person, Team> player = playerDao.findById(dto.getId());
+		Player player = playerDao.findById(dto.getId());
 		for (Team team : player.getTeams()) {
 			team.getPlayers().remove(player);
 		}
 		player.getTeams().clear();
 		for (TeamDto teamDto : dto.getTeams()) {
-			Team<Player> team = teamDao.findById(teamDto.getId());
+			Team team = teamDao.findById(teamDto.getId());
 			team.getPlayers().add(player);
 			player.getTeams().add(team);
 		}

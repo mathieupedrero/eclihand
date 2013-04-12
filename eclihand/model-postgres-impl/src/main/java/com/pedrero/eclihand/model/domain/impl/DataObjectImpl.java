@@ -14,8 +14,11 @@ import com.pedrero.eclihand.model.domain.DataObject;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class DataObjectImpl implements DataObject {
 
+	@Id
+	@Column(name = "ID")
 	private Long id;
-	
+
+	@Column(name = "OBJ_INDEX")
 	private String index;
 
 	public DataObjectImpl() {
@@ -23,8 +26,6 @@ public class DataObjectImpl implements DataObject {
 	}
 
 	@Override
-	@Id
-	@Column(name = "ID")
 	public Long getId() {
 		return id;
 	}
@@ -35,7 +36,6 @@ public class DataObjectImpl implements DataObject {
 	}
 
 	@Override
-	@Column(name = "OBJ_INDEX")
 	public String getIndex() {
 		return index;
 	}

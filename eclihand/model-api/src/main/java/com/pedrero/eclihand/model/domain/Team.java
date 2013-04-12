@@ -2,16 +2,15 @@ package com.pedrero.eclihand.model.domain;
 
 import java.util.Set;
 
-@SuppressWarnings("rawtypes")
-public interface Team<P extends Player> extends Illustrable {
+public interface Team extends Illustrable {
 
 	public abstract Integer getYear();
 
 	public abstract void setYear(Integer year);
 
-	public Set<P> getPlayers();
+	public Set<Player> getPlayers();
 
-	public void setPlayers(Set<P> players);
+	public void setPlayers(Set<Player> players);
 
 	public Gender getGender();
 

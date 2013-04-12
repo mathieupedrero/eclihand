@@ -2,15 +2,14 @@ package com.pedrero.eclihand.model.domain;
 
 import java.util.Set;
 
-@SuppressWarnings("rawtypes")
-public interface Player<P extends Person, T extends Team> extends Illustrable {
+public interface Player extends Illustrable {
 
-	public abstract P getPlayerPerson();
+	public abstract Person getPlayerPerson();
 
-	public abstract void setPlayerPerson(P playerPerson);
+	public abstract void setPlayerPerson(Person playerPerson);
 
-	public abstract Set<T> getTeams();
+	public abstract Set<Team> getTeams();
 
-	public abstract void setTeams(Set<T> teams);
+	public abstract void setTeams(Set<Team> teams);
 
 }

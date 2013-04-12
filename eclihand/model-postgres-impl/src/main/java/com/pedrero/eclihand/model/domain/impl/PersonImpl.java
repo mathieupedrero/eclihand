@@ -18,103 +18,55 @@ import com.pedrero.eclihand.model.domain.Person;
 @Table(name = "PER_PERSON")
 @PrimaryKeyJoinColumn(name = "ID")
 public class PersonImpl extends IllustrableImpl implements Person {
+	@Column(name = "PER_FIRST_NAME")
 	private String firstName;
 
+	@Column(name = "PER_LAST_NAME")
 	private String lastName;
 
+	@Column(name = "PER_BIRTH_DATE")
+	@Temporal(TemporalType.DATE)
 	private Date birthDate;
 
+	@Column(name = "PER_GENDER")
+	@Enumerated(EnumType.STRING)
 	private Gender gender;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.pedrero.eclihand.model.domain.impl.Person#getFirstName()
-	 */
 	@Override
-	@Column(name = "PER_FIRST_NAME")
 	public String getFirstName() {
 		return firstName;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.pedrero.eclihand.model.domain.impl.Person#setFirstName(java.lang.
-	 * String)
-	 */
 	@Override
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.pedrero.eclihand.model.domain.impl.Person#getLastName()
-	 */
 	@Override
-	@Column(name = "PER_LAST_NAME")
 	public String getLastName() {
 		return lastName;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.pedrero.eclihand.model.domain.impl.Person#setLastName(java.lang.String
-	 * )
-	 */
 	@Override
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.pedrero.eclihand.model.domain.impl.Person#getBirthDate()
-	 */
 	@Override
-	@Column(name = "PER_BIRTH_DATE")
-	@Temporal(TemporalType.DATE)
 	public Date getBirthDate() {
 		return birthDate;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.pedrero.eclihand.model.domain.impl.Person#setBirthDate(java.util.
-	 * Date)
-	 */
 	@Override
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.pedrero.eclihand.model.domain.impl.Person#getGender()
-	 */
 	@Override
-	@Column(name = "PER_GENDER")
-	@Enumerated(EnumType.STRING)
 	public Gender getGender() {
 		return gender;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.pedrero.eclihand.model.domain.impl.Person#setGender(com.pedrero.eclihand
-	 * .model.domain.Gender)
-	 */
 	@Override
 	public void setGender(Gender gender) {
 		this.gender = gender;

@@ -7,7 +7,6 @@ import com.pedrero.eclihand.model.domain.Team;
 import com.pedrero.eclihand.model.domain.impl.TeamImpl;
 import com.pedrero.eclihand.model.dto.TeamDto;
 
-@SuppressWarnings("rawtypes")
 @Component
 public class TeamConverterImpl extends ConverterImpl<Team, TeamDto> implements
 		TeamConverter {

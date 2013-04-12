@@ -7,7 +7,6 @@ import com.pedrero.eclihand.model.domain.Player;
 import com.pedrero.eclihand.model.domain.impl.PlayerImpl;
 import com.pedrero.eclihand.model.dto.PlayerDto;
 
-@SuppressWarnings("rawtypes")
 @Component
 public class PlayerConverterImpl extends ConverterImpl<Player, PlayerDto>
 		implements PlayerConverter {
