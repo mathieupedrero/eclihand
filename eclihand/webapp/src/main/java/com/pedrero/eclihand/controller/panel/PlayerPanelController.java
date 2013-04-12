@@ -37,8 +37,9 @@ public class PlayerPanelController implements
 	}
 
 	public void searchPlayerAndDisplay(Long teamId) {
-		PlayerDto player = playerService.findById(teamId);
-		searchPlayerAndDisplay(player);
+		PlayerDto entity = playerService.findById(teamId);
+		searchPlayerAndDisplay(entity);
+		player = entity;
 	}
 
 	public void searchPlayerAndDisplay(PlayerDto entity) {
@@ -47,8 +48,7 @@ public class PlayerPanelController implements
 
 	@Override
 	public void display(PlayerDto entity) {
-		searchPlayerAndDisplay(entity);
-		player = entity;
+		searchPlayerAndDisplay(entity.getId());
 	}
 
 	@Override
