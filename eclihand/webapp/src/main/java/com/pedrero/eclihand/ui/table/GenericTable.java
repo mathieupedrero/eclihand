@@ -17,6 +17,7 @@ import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.ui.table.config.TableColumnConfig;
 import com.pedrero.eclihand.ui.table.config.TableConfig;
 import com.pedrero.eclihand.utils.DisplayedEntity;
+import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
@@ -31,7 +32,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 
 public class GenericTable<T extends DataObjectDto> extends Panel implements
-		UpdatableContentDisplayer {
+		UpdatableContentDisplayer, Initiable {
 
 	private Table dataTable;
 
@@ -91,10 +92,14 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 	 */
 	private static final long serialVersionUID = -5410222330558478558L;
 
+	/**
+	 * Creates a freshly new {@link GenericTable}
+	 */
 	public GenericTable() {
 		super();
 	}
 
+	@Override
 	public void init() {
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		this.setContent(layout);
@@ -115,6 +120,9 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 		layout.addComponent(buttonsLayout);
 	}
 
+	/**
+	 * Refreshes visibility and accessibility for the {@link GenericTable}
+	 */
 	public void refreshButtonsState() {
 		removeAll.setVisible(updatable);
 		removeAll.setEnabled(updatable);
@@ -219,6 +227,9 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 		});
 	}
 
+	/**
+	 * Initializes the {@link GenericTable} (creates columns...).
+	 */
 	public void dataTableInit() {
 		dataTable.setSelectable(getTableConfig().getCanSelect());
 		dataTable.setMultiSelect(getTableConfig().getCanMultiSelect());
@@ -251,6 +262,12 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 				.getCaptionKey()));
 	}
 
+	/**
+	 * Adds {@link DataObjectDto} to the {@link GenericTable}.
+	 * 
+	 * @param object
+	 *            the {@link DataObjectDto} to add
+	 */
 	@SuppressWarnings("unchecked")
 	public void add(T object) {
 		DisplayedEntity<T> displayedEntity = new DisplayedEntity<T>();
@@ -350,38 +367,74 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 		}
 	}
 
+	/**
+	 * Adds many {@link DataObjectDto} to this {@link GenericTable}.
+	 * 
+	 * @param objects
+	 *            The {@link DataObjectDto} to add to the {@link GenericTable}
+	 */
 	public void add(Iterable<T> objects) {
 		for (T object : objects) {
 			add(object);
 		}
 	}
 
+	/**
+	 * Initializes data of the {@link GenericTable} feedng it with the submitted
+	 * objects.
+	 * 
+	 * @param objects
+	 *            the {@link DataObjectDto} to initialize with the
+	 *            {@link GenericTable}
+	 */
 	public void feed(Collection<T> objects) {
 		initialDataObjectsList = objects;
 		add(objects);
 	}
 
+	/**
+	 * Removes an element from the {@link GenericTable}.
+	 * 
+	 * @param object
+	 *            the {@link DataObjectDto} to remove
+	 */
 	public void remove(T object) {
 		container.removeItem(object.getId());
 		dataObjects.remove(object.getId());
 	}
 
+	/**
+	 * Removes many {@link DataObjectDto} from the {@link GenericTable}.
+	 * 
+	 * @param objects
+	 *            the {@link DataObjectDto}s to remove
+	 */
 	public void remove(Iterable<T> objects) {
 		for (T object : objects) {
 			remove(object);
 		}
 	}
 
+	/**
+	 * Clears the {@link GenericTable} from its contained objects.
+	 */
 	public void removeAllDataObjects() {
 		container.removeAllItems();
 		dataObjects.clear();
 	}
 
+	/**
+	 * Refreshes the {@link GenericTable} with the initial {@link DataObjectDto}
+	 * list.
+	 */
 	public void refreshData() {
 		this.removeAllDataObjects();
 		this.add(initialDataObjectsList);
 	}
 
+	/**
+	 * Commits the modifications made to the {@link GenericTable} data.
+	 */
 	public void saveData() {
 		List<T> entityDisplayed = new ArrayList<T>();
 
@@ -393,6 +446,11 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 		initialDataObjectsList = entityDisplayed;
 	}
 
+	/**
+	 * Retrieves the {@link GenericTable} selection
+	 * 
+	 * @return
+	 */
 	public Collection<T> retrieveSelection() {
 		List<T> selection = new ArrayList<T>();
 		for (Object itemId : dataTable.getItemIds()) {
@@ -403,31 +461,70 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 		return selection;
 	}
 
+	/**
+	 * @return the {@link EntityDisplayerController} associated to this
+	 *         {@link GenericTable}
+	 */
 	public EntityDisplayerController<T> getEntityDisplayerController() {
 		return entityDisplayerController;
 	}
 
+	/**
+	 * Sets the {@link EntityDisplayerController} associated to this
+	 * {@link GenericTable}
+	 * 
+	 * @param entityDisplayerController
+	 *            the {@link EntityDisplayerController} to associate with this
+	 *            {@link GenericTable}
+	 */
 	public void setEntityDisplayerController(
 			EntityDisplayerController<T> entityDisplayerController) {
 		this.entityDisplayerController = entityDisplayerController;
 	}
 
+	/**
+	 * Gets the {@link TableConfig}
+	 * 
+	 * @return the {@link TableConfig}
+	 */
 	public TableConfig getTableConfig() {
 		return tableConfig;
 	}
 
+	/**
+	 * Sets the {@link TableConfig}
+	 * 
+	 * @param tableConfig
+	 *            the {@link TableConfig} to set.
+	 */
 	public void setTableConfig(TableConfig tableConfig) {
 		this.tableConfig = tableConfig;
 	}
 
+	/**
+	 * Gets the Updatable flag.
+	 * 
+	 * @return the Updatable flag
+	 */
 	public Boolean getUpdatable() {
 		return updatable;
 	}
 
+	/**
+	 * Sets the updatable flag.
+	 * 
+	 * @param updatable
+	 *            the updatable flag
+	 */
 	public void setUpdatable(Boolean updatable) {
 		this.updatable = updatable;
 	}
 
+	/**
+	 * Sets the controller of the {@link GenericTable}
+	 * 
+	 * @return the controller of the {@link GenericTable}
+	 */
 	public GenericTableController<T> getGenericTableController() {
 		return genericTableController;
 	}
@@ -441,40 +538,26 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 		this.genericTableController = genericTableController;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.pedrero.eclihand.utils.UpdatableContentDisplayer#makeUpdatable()
-	 */
 	@Override
 	public void makeUpdatable() {
 		getGenericTableController().makeUpdatable();
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.pedrero.eclihand.utils.UpdatableContentDisplayer#makeReadOnly()
-	 */
 	@Override
 	public void makeReadOnly() {
 		getGenericTableController().makeReadOnly();
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.pedrero.eclihand.utils.UpdatableContentDisplayer#validateChanges()
-	 */
 	@Override
 	public void validateChanges() {
 		getGenericTableController().validateChanges();
 	}
 
 	/**
+	 * retrieves the data contained in the {@link GenericTable}
+	 * 
 	 * @return the data contained in the {@link GenericTable}.
 	 */
 	public Collection<T> retrieveData() {
