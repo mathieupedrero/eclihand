@@ -1,5 +1,8 @@
 package com.pedrero.eclihand.controller.panel;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Scope;
@@ -36,6 +39,8 @@ public class TeamPanelController implements EntityDisplayerController<TeamDto>,
 	@Resource
 	private PlayerService playerService;
 
+	private TeamDto team;
+
 	@Override
 	public void init() {
 		teamPanel.init();
@@ -43,16 +48,17 @@ public class TeamPanelController implements EntityDisplayerController<TeamDto>,
 
 	@Transactional
 	public void searchTeamAndDisplay(Long teamId) {
-		TeamDto team = teamService.findById(teamId);
-		for (PlayerDto player : team.getPlayers()) {
+		TeamDto entity = teamService.findById(teamId);
+		for (PlayerDto player : entity.getPlayers()) {
 			Integer ageWhenPlayingForTeam = playerService
 					.computeAgeForPlayerWhenPlayingForTeam(player.getId(),
-							team.getId());
+							entity.getId());
 			player.getOtherProperties().put(AGE_WHEN_PLAYING_FOR_TEAM,
 					ageWhenPlayingForTeam);
 		}
 
-		teamPanel.display(team);
+		team = entity;
+		teamPanel.display(entity);
 	}
 
 	@Override
@@ -68,20 +74,26 @@ public class TeamPanelController implements EntityDisplayerController<TeamDto>,
 
 	@Override
 	public void makeUpdatable() {
-		// TODO Auto-generated method stub
-
+		teamPanel.setUpdatable(true);
+		teamPanel.getTeamPropertyDisplayer().makeUpdatable();
+		teamPanel.getPlayerTable().makeUpdatable();
 	}
 
 	@Override
 	public void makeReadOnly() {
-		// TODO Auto-generated method stub
+		teamPanel.setUpdatable(false);
+		teamPanel.getTeamPropertyDisplayer().makeUpdatable();
+		teamPanel.getPlayerTable().makeUpdatable();
 
 	}
 
 	@Override
 	public void validateChanges() {
-		// TODO Auto-generated method stub
-
+		teamPanel.getTeamPropertyDisplayer().validateChanges();
+		teamPanel.getPlayerTable().validateChanges();
+		Set<PlayerDto> players = new HashSet<PlayerDto>(teamPanel
+				.getPlayerTable().retrieveData());
+		team.setPlayers(players);
+		teamService.update(team);
 	}
-
 }

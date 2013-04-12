@@ -56,8 +56,55 @@ public class TeamPanel extends EclihandMainPanel implements
 	 */
 	private Button validateChanges;
 
+	/**
+	 * @return the updatable
+	 */
+	public Boolean getUpdatable() {
+		return updatable;
+	}
+
+	/**
+	 * @param updatable
+	 *            the updatable to set
+	 */
+	public void setUpdatable(Boolean updatable) {
+		this.updatable = updatable;
+	}
+
+	/**
+	 * @return the teamPropertyDisplayer
+	 */
+	public GenericPropertyDisplayer<TeamDto> getTeamPropertyDisplayer() {
+		return teamPropertyDisplayer;
+	}
+
+	/**
+	 * @param teamPropertyDisplayer
+	 *            the teamPropertyDisplayer to set
+	 */
+	public void setTeamPropertyDisplayer(
+			GenericPropertyDisplayer<TeamDto> teamPropertyDisplayer) {
+		this.teamPropertyDisplayer = teamPropertyDisplayer;
+	}
+
+	/**
+	 * @return the playerTable
+	 */
+	public GenericTable<PlayerDto> getPlayerTable() {
+		return playerTable;
+	}
+
+	/**
+	 * @param playerTable
+	 *            the playerTable to set
+	 */
+	public void setPlayerTable(GenericTable<PlayerDto> playerTable) {
+		this.playerTable = playerTable;
+	}
+
 	@Override
 	public void display(TeamDto entity) {
+		updatable = false;
 		teamPropertyDisplayer.display(entity);
 		playerTable.removeAllDataObjects();
 		playerTable.feed(entity.getPlayers());
@@ -65,6 +112,7 @@ public class TeamPanel extends EclihandMainPanel implements
 
 	@Override
 	public void init() {
+		updatable = false;
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		this.setContent(layout);
 
