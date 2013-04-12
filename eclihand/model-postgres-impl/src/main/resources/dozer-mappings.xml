@@ -40,6 +40,10 @@
       <a>teams</a>
       <b>teams</b>
     </field>
+    <field map-id="person-light">
+      <a>playerPerson</a>
+      <b>playerPerson</b>
+    </field>
     <field-exclude>
       <a>otherProperties</a>
       <b>otherProperties</b>
@@ -47,7 +51,11 @@
   </mapping> 
   <mapping map-id="player-light">
     <class-a>com.pedrero.eclihand.model.domain.impl.PlayerImpl</class-a>
-    <class-b>com.pedrero.eclihand.model.dto.PlayerDto</class-b>     
+    <class-b>com.pedrero.eclihand.model.dto.PlayerDto</class-b>    
+    <field map-id="person-light">
+      <a>playerPerson</a>
+      <b>playerPerson</b>
+    </field> 
     <field-exclude>
       <a>teams</a>
       <b>teams</b>
