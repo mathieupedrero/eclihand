@@ -18,83 +18,83 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.BaseTheme;
 
 @Component
-public class EclihandUiFactoryImpl implements EclihandUiFactory{
-	
+public class EclihandUiFactoryImpl implements EclihandUiFactory {
+
 	@Resource
 	private LocaleContainer localeContainer;
-	
+
 	@Override
-	public Panel createMainPanel(){
+	public Panel createMainPanel() {
 		Panel panel = new Panel();
 		panel.setLocale(localeContainer.getLocale());
 		return panel;
 	}
-	
+
 	@Override
-	public Panel createSubPanel(){
+	public Panel createSubPanel() {
 		Panel panel = new Panel();
 		panel.setLocale(localeContainer.getLocale());
 		return panel;
 	}
-	
+
 	@Override
-	public Label createTitleLabel(){
+	public Label createTitleLabel() {
 		Label label = new Label();
 		label.setLocale(localeContainer.getLocale());
 		return label;
 	}
-	
+
 	@Override
-	public Label createSubTitleLabel(){
+	public Label createSubTitleLabel() {
 		Label label = new Label();
 		label.setLocale(localeContainer.getLocale());
 		return label;
 	}
-	
+
 	@Override
-	public Label createLabel(){
+	public Label createLabel() {
 		Label label = new Label();
 		label.setLocale(localeContainer.getLocale());
 		return label;
 	}
-	
+
 	@Override
-	public Table createEntityTable(){
+	public Table createEntityTable() {
 		Table table = new Table();
 		table.setLocale(localeContainer.getLocale());
 		return table;
 	}
-	
+
 	@Override
-	public TextField createTextField(){
+	public TextField createTextField() {
 		TextField textField = new TextField();
 		textField.setLocale(localeContainer.getLocale());
 		return textField;
 	}
-	
+
 	@Override
-	public DateField createDateField(){
+	public DateField createDateField() {
 		DateField dateField = new DateField();
 		dateField.setLocale(localeContainer.getLocale());
 		return dateField;
 	}
-	
+
 	@Override
-	public DateField createDateHourField(){
+	public DateField createDateHourField() {
 		DateField dateField = new DateField();
 		dateField.setLocale(localeContainer.getLocale());
 		return dateField;
 	}
-	
+
 	@Override
-	public ComboBox createComboBox(){
+	public ComboBox createComboBox() {
 		ComboBox comboBox = new ComboBox();
 		comboBox.setLocale(localeContainer.getLocale());
 		return comboBox;
 	}
-	
+
 	@Override
-	public Button createButton(){
+	public Button createButton() {
 		Button button = new Button();
 		button.setLocale(localeContainer.getLocale());
 		return button;
@@ -120,8 +120,9 @@ public class EclihandUiFactoryImpl implements EclihandUiFactory{
 		ProgressIndicator progressIndicator = new ProgressIndicator();
 		progressIndicator.setIndeterminate(true);
 		progressIndicator.setEnabled(false);
-		progressIndicator.setPollingInterval(1);
+		progressIndicator.setPollingInterval(20);
+		progressIndicator.setVisible(false);
 		return progressIndicator;
 	}
-	
+
 }

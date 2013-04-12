@@ -3,9 +3,6 @@ package com.pedrero.eclihand.controller.window;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-
 import com.pedrero.eclihand.controller.EclihandController;
 import com.pedrero.eclihand.controller.WindowController;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
@@ -43,8 +40,8 @@ public class GenericSearchModalWindowController<T extends DataObjectDto>
 
 	public void searchAndDisplay(String criterium) {
 		getGenericSearchModalWindow().getProgressIndicator().setEnabled(true);
-		UIAction action = new SearchAndDisplayUIAction(criterium,
-				RequestContextHolder.getRequestAttributes());
+		getGenericSearchModalWindow().getProgressIndicator().setVisible(true);
+		UIAction action = new SearchAndDisplayUIAction(criterium);
 		AsynchronousUIWorker worker = new AsynchronousUIWorker();
 		worker.setAction(action);
 		worker.start();
@@ -58,27 +55,23 @@ public class GenericSearchModalWindowController<T extends DataObjectDto>
 
 	private class SearchAndDisplayUIAction implements UIAction {
 
-		public SearchAndDisplayUIAction(String criterium,
-				RequestAttributes attributes) {
+		public SearchAndDisplayUIAction(String criterium) {
 			super();
 			this.criterium = criterium;
-			this.attributes = attributes;
 		}
 
 		private String criterium;
 
-		private RequestAttributes attributes;
-
 		@Override
 		public void run() {
-			RequestContextHolder.setRequestAttributes(attributes);
 			List<T> results = getService().searchByCriterium(criterium);
 			synchronized (getGenericSearchModalWindow().getUI()) {
 				getGenericSearchModalWindow().feedTableWith(results);
 				getGenericSearchModalWindow().getProgressIndicator()
+						.setVisible(false);
+				getGenericSearchModalWindow().getProgressIndicator()
 						.setEnabled(false);
 			}
-			RequestContextHolder.resetRequestAttributes();
 
 		}
 
