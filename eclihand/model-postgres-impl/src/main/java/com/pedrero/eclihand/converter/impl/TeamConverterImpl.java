@@ -23,7 +23,7 @@ public class TeamConverterImpl extends ConverterImpl<Team, TeamDto> implements
 	}
 
 	@Override
-	public void feedEntityWithDto(Team domain, TeamDto dto) {
-		getDozerBeanMapper().map(dto, domain, "team");
+	public void lightFeedEntityWithDto(Team domain, TeamDto dto) {
+		getDozerBeanMapper().map(dto, domain, "team-light");
 	}
 }

@@ -22,7 +22,7 @@ public class PersonConverterImpl extends ConverterImpl<Person, PersonDto>
 	}
 
 	@Override
-	public void feedEntityWithDto(Person domain, PersonDto dto) {
-		getDozerBeanMapper().map(dto, domain, "person");
+	public void lightFeedEntityWithDto(Person domain, PersonDto dto) {
+		getDozerBeanMapper().map(dto, domain, "person-light");
 	}
 }

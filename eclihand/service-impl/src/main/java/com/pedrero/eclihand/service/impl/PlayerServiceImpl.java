@@ -12,16 +12,18 @@ import org.springframework.transaction.annotation.Transactional;
 import com.pedrero.eclihand.converter.PlayerConverter;
 import com.pedrero.eclihand.dao.PlayerDao;
 import com.pedrero.eclihand.dao.TeamDao;
+import com.pedrero.eclihand.model.domain.Person;
 import com.pedrero.eclihand.model.domain.Player;
 import com.pedrero.eclihand.model.domain.Team;
 import com.pedrero.eclihand.model.dto.PlayerDto;
+import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.service.PlayerService;
 
 @SuppressWarnings("rawtypes")
 @Service
-public class PlayerServiceImpl extends
- DataObjectServiceImpl<PlayerDto, Player>
+public class PlayerServiceImpl extends DataObjectServiceImpl<PlayerDto, Player>
 		implements PlayerService {
+
 	@Resource
 	private PlayerConverter playerConverter;
 
@@ -49,6 +51,44 @@ public class PlayerServiceImpl extends
 		this.playerDao = playerDao;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.service.impl.DataObjectServiceImpl#save(com.pedrero
+	 * .eclihand.model.dto.DataObjectDto)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public PlayerDto save(PlayerDto dto) {
+		return super.save(dto);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.service.impl.DataObjectServiceImpl#update(com.pedrero
+	 * .eclihand.model.dto.DataObjectDto)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public PlayerDto update(PlayerDto dto) {
+		Player<Person, Team> player = playerDao.findById(dto.getId());
+		for (Team team : player.getTeams()) {
+			team.getPlayers().remove(player);
+		}
+		player.getTeams().clear();
+		for (TeamDto teamDto : dto.getTeams()) {
+			Team<Player> team = teamDao.findById(teamDto.getId());
+			team.getPlayers().add(player);
+			player.getTeams().add(team);
+		}
+		return super.update(dto);
+	}
+
 	@Override
 	public Integer computeAgeForPlayerWhenPlayingForTeam(Long playerId,
 			Long teamId) {
@@ -56,17 +96,20 @@ public class PlayerServiceImpl extends
 		Player player = playerDao.findById(playerId);
 		GregorianCalendar playerBirthDate = new GregorianCalendar();
 		playerBirthDate.setTime(player.getPlayerPerson().getBirthDate());
-		Integer playerBirthDateYear = playerBirthDate.get(GregorianCalendar.YEAR);
+		Integer playerBirthDateYear = playerBirthDate
+				.get(GregorianCalendar.YEAR);
 		Integer playerBirthDateMonth = playerBirthDate
 				.get(GregorianCalendar.MONTH);
-		return team.getYear() - playerBirthDateYear - ( playerBirthDateMonth<GregorianCalendar.SEPTEMBER ? 1 : 2);
+		return team.getYear() - playerBirthDateYear
+				- (playerBirthDateMonth < GregorianCalendar.SEPTEMBER ? 1 : 2);
 	}
 
 	@Override
 	@Transactional
 	public List<PlayerDto> searchByCriterium(Object criterium) {
 		List<PlayerDto> result = new ArrayList<PlayerDto>();
-		for (Player player : getDao().findByPlayerPersonIndexLikeIgnoreCase("%"+criterium.toString()+"%")) {
+		for (Player player : getDao().findByPlayerPersonIndexLikeIgnoreCase(
+				"%" + criterium.toString() + "%")) {
 			result.add(getConverter().convertToDto(player));
 		}
 		return result;

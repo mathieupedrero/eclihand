@@ -26,7 +26,7 @@ public abstract class DataObjectServiceImpl<T extends DataObjectDto, U extends D
 	@Transactional
 	public T update(T dto) {
 		U domain = getDao().findById(dto.getId());
-		getConverter().feedEntityWithDto(domain, dto);
+		getConverter().lightFeedEntityWithDto(domain, dto);
 		return getConverter().convertToDto(domain);
 	}
 

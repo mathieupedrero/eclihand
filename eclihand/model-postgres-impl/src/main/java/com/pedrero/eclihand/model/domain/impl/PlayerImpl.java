@@ -1,6 +1,6 @@
 package com.pedrero.eclihand.model.domain.impl;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -19,7 +19,7 @@ public class PlayerImpl extends IllustrableImpl implements
 
 	private PersonImpl playerPerson;
 
-	private List<TeamImpl> teams;
+	private Set<TeamImpl> teams;
 
 	/*
 	 * (non-Javadoc)
@@ -52,7 +52,7 @@ public class PlayerImpl extends IllustrableImpl implements
 	 */
 	@Override
 	@ManyToMany(mappedBy = "players")
-	public List<TeamImpl> getTeams() {
+	public Set<TeamImpl> getTeams() {
 		return teams;
 	}
 
@@ -63,7 +63,7 @@ public class PlayerImpl extends IllustrableImpl implements
 	 * com.pedrero.eclihand.model.domain.impl.Player#setTeams(java.util.List)
 	 */
 	@Override
-	public void setTeams(List<TeamImpl> teams) {
+	public void setTeams(Set<TeamImpl> teams) {
 		this.teams = teams;
 	}
 

@@ -1,7 +1,6 @@
 package com.pedrero.eclihand.model.domain;
 
-import java.util.List;
-
+import java.util.Set;
 
 @SuppressWarnings("rawtypes")
 public interface Team<P extends Player> extends Illustrable {
@@ -10,9 +9,9 @@ public interface Team<P extends Player> extends Illustrable {
 
 	public abstract void setYear(Integer year);
 
-	public List<P> getPlayers();
+	public Set<P> getPlayers();
 
-	public void setPlayers(List<P> players);
+	public void setPlayers(Set<P> players);
 
 	public Gender getGender();
 

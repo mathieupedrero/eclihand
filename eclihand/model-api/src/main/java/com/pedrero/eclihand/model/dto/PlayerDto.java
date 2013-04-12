@@ -1,11 +1,11 @@
 package com.pedrero.eclihand.model.dto;
 
-import java.util.List;
+import java.util.Set;
 
 public class PlayerDto extends IllustrableDto {
 	private PersonDto playerPerson;
 
-	private List<TeamDto> teams;
+	private Set<TeamDto> teams;
 
 	public PersonDto getPlayerPerson() {
 		return playerPerson;
@@ -15,11 +15,11 @@ public class PlayerDto extends IllustrableDto {
 		this.playerPerson = playerPerson;
 	}
 
-	public List<TeamDto> getTeams() {
+	public Set<TeamDto> getTeams() {
 		return teams;
 	}
 
-	public void setTeams(List<TeamDto> teams) {
+	public void setTeams(Set<TeamDto> teams) {
 		this.teams = teams;
 	}
 

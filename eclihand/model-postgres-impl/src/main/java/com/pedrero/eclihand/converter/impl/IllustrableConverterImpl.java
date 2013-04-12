@@ -25,7 +25,7 @@ public class IllustrableConverterImpl extends
 	}
 
 	@Override
-	public void feedEntityWithDto(Illustrable domain, IllustrableDto dto) {
-		getDozerBeanMapper().map(dto, domain, "illustrable");
+	public void lightFeedEntityWithDto(Illustrable domain, IllustrableDto dto) {
+		getDozerBeanMapper().map(dto, domain, "illustrable-light");
 	}
 }

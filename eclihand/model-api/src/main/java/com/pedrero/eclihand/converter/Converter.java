@@ -8,5 +8,5 @@ public interface Converter<T extends DataObject, U extends DataObjectDto> {
 
 	public T convertToEntity(U dto);
 
-	public void feedEntityWithDto(T domain, U dto);
+	public void lightFeedEntityWithDto(T domain, U dto);
 }

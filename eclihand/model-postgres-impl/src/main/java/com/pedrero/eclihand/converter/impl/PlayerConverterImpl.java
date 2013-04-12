@@ -23,7 +23,7 @@ public class PlayerConverterImpl extends ConverterImpl<Player, PlayerDto>
 	}
 
 	@Override
-	public void feedEntityWithDto(Player domain, PlayerDto dto) {
-		getDozerBeanMapper().map(dto, domain, "player");
+	public void lightFeedEntityWithDto(Player domain, PlayerDto dto) {
+		getDozerBeanMapper().map(dto, domain, "player-light");
 	}
 }

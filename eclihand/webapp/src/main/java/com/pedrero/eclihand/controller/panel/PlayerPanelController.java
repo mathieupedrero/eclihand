@@ -1,7 +1,7 @@
 package com.pedrero.eclihand.controller.panel;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -74,8 +74,8 @@ public class PlayerPanelController implements
 	public void validateChanges() {
 		playerPanel.getPlayerPropertyDisplayer().validateChanges();
 		playerPanel.getTeamTable().validateChanges();
-		List<TeamDto> teamList = new ArrayList<TeamDto>(playerPanel
-				.getTeamTable().retrieveData());
+		Set<TeamDto> teamList = new HashSet<TeamDto>(playerPanel.getTeamTable()
+				.retrieveData());
 		player.setTeams(teamList);
 		playerService.update(player);
 	}

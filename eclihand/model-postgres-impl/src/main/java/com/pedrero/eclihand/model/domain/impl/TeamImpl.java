@@ -1,6 +1,6 @@
 package com.pedrero.eclihand.model.domain.impl;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +22,7 @@ public class TeamImpl extends IllustrableImpl implements Team<PlayerImpl> {
 
 	private Integer year;
 
-	private List<PlayerImpl> players;
+	private Set<PlayerImpl> players;
 
 	private Gender gender;
 
@@ -60,7 +60,7 @@ public class TeamImpl extends IllustrableImpl implements Team<PlayerImpl> {
 	@Override
 	@ManyToMany
 	@JoinTable(name = "AFF_PLAYER_TEAM_AFFILIATION", joinColumns = @JoinColumn(name = "AFF_TEA_ID"), inverseJoinColumns = @JoinColumn(name = "AFF_PLA_ID"))
-	public List<PlayerImpl> getPlayers() {
+	public Set<PlayerImpl> getPlayers() {
 		return players;
 	}
 
@@ -70,7 +70,7 @@ public class TeamImpl extends IllustrableImpl implements Team<PlayerImpl> {
 	 * @see com.pedrero.eclihand.model.domain.Team#setPlayers(java.util.List)
 	 */
 	@Override
-	public void setPlayers(List<PlayerImpl> players) {
+	public void setPlayers(Set<PlayerImpl> players) {
 		this.players = players;
 	}
 
