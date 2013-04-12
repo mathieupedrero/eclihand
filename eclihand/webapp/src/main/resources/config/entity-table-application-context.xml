@@ -13,10 +13,19 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	
-	<bean id="teamTable" class="com.pedrero.eclihand.ui.table.GenericTable" scope="session">
+	<bean id="teamTablePrototype" class="com.pedrero.eclihand.ui.table.GenericTable" scope="prototype">
 		<property name="tableConfig" ref="teamTableConfig"/>
 		<property name="entityDisplayerController" ref="teamPanelController"/>
-		<property name="genericTableController" ref="teamTableController"/>
+	</bean>
+	
+	<bean id="teamTableForTeamsPanel" parent="teamTablePrototype" scope="prototype">
+		<property name="genericTableController" ref="teamTableControllerForTeamsPanel"/>
+    	
+    	<aop:scoped-proxy proxy-target-class="true"/>
+	</bean>
+	
+	<bean id="teamTableForPlayerPanel" parent="teamTablePrototype" scope="prototype">
+		<property name="genericTableController" ref="teamTableControllerForPlayerPanel"/>
     	
     	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
@@ -47,16 +56,22 @@
     	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
 	
-	<bean id="teamTableController" class="com.pedrero.eclihand.controller.GenericTableController">
-		<property name="genericTable" ref="teamTable"/>
+	<bean id="teamTableControllerPrototype" class="com.pedrero.eclihand.controller.GenericTableController" scope="prototype">
 		<property name="service" ref="teamServiceImpl"/>
 		<property name="genericSearchModalWindowController" ref="pickingTeamSearchModalWindowController"/>
 	</bean>
 	
 	<bean id="playerTableController" class="com.pedrero.eclihand.controller.GenericTableController">
-		<property name="genericTable" ref="playerTable"/>
 		<property name="service" ref="playerServiceImpl"/>
 		<property name="genericSearchModalWindowController" ref="pickingTeamSearchModalWindowController"/>
+	</bean>
+	
+	<bean id="teamTableControllerForTeamsPanel" parent="teamTableControllerPrototype" scope="prototype">
+		<property name="genericTable" ref="teamTableForTeamsPanel"/>
+	</bean>
+	
+	<bean id="teamTableControllerForPlayerPanel" parent="teamTableControllerPrototype" scope="prototype">
+		<property name="genericTable" ref="teamTableForPlayerPanel"/>
 	</bean>
 	
 </beans>

@@ -34,7 +34,7 @@ public class PlayerPanel extends EclihandMainPanel implements
 	@Resource
 	private GenericPropertyDisplayer<PlayerDto> playerPropertyDisplayer;
 
-	@Resource(name = "teamTable")
+	@Resource(name = "teamTableForPlayerPanel")
 	private GenericTable<TeamDto> teamTable;
 
 	@Resource

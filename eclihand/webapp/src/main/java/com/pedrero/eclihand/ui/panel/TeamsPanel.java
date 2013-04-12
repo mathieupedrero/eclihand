@@ -27,7 +27,7 @@ public class TeamsPanel extends EclihandMainPanel implements Initiable,
 	@Resource
 	private TeamsPanelController teamsPanelController;
 
-	@Resource(name = "teamTable")
+	@Resource(name = "teamTableForTeamsPanel")
 	private GenericTable<TeamDto> teamTable;
 
 	@Resource
@@ -45,9 +45,8 @@ public class TeamsPanel extends EclihandMainPanel implements Initiable,
 		this.setCaption(messageResolver.getMessage("teams.panel.title"));
 		if (layout == null) {
 			layout = eclihandLayoutFactory.createCommonVerticalLayout();
-			this.setContent(layout);
 		}
-
+		this.setContent(layout);
 		layout.addComponent(teamTable);
 		teamTable.init();
 	}
