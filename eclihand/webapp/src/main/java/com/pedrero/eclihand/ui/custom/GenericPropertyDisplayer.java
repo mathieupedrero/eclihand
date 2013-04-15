@@ -159,16 +159,13 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 			if (updatable) {
 				AbstractField field = createEditableComponentAndAddItToLineForProperty(
 						currentRow, property);
-				if (property.getFormatter() != null) {
-					field.setConverter(property.getFormatter());
-				}
-				field.setConvertedValue(rawValue);
+				field.setValue(rawValue);
 			} else {
 				Label label = createLabelAndAddItAsValueToLine(currentRow);
-				label.setPropertyDataSource(new ObjectProperty<Object>(rawValue));
 				if (property.getFormatter() != null) {
 					label.setConverter(property.getFormatter());
 				}
+				label.setPropertyDataSource(new ObjectProperty<Object>(rawValue));
 			}
 			currentRow++;
 		}
@@ -233,9 +230,10 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 	@SuppressWarnings("rawtypes")
 	private AbstractField createAndConfigurePropertyComponent(
 			PropertyConfig propertyConfig) {
+		AbstractField toReturn = null;
 		Class<? extends Object> dataTypeClass = propertyConfig
 				.retrieveClassDataType();
-		if (dataTypeClass.equals(String.class)
+		firstif: if (dataTypeClass.equals(String.class)
 				|| Number.class.isAssignableFrom(dataTypeClass)
 				|| dataTypeClass.isEnum() || dataTypeClass.equals(Date.class)) {
 
@@ -257,19 +255,28 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 						combo.addItem(i);
 					}
 				}
-				return combo;
+				toReturn = combo;
+				break firstif;
 			}
 			if (dataTypeClass.isEnum()) {
 				ComboBox combo = new ComboBox();
 				for (Object value : dataTypeClass.getEnumConstants()) {
 					combo.addItem(value);
 				}
-				return combo;
+				toReturn = combo;
+				break firstif;
 			}
 			if (dataTypeClass.equals(Date.class)) {
-				return new DateField();
+				toReturn = new DateField();
+				break firstif;
 			}
-			return new TextField();
+			toReturn = new TextField();
+		}
+		if (propertyConfig.getFormatter() != null) {
+			toReturn.setConverter(propertyConfig.getFormatter());
+		}
+		if (toReturn != null) {
+			return toReturn;
 		}
 		throw new EclihandUiException("Configuration exception : datatype "
 				+ propertyConfig.getDataType() + " not handled in Config");

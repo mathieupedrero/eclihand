@@ -39,7 +39,7 @@ public class KeyMappingFormatter<T extends Object> extends EclihandUiConverter<S
 	 * @param modelType
 	 *            the modelType to set
 	 */
-	protected void setModelType(Class<T> modelType) {
+	public void setModelType(Class<T> modelType) {
 		this.modelType = modelType;
 	}
 

@@ -16,6 +16,9 @@
 
 	
 	<bean id="playerGenderFormatter" class="com.pedrero.eclihand.utils.text.impl.KeyMappingFormatter">
+		<property name="modelType">
+			<value type="java.lang.Class">com.pedrero.eclihand.model.domain.Gender</value>
+		</property>
     	<property name="keyMapping">
     		<map>
     			<entry>
@@ -30,6 +33,9 @@
     	</property>
 	</bean>
 	<bean id="teamGenderFormatter" class="com.pedrero.eclihand.utils.text.impl.KeyMappingFormatter">
+		<property name="modelType">
+			<value type="java.lang.Class">com.pedrero.eclihand.model.domain.Gender</value>
+		</property>
     	<property name="keyMapping">
     		<map>
     			<entry>
