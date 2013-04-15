@@ -319,11 +319,10 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 					public void buttonClick(ClickEvent event) {
 						T entity = dataObjects.get(event.getButton().getData())
 								.getEntity();
-						getEntityDisplayerController().display(entity);
 						bodyPanelController
 								.showComponent(getEntityDisplayerController()
 										.getEntityDisplayerComponent());
-
+						getEntityDisplayerController().display(entity);
 					}
 				});
 

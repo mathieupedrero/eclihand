@@ -13,10 +13,12 @@ import com.pedrero.eclihand.ui.custom.config.PropertyDisplayerConfig;
 import com.pedrero.eclihand.utils.EclihandUiException;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
+import com.pedrero.eclihand.utils.text.LocaleContainer;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
 import com.vaadin.data.util.ObjectProperty;
+import com.vaadin.data.util.converter.Converter;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -84,6 +86,9 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
+
+	@Resource
+	private LocaleContainer localeContainer;
 
 	@Override
 	public void init() {
@@ -228,58 +233,52 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 	}
 
 	@SuppressWarnings("rawtypes")
-	private AbstractField createAndConfigurePropertyComponent(
-			PropertyConfig propertyConfig) {
-		AbstractField toReturn = null;
-		Class<? extends Object> dataTypeClass = propertyConfig
-				.retrieveClassDataType();
-		firstif: if (dataTypeClass.equals(String.class)
-				|| Number.class.isAssignableFrom(dataTypeClass)
-				|| dataTypeClass.isEnum() || dataTypeClass.equals(Date.class)) {
+	private AbstractField createAndConfigurePropertyComponent(PropertyConfig propertyConfig) {
+		Class<? extends Object> dataTypeClass = propertyConfig.retrieveClassDataType();
+		if (dataTypeClass.equals(String.class) || Number.class.isAssignableFrom(dataTypeClass) || dataTypeClass.isEnum()
+				|| dataTypeClass.equals(Date.class)) {
+			Converter<String, Object> converter = propertyConfig.getFormatter();
 
-			if (propertyConfig.getMaxValue() != null
-					&& propertyConfig.getMinValue() != null
-					&& propertyConfig.getFormatter() != null) {
+			if (propertyConfig.getMaxValue() != null && propertyConfig.getMinValue() != null) {
 				ComboBox combo = new ComboBox();
 				if (Integer.class.equals(dataTypeClass)) {
-					Integer beginning = Integer.valueOf(propertyConfig
-							.getMinValue());
+					Integer beginning = Integer.valueOf(propertyConfig.getMinValue());
 					Integer end = Integer.valueOf(propertyConfig.getMaxValue());
 					for (Integer i = beginning; i <= end; i++) {
 						combo.addItem(i);
+						Object toDisplay = converter == null ? i : converter.convertToPresentation(i,
+								localeContainer.getLocale());
+						combo.setItemCaption(i, toDisplay.toString());
 					}
 				} else if (Long.class.equals(dataTypeClass)) {
 					Long beginning = Long.valueOf(propertyConfig.getMinValue());
 					Long end = Long.valueOf(propertyConfig.getMaxValue());
 					for (Long i = beginning; i <= end; i++) {
 						combo.addItem(i);
+						Object toDisplay = converter == null ? i : converter.convertToPresentation(i,
+								localeContainer.getLocale());
+						combo.setItemCaption(i, toDisplay.toString());
 					}
 				}
-				toReturn = combo;
-				break firstif;
+				return combo;
 			}
 			if (dataTypeClass.isEnum()) {
 				ComboBox combo = new ComboBox();
 				for (Object value : dataTypeClass.getEnumConstants()) {
 					combo.addItem(value);
+					Object toDisplay = converter == null ? value : converter.convertToPresentation(value,
+							localeContainer.getLocale());
+					combo.setItemCaption(value, toDisplay.toString());
 				}
-				toReturn = combo;
-				break firstif;
+				return combo;
 			}
 			if (dataTypeClass.equals(Date.class)) {
-				toReturn = new DateField();
-				break firstif;
+				return new DateField();
 			}
-			toReturn = new TextField();
+			return new TextField();
 		}
-		if (propertyConfig.getFormatter() != null) {
-			toReturn.setConverter(propertyConfig.getFormatter());
-		}
-		if (toReturn != null) {
-			return toReturn;
-		}
-		throw new EclihandUiException("Configuration exception : datatype "
-				+ propertyConfig.getDataType() + " not handled in Config");
+		throw new EclihandUiException("Configuration exception : datatype " + propertyConfig.getDataType()
+				+ " not handled in Config");
 	}
 
 	/*
