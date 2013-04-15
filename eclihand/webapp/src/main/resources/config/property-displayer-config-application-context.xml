@@ -19,10 +19,6 @@
     	<property name="properties">
     		<list>
     			<bean class="com.pedrero.eclihand.ui.custom.config.PropertyConfig">
-    				<property name="labelKey" value="common.id"/>
-    				<property name="valuePath" value="id"/>
-    			</bean>
-    			<bean class="com.pedrero.eclihand.ui.custom.config.PropertyConfig">
     				<property name="labelKey" value="common.season"/>
     				<property name="valuePath" value="year"/>
     				<property name="formatter" ref="seasonFormatter"/>
