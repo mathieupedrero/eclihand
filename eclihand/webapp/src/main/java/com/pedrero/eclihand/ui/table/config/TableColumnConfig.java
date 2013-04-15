@@ -1,7 +1,7 @@
 package com.pedrero.eclihand.ui.table.config;
 
 import com.pedrero.eclihand.ui.config.EnumType;
-import com.pedrero.eclihand.utils.text.Formatter;
+import com.vaadin.data.util.converter.Converter;
 
 public class TableColumnConfig {
 
@@ -17,7 +17,7 @@ public class TableColumnConfig {
 
 	private Boolean isLink = false;
 
-	private Formatter formatter;
+	private Converter<String, Object> formatter;
 
 	public String getId() {
 		return id;
@@ -67,11 +67,11 @@ public class TableColumnConfig {
 		this.isLink = isLink;
 	}
 
-	public Formatter getFormatter() {
+	public Converter<String, Object> getFormatter() {
 		return formatter;
 	}
 
-	public void setFormatter(Formatter formatter) {
+	public void setFormatter(Converter<String, Object> formatter) {
 		this.formatter = formatter;
 	}
 

@@ -1,12 +1,12 @@
 package com.pedrero.eclihand.ui.custom.config;
 
 import com.pedrero.eclihand.utils.EclihandUiException;
-import com.pedrero.eclihand.utils.text.Formatter;
+import com.vaadin.data.util.converter.Converter;
 
 public class PropertyConfig {
 	private String labelKey;
 	private String valuePath;
-	private Formatter formatter;
+	private Converter<String, Object> formatter;
 	private String dataType = "java.lang.String";
 	private String maxValue;
 	private String minValue;
@@ -43,11 +43,11 @@ public class PropertyConfig {
 		this.valuePath = valuePath;
 	}
 
-	public Formatter getFormatter() {
+	public Converter<String, Object> getFormatter() {
 		return formatter;
 	}
 
-	public void setFormatter(Formatter formatter) {
+	public void setFormatter(Converter<String, Object> formatter) {
 		this.formatter = formatter;
 	}
 

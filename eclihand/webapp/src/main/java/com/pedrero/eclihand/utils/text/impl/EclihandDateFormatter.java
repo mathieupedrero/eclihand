@@ -1,24 +1,49 @@
 package com.pedrero.eclihand.utils.text.impl;
 
+import java.text.ParseException;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.annotation.Resource;
 
 import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Component;
 
-import com.pedrero.eclihand.utils.text.Formatter;
 import com.pedrero.eclihand.utils.text.LocaleContainer;
 
 @Component
-public class EclihandDateFormatter implements Formatter {
+public class EclihandDateFormatter extends EclihandUiConverter<String, Date> {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4158373783006365369L;
+
+	private final Class<String> PRESENTATION_TYPE = String.class;
+	private final Class<Date> MODEL_TYPE = Date.class;
+
 	@Resource
 	private LocaleContainer localeContainer;
 
 	@Override
-	public String format(Object object) {
+	public Class<Date> getModelType() {
+		return MODEL_TYPE;
+	}
+
+	@Override
+	public Class<String> getPresentationType() {
+		return PRESENTATION_TYPE;
+	}
+
+	@Override
+	protected Date doConvertToModel(String value, Locale locale) throws ParseException {
 		DateFormatter form = new DateFormatter();
-		return form.print((Date) object, localeContainer.getLocale());
+		return form.parse(value, locale);
+	}
+
+	@Override
+	protected String doConvertToPresentation(Date value, Locale locale) {
+		DateFormatter form = new DateFormatter();
+		return form.print(value, locale);
 	}
 
 }

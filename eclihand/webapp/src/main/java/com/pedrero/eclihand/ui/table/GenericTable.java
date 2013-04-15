@@ -18,6 +18,7 @@ import com.pedrero.eclihand.ui.table.config.TableColumnConfig;
 import com.pedrero.eclihand.ui.table.config.TableConfig;
 import com.pedrero.eclihand.utils.DisplayedEntity;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
+import com.pedrero.eclihand.utils.text.LocaleContainer;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
@@ -52,6 +53,9 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
+
+	@Resource
+	private LocaleContainer localeContainer;
 
 	private EntityDisplayerController<T> entityDisplayerController;
 
@@ -270,7 +274,7 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 			Object displayedValue = value;
 
 			if (columnConfig.getFormatter() != null) {
-				displayedValue = columnConfig.getFormatter().format(value);
+				displayedValue = columnConfig.getFormatter().convertToPresentation(value, localeContainer.getLocale());
 			}
 
 			// Gathering information for description computing

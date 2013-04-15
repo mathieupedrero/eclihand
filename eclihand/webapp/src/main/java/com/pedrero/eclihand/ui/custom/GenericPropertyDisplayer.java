@@ -13,10 +13,11 @@ import com.pedrero.eclihand.ui.custom.config.PropertyDisplayerConfig;
 import com.pedrero.eclihand.utils.EclihandUiException;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
-import com.pedrero.eclihand.utils.text.Formatter;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
+import com.vaadin.data.util.ObjectProperty;
+import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -156,21 +157,21 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 		for (PropertyConfig property : getConfig().getProperties()) {
 			Object rawValue = MVEL.eval(property.getValuePath(), displayed);
 			if (updatable) {
-				Field field = createEditableComponentAndAddItToLineForProperty(
+				AbstractField field = createEditableComponentAndAddItToLineForProperty(
 						currentRow, property);
-				field.setValue(rawValue);
+				if (property.getFormatter() != null) {
+					field.setConverter(property.getFormatter());
+				}
+				field.setConvertedValue(rawValue);
 			} else {
 				Label label = createLabelAndAddItAsValueToLine(currentRow);
+				label.setPropertyDataSource(new ObjectProperty<Object>(rawValue));
 				if (property.getFormatter() != null) {
-					label.setValue(property.getFormatter().format(rawValue));
-				} else {
-					label.setValue(rawValue == null ? null : rawValue
-							.toString());
+					label.setConverter(property.getFormatter());
 				}
 			}
 			currentRow++;
 		}
-		// layout.requestRepaint();
 	}
 
 	/*
@@ -194,9 +195,9 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 	}
 
 	@SuppressWarnings("rawtypes")
-	private Field createEditableComponentAndAddItToLineForProperty(
+	private AbstractField createEditableComponentAndAddItToLineForProperty(
 			Integer lineNumber, PropertyConfig property) {
-		Field field = createAndConfigurePropertyComponent(property);
+		AbstractField field = createAndConfigurePropertyComponent(property);
 		if (layout.getComponent(1, lineNumber) != null) {
 			layout.removeComponent(1, lineNumber);
 		}
@@ -230,7 +231,7 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 	}
 
 	@SuppressWarnings("rawtypes")
-	private Field createAndConfigurePropertyComponent(
+	private AbstractField createAndConfigurePropertyComponent(
 			PropertyConfig propertyConfig) {
 		Class<? extends Object> dataTypeClass = propertyConfig
 				.retrieveClassDataType();
@@ -241,7 +242,6 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 			if (propertyConfig.getMaxValue() != null
 					&& propertyConfig.getMinValue() != null
 					&& propertyConfig.getFormatter() != null) {
-				Formatter formatter = propertyConfig.getFormatter();
 				ComboBox combo = new ComboBox();
 				if (Integer.class.equals(dataTypeClass)) {
 					Integer beginning = Integer.valueOf(propertyConfig
@@ -249,14 +249,12 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 					Integer end = Integer.valueOf(propertyConfig.getMaxValue());
 					for (Integer i = beginning; i <= end; i++) {
 						combo.addItem(i);
-						combo.setItemCaption(i, formatter.format(i));
 					}
 				} else if (Long.class.equals(dataTypeClass)) {
 					Long beginning = Long.valueOf(propertyConfig.getMinValue());
 					Long end = Long.valueOf(propertyConfig.getMaxValue());
 					for (Long i = beginning; i <= end; i++) {
 						combo.addItem(i);
-						combo.setItemCaption(i, formatter.format(i));
 					}
 				}
 				return combo;
@@ -265,13 +263,6 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 				ComboBox combo = new ComboBox();
 				for (Object value : dataTypeClass.getEnumConstants()) {
 					combo.addItem(value);
-					String caption;
-					if (propertyConfig.getFormatter() != null) {
-						caption = propertyConfig.getFormatter().format(value);
-					} else {
-						caption = value.toString();
-					}
-					combo.setItemCaption(value, caption);
 				}
 				return combo;
 			}
