@@ -63,7 +63,8 @@
 	
 	<bean id="playerTableController" class="com.pedrero.eclihand.controller.GenericTableController"  scope="prototype">
 		<property name="service" ref="playerServiceImpl"/>
-		<property name="genericSearchModalWindowController" ref="pickingTeamSearchModalWindowController"/>
+		<property name="genericSearchModalWindowController" ref="pickingPlayerSearchModalWindowController"/>
+		<property name="genericTable" ref="playerTable"/>
 	</bean>
 	
 	<bean id="teamTableControllerForTeamsPanel" parent="teamTableControllerPrototype">

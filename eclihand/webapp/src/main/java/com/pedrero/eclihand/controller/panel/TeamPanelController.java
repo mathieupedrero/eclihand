@@ -82,8 +82,8 @@ public class TeamPanelController implements EntityDisplayerController<TeamDto>,
 	@Override
 	public void makeReadOnly() {
 		teamPanel.setUpdatable(false);
-		teamPanel.getTeamPropertyDisplayer().makeUpdatable();
-		teamPanel.getPlayerTable().makeUpdatable();
+		teamPanel.getTeamPropertyDisplayer().makeReadOnly();
+		teamPanel.getPlayerTable().makeReadOnly();
 
 	}
 
