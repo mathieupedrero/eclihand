@@ -59,7 +59,6 @@ public class PlayerPanel extends EclihandMainPanel implements
 
 	@Override
 	public void display(PlayerDto entity) {
-
 		playerPropertyDisplayer.display(entity);
 		teamTable.removeAllDataObjects();
 		teamTable.feed(entity.getTeams());
