@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 
 import com.pedrero.eclihand.controller.EntityDisplayerController;
+import com.pedrero.eclihand.model.dto.PersonDto;
 import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.service.PlayerService;
@@ -47,7 +48,10 @@ public class PlayerPanelController implements
 	}
 
 	public void createNew() {
-		playerPanel.display(new PlayerDto());
+		PlayerDto newOne = new PlayerDto();
+		newOne.setPlayerPerson(new PersonDto());
+		player = newOne;
+		playerPanel.display(newOne);
 	}
 
 	@Override

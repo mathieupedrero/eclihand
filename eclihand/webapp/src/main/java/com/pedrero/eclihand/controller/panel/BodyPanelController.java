@@ -58,6 +58,10 @@ public class BodyPanelController implements EclihandController {
 		bodyPanel.showPlayersPanel();
 	}
 
+	public void showPlayerPanel() {
+		bodyPanel.showPlayerPanel();
+	}
+
 	public void showComponent(Component panel) {
 		bodyPanel.showComponent(panel);
 	}

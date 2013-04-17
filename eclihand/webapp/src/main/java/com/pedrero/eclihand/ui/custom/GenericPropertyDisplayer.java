@@ -164,13 +164,17 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 			if (updatable) {
 				AbstractField field = createEditableComponentAndAddItToLineForProperty(
 						currentRow, property);
-				field.setValue(rawValue);
+				if (rawValue != null) {
+					field.setValue(rawValue);
+				}
 			} else {
 				Label label = createLabelAndAddItAsValueToLine(currentRow);
 				if (property.getFormatter() != null) {
 					label.setConverter(property.getFormatter());
 				}
+				if (rawValue !=null){
 				label.setPropertyDataSource(new ObjectProperty<Object>(rawValue));
+				}
 			}
 			currentRow++;
 		}

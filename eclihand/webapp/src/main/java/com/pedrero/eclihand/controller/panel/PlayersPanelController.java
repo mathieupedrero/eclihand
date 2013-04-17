@@ -22,6 +22,12 @@ public class PlayersPanelController implements EclihandController {
 	private PlayersPanel playersPanel;
 
 	@Resource
+	private BodyPanelController bodyPanelController;
+
+	@Resource
+	private PlayerPanelController playerPanelController;
+
+	@Resource
 	private PlayerService playerService;
 
 	@Resource
@@ -36,5 +42,9 @@ public class PlayersPanelController implements EclihandController {
 		playerSearchModalWindowController.openWindow();
 	}
 
+	public void openNewPlayerForm() {
+		bodyPanelController.showPlayerPanel();
+		playerPanelController.createNew();
+	}
 
 }

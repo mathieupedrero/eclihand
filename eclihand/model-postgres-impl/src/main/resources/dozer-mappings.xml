@@ -41,7 +41,7 @@
       <b>teams</b>
     </field>
     <field map-id="person-light">
-      <a>playerPerson</a>
+      <a set-method="setPlayerPerson" get-method="getPlayerPerson">playerPerson</a>
       <b>playerPerson</b>
     </field>
     <field-exclude>
@@ -53,7 +53,7 @@
     <class-a>com.pedrero.eclihand.model.domain.impl.PlayerImpl</class-a>
     <class-b>com.pedrero.eclihand.model.dto.PlayerDto</class-b>    
     <field map-id="person-light">
-      <a>playerPerson</a>
+      <a set-method="setPlayerPerson" get-method="getPlayerPerson">playerPerson</a>
       <b>playerPerson</b>
     </field> 
     <field-exclude>

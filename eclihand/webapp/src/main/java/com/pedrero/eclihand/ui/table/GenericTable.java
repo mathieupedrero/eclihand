@@ -377,8 +377,10 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 	 *            The {@link DataObjectDto} to add to the {@link GenericTable}
 	 */
 	public void add(Iterable<T> objects) {
-		for (T object : objects) {
-			add(object);
+		if (objects != null) {
+			for (T object : objects) {
+				add(object);
+			}
 		}
 	}
 

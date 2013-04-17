@@ -32,6 +32,8 @@ public class PlayersPanel extends EclihandMainPanel implements Initiable {
 
 	private Button searchButton;
 
+	private Button createNewPlayerButton;
+
 	@Resource
 	private EclihandUiFactory eclihandUiFactory;
 
@@ -53,6 +55,7 @@ public class PlayersPanel extends EclihandMainPanel implements Initiable {
 			this.titleLabel = eclihandUiFactory.createTitleLabel();
 			this.titleLabel.setValue(messageResolver
 					.getMessage("players.panel.title"));
+
 			this.searchButton = eclihandUiFactory.createButton();
 			this.searchButton.setCaption(messageResolver
 					.getMessage("common.find"));
@@ -71,8 +74,26 @@ public class PlayersPanel extends EclihandMainPanel implements Initiable {
 				}
 			});
 
+			this.createNewPlayerButton = eclihandUiFactory.createButton();
+			this.createNewPlayerButton.setCaption(messageResolver.getMessage("players.create.new"));
+
+			this.createNewPlayerButton.addClickListener(new ClickListener() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -7117656998497854385L;
+
+				@Override
+				public void buttonClick(ClickEvent event) {
+					playersPanelController.openNewPlayerForm();
+
+				}
+			});
+
 			this.layout.addComponent(titleLabel);
 			this.layout.addComponent(searchButton);
+			this.layout.addComponent(createNewPlayerButton);
 		}
 	}
 }

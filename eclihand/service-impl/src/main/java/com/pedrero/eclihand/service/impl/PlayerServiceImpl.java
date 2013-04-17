@@ -9,9 +9,12 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.pedrero.eclihand.converter.PersonConverter;
 import com.pedrero.eclihand.converter.PlayerConverter;
+import com.pedrero.eclihand.dao.PersonDao;
 import com.pedrero.eclihand.dao.PlayerDao;
 import com.pedrero.eclihand.dao.TeamDao;
+import com.pedrero.eclihand.model.domain.Person;
 import com.pedrero.eclihand.model.domain.Player;
 import com.pedrero.eclihand.model.domain.Team;
 import com.pedrero.eclihand.model.dto.PlayerDto;
@@ -26,7 +29,13 @@ public class PlayerServiceImpl extends DataObjectServiceImpl<PlayerDto, Player>
 	private PlayerConverter playerConverter;
 
 	@Resource
+	private PersonConverter personConverter;
+
+	@Resource
 	private PlayerDao<Player> playerDao;
+
+	@Resource
+	private PersonDao<Person> personDao;
 
 	@Resource
 	private TeamDao<Team> teamDao;
@@ -52,15 +61,24 @@ public class PlayerServiceImpl extends DataObjectServiceImpl<PlayerDto, Player>
 	@Override
 	@Transactional
 	public PlayerDto save(PlayerDto dto) {
-		PlayerDto saved = super.save(dto);
+		Player domain = getConverter().convertToEntity(dto);
+		Player saved = getDao().save(domain);
+		Person playerPerson;
+		if (dto.getId() != null) {
+			playerPerson = personDao.findById(dto.getId());
+			personConverter.lightFeedEntityWithDto(playerPerson, dto.getPlayerPerson());
+		} else {
+			playerPerson = personConverter.convertToEntity(dto.getPlayerPerson());
+			personDao.save(playerPerson);
+		}
+		saved.setPlayerPerson(playerPerson);
 		Player player = playerDao.findById(saved.getId());
 		for (TeamDto teamDto : dto.getTeams()) {
 			Team team = teamDao.findById(teamDto.getId());
 			team.getPlayers().add(player);
 			player.getTeams().add(team);
-			saved.getTeams().add(teamDto);
 		}
-		return saved;
+		return playerConverter.convertToDto(saved);
 	}
 
 	@Override
