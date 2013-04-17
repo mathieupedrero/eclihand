@@ -39,6 +39,9 @@ public class TeamPanelController implements EntityDisplayerController<TeamDto>,
 	@Resource
 	private PlayerService playerService;
 
+	@Resource
+	private BodyPanelController bodyPanelController;
+
 	private TeamDto team;
 
 	@Override
@@ -58,6 +61,7 @@ public class TeamPanelController implements EntityDisplayerController<TeamDto>,
 		}
 
 		team = entity;
+		teamPanel.makeReadOnly();
 		teamPanel.display(entity);
 	}
 
@@ -71,6 +75,7 @@ public class TeamPanelController implements EntityDisplayerController<TeamDto>,
 		TeamDto newOne = new TeamDto();
 		team = newOne;
 		teamPanel.display(newOne);
+		teamPanel.makeCreateMode();
 	}
 
 	@Override
@@ -80,17 +85,17 @@ public class TeamPanelController implements EntityDisplayerController<TeamDto>,
 
 	@Override
 	public void makeUpdatable() {
-		teamPanel.setUpdatable(true);
-		teamPanel.getTeamPropertyDisplayer().makeUpdatable();
-		teamPanel.getPlayerTable().makeUpdatable();
+		teamPanel.makeUpdatable();
 	}
 
 	@Override
 	public void makeReadOnly() {
-		teamPanel.setUpdatable(false);
-		teamPanel.getTeamPropertyDisplayer().makeReadOnly();
-		teamPanel.getPlayerTable().makeReadOnly();
+		teamPanel.makeReadOnly();
+	}
 
+	public void delete() {
+		teamService.delete(team);
+		bodyPanelController.showHomePanel();
 	}
 
 	@Override

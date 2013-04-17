@@ -112,6 +112,24 @@ public class PlayerServiceImpl extends DataObjectServiceImpl<PlayerDto, Player>
 				- (playerBirthDateMonth < GregorianCalendar.SEPTEMBER ? 1 : 2);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.service.impl.DataObjectServiceImpl#delete(com.pedrero
+	 * .eclihand.model.dto.DataObjectDto)
+	 */
+	@Override
+	@Transactional
+	public void delete(PlayerDto dto) {
+		Player toDelete = playerDao.findById(dto.getId());
+		for (Team team : toDelete.getTeams()) {
+			team.getPlayers().remove(toDelete);
+		}
+		toDelete.getTeams().clear();
+		playerDao.delete(toDelete);
+	}
+
 	@Override
 	@Transactional
 	public List<PlayerDto> searchByCriterium(Object criterium) {

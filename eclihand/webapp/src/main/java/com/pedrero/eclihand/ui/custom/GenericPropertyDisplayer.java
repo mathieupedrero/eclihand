@@ -95,9 +95,9 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 		updatable = config.getIsEditModeDefault();
 
 		switchUpdateModeButton = eclihandUiFactory.createButton();
-		switchUpdateModeButton.setCaption(MAKE_UPDATABLE_KEY);
+		switchUpdateModeButton.setCaption(messageResolver.getMessage(MAKE_UPDATABLE_KEY));
 		validateChanges = eclihandUiFactory.createButton();
-		validateChanges.setCaption(VALIDATE_CHANGES_KEY);
+		validateChanges.setCaption(messageResolver.getMessage(VALIDATE_CHANGES_KEY));
 		Integer rowNumber = getConfig().getProperties().size();
 		layout = eclihandLayoutFactory.createCommonGridLayout(2, rowNumber + 1);
 		this.setContent(layout);

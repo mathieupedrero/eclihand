@@ -44,6 +44,17 @@ public class TeamServiceImpl extends
 	}
 
 	@Override
+	@Transactional
+	public void delete(TeamDto dto) {
+		Team toDelete = teamDao.findById(dto.getId());
+		for (Player player : toDelete.getPlayers()) {
+			player.getTeams().remove(toDelete);
+		}
+		toDelete.getPlayers().clear();
+		teamDao.delete(toDelete);
+	}
+
+	@Override
 	public TeamConverter getConverter() {
 		return teamConverter;
 	}

@@ -30,6 +30,9 @@ public class PlayerPanelController implements
 	@Resource
 	private PlayerService playerService;
 
+	@Resource
+	private BodyPanelController bodyPanelController;
+
 	private PlayerDto player;
 
 	@Override
@@ -44,6 +47,7 @@ public class PlayerPanelController implements
 	}
 
 	public void searchPlayerAndDisplay(PlayerDto entity) {
+		playerPanel.makeReadOnly();
 		playerPanel.display(entity);
 	}
 
@@ -52,6 +56,12 @@ public class PlayerPanelController implements
 		newOne.setPlayerPerson(new PersonDto());
 		player = newOne;
 		playerPanel.display(newOne);
+		playerPanel.makeCreateMode();
+	}
+
+	public void delete() {
+		playerService.delete(player);
+		bodyPanelController.showHomePanel();
 	}
 
 	@Override
@@ -66,16 +76,12 @@ public class PlayerPanelController implements
 
 	@Override
 	public void makeUpdatable() {
-		playerPanel.getPlayerPropertyDisplayer().makeUpdatable();
-		playerPanel.getTeamTable().makeUpdatable();
-		playerPanel.setUpdatable(true);
+		playerPanel.makeUpdatable();
 	}
 
 	@Override
 	public void makeReadOnly() {
-		playerPanel.getPlayerPropertyDisplayer().makeReadOnly();
-		playerPanel.getTeamTable().makeReadOnly();
-		playerPanel.setUpdatable(false);
+		playerPanel.makeReadOnly();
 	}
 
 	@Override
