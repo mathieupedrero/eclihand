@@ -15,6 +15,10 @@ import com.pedrero.eclihand.utils.Displayer;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
+import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Layout;
 
 @Component
@@ -33,6 +37,11 @@ public class TeamsPanel extends EclihandMainPanel implements Initiable,
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
 
+	@Resource
+	private EclihandUiFactory eclihandUiFactory;
+
+	private Button createNewTeamButton;
+
 	private Layout layout;
 
 	/**
@@ -47,7 +56,26 @@ public class TeamsPanel extends EclihandMainPanel implements Initiable,
 			layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		}
 		this.setContent(layout);
+
+		this.createNewTeamButton = eclihandUiFactory.createButton();
+		this.createNewTeamButton.setCaption(messageResolver.getMessage("players.create.new"));
+
+		this.createNewTeamButton.addClickListener(new ClickListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -7117656998497854385L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				teamsPanelController.openNewTeamForm();
+
+			}
+		});
+
 		layout.addComponent(teamTable);
+		layout.addComponent(createNewTeamButton);
 		teamTable.init();
 	}
 

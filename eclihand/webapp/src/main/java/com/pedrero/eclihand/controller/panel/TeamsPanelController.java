@@ -25,6 +25,12 @@ public class TeamsPanelController implements EclihandController, Displayer {
 	@Resource
 	private TeamService teamService;
 
+	@Resource
+	private BodyPanelController bodyPanelController;
+
+	@Resource
+	private TeamPanelController teamPanelController;
+
 	@Override
 	public void init() {
 		teamsPanel.init();
@@ -40,5 +46,10 @@ public class TeamsPanelController implements EclihandController, Displayer {
 	public void display() {
 		teamsPanel.display();
 	};
+
+	public void openNewTeamForm() {
+		bodyPanelController.showTeamPanel();
+		teamPanelController.createNew();
+	}
 
 }

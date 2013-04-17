@@ -81,26 +81,14 @@ public class PlayerPanelController implements
 	@Override
 	public void validateChanges() {
 		playerPanel.getPlayerPropertyDisplayer().validateChanges();
-		if (player.getId() != null) {
-			updateDisplayedEntity();
-		} else {
-			saveDisplayedEntity();
-		}
-	}
-
-	private void updateDisplayedEntity() {
-		playerPanel.getTeamTable().validateChanges();
-		Set<TeamDto> teamList = new HashSet<TeamDto>(playerPanel.getTeamTable()
-				.retrieveData());
-		player.setTeams(teamList);
-		playerService.update(player);
-	}
-
-	private void saveDisplayedEntity() {
 		playerPanel.getTeamTable().validateChanges();
 		Set<TeamDto> teamList = new HashSet<TeamDto>(playerPanel.getTeamTable().retrieveData());
 		player.setTeams(teamList);
-		playerService.save(player);
+		if (player.getId() != null) {
+			playerService.update(player);
+		} else {
+			playerService.save(player);
+		}
 	}
 
 }

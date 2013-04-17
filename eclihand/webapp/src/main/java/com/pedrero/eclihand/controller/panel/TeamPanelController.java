@@ -67,6 +67,12 @@ public class TeamPanelController implements EntityDisplayerController<TeamDto>,
 		searchTeamAndDisplay(entity.getId());
 	}
 
+	public void createNew() {
+		TeamDto newOne = new TeamDto();
+		team = newOne;
+		teamPanel.display(newOne);
+	}
+
 	@Override
 	public EntityDisplayerComponent<TeamDto> getEntityDisplayerComponent() {
 		return teamPanel;
@@ -91,9 +97,12 @@ public class TeamPanelController implements EntityDisplayerController<TeamDto>,
 	public void validateChanges() {
 		teamPanel.getTeamPropertyDisplayer().validateChanges();
 		teamPanel.getPlayerTable().validateChanges();
-		Set<PlayerDto> players = new HashSet<PlayerDto>(teamPanel
-				.getPlayerTable().retrieveData());
-		team.setPlayers(players);
-		teamService.update(team);
+		Set<PlayerDto> teamList = new HashSet<PlayerDto>(teamPanel.getPlayerTable().retrieveData());
+		team.setPlayers(teamList);
+		if (team.getId() != null) {
+			teamService.update(team);
+		} else {
+			teamService.save(team);
+		}
 	}
 }

@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 
 import com.pedrero.eclihand.ui.panel.entity.PlayerPanel;
+import com.pedrero.eclihand.ui.panel.entity.TeamPanel;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
@@ -21,6 +22,9 @@ public class BodyPanel extends EclihandMainPanel implements Initiable {
 
 	@Resource
 	private TeamsPanel teamsPanel;
+
+	@Resource
+	private TeamPanel teamPanel;
 
 	@Resource
 	private PlayersPanel playersPanel;
@@ -60,6 +64,11 @@ public class BodyPanel extends EclihandMainPanel implements Initiable {
 	public void showTeamsPanel() {
 		layout.replaceComponent(currentPanel, teamsPanel);
 		currentPanel = teamsPanel;
+	}
+
+	public void showTeamPanel() {
+		layout.replaceComponent(currentPanel, teamPanel);
+		currentPanel = teamPanel;
 	}
 
 	public void showPlayersPanel() {

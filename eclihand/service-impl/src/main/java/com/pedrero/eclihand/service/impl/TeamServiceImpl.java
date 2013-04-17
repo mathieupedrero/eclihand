@@ -29,20 +29,6 @@ public class TeamServiceImpl extends
 
 	@Override
 	@Transactional
-	public TeamDto save(TeamDto dto) {
-		TeamDto saved = super.save(dto);
-		Team team = teamDao.findById(saved.getId());
-		for (PlayerDto playerDto : dto.getPlayers()) {
-			Player player = playerDao.findById(playerDto.getId());
-			team.getPlayers().add(player);
-			player.getTeams().add(team);
-			saved.getPlayers().add(playerDto);
-		}
-		return saved;
-	}
-
-	@Override
-	@Transactional
 	public TeamDto update(TeamDto dto) {
 		Team team = teamDao.findById(dto.getId());
 		for (Player player : team.getPlayers()) {
