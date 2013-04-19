@@ -14,7 +14,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Layout;
 
-public abstract class AbstractEntityPanel extends EclihandMainPanel {
+public abstract class AbstractEntityPanel extends EclihandMainPanel implements UpdatableContentDisplayer {
 
 	/**
 	 * 
@@ -44,6 +44,10 @@ public abstract class AbstractEntityPanel extends EclihandMainPanel {
 	 * Button to validate changes made in update mode
 	 */
 	private Button delete;
+
+	private Boolean showButtons = true;
+
+	private Boolean showDeleteButton = true;
 
 	public AbstractEntityPanel() {
 		super();
@@ -149,23 +153,27 @@ public abstract class AbstractEntityPanel extends EclihandMainPanel {
 
 	public void makeUpdatable() {
 		updatable = true;
-		delete.setVisible(true);
-		validateChanges.setVisible(true);
-		switchUpdateModeButton.setVisible(true);
-	
-		for (UpdatableContentDisplayer contentDisplayer : getContentDisplayers()) {
-			contentDisplayer.makeUpdatable();
+		delete.setVisible(getShowButtons() && getShowDeleteButton());
+		validateChanges.setVisible(getShowButtons());
+		switchUpdateModeButton.setVisible(getShowButtons());
+
+		if (getContentDisplayers() != null) {
+			for (UpdatableContentDisplayer contentDisplayer : getContentDisplayers()) {
+				contentDisplayer.makeUpdatable();
+			}
 		}
 	}
 
 	public void makeCreateMode() {
 		updatable = true;
 		delete.setVisible(false);
-		validateChanges.setVisible(true);
+		validateChanges.setVisible(getShowButtons());
 		switchUpdateModeButton.setVisible(false);
 
-		for (UpdatableContentDisplayer contentDisplayer : getContentDisplayers()) {
-			contentDisplayer.makeCreateMode();
+		if (getContentDisplayers() != null) {
+			for (UpdatableContentDisplayer contentDisplayer : getContentDisplayers()) {
+				contentDisplayer.makeCreateMode();
+			}
 		}
 	}
 
@@ -173,10 +181,12 @@ public abstract class AbstractEntityPanel extends EclihandMainPanel {
 		updatable = false;
 		delete.setVisible(false);
 		validateChanges.setVisible(false);
-		switchUpdateModeButton.setVisible(true);
+		switchUpdateModeButton.setVisible(getShowButtons());
 
-		for (UpdatableContentDisplayer contentDisplayer : getContentDisplayers()) {
-			contentDisplayer.makeReadOnly();
+		if (getContentDisplayers() != null) {
+			for (UpdatableContentDisplayer contentDisplayer : getContentDisplayers()) {
+				contentDisplayer.makeReadOnly();
+			}
 		}
 	}
 
@@ -213,5 +223,35 @@ public abstract class AbstractEntityPanel extends EclihandMainPanel {
 	public abstract UpdatableContentController getController();
 
 	public abstract Layout getMainLayout();
+
+	/**
+	 * @return the showButtons
+	 */
+	protected Boolean getShowButtons() {
+		return showButtons;
+	}
+
+	/**
+	 * @param showButtons
+	 *            the showButtons to set
+	 */
+	protected void setShowButtons(Boolean showButtons) {
+		this.showButtons = showButtons;
+	}
+
+	/**
+	 * @return the showDeleteButton
+	 */
+	protected Boolean getShowDeleteButton() {
+		return showDeleteButton;
+	}
+
+	/**
+	 * @param showDeleteButton
+	 *            the showDeleteButton to set
+	 */
+	protected void setShowDeleteButton(Boolean showDeleteButton) {
+		this.showDeleteButton = showDeleteButton;
+	}
 
 }

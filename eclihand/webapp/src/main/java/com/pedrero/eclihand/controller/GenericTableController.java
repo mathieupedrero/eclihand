@@ -7,11 +7,12 @@ import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.service.DataObjectService;
 import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.IDTOConsumer;
-import com.pedrero.eclihand.utils.UpdatableContentManager;
+import com.pedrero.eclihand.utils.UpdatableContentController;
 
 @Component
 public class GenericTableController<T extends DataObjectDto> implements
-		EclihandController, IDTOConsumer<T>, UpdatableContentManager {
+ EclihandController, IDTOConsumer<T>,
+		UpdatableContentController {
 
 	/**
 	 * 
@@ -27,7 +28,6 @@ public class GenericTableController<T extends DataObjectDto> implements
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-
 	}
 
 	public GenericTable<T> getGenericTable() {
@@ -50,22 +50,11 @@ public class GenericTableController<T extends DataObjectDto> implements
 		genericSearchModalWindowController.openWindow();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.pedrero.eclihand.controller.IDTOConsumer#consume(T)
-	 */
 	@Override
 	public void consume(T entity) {
 		genericTable.add(entity);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.pedrero.eclihand.controller.IDTOConsumer#consume(java.lang.Iterable)
-	 */
 	@Override
 	public void consume(Iterable<T> entity) {
 		genericTable.add(entity);
@@ -122,6 +111,12 @@ public class GenericTableController<T extends DataObjectDto> implements
 	public void setGenericSearchModalWindowController(
 			GenericSearchModalWindowController<T> genericSearchModalWindowController) {
 		this.genericSearchModalWindowController = genericSearchModalWindowController;
+	}
+
+	@Override
+	public void delete() {
+		// FIXME: Modifier la hierarchie d'interfaces (n'a pas lieu d'être sur
+		// un tableau)
 	}
 
 }

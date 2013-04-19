@@ -64,15 +64,17 @@ public class PlayerPanel extends AbstractEntityPanel implements
 
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 
-		getSwitchUpdateModeButton().setCaption(messageResolver.getMessage(UpdatableContentManager.MAKE_UPDATABLE_KEY));
-		getValidateChanges().setCaption(messageResolver.getMessage(UpdatableContentManager.VALIDATE_CHANGES_KEY));
-		getDelete().setCaption(messageResolver.getMessage(UpdatableContentManager.DELETE_KEY));
-
 		playerPropertyDisplayer.init();
 		teamTable.init();
 
 		layout.addComponent(playerPropertyDisplayer);
 		layout.addComponent(teamTable);
+
+		super.init();
+
+		getSwitchUpdateModeButton().setCaption(messageResolver.getMessage(UpdatableContentManager.MAKE_UPDATABLE_KEY));
+		getValidateChanges().setCaption(messageResolver.getMessage(UpdatableContentManager.VALIDATE_CHANGES_KEY));
+		getDelete().setCaption(messageResolver.getMessage(UpdatableContentManager.DELETE_KEY));
 	}
 
 	/**

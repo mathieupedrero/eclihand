@@ -16,6 +16,4 @@ public interface UpdatableContentManager {
 
 	public abstract void makeCreateMode();
 
-	public abstract void validateChanges();
-
 }

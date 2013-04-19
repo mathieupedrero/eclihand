@@ -96,14 +96,14 @@ public class TeamPanel extends AbstractEntityPanel implements
 		teamPropertyDisplayer.init();
 		playerTable.init();
 
-		getSwitchUpdateModeButton().setCaption(messageResolver.getMessage(UpdatableContentManager.MAKE_UPDATABLE_KEY));
-		getValidateChanges().setCaption(messageResolver.getMessage(UpdatableContentManager.VALIDATE_CHANGES_KEY));
-		getDelete().setCaption(messageResolver.getMessage(UpdatableContentManager.DELETE_KEY));
-
 		layout.addComponent(teamPropertyDisplayer);
 		layout.addComponent(playerTable);
 
 		super.init();
+
+		getSwitchUpdateModeButton().setCaption(messageResolver.getMessage(UpdatableContentManager.MAKE_UPDATABLE_KEY));
+		getValidateChanges().setCaption(messageResolver.getMessage(UpdatableContentManager.VALIDATE_CHANGES_KEY));
+		getDelete().setCaption(messageResolver.getMessage(UpdatableContentManager.DELETE_KEY));
 
 	}
 
@@ -120,6 +120,11 @@ public class TeamPanel extends AbstractEntityPanel implements
 	@Override
 	public Layout getMainLayout() {
 		return layout;
+	}
+
+	public void validateChanges() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

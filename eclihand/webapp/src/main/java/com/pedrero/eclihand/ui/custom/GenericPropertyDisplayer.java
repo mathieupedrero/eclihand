@@ -1,17 +1,21 @@
 package com.pedrero.eclihand.ui.custom;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.mvel2.MVEL;
 
+import com.pedrero.eclihand.controller.GenericPropertyDisplayerController;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.ui.EntityDisplayerComponent;
 import com.pedrero.eclihand.ui.custom.config.PropertyConfig;
 import com.pedrero.eclihand.ui.custom.config.PropertyDisplayerConfig;
+import com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel;
 import com.pedrero.eclihand.utils.EclihandUiException;
 import com.pedrero.eclihand.utils.Initiable;
+import com.pedrero.eclihand.utils.UpdatableContentController;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
 import com.pedrero.eclihand.utils.text.LocaleContainer;
 import com.pedrero.eclihand.utils.text.MessageResolver;
@@ -21,14 +25,12 @@ import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Panel;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextField;
 
 /**
@@ -39,7 +41,7 @@ import com.vaadin.ui.TextField;
  * @param <T>
  *            {@link DataObjectDto} type to be displayed
  */
-public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
+public class GenericPropertyDisplayer<T extends DataObjectDto> extends AbstractEntityPanel
 		implements Initiable, EntityDisplayerComponent<T>,
 		UpdatableContentDisplayer {
 
@@ -47,6 +49,8 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 	 * 
 	 */
 	private static final long serialVersionUID = 5698759988513402341L;
+
+	private GenericPropertyDisplayerController<T> genericPropertyDisplayerController;
 
 	/**
 	 * The configuration of this Property Displayer
@@ -63,21 +67,6 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 	 */
 	private GridLayout layout;
 
-	/**
-	 * Tells wether the data displayed can be updated or not
-	 */
-	private Boolean updatable = false;
-
-	/**
-	 * Button to switch to update mode
-	 */
-	private Button switchUpdateModeButton;
-
-	/**
-	 * Button to validate changes made in update mode
-	 */
-	private Button validateChanges;
-
 	@Resource
 	private MessageResolver messageResolver;
 
@@ -92,12 +81,9 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 
 	@Override
 	public void init() {
-		updatable = config.getIsEditModeDefault();
+		setShowButtons(config.getShowsEditButtons());
+		setShowDeleteButton(false);
 
-		switchUpdateModeButton = eclihandUiFactory.createButton();
-		switchUpdateModeButton.setCaption(messageResolver.getMessage(MAKE_UPDATABLE_KEY));
-		validateChanges = eclihandUiFactory.createButton();
-		validateChanges.setCaption(messageResolver.getMessage(VALIDATE_CHANGES_KEY));
 		Integer rowNumber = getConfig().getProperties().size();
 		layout = eclihandLayoutFactory.createCommonGridLayout(2, rowNumber + 1);
 		this.setContent(layout);
@@ -107,43 +93,10 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 			createLabelAndAddItToLineForProperty(currentRow, property);
 			currentRow++;
 		}
-		switchUpdateModeButton.addClickListener(new Button.ClickListener() {
+		super.init();
 
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -6563780592033942016L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				if (updatable) {
-					makeReadOnly();
-				} else {
-					makeUpdatable();
-				}
-			}
-		});
-		validateChanges.addClickListener(new Button.ClickListener() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -6563780592033942016L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				if (updatable) {
-					validateChanges();
-					makeReadOnly();
-				}
-			}
-		});
-
-		if (this.config.getShowsEditButtons()) {
-			layout.addComponent(switchUpdateModeButton, 0, currentRow);
-			layout.addComponent(validateChanges, 1, currentRow);
-		}
-
+		getSwitchUpdateModeButton().setCaption(messageResolver.getMessage(MAKE_UPDATABLE_KEY));
+		getValidateChanges().setCaption(messageResolver.getMessage(VALIDATE_CHANGES_KEY));
 	}
 
 	private void createLabelAndAddItToLineForProperty(Integer currentRow,
@@ -161,7 +114,7 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 		Integer currentRow = 0;
 		for (PropertyConfig property : getConfig().getProperties()) {
 			Object rawValue = MVEL.eval(property.getValuePath(), displayed);
-			if (updatable) {
+			if (getUpdatable()) {
 				AbstractField field = createEditableComponentAndAddItToLineForProperty(
 						currentRow, property);
 				if (rawValue != null) {
@@ -188,7 +141,7 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 	 */
 	@Override
 	public void makeUpdatable() {
-		updatable = true;
+		setUpdatable(true);
 		Integer currentRow = 0;
 		for (PropertyConfig property : getConfig().getProperties()) {
 			createEditableComponentAndAddItToLineForProperty(currentRow,
@@ -197,7 +150,8 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 		}
 		// validateChanges.setVisible(true);
 		display(displayed);
-		switchUpdateModeButton.setCaption(DISCARD_CHANGES_KEY);
+		getSwitchUpdateModeButton().setCaption(DISCARD_CHANGES_KEY);
+		super.makeUpdatable();
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -220,9 +174,10 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 	 */
 	@Override
 	public void makeReadOnly() {
-		updatable = false;
+		setUpdatable(false);
 		display(displayed);
-		switchUpdateModeButton.setCaption(MAKE_UPDATABLE_KEY);
+		getSwitchUpdateModeButton().setCaption(MAKE_UPDATABLE_KEY);
+		super.makeReadOnly();
 
 	}
 
@@ -290,7 +245,6 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 		this.makeUpdatable();
 	}
 
-	@Override
 	public void validateChanges() {
 		Integer currentRow = 0;
 		for (PropertyConfig property : getConfig().getProperties()) {
@@ -308,6 +262,30 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 
 	public void setConfig(PropertyDisplayerConfig config) {
 		this.config = config;
+	}
+
+	@Override
+	public List<UpdatableContentDisplayer> getContentDisplayers() {
+		return null;
+	}
+
+	@Override
+	public UpdatableContentController getController() {
+		return genericPropertyDisplayerController;
+	}
+
+	@Override
+	public Layout getMainLayout() {
+		return layout;
+	}
+
+	/**
+	 * @param genericPropertyDisplayerController
+	 *            the genericPropertyDisplayerController to set
+	 */
+	public void setGenericPropertyDisplayerController(
+			GenericPropertyDisplayerController<T> genericPropertyDisplayerController) {
+		this.genericPropertyDisplayerController = genericPropertyDisplayerController;
 	}
 
 }

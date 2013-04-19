@@ -14,10 +14,12 @@ import com.pedrero.eclihand.controller.EntityDisplayerController;
 import com.pedrero.eclihand.controller.GenericTableController;
 import com.pedrero.eclihand.controller.panel.BodyPanelController;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
+import com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel;
 import com.pedrero.eclihand.ui.table.config.TableColumnConfig;
 import com.pedrero.eclihand.ui.table.config.TableConfig;
 import com.pedrero.eclihand.utils.DisplayedEntity;
 import com.pedrero.eclihand.utils.Initiable;
+import com.pedrero.eclihand.utils.UpdatableContentController;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
 import com.pedrero.eclihand.utils.UpdatableContentManager;
 import com.pedrero.eclihand.utils.text.LocaleContainer;
@@ -28,12 +30,10 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 
-public class GenericTable<T extends DataObjectDto> extends Panel implements
+public class GenericTable<T extends DataObjectDto> extends AbstractEntityPanel implements
  UpdatableContentDisplayer, Initiable {
 
 	private Table dataTable;
@@ -66,21 +66,6 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 	private GenericTableController<T> genericTableController;
 
 	/**
-	 * Tells wether the data displayed can be updated or not
-	 */
-	private Boolean updatable = false;
-
-	/**
-	 * Button to switch to update mode
-	 */
-	private Button switchUpdateModeButton;
-
-	/**
-	 * Button to validate changes made in update mode
-	 */
-	private Button validateChanges;
-
-	/**
 	 * Button to remove all data from dataTable
 	 */
 	private Button removeAll;
@@ -106,94 +91,33 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 
 	@Override
 	public void init() {
-		layout = eclihandLayoutFactory.createCommonVerticalLayout();
-		this.setContent(layout);
+		setShowButtons(tableConfig.getShowsEditButtons());
+		setShowDeleteButton(false);
 
+		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		layout.removeAllComponents();
 
-		updatable = tableConfig.getIsEditModeDefault();
+		super.init();
 
 		initializeUIComponents();
-
-		HorizontalLayout buttonsLayout = initializeButtonsLayout();
-
+		layout.addComponent(dataTable);
 		refreshButtonsState();
-
 		dataTableInit();
 
-		layout.addComponent(dataTable);
-		layout.addComponent(buttonsLayout);
 	}
 
 	/**
 	 * Refreshes visibility and accessibility for the {@link GenericTable}
 	 */
 	public void refreshButtonsState() {
-		removeAll.setVisible(updatable);
-		removeAll.setEnabled(updatable);
-		add.setVisible(updatable);
-		add.setEnabled(updatable);
-		validateChanges.setVisible(updatable);
-		validateChanges.setEnabled(updatable);
-	}
-
-	private HorizontalLayout initializeButtonsLayout() {
-		HorizontalLayout buttonsLayout = eclihandLayoutFactory
-				.createCommonHorizontalLayout();
-
-		if (tableConfig.getShowsEditButtons()) {
-			buttonsLayout.addComponent(switchUpdateModeButton);
-			buttonsLayout.addComponent(validateChanges);
-		}
-
-		buttonsLayout.addComponent(removeAll);
-		buttonsLayout.addComponent(add);
-		return buttonsLayout;
+		removeAll.setVisible(getUpdatable());
+		removeAll.setEnabled(getUpdatable());
+		add.setVisible(getUpdatable());
+		add.setEnabled(getUpdatable());
 	}
 
 	private void initializeUIComponents() {
 		dataTable = new Table();
-
-		switchUpdateModeButton = eclihandUiFactory.createButton();
-		getGenericTableController();
-		switchUpdateModeButton
-				.setCaption(UpdatableContentManager.MAKE_UPDATABLE_KEY);
-		switchUpdateModeButton.addClickListener(new Button.ClickListener() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -6563780592033942016L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				if (updatable) {
-					makeReadOnly();
-				} else {
-					makeUpdatable();
-				}
-			}
-		});
-
-		validateChanges = eclihandUiFactory.createButton();
-		getGenericTableController();
-		validateChanges
-				.setCaption(UpdatableContentManager.VALIDATE_CHANGES_KEY);
-		validateChanges.addClickListener(new Button.ClickListener() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -6563780592033942016L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				if (updatable) {
-					validateChanges();
-					makeReadOnly();
-				}
-			}
-		});
 
 		removeAll = eclihandUiFactory.createButton();
 		removeAll.setCaption("remove.all");
@@ -206,11 +130,12 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if (updatable) {
+				if (getUpdatable()) {
 					removeAllDataObjects();
 				}
 			}
 		});
+		getButtonsLayout().addComponent(removeAll);
 
 		add = eclihandUiFactory.createButton();
 		add.setCaption("add");
@@ -223,13 +148,14 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if (updatable) {
+				if (getUpdatable()) {
 					getGenericTableController()
 							.getGenericSearchModalWindowController()
 							.openWindow();
 				}
 			}
 		});
+		getButtonsLayout().addComponent(add);
 	}
 
 	/**
@@ -254,7 +180,7 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 			dataTable.setColumnHeader(columnConfig.getId(),
 					messageResolver.getMessage(columnConfig.getLabelKey()));
 		}
-		if (updatable) {
+		if (getUpdatable()) {
 			container.addContainerProperty(UpdatableContentManager.class,
 					Button.class, null);
 
@@ -349,7 +275,7 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 			linkButton.setDescription(displayedEntity.getDescription());
 		}
 
-		if (updatable) {
+		if (getUpdatable()) {
 			Button deleteButton = eclihandUiFactory.createLinkButton();
 			deleteButton.setData(object);
 
@@ -508,25 +434,6 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 	}
 
 	/**
-	 * Gets the Updatable flag.
-	 * 
-	 * @return the Updatable flag
-	 */
-	public Boolean getUpdatable() {
-		return updatable;
-	}
-
-	/**
-	 * Sets the updatable flag.
-	 * 
-	 * @param updatable
-	 *            the updatable flag
-	 */
-	public void setUpdatable(Boolean updatable) {
-		this.updatable = updatable;
-	}
-
-	/**
 	 * Sets the controller of the {@link GenericTable}
 	 * 
 	 * @return the controller of the {@link GenericTable}
@@ -560,7 +467,6 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 		getGenericTableController().makeCreateMode();
 	}
 
-	@Override
 	public void validateChanges() {
 		getGenericTableController().validateChanges();
 	}
@@ -572,5 +478,20 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 	 */
 	public Collection<T> retrieveData() {
 		return initialDataObjectsList;
+	}
+
+	@Override
+	public List<UpdatableContentDisplayer> getContentDisplayers() {
+		return null;
+	}
+
+	@Override
+	public UpdatableContentController getController() {
+		return genericTableController;
+	}
+
+	@Override
+	public Layout getMainLayout() {
+		return layout;
 	}
 }

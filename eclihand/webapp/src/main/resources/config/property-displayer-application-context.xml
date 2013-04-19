@@ -19,14 +19,25 @@
 	
 	<bean id="teamPropertyDisplayer" class="com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer" scope="session">
     	<property name="config" ref="teamPropertyDisplayerConfig" />
+    	<property name="genericPropertyDisplayerController" ref="teamPropertyDisplayerController" />
     	
     	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
 	
 	<bean id="playerPropertyDisplayer" class="com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer" scope="session">
     	<property name="config" ref="playerPropertyDisplayerConfig" />
+    	<property name="genericPropertyDisplayerController" ref="playerPropertyDisplayerController" />
     	
     	<aop:scoped-proxy proxy-target-class="true"/>
+	</bean>
+
+	
+	<bean id="teamPropertyDisplayerController" class="com.pedrero.eclihand.controller.GenericPropertyDisplayerController">
+    	<property name="genericPropertyDisplayer" ref="teamPropertyDisplayer" />
+	</bean>
+	
+	<bean id="playerPropertyDisplayerController" class="com.pedrero.eclihand.controller.GenericPropertyDisplayerController">
+    	<property name="genericPropertyDisplayer" ref="playerPropertyDisplayer" />
 	</bean>
 	
 </beans>
