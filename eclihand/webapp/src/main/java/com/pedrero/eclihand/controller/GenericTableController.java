@@ -7,11 +7,11 @@ import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.service.DataObjectService;
 import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.IDTOConsumer;
-import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
+import com.pedrero.eclihand.utils.UpdatableContentManager;
 
 @Component
 public class GenericTableController<T extends DataObjectDto> implements
-		EclihandController, IDTOConsumer<T>, UpdatableContentDisplayer {
+		EclihandController, IDTOConsumer<T>, UpdatableContentManager {
 
 	/**
 	 * 
@@ -73,20 +73,24 @@ public class GenericTableController<T extends DataObjectDto> implements
 
 	@Override
 	public void makeUpdatable() {
-		getGenericTable().setUpdatable(true);
-		getGenericTable().refreshButtonsState();
-		getGenericTable().dataTableInit();
-		getGenericTable().refreshData();
+		boolean updateMode = true;
+		setTableUpdatable(updateMode);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.pedrero.eclihand.utils.UpdatableContentDisplayer#makeReadOnly()
-	 */
+	@Override
+	public void makeCreateMode() {
+		boolean updateMode = true;
+		setTableUpdatable(updateMode);
+	}
+
 	@Override
 	public void makeReadOnly() {
-		getGenericTable().setUpdatable(false);
+		boolean updateMode = false;
+		setTableUpdatable(updateMode);
+	}
+
+	private void setTableUpdatable(boolean updateMode) {
+		getGenericTable().setUpdatable(updateMode);
 		getGenericTable().refreshButtonsState();
 		getGenericTable().dataTableInit();
 		getGenericTable().refreshData();

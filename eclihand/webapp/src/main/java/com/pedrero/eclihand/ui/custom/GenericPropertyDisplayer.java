@@ -285,13 +285,11 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends Panel
 				+ " not handled in Config");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.pedrero.eclihand.ui.custom.UpdatableContentDisplayer#validateChanges
-	 * ()
-	 */
+	@Override
+	public void makeCreateMode() {
+		this.makeUpdatable();
+	}
+
 	@Override
 	public void validateChanges() {
 		Integer currentRow = 0;

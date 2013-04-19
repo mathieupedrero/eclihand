@@ -1,5 +1,8 @@
 package com.pedrero.eclihand.ui.panel.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
@@ -9,18 +12,16 @@ import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.ui.EntityDisplayerComponent;
 import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
-import com.pedrero.eclihand.ui.panel.EclihandMainPanel;
 import com.pedrero.eclihand.ui.table.GenericTable;
+import com.pedrero.eclihand.utils.UpdatableContentController;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
+import com.pedrero.eclihand.utils.UpdatableContentManager;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
-import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Layout;
 
 @Component
-public class TeamPanel extends EclihandMainPanel implements
+public class TeamPanel extends AbstractEntityPanel implements
 		EntityDisplayerComponent<TeamDto> {
 
 	/**
@@ -40,45 +41,11 @@ public class TeamPanel extends EclihandMainPanel implements
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
 
-	@Resource
-	private EclihandUiFactory eclihandUiFactory;
-
-	@Resource
-	private MessageResolver messageResolver;
+	@Resource MessageResolver messageResolver;
 
 	private Layout layout;
 
-	private Boolean updatable;
-
-	/**
-	 * Button to switch to update mode
-	 */
-	private Button switchUpdateModeButton;
-
-	/**
-	 * Button to validate changes made in update mode
-	 */
-	private Button validateChanges;
-
-	/**
-	 * Button to validate changes made in update mode
-	 */
-	private Button delete;
-
-	/**
-	 * @return the updatable
-	 */
-	public Boolean getUpdatable() {
-		return updatable;
-	}
-
-	/**
-	 * @param updatable
-	 *            the updatable to set
-	 */
-	public void setUpdatable(Boolean updatable) {
-		this.updatable = updatable;
-	}
+	private List<UpdatableContentDisplayer> contentDisplayers;
 
 	/**
 	 * @return the teamPropertyDisplayer
@@ -120,114 +87,39 @@ public class TeamPanel extends EclihandMainPanel implements
 
 	@Override
 	public void init() {
-		updatable = false;
+		contentDisplayers = new ArrayList<UpdatableContentDisplayer>();
+		contentDisplayers.add(teamPropertyDisplayer);
+		contentDisplayers.add(playerTable);
+
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
-		this.setContent(layout);
-
-		switchUpdateModeButton = eclihandUiFactory.createButton();
-
-		switchUpdateModeButton.setCaption(messageResolver.getMessage(UpdatableContentDisplayer.MAKE_UPDATABLE_KEY));
-		switchUpdateModeButton.addClickListener(new Button.ClickListener() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -6563780592033942016L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				if (updatable) {
-					teamPanelController.makeReadOnly();
-				} else {
-					teamPanelController.makeUpdatable();
-				}
-			}
-		});
-
-		validateChanges = eclihandUiFactory.createButton();
-
-		validateChanges.setCaption(messageResolver.getMessage(UpdatableContentDisplayer.VALIDATE_CHANGES_KEY));
-		validateChanges.addClickListener(new Button.ClickListener() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -6563780592033942016L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				if (updatable) {
-					teamPanelController.validateChanges();
-					teamPanelController.makeReadOnly();
-				}
-			}
-		});
-
-		delete = eclihandUiFactory.createButton();
-
-		delete.setCaption(messageResolver.getMessage(UpdatableContentDisplayer.DELETE_KEY));
-
-		delete.addClickListener(new Button.ClickListener() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -6563780592033942016L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				if (updatable) {
-					teamPanelController.delete();
-				}
-			}
-		});
 
 		teamPropertyDisplayer.init();
 		playerTable.init();
 
+		getSwitchUpdateModeButton().setCaption(messageResolver.getMessage(UpdatableContentManager.MAKE_UPDATABLE_KEY));
+		getValidateChanges().setCaption(messageResolver.getMessage(UpdatableContentManager.VALIDATE_CHANGES_KEY));
+		getDelete().setCaption(messageResolver.getMessage(UpdatableContentManager.DELETE_KEY));
+
 		layout.addComponent(teamPropertyDisplayer);
 		layout.addComponent(playerTable);
 
-		Layout buttonsLayout = eclihandLayoutFactory
-				.createCommonHorizontalLayout();
-		buttonsLayout.addComponent(switchUpdateModeButton);
-		buttonsLayout.addComponent(validateChanges);
-		buttonsLayout.addComponent(delete);
-
-		layout.addComponent(buttonsLayout);
+		super.init();
 
 	}
 
-	public void makeUpdatable() {
-		updatable = true;
-		delete.setVisible(true);
-		validateChanges.setVisible(true);
-		switchUpdateModeButton.setVisible(true);
-		switchUpdateModeButton.setCaption(messageResolver.getMessage(UpdatableContentDisplayer.DISCARD_CHANGES_KEY));
-
-		teamPropertyDisplayer.makeUpdatable();
-		playerTable.makeUpdatable();
+	@Override
+	public List<UpdatableContentDisplayer> getContentDisplayers() {
+		return contentDisplayers;
 	}
 
-	public void makeCreateMode() {
-		updatable = true;
-		delete.setVisible(false);
-		validateChanges.setVisible(true);
-		switchUpdateModeButton.setVisible(false);
-
-		teamPropertyDisplayer.makeUpdatable();
-		playerTable.makeUpdatable();
+	@Override
+	public UpdatableContentController getController() {
+		return teamPanelController;
 	}
 
-	public void makeReadOnly() {
-		updatable = false;
-		delete.setVisible(false);
-		validateChanges.setVisible(false);
-		switchUpdateModeButton.setVisible(true);
-		switchUpdateModeButton.setCaption(messageResolver.getMessage(UpdatableContentDisplayer.MAKE_UPDATABLE_KEY));
-
-		teamPropertyDisplayer.makeReadOnly();
-		playerTable.makeReadOnly();
+	@Override
+	public Layout getMainLayout() {
+		return layout;
 	}
 
 }

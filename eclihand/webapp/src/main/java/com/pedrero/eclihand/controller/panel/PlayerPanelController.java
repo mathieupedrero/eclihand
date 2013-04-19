@@ -14,11 +14,11 @@ import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.service.PlayerService;
 import com.pedrero.eclihand.ui.EntityDisplayerComponent;
 import com.pedrero.eclihand.ui.panel.entity.PlayerPanel;
-import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
+import com.pedrero.eclihand.utils.UpdatableContentController;
 
 @Controller
 public class PlayerPanelController implements
-		EntityDisplayerController<PlayerDto>, UpdatableContentDisplayer {
+ EntityDisplayerController<PlayerDto>, UpdatableContentController {
 	/**
 	 * 
 	 */
@@ -82,6 +82,11 @@ public class PlayerPanelController implements
 	@Override
 	public void makeReadOnly() {
 		playerPanel.makeReadOnly();
+	}
+
+	@Override
+	public void makeCreateMode() {
+		playerPanel.makeCreateMode();
 	}
 
 	@Override

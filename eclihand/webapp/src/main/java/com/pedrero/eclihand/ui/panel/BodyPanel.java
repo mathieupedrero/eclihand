@@ -5,8 +5,8 @@ import javax.annotation.Resource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 
+import com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel;
 import com.pedrero.eclihand.ui.panel.entity.PlayerPanel;
-import com.pedrero.eclihand.ui.panel.entity.TeamPanel;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
@@ -24,7 +24,7 @@ public class BodyPanel extends EclihandMainPanel implements Initiable {
 	private TeamsPanel teamsPanel;
 
 	@Resource
-	private TeamPanel teamPanel;
+	private AbstractEntityPanel teamPanel;
 
 	@Resource
 	private PlayersPanel playersPanel;

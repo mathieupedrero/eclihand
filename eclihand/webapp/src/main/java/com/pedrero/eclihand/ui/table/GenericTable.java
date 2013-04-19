@@ -19,6 +19,7 @@ import com.pedrero.eclihand.ui.table.config.TableConfig;
 import com.pedrero.eclihand.utils.DisplayedEntity;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
+import com.pedrero.eclihand.utils.UpdatableContentManager;
 import com.pedrero.eclihand.utils.text.LocaleContainer;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
@@ -33,7 +34,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 
 public class GenericTable<T extends DataObjectDto> extends Panel implements
-		UpdatableContentDisplayer, Initiable {
+ UpdatableContentDisplayer, Initiable {
 
 	private Table dataTable;
 
@@ -156,7 +157,7 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 		switchUpdateModeButton = eclihandUiFactory.createButton();
 		getGenericTableController();
 		switchUpdateModeButton
-				.setCaption(UpdatableContentDisplayer.MAKE_UPDATABLE_KEY);
+				.setCaption(UpdatableContentManager.MAKE_UPDATABLE_KEY);
 		switchUpdateModeButton.addClickListener(new Button.ClickListener() {
 
 			/**
@@ -177,7 +178,7 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 		validateChanges = eclihandUiFactory.createButton();
 		getGenericTableController();
 		validateChanges
-				.setCaption(UpdatableContentDisplayer.VALIDATE_CHANGES_KEY);
+				.setCaption(UpdatableContentManager.VALIDATE_CHANGES_KEY);
 		validateChanges.addClickListener(new Button.ClickListener() {
 
 			/**
@@ -254,11 +255,11 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 					messageResolver.getMessage(columnConfig.getLabelKey()));
 		}
 		if (updatable) {
-			container.addContainerProperty(UpdatableContentDisplayer.class,
+			container.addContainerProperty(UpdatableContentManager.class,
 					Button.class, null);
 
 			dataTable
-					.setColumnHeader(UpdatableContentDisplayer.class, "remove");
+					.setColumnHeader(UpdatableContentManager.class, "remove");
 		}
 
 		dataTable.setContainerDataSource(container);
@@ -365,7 +366,7 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 				}
 			});
 			deleteButton.setCaption("delete");
-			item.getItemProperty(UpdatableContentDisplayer.class).setValue(
+			item.getItemProperty(UpdatableContentManager.class).setValue(
 					deleteButton);
 		}
 	}
@@ -552,7 +553,11 @@ public class GenericTable<T extends DataObjectDto> extends Panel implements
 	@Override
 	public void makeReadOnly() {
 		getGenericTableController().makeReadOnly();
+	}
 
+	@Override
+	public void makeCreateMode() {
+		getGenericTableController().makeCreateMode();
 	}
 
 	@Override
