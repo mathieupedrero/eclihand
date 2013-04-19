@@ -98,6 +98,7 @@ public class TeamPanelController implements EntityDisplayerController<TeamDto>,
 		teamPanel.makeReadOnly();
 	}
 
+	@Override
 	public void delete() {
 		teamService.delete(team);
 		bodyPanelController.showHomePanel();

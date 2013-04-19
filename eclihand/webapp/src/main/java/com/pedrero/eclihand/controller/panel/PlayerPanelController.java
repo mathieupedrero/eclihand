@@ -59,6 +59,7 @@ public class PlayerPanelController implements
 		playerPanel.makeCreateMode();
 	}
 
+	@Override
 	public void delete() {
 		playerService.delete(player);
 		bodyPanelController.showHomePanel();
