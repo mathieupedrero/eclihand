@@ -81,7 +81,8 @@ public class PlayerPanel extends EclihandMainPanel implements
 
 		switchUpdateModeButton = eclihandUiFactory.createButton();
 
-		switchUpdateModeButton.setCaption(messageResolver.getMessage(UpdatableContentDisplayer.MAKE_UPDATABLE_KEY));
+		switchUpdateModeButton.setCaption(messageResolver
+				.getMessage(UpdatableContentDisplayer.MAKE_UPDATABLE_KEY));
 		switchUpdateModeButton.addClickListener(new Button.ClickListener() {
 
 			/**
@@ -101,7 +102,8 @@ public class PlayerPanel extends EclihandMainPanel implements
 
 		validateChanges = eclihandUiFactory.createButton();
 
-		validateChanges.setCaption(messageResolver.getMessage(UpdatableContentDisplayer.VALIDATE_CHANGES_KEY));
+		validateChanges.setCaption(messageResolver
+				.getMessage(UpdatableContentDisplayer.VALIDATE_CHANGES_KEY));
 		validateChanges.addClickListener(new Button.ClickListener() {
 
 			/**
@@ -120,7 +122,8 @@ public class PlayerPanel extends EclihandMainPanel implements
 
 		delete = eclihandUiFactory.createButton();
 
-		delete.setCaption(messageResolver.getMessage(UpdatableContentDisplayer.DELETE_KEY));
+		delete.setCaption(messageResolver
+				.getMessage(UpdatableContentDisplayer.DELETE_KEY));
 		delete.addClickListener(new Button.ClickListener() {
 
 			/**
@@ -157,7 +160,8 @@ public class PlayerPanel extends EclihandMainPanel implements
 		delete.setVisible(true);
 		validateChanges.setVisible(true);
 		switchUpdateModeButton.setVisible(true);
-		switchUpdateModeButton.setCaption(messageResolver.getMessage(UpdatableContentDisplayer.DISCARD_CHANGES_KEY));
+		switchUpdateModeButton.setCaption(messageResolver
+				.getMessage(UpdatableContentDisplayer.DISCARD_CHANGES_KEY));
 
 		playerPropertyDisplayer.makeUpdatable();
 		teamTable.makeUpdatable();
@@ -177,8 +181,9 @@ public class PlayerPanel extends EclihandMainPanel implements
 		updatable = false;
 		delete.setVisible(false);
 		validateChanges.setVisible(false);
-		switchUpdateModeButton.setVisible(false);
-		switchUpdateModeButton.setCaption(messageResolver.getMessage(UpdatableContentDisplayer.MAKE_UPDATABLE_KEY));
+		switchUpdateModeButton.setVisible(true);
+		switchUpdateModeButton.setCaption(messageResolver
+				.getMessage(UpdatableContentDisplayer.MAKE_UPDATABLE_KEY));
 
 		playerPropertyDisplayer.makeReadOnly();
 		teamTable.makeReadOnly();
