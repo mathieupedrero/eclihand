@@ -469,18 +469,21 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityPanel
 	public void makeUpdatable() {
 		boolean updateMode = true;
 		setTableUpdatable(updateMode);
+		super.makeUpdatable();
 	}
 
 	@Override
 	public void makeCreateMode() {
 		boolean updateMode = true;
 		setTableUpdatable(updateMode);
+		super.makeCreateMode();
 	}
 
 	@Override
 	public void makeReadOnly() {
 		boolean updateMode = false;
 		setTableUpdatable(updateMode);
+		super.makeReadOnly();
 	}
 
 	private void setTableUpdatable(boolean updateMode) {
