@@ -33,8 +33,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Table;
 
-public class GenericTable<T extends DataObjectDto> extends AbstractEntityPanel implements
- UpdatableContentDisplayer, Initiable {
+public class GenericTable<T extends DataObjectDto> extends AbstractEntityPanel
+		implements UpdatableContentDisplayer, Initiable {
 
 	private Table dataTable;
 
@@ -97,12 +97,14 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityPanel i
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		layout.removeAllComponents();
 
+		initializeUIComponents();
+		dataTableInit();
+		layout.addComponent(dataTable);
+
 		super.init();
 
-		initializeUIComponents();
-		layout.addComponent(dataTable);
-		refreshButtonsState();
-		dataTableInit();
+		getButtonsLayout().addComponent(removeAll);
+		getButtonsLayout().addComponent(add);
 
 	}
 
@@ -135,7 +137,6 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityPanel i
 				}
 			}
 		});
-		getButtonsLayout().addComponent(removeAll);
 
 		add = eclihandUiFactory.createButton();
 		add.setCaption("add");
@@ -155,7 +156,6 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityPanel i
 				}
 			}
 		});
-		getButtonsLayout().addComponent(add);
 	}
 
 	/**
@@ -184,8 +184,7 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityPanel i
 			container.addContainerProperty(UpdatableContentManager.class,
 					Button.class, null);
 
-			dataTable
-					.setColumnHeader(UpdatableContentManager.class, "remove");
+			dataTable.setColumnHeader(UpdatableContentManager.class, "remove");
 		}
 
 		dataTable.setContainerDataSource(container);
@@ -218,7 +217,9 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityPanel i
 			Object displayedValue = value;
 
 			if (columnConfig.getFormatter() != null) {
-				displayedValue = columnConfig.getFormatter().convertToPresentation(value, localeContainer.getLocale());
+				displayedValue = columnConfig.getFormatter()
+						.convertToPresentation(value,
+								localeContainer.getLocale());
 			}
 
 			// Gathering information for description computing
@@ -449,22 +450,6 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityPanel i
 	public void setGenericTableController(
 			GenericTableController<T> genericTableController) {
 		this.genericTableController = genericTableController;
-	}
-
-	@Override
-	public void makeUpdatable() {
-		getGenericTableController().makeUpdatable();
-
-	}
-
-	@Override
-	public void makeReadOnly() {
-		getGenericTableController().makeReadOnly();
-	}
-
-	@Override
-	public void makeCreateMode() {
-		getGenericTableController().makeCreateMode();
 	}
 
 	public void validateChanges() {

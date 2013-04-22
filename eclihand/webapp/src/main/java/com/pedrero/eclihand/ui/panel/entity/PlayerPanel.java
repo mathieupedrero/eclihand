@@ -16,7 +16,6 @@ import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
-import com.pedrero.eclihand.utils.UpdatableContentManager;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Layout;
@@ -71,10 +70,6 @@ public class PlayerPanel extends AbstractEntityPanel implements
 		layout.addComponent(teamTable);
 
 		super.init();
-
-		getSwitchUpdateModeButton().setCaption(messageResolver.getMessage(UpdatableContentManager.MAKE_UPDATABLE_KEY));
-		getValidateChanges().setCaption(messageResolver.getMessage(UpdatableContentManager.VALIDATE_CHANGES_KEY));
-		getDelete().setCaption(messageResolver.getMessage(UpdatableContentManager.DELETE_KEY));
 	}
 
 	/**

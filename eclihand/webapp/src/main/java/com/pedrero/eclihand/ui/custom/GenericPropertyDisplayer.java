@@ -41,8 +41,8 @@ import com.vaadin.ui.TextField;
  * @param <T>
  *            {@link DataObjectDto} type to be displayed
  */
-public class GenericPropertyDisplayer<T extends DataObjectDto> extends AbstractEntityPanel
-		implements Initiable, EntityDisplayerComponent<T>,
+public class GenericPropertyDisplayer<T extends DataObjectDto> extends
+		AbstractEntityPanel implements Initiable, EntityDisplayerComponent<T>,
 		UpdatableContentDisplayer {
 
 	/**
@@ -94,9 +94,6 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends AbstractE
 			currentRow++;
 		}
 		super.init();
-
-		getSwitchUpdateModeButton().setCaption(messageResolver.getMessage(MAKE_UPDATABLE_KEY));
-		getValidateChanges().setCaption(messageResolver.getMessage(VALIDATE_CHANGES_KEY));
 	}
 
 	private void createLabelAndAddItToLineForProperty(Integer currentRow,
@@ -125,8 +122,9 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends AbstractE
 				if (property.getFormatter() != null) {
 					label.setConverter(property.getFormatter());
 				}
-				if (rawValue !=null){
-				label.setPropertyDataSource(new ObjectProperty<Object>(rawValue));
+				if (rawValue != null) {
+					label.setPropertyDataSource(new ObjectProperty<Object>(
+							rawValue));
 				}
 			}
 			currentRow++;
@@ -148,9 +146,9 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends AbstractE
 					property);
 			currentRow++;
 		}
-		// validateChanges.setVisible(true);
-		display(displayed);
-		getSwitchUpdateModeButton().setCaption(DISCARD_CHANGES_KEY);
+		if (displayed != null) {
+			display(displayed);
+		}
 		super.makeUpdatable();
 	}
 
@@ -175,8 +173,9 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends AbstractE
 	@Override
 	public void makeReadOnly() {
 		setUpdatable(false);
-		display(displayed);
-		getSwitchUpdateModeButton().setCaption(MAKE_UPDATABLE_KEY);
+		if (displayed != null) {
+			display(displayed);
+		}
 		super.makeReadOnly();
 
 	}
@@ -192,21 +191,27 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends AbstractE
 	}
 
 	@SuppressWarnings("rawtypes")
-	private AbstractField createAndConfigurePropertyComponent(PropertyConfig propertyConfig) {
-		Class<? extends Object> dataTypeClass = propertyConfig.retrieveClassDataType();
-		if (dataTypeClass.equals(String.class) || Number.class.isAssignableFrom(dataTypeClass) || dataTypeClass.isEnum()
-				|| dataTypeClass.equals(Date.class)) {
+	private AbstractField createAndConfigurePropertyComponent(
+			PropertyConfig propertyConfig) {
+		Class<? extends Object> dataTypeClass = propertyConfig
+				.retrieveClassDataType();
+		if (dataTypeClass.equals(String.class)
+				|| Number.class.isAssignableFrom(dataTypeClass)
+				|| dataTypeClass.isEnum() || dataTypeClass.equals(Date.class)) {
 			Converter<String, Object> converter = propertyConfig.getFormatter();
 
-			if (propertyConfig.getMaxValue() != null && propertyConfig.getMinValue() != null) {
+			if (propertyConfig.getMaxValue() != null
+					&& propertyConfig.getMinValue() != null) {
 				ComboBox combo = new ComboBox();
 				if (Integer.class.equals(dataTypeClass)) {
-					Integer beginning = Integer.valueOf(propertyConfig.getMinValue());
+					Integer beginning = Integer.valueOf(propertyConfig
+							.getMinValue());
 					Integer end = Integer.valueOf(propertyConfig.getMaxValue());
 					for (Integer i = beginning; i <= end; i++) {
 						combo.addItem(i);
-						Object toDisplay = converter == null ? i : converter.convertToPresentation(i,
-								localeContainer.getLocale());
+						Object toDisplay = converter == null ? i : converter
+								.convertToPresentation(i,
+										localeContainer.getLocale());
 						combo.setItemCaption(i, toDisplay.toString());
 					}
 				} else if (Long.class.equals(dataTypeClass)) {
@@ -214,8 +219,9 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends AbstractE
 					Long end = Long.valueOf(propertyConfig.getMaxValue());
 					for (Long i = beginning; i <= end; i++) {
 						combo.addItem(i);
-						Object toDisplay = converter == null ? i : converter.convertToPresentation(i,
-								localeContainer.getLocale());
+						Object toDisplay = converter == null ? i : converter
+								.convertToPresentation(i,
+										localeContainer.getLocale());
 						combo.setItemCaption(i, toDisplay.toString());
 					}
 				}
@@ -225,8 +231,9 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends AbstractE
 				ComboBox combo = new ComboBox();
 				for (Object value : dataTypeClass.getEnumConstants()) {
 					combo.addItem(value);
-					Object toDisplay = converter == null ? value : converter.convertToPresentation(value,
-							localeContainer.getLocale());
+					Object toDisplay = converter == null ? value : converter
+							.convertToPresentation(value,
+									localeContainer.getLocale());
 					combo.setItemCaption(value, toDisplay.toString());
 				}
 				return combo;
@@ -236,8 +243,8 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends AbstractE
 			}
 			return new TextField();
 		}
-		throw new EclihandUiException("Configuration exception : datatype " + propertyConfig.getDataType()
-				+ " not handled in Config");
+		throw new EclihandUiException("Configuration exception : datatype "
+				+ propertyConfig.getDataType() + " not handled in Config");
 	}
 
 	@Override

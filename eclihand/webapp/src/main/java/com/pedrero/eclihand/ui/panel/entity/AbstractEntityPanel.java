@@ -7,14 +7,24 @@ import javax.annotation.Resource;
 import com.pedrero.eclihand.ui.panel.EclihandMainPanel;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
+import com.pedrero.eclihand.utils.UpdatableContentManager;
+import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Layout;
 
-public abstract class AbstractEntityPanel extends EclihandMainPanel implements UpdatableContentDisplayer {
+public abstract class AbstractEntityPanel extends EclihandMainPanel implements
+		UpdatableContentDisplayer {
+
+	private String makeUpdatableCaptionKey = UpdatableContentManager.MAKE_UPDATABLE_KEY;
+
+	private String discardChangesCaptionKey = UpdatableContentManager.DISCARD_CHANGES_KEY;
+
+	private String validateChangesCaptionKey = UpdatableContentManager.VALIDATE_CHANGES_KEY;
+
+	private String deleteCaptionKey = UpdatableContentManager.DELETE_KEY;
 
 	/**
 	 * 
@@ -27,11 +37,14 @@ public abstract class AbstractEntityPanel extends EclihandMainPanel implements U
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
 
+	@Resource
+	private MessageResolver messageResolver;
+
 	private Layout globalLayout;
 
 	private Layout buttonsLayout;
-	
-	private Boolean updatable;
+
+	private Boolean updatable = false;
 	/**
 	 * Button to switch to update mode
 	 */
@@ -49,22 +62,6 @@ public abstract class AbstractEntityPanel extends EclihandMainPanel implements U
 
 	private Boolean showDeleteButton = true;
 
-	public AbstractEntityPanel() {
-		super();
-	}
-
-	public AbstractEntityPanel(ComponentContainer content) {
-		super(content);
-	}
-
-	public AbstractEntityPanel(String caption, ComponentContainer content) {
-		super(caption, content);
-	}
-
-	public AbstractEntityPanel(String caption) {
-		super(caption);
-	}
-
 	/**
 	 * @return the updatable
 	 */
@@ -81,14 +78,18 @@ public abstract class AbstractEntityPanel extends EclihandMainPanel implements U
 	}
 
 	public void init() {
-		updatable = false;
-
 		globalLayout = eclihandLayoutFactory.createCommonVerticalLayout();
 		buttonsLayout = eclihandLayoutFactory.createCommonHorizontalLayout();
 
 		switchUpdateModeButton = eclihandUiFactory.createButton();
+		switchUpdateModeButton.setCaption(messageResolver
+				.getMessage(updatable ? makeUpdatableCaptionKey
+						: discardChangesCaptionKey));
 		validateChanges = eclihandUiFactory.createButton();
+		validateChanges.setCaption(messageResolver
+				.getMessage(validateChangesCaptionKey));
 		delete = eclihandUiFactory.createButton();
+		delete.setCaption(messageResolver.getMessage(deleteCaptionKey));
 
 		// Layouts
 		this.setContent(globalLayout);
@@ -149,6 +150,12 @@ public abstract class AbstractEntityPanel extends EclihandMainPanel implements U
 				}
 			}
 		});
+
+		if (updatable) {
+			makeUpdatable();
+		} else {
+			makeReadOnly();
+		}
 	}
 
 	public void makeUpdatable() {
@@ -156,6 +163,8 @@ public abstract class AbstractEntityPanel extends EclihandMainPanel implements U
 		delete.setVisible(getShowButtons() && getShowDeleteButton());
 		validateChanges.setVisible(getShowButtons());
 		switchUpdateModeButton.setVisible(getShowButtons());
+		switchUpdateModeButton.setCaption(messageResolver
+				.getMessage(discardChangesCaptionKey));
 
 		if (getContentDisplayers() != null) {
 			for (UpdatableContentDisplayer contentDisplayer : getContentDisplayers()) {
@@ -182,6 +191,8 @@ public abstract class AbstractEntityPanel extends EclihandMainPanel implements U
 		delete.setVisible(false);
 		validateChanges.setVisible(false);
 		switchUpdateModeButton.setVisible(getShowButtons());
+		switchUpdateModeButton.setCaption(messageResolver
+				.getMessage(makeUpdatableCaptionKey));
 
 		if (getContentDisplayers() != null) {
 			for (UpdatableContentDisplayer contentDisplayer : getContentDisplayers()) {
@@ -210,7 +221,7 @@ public abstract class AbstractEntityPanel extends EclihandMainPanel implements U
 	protected Button getDelete() {
 		return delete;
 	}
-	
+
 	/**
 	 * @return the switchUpdateModeButton
 	 */
@@ -252,6 +263,38 @@ public abstract class AbstractEntityPanel extends EclihandMainPanel implements U
 	 */
 	protected void setShowDeleteButton(Boolean showDeleteButton) {
 		this.showDeleteButton = showDeleteButton;
+	}
+
+	/**
+	 * @param makeUpdatableCaptionKey
+	 *            the makeUpdatableCaptionKey to set
+	 */
+	public void setMakeUpdatableCaptionKey(String makeUpdatableCaptionKey) {
+		this.makeUpdatableCaptionKey = makeUpdatableCaptionKey;
+	}
+
+	/**
+	 * @param discardChangesCaptionKey
+	 *            the discardChangesCaptionKey to set
+	 */
+	public void setDiscardChangesCaptionKey(String discardChangesCaptionKey) {
+		this.discardChangesCaptionKey = discardChangesCaptionKey;
+	}
+
+	/**
+	 * @param validateChangesCaptionKey
+	 *            the validateChangesCaptionKey to set
+	 */
+	public void setValidateChangesCaptionKey(String validateChangesCaptionKey) {
+		this.validateChangesCaptionKey = validateChangesCaptionKey;
+	}
+
+	/**
+	 * @param deleteCaptionKey
+	 *            the deleteCaptionKey to set
+	 */
+	public void setDeleteCaptionKey(String deleteCaptionKey) {
+		this.deleteCaptionKey = deleteCaptionKey;
 	}
 
 }

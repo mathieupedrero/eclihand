@@ -18,7 +18,7 @@ import com.pedrero.eclihand.utils.UpdatableContentController;
 
 @Controller
 public class PlayerPanelController implements
- EntityDisplayerController<PlayerDto>, UpdatableContentController {
+		EntityDisplayerController<PlayerDto>, UpdatableContentController {
 	/**
 	 * 
 	 */
@@ -92,9 +92,8 @@ public class PlayerPanelController implements
 
 	@Override
 	public void validateChanges() {
-		playerPanel.getPlayerPropertyDisplayer().validateChanges();
-		playerPanel.getTeamTable().validateChanges();
-		Set<TeamDto> teamList = new HashSet<TeamDto>(playerPanel.getTeamTable().retrieveData());
+		Set<TeamDto> teamList = new HashSet<TeamDto>(playerPanel.getTeamTable()
+				.retrieveData());
 		player.setTeams(teamList);
 		if (player.getId() != null) {
 			playerService.update(player);
