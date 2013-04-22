@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
+import com.pedrero.eclihand.controller.panel.AbstractEntityController;
 import com.pedrero.eclihand.controller.panel.PlayerPanelController;
 import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.TeamDto;
@@ -75,7 +76,7 @@ public class PlayerPanel extends AbstractEntityPanel implements
 	/**
 	 * @return the playerPanelController
 	 */
-	public PlayerPanelController getPlayerPanelController() {
+	public AbstractEntityController getPlayerPanelController() {
 		return playerPanelController;
 	}
 
@@ -120,11 +121,6 @@ public class PlayerPanel extends AbstractEntityPanel implements
 	}
 
 	@Override
-	public List<UpdatableContentDisplayer> getContentDisplayers() {
-		return contentDisplayers;
-	}
-
-	@Override
 	public UpdatableContentController getController() {
 		return playerPanelController;
 	}
@@ -132,6 +128,11 @@ public class PlayerPanel extends AbstractEntityPanel implements
 	@Override
 	public Layout getMainLayout() {
 		return layout;
+	}
+
+	@Override
+	public List<UpdatableContentDisplayer> getContentDisplayers() {
+		return contentDisplayers;
 	}
 
 }

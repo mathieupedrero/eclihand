@@ -165,12 +165,6 @@ public abstract class AbstractEntityPanel extends EclihandMainPanel implements
 		switchUpdateModeButton.setVisible(getShowButtons());
 		switchUpdateModeButton.setCaption(messageResolver
 				.getMessage(discardChangesCaptionKey));
-
-		if (getContentDisplayers() != null) {
-			for (UpdatableContentDisplayer contentDisplayer : getContentDisplayers()) {
-				contentDisplayer.makeUpdatable();
-			}
-		}
 	}
 
 	public void makeCreateMode() {
@@ -178,12 +172,6 @@ public abstract class AbstractEntityPanel extends EclihandMainPanel implements
 		delete.setVisible(false);
 		validateChanges.setVisible(getShowButtons());
 		switchUpdateModeButton.setVisible(false);
-
-		if (getContentDisplayers() != null) {
-			for (UpdatableContentDisplayer contentDisplayer : getContentDisplayers()) {
-				contentDisplayer.makeCreateMode();
-			}
-		}
 	}
 
 	public void makeReadOnly() {
@@ -193,12 +181,6 @@ public abstract class AbstractEntityPanel extends EclihandMainPanel implements
 		switchUpdateModeButton.setVisible(getShowButtons());
 		switchUpdateModeButton.setCaption(messageResolver
 				.getMessage(makeUpdatableCaptionKey));
-
-		if (getContentDisplayers() != null) {
-			for (UpdatableContentDisplayer contentDisplayer : getContentDisplayers()) {
-				contentDisplayer.makeReadOnly();
-			}
-		}
 	}
 
 	/**

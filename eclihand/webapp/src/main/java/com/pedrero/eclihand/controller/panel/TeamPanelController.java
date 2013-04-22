@@ -16,12 +16,15 @@ import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.service.PlayerService;
 import com.pedrero.eclihand.service.TeamService;
 import com.pedrero.eclihand.ui.EntityDisplayerComponent;
+import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
+import com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel;
 import com.pedrero.eclihand.ui.panel.entity.TeamPanel;
+import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 
 @Controller
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class TeamPanelController implements EntityDisplayerController<TeamDto>,
+public class TeamPanelController extends AbstractEntityController implements EntityDisplayerController<TeamDto>,
  UpdatableContentController {
 	public static final String AGE_WHEN_PLAYING_FOR_TEAM = "age.when.playing.for.team";
 
@@ -41,6 +44,12 @@ public class TeamPanelController implements EntityDisplayerController<TeamDto>,
 
 	@Resource
 	private BodyPanelController bodyPanelController;
+
+	@Resource
+	private GenericPropertyDisplayer<TeamDto> teamPropertyDisplayer;
+
+	@Resource
+	private GenericTable<PlayerDto> playerTable;
 
 	private TeamDto team;
 
@@ -84,21 +93,6 @@ public class TeamPanelController implements EntityDisplayerController<TeamDto>,
 	}
 
 	@Override
-	public void makeUpdatable() {
-		teamPanel.makeUpdatable();
-	}
-
-	@Override
-	public void makeReadOnly() {
-		teamPanel.makeReadOnly();
-	}
-
-	@Override
-	public void makeCreateMode() {
-		teamPanel.makeReadOnly();
-	}
-
-	@Override
 	public void delete() {
 		teamService.delete(team);
 		bodyPanelController.showHomePanel();
@@ -115,5 +109,10 @@ public class TeamPanelController implements EntityDisplayerController<TeamDto>,
 		} else {
 			teamService.save(team);
 		}
+	}
+
+	@Override
+	public AbstractEntityPanel getEntityPanel() {
+		return teamPanel;
 	}
 }

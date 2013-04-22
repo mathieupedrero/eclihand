@@ -13,19 +13,21 @@ import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.service.PlayerService;
 import com.pedrero.eclihand.ui.EntityDisplayerComponent;
+import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
+import com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel;
 import com.pedrero.eclihand.ui.panel.entity.PlayerPanel;
+import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 
 @Controller
-public class PlayerPanelController implements
+public class PlayerPanelController extends AbstractEntityController implements
 		EntityDisplayerController<PlayerDto>, UpdatableContentController {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3448580944349868849L;
 
-	@Resource
-	private PlayerPanel playerPanel;
+	@Resource PlayerPanel playerPanel;
 
 	@Resource
 	private PlayerService playerService;
@@ -33,10 +35,17 @@ public class PlayerPanelController implements
 	@Resource
 	private BodyPanelController bodyPanelController;
 
+	@Resource
+	private GenericPropertyDisplayer<PlayerDto> playerPropertyDisplayer;
+
+	@Resource(name = "teamTableForPlayerPanel")
+	private GenericTable<TeamDto> teamTable;
+
 	private PlayerDto player;
 
 	@Override
 	public void init() {
+
 		playerPanel.init();
 	}
 
@@ -76,21 +85,6 @@ public class PlayerPanelController implements
 	}
 
 	@Override
-	public void makeUpdatable() {
-		playerPanel.makeUpdatable();
-	}
-
-	@Override
-	public void makeReadOnly() {
-		playerPanel.makeReadOnly();
-	}
-
-	@Override
-	public void makeCreateMode() {
-		playerPanel.makeCreateMode();
-	}
-
-	@Override
 	public void validateChanges() {
 		Set<TeamDto> teamList = new HashSet<TeamDto>(playerPanel.getTeamTable()
 				.retrieveData());
@@ -100,6 +94,11 @@ public class PlayerPanelController implements
 		} else {
 			playerService.save(player);
 		}
+	}
+
+	@Override
+	public AbstractEntityPanel getEntityPanel() {
+		return playerPanel;
 	}
 
 }

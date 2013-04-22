@@ -2,15 +2,17 @@ package com.pedrero.eclihand.controller;
 
 import org.springframework.stereotype.Component;
 
+import com.pedrero.eclihand.controller.panel.AbstractEntityController;
 import com.pedrero.eclihand.controller.window.GenericSearchModalWindowController;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.service.DataObjectService;
+import com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel;
 import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.IDTOConsumer;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 
 @Component
-public class GenericTableController<T extends DataObjectDto> implements
+public class GenericTableController<T extends DataObjectDto> extends AbstractEntityController implements
  EclihandController, IDTOConsumer<T>,
 		UpdatableContentController {
 
@@ -60,31 +62,6 @@ public class GenericTableController<T extends DataObjectDto> implements
 		genericTable.add(entity);
 	}
 
-	@Override
-	public void makeUpdatable() {
-		boolean updateMode = true;
-		setTableUpdatable(updateMode);
-	}
-
-	@Override
-	public void makeCreateMode() {
-		boolean updateMode = true;
-		setTableUpdatable(updateMode);
-	}
-
-	@Override
-	public void makeReadOnly() {
-		boolean updateMode = false;
-		setTableUpdatable(updateMode);
-	}
-
-	private void setTableUpdatable(boolean updateMode) {
-		getGenericTable().setUpdatable(updateMode);
-		getGenericTable().refreshButtonsState();
-		getGenericTable().dataTableInit();
-		getGenericTable().refreshData();
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -117,6 +94,11 @@ public class GenericTableController<T extends DataObjectDto> implements
 	public void delete() {
 		// FIXME: Modifier la hierarchie d'interfaces (n'a pas lieu d'être sur
 		// un tableau)
+	}
+
+	@Override
+	public AbstractEntityPanel getEntityPanel() {
+		return genericTable;
 	}
 
 }

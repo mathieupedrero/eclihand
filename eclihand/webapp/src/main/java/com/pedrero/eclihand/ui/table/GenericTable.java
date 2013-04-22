@@ -466,6 +466,31 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityPanel
 	}
 
 	@Override
+	public void makeUpdatable() {
+		boolean updateMode = true;
+		setTableUpdatable(updateMode);
+	}
+
+	@Override
+	public void makeCreateMode() {
+		boolean updateMode = true;
+		setTableUpdatable(updateMode);
+	}
+
+	@Override
+	public void makeReadOnly() {
+		boolean updateMode = false;
+		setTableUpdatable(updateMode);
+	}
+
+	private void setTableUpdatable(boolean updateMode) {
+		this.setUpdatable(updateMode);
+		this.refreshButtonsState();
+		this.dataTableInit();
+		this.refreshData();
+	}
+
+	@Override
 	public List<UpdatableContentDisplayer> getContentDisplayers() {
 		return null;
 	}
