@@ -49,7 +49,7 @@ public class TeamsPanelController implements EclihandController, Displayer {
 
 	public void openNewTeamForm() {
 		bodyPanelController.showTeamPanel();
-		teamPanelController.createNew();
+		teamPanelController.makeCreateMode();
 	}
 
 }

@@ -27,7 +27,8 @@ public class PlayerPanelController extends AbstractEntityController implements
 	 */
 	private static final long serialVersionUID = 3448580944349868849L;
 
-	@Resource PlayerPanel playerPanel;
+	@Resource
+	private PlayerPanel playerPanel;
 
 	@Resource
 	private PlayerService playerService;
@@ -60,12 +61,14 @@ public class PlayerPanelController extends AbstractEntityController implements
 		playerPanel.display(entity);
 	}
 
-	public void createNew() {
+	@Override
+	public void makeCreateMode() {
+		super.makeCreateMode();
 		PlayerDto newOne = new PlayerDto();
 		newOne.setPlayerPerson(new PersonDto());
 		player = newOne;
-		playerPanel.display(newOne);
 		playerPanel.makeCreateMode();
+		playerPanel.display(newOne);
 	}
 
 	@Override
@@ -86,6 +89,8 @@ public class PlayerPanelController extends AbstractEntityController implements
 
 	@Override
 	public void validateChanges() {
+		playerPanel.getPlayerPropertyDisplayer().validateChanges();
+		playerPanel.getTeamTable().validateChanges();
 		Set<TeamDto> teamList = new HashSet<TeamDto>(playerPanel.getTeamTable()
 				.retrieveData());
 		player.setTeams(teamList);

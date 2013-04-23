@@ -44,7 +44,7 @@ public class PlayersPanelController implements EclihandController {
 
 	public void openNewPlayerForm() {
 		bodyPanelController.showPlayerPanel();
-		playerPanelController.createNew();
+		playerPanelController.makeCreateMode();
 	}
 
 }

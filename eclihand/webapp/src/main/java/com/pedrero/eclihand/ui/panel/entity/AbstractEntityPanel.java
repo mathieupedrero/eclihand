@@ -228,14 +228,14 @@ public abstract class AbstractEntityPanel extends EclihandMainPanel implements
 	 * @param showButtons
 	 *            the showButtons to set
 	 */
-	protected void setShowButtons(Boolean showButtons) {
+	public void setShowButtons(Boolean showButtons) {
 		this.showButtons = showButtons;
 	}
 
 	/**
 	 * @return the showDeleteButton
 	 */
-	protected Boolean getShowDeleteButton() {
+	public Boolean getShowDeleteButton() {
 		return showDeleteButton;
 	}
 
@@ -243,7 +243,7 @@ public abstract class AbstractEntityPanel extends EclihandMainPanel implements
 	 * @param showDeleteButton
 	 *            the showDeleteButton to set
 	 */
-	protected void setShowDeleteButton(Boolean showDeleteButton) {
+	public void setShowDeleteButton(Boolean showDeleteButton) {
 		this.showDeleteButton = showDeleteButton;
 	}
 

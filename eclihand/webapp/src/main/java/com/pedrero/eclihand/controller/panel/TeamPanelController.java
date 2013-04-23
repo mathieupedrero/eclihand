@@ -80,11 +80,13 @@ public class TeamPanelController extends AbstractEntityController implements Ent
 		searchTeamAndDisplay(entity.getId());
 	}
 
-	public void createNew() {
+	@Override
+	public void makeCreateMode() {
+		super.makeCreateMode();
 		TeamDto newOne = new TeamDto();
 		team = newOne;
-		teamPanel.display(newOne);
 		teamPanel.makeCreateMode();
+		teamPanel.display(newOne);
 	}
 
 	@Override
