@@ -22,7 +22,7 @@ public class PlayerDisplayUICallback implements UICallback<PlayerDto> {
 	public void execute(PlayerDto dataObject) {
 		bodyPanelController.showComponent(playerPanelController
 				.getEntityDisplayerComponent());
-		playerPanelController.display(dataObject);
+		playerPanelController.display(dataObject.getId());
 
 	}
 

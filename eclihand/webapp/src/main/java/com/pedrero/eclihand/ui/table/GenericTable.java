@@ -250,7 +250,7 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityPanel
 						bodyPanelController
 								.showComponent(getEntityDisplayerController()
 										.getEntityDisplayerComponent());
-						getEntityDisplayerController().display(entity);
+						getEntityDisplayerController().display(entity.getId());
 					}
 				});
 

@@ -50,14 +50,14 @@ public class PlayerPanelController extends AbstractEntityController implements
 		playerPanel.init();
 	}
 
-	public void searchPlayerAndDisplay(Long teamId) {
+	private void searchPlayerAndDisplay(Long teamId) {
 		PlayerDto entity = playerService.findById(teamId);
 		searchPlayerAndDisplay(entity);
 		player = entity;
 	}
 
-	public void searchPlayerAndDisplay(PlayerDto entity) {
-		playerPanel.makeReadOnly();
+	private void searchPlayerAndDisplay(PlayerDto entity) {
+		makeReadOnly();
 		playerPanel.display(entity);
 	}
 
@@ -78,8 +78,8 @@ public class PlayerPanelController extends AbstractEntityController implements
 	}
 
 	@Override
-	public void display(PlayerDto entity) {
-		searchPlayerAndDisplay(entity.getId());
+	public void display(Long entityId) {
+		searchPlayerAndDisplay(entityId);
 	}
 
 	@Override

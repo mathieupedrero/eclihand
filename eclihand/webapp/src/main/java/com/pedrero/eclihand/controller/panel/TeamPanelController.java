@@ -59,7 +59,7 @@ public class TeamPanelController extends AbstractEntityController implements Ent
 	}
 
 	@Transactional
-	public void searchTeamAndDisplay(Long teamId) {
+	private void searchTeamAndDisplay(Long teamId) {
 		TeamDto entity = teamService.findById(teamId);
 		for (PlayerDto player : entity.getPlayers()) {
 			Integer ageWhenPlayingForTeam = playerService
@@ -70,14 +70,14 @@ public class TeamPanelController extends AbstractEntityController implements Ent
 		}
 
 		team = entity;
-		teamPanel.makeReadOnly();
+		makeReadOnly();
 		teamPanel.display(entity);
 	}
 
 	@Override
 	@Transactional
-	public void display(TeamDto entity) {
-		searchTeamAndDisplay(entity.getId());
+	public void display(Long entityId) {
+		searchTeamAndDisplay(entityId);
 	}
 
 	@Override
