@@ -1,5 +1,8 @@
 package com.pedrero.eclihand.navigation;
 
-public interface EclihandView {
+import com.vaadin.navigator.View;
 
+public interface EclihandView extends View {
+
+	public abstract EclihandPlace retrieveAssociatedPlace();
 }
