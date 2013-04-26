@@ -23,7 +23,7 @@ import com.vaadin.ui.Layout;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class TeamsPanel extends EclihandAbstractComponent implements Initiable,
+public class TeamsScreen extends EclihandAbstractComponent implements Initiable,
 		Displayer {
 	@Resource
 	private MessageResolver messageResolver;

@@ -5,7 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 
 import com.pedrero.eclihand.controller.EclihandController;
-import com.pedrero.eclihand.ui.panel.LeftPanel;
+import com.pedrero.eclihand.ui.panel.LeftScreen;
 
 @Controller
 public class LeftPanelController implements EclihandController {
@@ -15,7 +15,7 @@ public class LeftPanelController implements EclihandController {
 	 */
 	private static final long serialVersionUID = 158082844439807392L;
 	@Resource
-	private LeftPanel leftPanel;
+	private LeftScreen leftPanel;
 
 
 	@Override

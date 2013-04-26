@@ -19,7 +19,7 @@ import com.vaadin.ui.Layout;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class PlayersPanel extends EclihandAbstractComponent implements Initiable {
+public class PlayersScreen extends EclihandAbstractComponent implements Initiable {
 	@Resource
 	private MessageResolver messageResolver;
 

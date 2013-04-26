@@ -13,10 +13,11 @@ import com.pedrero.eclihand.controller.panel.LeftPanelController;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.Panel;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class LeftPanel extends EclihandAbstractComponent implements Initiable {
+public class LeftScreen extends Panel implements Initiable {
 	@Resource
 	private LeftPanelController leftPanelController;
 
@@ -37,7 +38,7 @@ public class LeftPanel extends EclihandAbstractComponent implements Initiable {
 	public void init() {
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		layout.setWidth(panelWidth);
-		this.addComponent(layout);
+		this.setContent(layout);
 		this.setCaption(Locale.FRANCE.toString());
 	}
 

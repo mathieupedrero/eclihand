@@ -12,28 +12,29 @@ import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.Panel;
 
 @org.springframework.stereotype.Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class BodyPanel extends EclihandAbstractComponent implements Initiable {
+public class BodyPanel extends Panel implements Initiable {
 
 	@Resource
-	private HomePanel homePanel;
+	private HomeScreen homePanel;
 
 	@Resource
-	private TeamsPanel teamsPanel;
+	private TeamsScreen teamsPanel;
 
 	@Resource
 	private AbstractEntityPanel teamPanel;
 
 	@Resource
-	private PlayersPanel playersPanel;
+	private PlayersScreen playersPanel;
 
 	@Resource
 	private PlayerPanel playerPanel;
 
 	@Resource
-	private LeftPanel leftPanel;
+	private LeftScreen leftPanel;
 
 	@Resource
 	private MessageResolver messageResolver;
@@ -53,7 +54,7 @@ public class BodyPanel extends EclihandAbstractComponent implements Initiable {
 	@Override
 	public void init() {
 		layout = eclihandLayoutFactory.createCommonHorizontalLayout();
-		this.addComponent(layout);
+		this.setContent(layout);
 		layout.addComponent(leftPanel);
 		layout.addComponent(homePanel);
 		currentPanel = homePanel;

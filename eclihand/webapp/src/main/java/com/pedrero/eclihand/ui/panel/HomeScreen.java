@@ -16,7 +16,7 @@ import com.vaadin.ui.Layout;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class HomePanel extends EclihandAbstractComponent implements Initiable, Displayer {
+public class HomeScreen extends EclihandAbstractComponent implements Initiable, Displayer {
 
 	@Resource
 	private HomePanelController homePanelController;
