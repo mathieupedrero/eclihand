@@ -15,7 +15,7 @@ import com.vaadin.ui.Layout;
 
 @org.springframework.stereotype.Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class BodyPanel extends EclihandMainPanel implements Initiable {
+public class BodyPanel extends EclihandAbstractComponent implements Initiable {
 
 	@Resource
 	private HomePanel homePanel;
@@ -53,7 +53,7 @@ public class BodyPanel extends EclihandMainPanel implements Initiable {
 	@Override
 	public void init() {
 		layout = eclihandLayoutFactory.createCommonHorizontalLayout();
-		this.setContent(layout);
+		this.addComponent(layout);
 		layout.addComponent(leftPanel);
 		layout.addComponent(homePanel);
 		currentPanel = homePanel;

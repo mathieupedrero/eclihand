@@ -23,7 +23,7 @@ import com.vaadin.ui.Layout;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class TeamsPanel extends EclihandMainPanel implements Initiable,
+public class TeamsPanel extends EclihandAbstractComponent implements Initiable,
 		Displayer {
 	@Resource
 	private MessageResolver messageResolver;
@@ -55,7 +55,7 @@ public class TeamsPanel extends EclihandMainPanel implements Initiable,
 		if (layout == null) {
 			layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		}
-		this.setContent(layout);
+		this.addComponent(layout);
 
 		this.createNewTeamButton = eclihandUiFactory.createButton();
 		this.createNewTeamButton.setCaption(messageResolver.getMessage("players.create.new"));

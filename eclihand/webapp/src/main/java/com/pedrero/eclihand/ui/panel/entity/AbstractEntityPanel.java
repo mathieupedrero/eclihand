@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.pedrero.eclihand.ui.panel.EclihandMainPanel;
+import com.pedrero.eclihand.ui.panel.EclihandAbstractComponent;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
 import com.pedrero.eclihand.utils.UpdatableContentManager;
@@ -15,7 +15,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Layout;
 
-public abstract class AbstractEntityPanel extends EclihandMainPanel implements
+public abstract class AbstractEntityPanel extends EclihandAbstractComponent implements
 		UpdatableContentDisplayer {
 
 	private String makeUpdatableCaptionKey = UpdatableContentManager.MAKE_UPDATABLE_KEY;
@@ -92,7 +92,7 @@ public abstract class AbstractEntityPanel extends EclihandMainPanel implements
 		delete.setCaption(messageResolver.getMessage(deleteCaptionKey));
 
 		// Layouts
-		this.setContent(globalLayout);
+		this.addComponent(globalLayout);
 		globalLayout.addComponent(getMainLayout());
 		globalLayout.addComponent(buttonsLayout);
 

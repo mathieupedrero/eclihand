@@ -16,7 +16,7 @@ import com.vaadin.ui.Layout;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class LeftPanel extends EclihandMainPanel implements Initiable {
+public class LeftPanel extends EclihandAbstractComponent implements Initiable {
 	@Resource
 	private LeftPanelController leftPanelController;
 
@@ -37,7 +37,7 @@ public class LeftPanel extends EclihandMainPanel implements Initiable {
 	public void init() {
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		layout.setWidth(panelWidth);
-		this.setContent(layout);
+		this.addComponent(layout);
 		this.setCaption(Locale.FRANCE.toString());
 	}
 

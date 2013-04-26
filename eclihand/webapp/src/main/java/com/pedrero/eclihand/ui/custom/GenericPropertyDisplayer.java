@@ -86,7 +86,7 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 
 		Integer rowNumber = getConfig().getProperties().size();
 		layout = eclihandLayoutFactory.createCommonGridLayout(2, rowNumber + 1);
-		this.setContent(layout);
+		this.addComponent(layout);
 
 		Integer currentRow = 0;
 		for (PropertyConfig property : getConfig().getProperties()) {

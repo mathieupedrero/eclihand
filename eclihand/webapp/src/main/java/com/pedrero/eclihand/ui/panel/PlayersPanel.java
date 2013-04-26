@@ -19,7 +19,7 @@ import com.vaadin.ui.Layout;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class PlayersPanel extends EclihandMainPanel implements Initiable {
+public class PlayersPanel extends EclihandAbstractComponent implements Initiable {
 	@Resource
 	private MessageResolver messageResolver;
 
@@ -50,7 +50,7 @@ public class PlayersPanel extends EclihandMainPanel implements Initiable {
 		this.setCaption(messageResolver.getMessage("players.panel.title"));
 		if (layout == null) {
 			layout = eclihandLayoutFactory.createCommonVerticalLayout();
-			this.setContent(layout);
+			this.addComponent(layout);
 
 			this.titleLabel = eclihandUiFactory.createTitleLabel();
 			this.titleLabel.setValue(messageResolver

@@ -16,7 +16,7 @@ import com.vaadin.ui.Layout;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class HomePanel extends EclihandMainPanel implements Initiable, Displayer {
+public class HomePanel extends EclihandAbstractComponent implements Initiable, Displayer {
 
 	@Resource
 	private HomePanelController homePanelController;
@@ -41,7 +41,7 @@ public class HomePanel extends EclihandMainPanel implements Initiable, Displayer
 	public void init() {
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		layout.setWidth(panelWidth);
-		this.setContent(layout);
+		this.addComponent(layout);
 		this.setCaption(messageResolver.getMessage("home.caption"));
 
 	}
