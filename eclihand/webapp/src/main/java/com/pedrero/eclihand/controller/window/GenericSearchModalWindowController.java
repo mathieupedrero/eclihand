@@ -28,13 +28,7 @@ public class GenericSearchModalWindowController<T extends DataObjectDto>
 
 	private WindowController superWindowController;
 
-	@Override
-	public void init() {
-		getGenericSearchModalWindow().init();
-	}
-
 	public void openWindow() {
-		init();
 		getSuperWindowController().addWindow(getGenericSearchModalWindow());
 	}
 

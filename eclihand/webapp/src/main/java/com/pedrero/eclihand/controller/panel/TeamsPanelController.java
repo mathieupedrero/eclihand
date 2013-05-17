@@ -31,11 +31,6 @@ public class TeamsPanelController implements EclihandController, Displayer {
 	@Resource
 	private TeamPanelController teamPanelController;
 
-	@Override
-	public void init() {
-		teamsPanel.init();
-	}
-
 	public void searchTeamsAndDisplay() {
 		teamsPanel.getTeamsTable().removeAllDataObjects();
 		List<TeamDto> teams = teamService.findAll();

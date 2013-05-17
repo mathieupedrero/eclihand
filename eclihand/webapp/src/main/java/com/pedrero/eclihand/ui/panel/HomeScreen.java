@@ -16,7 +16,13 @@ import com.vaadin.ui.Layout;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class HomeScreen extends EclihandAbstractComponent implements Initiable, Displayer {
+public class HomeScreen extends EclihandAbstractComponent implements Initiable,
+		Displayer {
+
+	public HomeScreen() {
+		super();
+		init();
+	}
 
 	@Resource
 	private HomePanelController homePanelController;
@@ -37,8 +43,7 @@ public class HomeScreen extends EclihandAbstractComponent implements Initiable, 
 	 */
 	private static final long serialVersionUID = -499208820273916658L;
 
-	@Override
-	public void init() {
+	private void init() {
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		layout.setWidth(panelWidth);
 		this.addComponent(layout);

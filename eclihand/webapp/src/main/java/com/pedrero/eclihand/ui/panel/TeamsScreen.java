@@ -23,8 +23,8 @@ import com.vaadin.ui.Layout;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class TeamsScreen extends EclihandAbstractComponent implements Initiable,
-		Displayer {
+public class TeamsScreen extends EclihandAbstractComponent implements
+		Initiable, Displayer {
 	@Resource
 	private MessageResolver messageResolver;
 
@@ -49,8 +49,7 @@ public class TeamsScreen extends EclihandAbstractComponent implements Initiable,
 	 */
 	private static final long serialVersionUID = 5954828103989095039L;
 
-	@Override
-	public void init() {
+	private void init() {
 		this.setCaption(messageResolver.getMessage("teams.panel.title"));
 		if (layout == null) {
 			layout = eclihandLayoutFactory.createCommonVerticalLayout();
@@ -58,7 +57,8 @@ public class TeamsScreen extends EclihandAbstractComponent implements Initiable,
 		this.addComponent(layout);
 
 		this.createNewTeamButton = eclihandUiFactory.createButton();
-		this.createNewTeamButton.setCaption(messageResolver.getMessage("players.create.new"));
+		this.createNewTeamButton.setCaption(messageResolver
+				.getMessage("players.create.new"));
 
 		this.createNewTeamButton.addClickListener(new ClickListener() {
 
@@ -76,7 +76,11 @@ public class TeamsScreen extends EclihandAbstractComponent implements Initiable,
 
 		layout.addComponent(teamTable);
 		layout.addComponent(createNewTeamButton);
-		teamTable.init();
+	}
+
+	public TeamsScreen() {
+		super();
+		init();
 	}
 
 	@Override

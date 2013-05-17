@@ -22,11 +22,6 @@ public class MainMenuBarController extends Object implements EclihandController 
 	@Resource
 	private BodyPanelController bodyPanelController;
 
-	@Override
-	public void init() {
-		mainMenuBar.init();
-	}
-
 	public void goToHome() {
 		bodyPanelController.showHomePanel();
 	}

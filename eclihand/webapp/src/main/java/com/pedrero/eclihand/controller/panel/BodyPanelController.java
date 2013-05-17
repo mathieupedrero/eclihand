@@ -17,7 +17,7 @@ public class BodyPanelController implements EclihandController {
 
 	@Resource
 	private BodyPanel bodyPanel;
-	
+
 	@Resource
 	private HomePanelController homePanelController;
 
@@ -36,20 +36,7 @@ public class BodyPanelController implements EclihandController {
 	@Resource
 	private LeftPanelController leftPanelController;
 
-	@Override
-	public void init() {
-		leftPanelController.init();
-
-		homePanelController.init();
-		teamsPanelController.init();
-		teamPanelController.init();
-		playerPanelController.init();
-		playersPanelController.init();
-
-		bodyPanel.init();
-	}
-
-	public void showTeamsPanel(){
+	public void showTeamsPanel() {
 		teamsPanelController.display();
 		bodyPanel.showTeamsPanel();
 	}

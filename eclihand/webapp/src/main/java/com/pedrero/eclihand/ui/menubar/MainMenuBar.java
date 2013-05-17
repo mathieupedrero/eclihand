@@ -15,6 +15,11 @@ import com.vaadin.ui.MenuBar;
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class MainMenuBar extends MenuBar implements Initiable {
 
+	public MainMenuBar() {
+		super();
+		init();
+	}
+
 	@Resource
 	private MessageResolver messageResolver;
 
@@ -32,8 +37,7 @@ public class MainMenuBar extends MenuBar implements Initiable {
 
 	private MenuItem playersMenuItem;
 
-	@Override
-	public void init() {
+	private void init() {
 		this.getItems().clear();
 		homeMenuItem = new MenuItem(messageResolver.getMessage("common.home"),
 				null, new Command() {

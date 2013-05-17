@@ -20,11 +20,6 @@ public class HomePanelController implements EclihandController, Displayer {
 	private HomeScreen homePanel;
 
 	@Override
-	public void init() {
-		homePanel.init();
-	}
-
-	@Override
 	public void display() {
 		homePanel.display();
 	}

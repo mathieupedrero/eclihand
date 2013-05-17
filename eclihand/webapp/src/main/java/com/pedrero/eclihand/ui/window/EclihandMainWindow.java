@@ -14,6 +14,12 @@ import com.vaadin.ui.Panel;
 
 @Component
 public class EclihandMainWindow extends Panel implements Initiable {
+
+	public EclihandMainWindow() {
+		super();
+		init();
+	}
+
 	/**
 	 * 
 	 */
@@ -31,14 +37,11 @@ public class EclihandMainWindow extends Panel implements Initiable {
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
 
-	@Override
-	public void init() {
+	private void init() {
 		Layout layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		this.setContent(layout);
 		layout.addComponent(headerPanel);
 		layout.addComponent(bodyPanel);
-		eclihandMainWindowController.init();
-
 	}
 
 }

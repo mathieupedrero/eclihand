@@ -18,6 +18,11 @@ import com.vaadin.ui.Panel;
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class BodyPanel extends Panel implements Initiable {
 
+	public BodyPanel() {
+		super();
+		init();
+	}
+
 	@Resource
 	private HomeScreen homePanel;
 
@@ -51,8 +56,7 @@ public class BodyPanel extends Panel implements Initiable {
 	 */
 	private static final long serialVersionUID = 7526198221763033359L;
 
-	@Override
-	public void init() {
+	private void init() {
 		layout = eclihandLayoutFactory.createCommonHorizontalLayout();
 		this.setContent(layout);
 		layout.addComponent(leftPanel);

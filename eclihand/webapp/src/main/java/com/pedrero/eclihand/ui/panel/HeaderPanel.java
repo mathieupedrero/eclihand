@@ -18,6 +18,11 @@ import com.vaadin.ui.Panel;
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class HeaderPanel extends Panel implements Initiable {
 
+	public HeaderPanel() {
+		super();
+		init();
+	}
+
 	@Resource
 	private HeaderPanelController headerPanelController;
 
@@ -36,8 +41,7 @@ public class HeaderPanel extends Panel implements Initiable {
 	 */
 	private static final long serialVersionUID = 3099650159349626440L;
 
-	@Override
-	public void init() {
+	private void init() {
 		this.setCaption(messageResolver.getMessage("header.caption"));
 		layout = eclihandLayoutFactory.createCommonHorizontalLayout();
 		this.setContent(layout);

@@ -44,12 +44,6 @@ public class PlayerPanelController extends AbstractEntityController implements
 
 	private PlayerDto player;
 
-	@Override
-	public void init() {
-
-		playerPanel.init();
-	}
-
 	private void searchPlayerAndDisplay(Long teamId) {
 		PlayerDto entity = playerService.findById(teamId);
 		searchPlayerAndDisplay(entity);

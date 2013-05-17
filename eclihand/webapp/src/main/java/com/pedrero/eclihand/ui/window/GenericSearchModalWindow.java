@@ -71,13 +71,11 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
 
 	private Layout layout;
 
-	@Override
-	public void init() {
+	private void init() {
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		this.setContent(layout);
 		this.setModal(true);
 
-		getDisplayGenericTable().init();
 		searchTextField = eclihandUiFactory.createTextField();
 
 		initValidateButton();
@@ -108,6 +106,11 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
 		layout.addComponent(progressIndicator);
 
 		initLabels();
+	}
+
+	public GenericSearchModalWindow() {
+		super();
+		init();
 	}
 
 	private void initCancelButton() {

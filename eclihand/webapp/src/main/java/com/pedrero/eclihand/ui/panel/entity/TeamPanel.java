@@ -85,21 +85,20 @@ public class TeamPanel extends AbstractEntityPanel implements
 		playerTable.feed(entity.getPlayers());
 	}
 
-	@Override
-	public void init() {
+	private void init() {
 		contentDisplayers = new ArrayList<UpdatableContentDisplayer>();
 		contentDisplayers.add(teamPropertyDisplayer);
 		contentDisplayers.add(playerTable);
 
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 
-		teamPropertyDisplayer.init();
-		playerTable.init();
-
 		layout.addComponent(teamPropertyDisplayer);
 		layout.addComponent(playerTable);
+	}
 
-		super.init();
+	public TeamPanel() {
+		super();
+		init();
 	}
 
 	@Override

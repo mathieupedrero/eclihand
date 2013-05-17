@@ -10,8 +10,9 @@ import com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 
 @Component
-public class GenericPropertyDisplayerController<T extends DataObjectDto> extends AbstractEntityController implements
- EclihandController, UpdatableContentController {
+public class GenericPropertyDisplayerController<T extends DataObjectDto>
+		extends AbstractEntityController implements EclihandController,
+		UpdatableContentController {
 
 	/**
 	 * 
@@ -21,11 +22,6 @@ public class GenericPropertyDisplayerController<T extends DataObjectDto> extends
 	private DataObjectService<T> service;
 
 	private GenericPropertyDisplayer<T> genericPropertyDisplayer;
-
-	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-	}
 
 	public DataObjectService<T> getService() {
 		return service;
@@ -57,7 +53,8 @@ public class GenericPropertyDisplayerController<T extends DataObjectDto> extends
 	 * @param genericPropertyDisplayer
 	 *            the genericPropertyDisplayer to set
 	 */
-	public void setGenericPropertyDisplayer(GenericPropertyDisplayer<T> genericPropertyDisplayer) {
+	public void setGenericPropertyDisplayer(
+			GenericPropertyDisplayer<T> genericPropertyDisplayer) {
 		this.genericPropertyDisplayer = genericPropertyDisplayer;
 	}
 

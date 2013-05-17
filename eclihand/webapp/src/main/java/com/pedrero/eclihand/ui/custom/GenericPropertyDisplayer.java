@@ -26,6 +26,7 @@ import com.vaadin.data.util.converter.Converter;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.GridLayout;
@@ -79,8 +80,17 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	@Resource
 	private LocaleContainer localeContainer;
 
-	@Override
-	public void init() {
+	public GenericPropertyDisplayer() {
+		super();
+		init();
+	}
+
+	public GenericPropertyDisplayer(ComponentContainer content) {
+		super(content);
+		init();
+	}
+
+	private void init() {
 		setShowButtons(config.getShowsEditButtons());
 		setShowDeleteButton(false);
 
@@ -93,7 +103,6 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 			createLabelAndAddItToLineForProperty(currentRow, property);
 			currentRow++;
 		}
-		super.init();
 	}
 
 	private void createLabelAndAddItToLineForProperty(Integer currentRow,

@@ -27,7 +27,6 @@ public class EclihandMainUI extends UI {
 
 	@Override
 	protected void init(VaadinRequest request) {
-		eclihandMainWindow.init();
 		setContent(eclihandMainWindow);
 		localeContainer.setLocale(request.getLocale());
 	}

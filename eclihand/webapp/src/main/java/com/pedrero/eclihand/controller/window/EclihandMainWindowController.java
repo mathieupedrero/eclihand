@@ -33,12 +33,6 @@ public class EclihandMainWindowController implements EclihandController,
 	private BodyPanelController bodyPanelController;
 
 	@Override
-	public void init() {
-		headerPanelController.init();
-		bodyPanelController.init();
-	}
-
-	@Override
 	public void addWindow(Window window) {
 		eclihandMainWindow.getUI().addWindow(window);
 	}

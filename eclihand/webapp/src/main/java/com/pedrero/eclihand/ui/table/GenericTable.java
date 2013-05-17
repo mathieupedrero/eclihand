@@ -87,10 +87,10 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityPanel
 	 */
 	public GenericTable() {
 		super();
+		init();
 	}
 
-	@Override
-	public void init() {
+	private void init() {
 		setShowButtons(tableConfig.getShowsEditButtons());
 		setShowDeleteButton(false);
 
@@ -100,8 +100,6 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityPanel
 		initializeUIComponents();
 		dataTableInit();
 		layout.addComponent(dataTable);
-
-		super.init();
 
 		getButtonsLayout().addComponent(removeAll);
 		getButtonsLayout().addComponent(add);

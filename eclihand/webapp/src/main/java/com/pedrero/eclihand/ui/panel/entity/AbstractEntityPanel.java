@@ -13,10 +13,11 @@ import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Layout;
 
-public abstract class AbstractEntityPanel extends EclihandAbstractComponent implements
-		UpdatableContentDisplayer {
+public abstract class AbstractEntityPanel extends EclihandAbstractComponent
+		implements UpdatableContentDisplayer {
 
 	private String makeUpdatableCaptionKey = UpdatableContentManager.MAKE_UPDATABLE_KEY;
 
@@ -77,7 +78,7 @@ public abstract class AbstractEntityPanel extends EclihandAbstractComponent impl
 		this.updatable = updatable;
 	}
 
-	public void init() {
+	private void init() {
 		globalLayout = eclihandLayoutFactory.createCommonVerticalLayout();
 		buttonsLayout = eclihandLayoutFactory.createCommonHorizontalLayout();
 
@@ -156,6 +157,16 @@ public abstract class AbstractEntityPanel extends EclihandAbstractComponent impl
 		} else {
 			makeReadOnly();
 		}
+	}
+
+	public AbstractEntityPanel() {
+		super();
+		init();
+	}
+
+	public AbstractEntityPanel(ComponentContainer content) {
+		super(content);
+		init();
 	}
 
 	public void makeUpdatable() {

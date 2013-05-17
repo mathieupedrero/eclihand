@@ -18,6 +18,11 @@ import com.vaadin.ui.Panel;
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class LeftScreen extends Panel implements Initiable {
+	public LeftScreen() {
+		super();
+		init();
+	}
+
 	@Resource
 	private LeftPanelController leftPanelController;
 
@@ -34,8 +39,7 @@ public class LeftScreen extends Panel implements Initiable {
 	 */
 	private static final long serialVersionUID = 3108067403737976755L;
 
-	@Override
-	public void init() {
+	private void init() {
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		layout.setWidth(panelWidth);
 		this.setContent(layout);

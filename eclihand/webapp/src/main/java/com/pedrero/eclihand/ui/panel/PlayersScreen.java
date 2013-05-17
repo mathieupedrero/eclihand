@@ -19,7 +19,13 @@ import com.vaadin.ui.Layout;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class PlayersScreen extends EclihandAbstractComponent implements Initiable {
+public class PlayersScreen extends EclihandAbstractComponent implements
+		Initiable {
+	public PlayersScreen() {
+		super();
+		init();
+	}
+
 	@Resource
 	private MessageResolver messageResolver;
 
@@ -45,8 +51,7 @@ public class PlayersScreen extends EclihandAbstractComponent implements Initiabl
 	 */
 	private static final long serialVersionUID = 5954828103989095039L;
 
-	@Override
-	public void init() {
+	private void init() {
 		this.setCaption(messageResolver.getMessage("players.panel.title"));
 		if (layout == null) {
 			layout = eclihandLayoutFactory.createCommonVerticalLayout();
@@ -75,7 +80,8 @@ public class PlayersScreen extends EclihandAbstractComponent implements Initiabl
 			});
 
 			this.createNewPlayerButton = eclihandUiFactory.createButton();
-			this.createNewPlayerButton.setCaption(messageResolver.getMessage("players.create.new"));
+			this.createNewPlayerButton.setCaption(messageResolver
+					.getMessage("players.create.new"));
 
 			this.createNewPlayerButton.addClickListener(new ClickListener() {
 

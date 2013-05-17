@@ -12,9 +12,9 @@ import com.pedrero.eclihand.utils.IDTOConsumer;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 
 @Component
-public class GenericTableController<T extends DataObjectDto> extends AbstractEntityController implements
- EclihandController, IDTOConsumer<T>,
-		UpdatableContentController {
+public class GenericTableController<T extends DataObjectDto> extends
+		AbstractEntityController implements EclihandController,
+		IDTOConsumer<T>, UpdatableContentController {
 
 	/**
 	 * 
@@ -26,11 +26,6 @@ public class GenericTableController<T extends DataObjectDto> extends AbstractEnt
 	private DataObjectService<T> service;
 
 	private GenericSearchModalWindowController<T> genericSearchModalWindowController;
-
-	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-	}
 
 	public GenericTable<T> getGenericTable() {
 		return genericTable;

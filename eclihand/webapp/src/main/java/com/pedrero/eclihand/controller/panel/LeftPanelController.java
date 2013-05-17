@@ -17,10 +17,4 @@ public class LeftPanelController implements EclihandController {
 	@Resource
 	private LeftScreen leftPanel;
 
-
-	@Override
-	public void init() {
-		leftPanel.init();
-	}
-
 }

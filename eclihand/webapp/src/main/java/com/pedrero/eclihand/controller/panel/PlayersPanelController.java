@@ -1,6 +1,5 @@
 package com.pedrero.eclihand.controller.panel;
 
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -32,11 +31,6 @@ public class PlayersPanelController implements EclihandController {
 
 	@Resource
 	private GenericSearchModalWindowController<PlayerDto> playerSearchModalWindowController;
-
-	@Override
-	public void init() {
-		playersPanel.init();
-	}
 
 	public void openPlayerSearchModalWindow() {
 		playerSearchModalWindowController.openWindow();

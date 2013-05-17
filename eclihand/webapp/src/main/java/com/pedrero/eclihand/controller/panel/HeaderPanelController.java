@@ -16,15 +16,8 @@ public class HeaderPanelController implements EclihandController {
 	private static final long serialVersionUID = 711502130121260850L;
 	@Resource
 	private HeaderPanel headerPanel;
-	
-	@Resource 
-	private MainMenuBarController mainMenuBarController;
 
-	@Override
-	public void init() {
-		mainMenuBarController.init();
-		
-		headerPanel.init();
-	}
+	@Resource
+	private MainMenuBarController mainMenuBarController;
 
 }

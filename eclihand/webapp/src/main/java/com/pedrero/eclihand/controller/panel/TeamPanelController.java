@@ -24,8 +24,8 @@ import com.pedrero.eclihand.utils.UpdatableContentController;
 
 @Controller
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class TeamPanelController extends AbstractEntityController implements EntityDisplayerController<TeamDto>,
- UpdatableContentController {
+public class TeamPanelController extends AbstractEntityController implements
+		EntityDisplayerController<TeamDto>, UpdatableContentController {
 	public static final String AGE_WHEN_PLAYING_FOR_TEAM = "age.when.playing.for.team";
 
 	/**
@@ -52,11 +52,6 @@ public class TeamPanelController extends AbstractEntityController implements Ent
 	private GenericTable<PlayerDto> playerTable;
 
 	private TeamDto team;
-
-	@Override
-	public void init() {
-		teamPanel.init();
-	}
 
 	@Transactional
 	private void searchTeamAndDisplay(Long teamId) {
@@ -104,7 +99,8 @@ public class TeamPanelController extends AbstractEntityController implements Ent
 	public void validateChanges() {
 		teamPanel.getTeamPropertyDisplayer().validateChanges();
 		teamPanel.getPlayerTable().validateChanges();
-		Set<PlayerDto> teamList = new HashSet<PlayerDto>(teamPanel.getPlayerTable().retrieveData());
+		Set<PlayerDto> teamList = new HashSet<PlayerDto>(teamPanel
+				.getPlayerTable().retrieveData());
 		team.setPlayers(teamList);
 		if (team.getId() != null) {
 			teamService.update(team);
