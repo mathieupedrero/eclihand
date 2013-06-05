@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
 
 import com.pedrero.eclihand.controller.EntityDisplayerController;
@@ -20,6 +22,7 @@ import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 
 @Controller
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class PlayerPanelController extends AbstractEntityController implements
 		EntityDisplayerController<PlayerDto>, UpdatableContentController {
 	/**

@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.controller.panel.AbstractEntityController;
@@ -22,8 +25,9 @@ import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Layout;
 
 @Component
+@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class PlayerPanel extends AbstractEntityPanel implements
-		EntityDisplayerComponent<PlayerDto>, Initiable {
+		EntityDisplayerComponent<PlayerDto>, Initiable, InitializingBean {
 
 	/**
 	 * 
@@ -67,10 +71,17 @@ public class PlayerPanel extends AbstractEntityPanel implements
 		layout.addComponent(teamTable);
 	}
 
-	public PlayerPanel() {
-		super();
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel#afterPropertiesSet
+	 * ()
+	 */
+	@Override
+	public void afterPropertiesSet() throws Exception {
 		init();
-		// TODO Auto-generated constructor stub
+		super.afterPropertiesSet();
 	}
 
 	/**

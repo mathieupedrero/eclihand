@@ -2,6 +2,7 @@ package com.pedrero.eclihand.ui.panel;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -20,11 +21,7 @@ import com.vaadin.ui.Layout;
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class PlayersScreen extends EclihandAbstractComponent implements
-		Initiable {
-	public PlayersScreen() {
-		super();
-		init();
-	}
+		Initiable, InitializingBean {
 
 	@Resource
 	private MessageResolver messageResolver;
@@ -101,5 +98,11 @@ public class PlayersScreen extends EclihandAbstractComponent implements
 			this.layout.addComponent(searchButton);
 			this.layout.addComponent(createNewPlayerButton);
 		}
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		init();
+
 	}
 }

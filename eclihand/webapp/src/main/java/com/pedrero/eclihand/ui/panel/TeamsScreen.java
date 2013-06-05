@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -24,7 +25,7 @@ import com.vaadin.ui.Layout;
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class TeamsScreen extends EclihandAbstractComponent implements
-		Initiable, Displayer {
+		Initiable, Displayer, InitializingBean {
 	@Resource
 	private MessageResolver messageResolver;
 
@@ -78,11 +79,6 @@ public class TeamsScreen extends EclihandAbstractComponent implements
 		layout.addComponent(createNewTeamButton);
 	}
 
-	public TeamsScreen() {
-		super();
-		init();
-	}
-
 	@Override
 	public void display() {
 		teamsPanelController.searchTeamsAndDisplay();
@@ -95,5 +91,10 @@ public class TeamsScreen extends EclihandAbstractComponent implements
 	public void refreshTeams(List<TeamDto> teams) {
 		teamTable.removeAllDataObjects();
 		teamTable.feed(teams);
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		init();
 	}
 }

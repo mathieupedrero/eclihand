@@ -2,6 +2,9 @@ package com.pedrero.eclihand.ui.window;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.controller.window.EclihandMainWindowController;
@@ -13,12 +16,9 @@ import com.vaadin.ui.Layout;
 import com.vaadin.ui.Panel;
 
 @Component
-public class EclihandMainWindow extends Panel implements Initiable {
-
-	public EclihandMainWindow() {
-		super();
-		init();
-	}
+@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class EclihandMainWindow extends Panel implements Initiable,
+		InitializingBean {
 
 	/**
 	 * 
@@ -42,6 +42,11 @@ public class EclihandMainWindow extends Panel implements Initiable {
 		this.setContent(layout);
 		layout.addComponent(headerPanel);
 		layout.addComponent(bodyPanel);
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		init();
 	}
 
 }

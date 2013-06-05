@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -17,11 +18,7 @@ import com.vaadin.ui.Panel;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class LeftScreen extends Panel implements Initiable {
-	public LeftScreen() {
-		super();
-		init();
-	}
+public class LeftScreen extends Panel implements Initiable, InitializingBean {
 
 	@Resource
 	private LeftPanelController leftPanelController;
@@ -44,6 +41,12 @@ public class LeftScreen extends Panel implements Initiable {
 		layout.setWidth(panelWidth);
 		this.setContent(layout);
 		this.setCaption(Locale.FRANCE.toString());
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		init();
+
 	}
 
 }

@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.mvel2.MVEL;
+import org.springframework.beans.factory.InitializingBean;
 
 import com.pedrero.eclihand.controller.EntityDisplayerController;
 import com.pedrero.eclihand.controller.GenericTableController;
@@ -34,7 +35,7 @@ import com.vaadin.ui.Layout;
 import com.vaadin.ui.Table;
 
 public class GenericTable<T extends DataObjectDto> extends AbstractEntityPanel
-		implements UpdatableContentDisplayer, Initiable {
+		implements UpdatableContentDisplayer, Initiable, InitializingBean {
 
 	private Table dataTable;
 
@@ -82,15 +83,7 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityPanel
 	 */
 	private static final long serialVersionUID = -5410222330558478558L;
 
-	/**
-	 * Creates a freshly new {@link GenericTable}
-	 */
-	public GenericTable() {
-		super();
-		init();
-	}
-
-	private void init() {
+	private void preInit() {
 		setShowButtons(tableConfig.getShowsEditButtons());
 		setShowDeleteButton(false);
 
@@ -101,6 +94,9 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityPanel
 		dataTableInit();
 		layout.addComponent(dataTable);
 
+	}
+
+	private void postInit() {
 		getButtonsLayout().addComponent(removeAll);
 		getButtonsLayout().addComponent(add);
 
@@ -489,6 +485,20 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityPanel
 		this.refreshButtonsState();
 		this.dataTableInit();
 		this.refreshData();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel#afterPropertiesSet
+	 * ()
+	 */
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		preInit();
+		super.afterPropertiesSet();
+		postInit();
 	}
 
 	@Override

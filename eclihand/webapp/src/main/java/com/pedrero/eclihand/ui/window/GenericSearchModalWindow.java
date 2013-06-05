@@ -2,6 +2,8 @@ package com.pedrero.eclihand.ui.window;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.InitializingBean;
+
 import com.pedrero.eclihand.controller.window.GenericSearchModalWindowController;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.ui.table.GenericTable;
@@ -23,7 +25,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
 
 public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
-		implements Initiable, Identifiable {
+		implements Initiable, Identifiable, InitializingBean {
 
 	/**
 	 * 
@@ -106,11 +108,6 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
 		layout.addComponent(progressIndicator);
 
 		initLabels();
-	}
-
-	public GenericSearchModalWindow() {
-		super();
-		init();
 	}
 
 	private void initCancelButton() {
@@ -296,6 +293,11 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
 		} else if (!getId().equals(other.getId()))
 			return false;
 		return true;
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		init();
 	}
 
 }

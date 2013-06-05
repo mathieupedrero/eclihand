@@ -2,6 +2,7 @@ package com.pedrero.eclihand.ui.panel;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -17,12 +18,7 @@ import com.vaadin.ui.Layout;
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class HomeScreen extends EclihandAbstractComponent implements Initiable,
-		Displayer {
-
-	public HomeScreen() {
-		super();
-		init();
-	}
+		Displayer, InitializingBean {
 
 	@Resource
 	private HomePanelController homePanelController;
@@ -54,6 +50,11 @@ public class HomeScreen extends EclihandAbstractComponent implements Initiable,
 	@Override
 	public void display() {
 
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		init();
 	}
 
 }

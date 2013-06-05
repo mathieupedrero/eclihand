@@ -2,6 +2,7 @@ package com.pedrero.eclihand.ui.panel;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 
@@ -16,12 +17,7 @@ import com.vaadin.ui.Panel;
 
 @org.springframework.stereotype.Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class BodyPanel extends Panel implements Initiable {
-
-	public BodyPanel() {
-		super();
-		init();
-	}
+public class BodyPanel extends Panel implements Initiable, InitializingBean {
 
 	@Resource
 	private HomeScreen homePanel;
@@ -94,6 +90,12 @@ public class BodyPanel extends Panel implements Initiable {
 	public void showHomePanel() {
 		layout.replaceComponent(currentPanel, homePanel);
 		currentPanel = homePanel;
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		init();
+
 	}
 
 }

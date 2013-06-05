@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.mvel2.MVEL;
+import org.springframework.beans.factory.InitializingBean;
 
 import com.pedrero.eclihand.controller.GenericPropertyDisplayerController;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
@@ -26,7 +27,6 @@ import com.vaadin.data.util.converter.Converter;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.GridLayout;
@@ -44,7 +44,7 @@ import com.vaadin.ui.TextField;
  */
 public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 		AbstractEntityPanel implements Initiable, EntityDisplayerComponent<T>,
-		UpdatableContentDisplayer {
+		UpdatableContentDisplayer, InitializingBean {
 
 	/**
 	 * 
@@ -79,16 +79,6 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 
 	@Resource
 	private LocaleContainer localeContainer;
-
-	public GenericPropertyDisplayer() {
-		super();
-		init();
-	}
-
-	public GenericPropertyDisplayer(ComponentContainer content) {
-		super(content);
-		init();
-	}
 
 	private void init() {
 		setShowButtons(config.getShowsEditButtons());
@@ -293,6 +283,19 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	@Override
 	public Layout getMainLayout() {
 		return layout;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel#afterPropertiesSet
+	 * ()
+	 */
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		init();
+		super.afterPropertiesSet();
 	}
 
 	/**

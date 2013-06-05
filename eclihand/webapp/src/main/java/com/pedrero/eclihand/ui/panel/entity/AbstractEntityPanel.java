@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.InitializingBean;
+
 import com.pedrero.eclihand.ui.panel.EclihandAbstractComponent;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
@@ -13,11 +15,10 @@ import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Layout;
 
 public abstract class AbstractEntityPanel extends EclihandAbstractComponent
-		implements UpdatableContentDisplayer {
+		implements UpdatableContentDisplayer, InitializingBean {
 
 	private String makeUpdatableCaptionKey = UpdatableContentManager.MAKE_UPDATABLE_KEY;
 
@@ -159,16 +160,6 @@ public abstract class AbstractEntityPanel extends EclihandAbstractComponent
 		}
 	}
 
-	public AbstractEntityPanel() {
-		super();
-		init();
-	}
-
-	public AbstractEntityPanel(ComponentContainer content) {
-		super(content);
-		init();
-	}
-
 	public void makeUpdatable() {
 		updatable = true;
 		delete.setVisible(getShowButtons() && getShowDeleteButton());
@@ -192,6 +183,17 @@ public abstract class AbstractEntityPanel extends EclihandAbstractComponent
 		switchUpdateModeButton.setVisible(getShowButtons());
 		switchUpdateModeButton.setCaption(messageResolver
 				.getMessage(makeUpdatableCaptionKey));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
+	 */
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		init();
 	}
 
 	/**
