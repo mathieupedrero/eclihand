@@ -2,25 +2,79 @@ package com.pedrero.eclihand.navigation;
 
 import java.util.Map;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.utils.text.UriFragmentManager;
 
+@Component
+@Scope("prototype")
 public abstract class EclihandPlaceImpl implements EclihandPlace {
-	@Resource
-	private UriFragmentManager uriFragmentManager;
 
-	@Override
-	public final void feedFromFragment(String fragment) {
-		feedFromProperties(uriFragmentManager.parse(fragment));
+	private final String placeName;
+
+	public EclihandPlaceImpl(String placeName) {
+		super();
+		this.placeName = placeName;
 	}
 
+	@Autowired
+	private UriFragmentManager uriFragmentManager;
+
+	/**
+	 * @return the uriFragmentManager
+	 */
+	public UriFragmentManager getUriFragmentManager() {
+		return uriFragmentManager;
+	}
+
+	/**
+	 * @param uriFragmentManager
+	 *            the uriFragmentManager to set
+	 */
+	public void setUriFragmentManager(UriFragmentManager uriFragmentManager) {
+		this.uriFragmentManager = uriFragmentManager;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.navigation.EclihandPlace#feedFromFragment(java.lang
+	 * .String)
+	 */
+	@Override
+	public final void feedFromFragment(String fragment) {
+		feedFromProperties(getUriFragmentManager().parse(fragment));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.pedrero.eclihand.navigation.EclihandPlace#generateFragment()
+	 */
 	@Override
 	public final String generateFragment() {
-		return uriFragmentManager.computeFragment(generateProperties());
+		return getUriFragmentManager().computePropertyFragment(
+				generateProperties());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.pedrero.eclihand.navigation.EclihandPlace#generateViewState()
+	 */
+	@Override
+	public String generateViewState() {
+		return getPlaceName() + '/' + generateFragment();
 	}
 
 	protected abstract void feedFromProperties(Map<String, String> properties);
 
 	protected abstract Map<String, String> generateProperties();
+
+	public String getPlaceName() {
+		return placeName;
+	}
 }

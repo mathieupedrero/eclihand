@@ -35,6 +35,9 @@
 	<!-- Formater Config import-->
 	<import resource="classpath:/config/formater-application-context.xml"/>
 
+	<!-- Navigator Config import-->
+	<import resource="classpath:/config/navigation-application-context.xml"/>
+
 	<!-- Search modal windows import-->
 	<import resource="classpath:/config/search-modal-windows-application-context.xml"/>
 

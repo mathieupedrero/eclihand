@@ -5,8 +5,9 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 
 import com.pedrero.eclihand.controller.EclihandController;
+import com.pedrero.eclihand.navigation.EclihandNavigatorImpl;
+import com.pedrero.eclihand.navigation.EclihandView;
 import com.pedrero.eclihand.ui.panel.BodyPanel;
-import com.vaadin.ui.Component;
 
 @Controller
 public class BodyPanelController implements EclihandController {
@@ -36,6 +37,9 @@ public class BodyPanelController implements EclihandController {
 	@Resource
 	private LeftPanelController leftPanelController;
 
+	@Resource
+	private EclihandNavigatorImpl eclihandNavigator;
+
 	public void showTeamsPanel() {
 		teamsPanelController.display();
 		bodyPanel.showTeamsPanel();
@@ -53,7 +57,7 @@ public class BodyPanelController implements EclihandController {
 		bodyPanel.showPlayerPanel();
 	}
 
-	public void showComponent(Component panel) {
+	public void showComponent(EclihandView panel) {
 		bodyPanel.showComponent(panel);
 	}
 

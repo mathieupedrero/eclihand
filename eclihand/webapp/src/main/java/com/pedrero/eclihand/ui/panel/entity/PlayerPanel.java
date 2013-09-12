@@ -14,6 +14,8 @@ import com.pedrero.eclihand.controller.panel.AbstractEntityController;
 import com.pedrero.eclihand.controller.panel.PlayerPanelController;
 import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.TeamDto;
+import com.pedrero.eclihand.navigation.EclihandPlace;
+import com.pedrero.eclihand.navigation.places.PlayerPlace;
 import com.pedrero.eclihand.ui.EntityDisplayerComponent;
 import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
 import com.pedrero.eclihand.ui.table.GenericTable;
@@ -24,9 +26,9 @@ import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Layout;
 
-@Component
+@Component(value = "playerPanel")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class PlayerPanel extends AbstractEntityPanel implements
+public class PlayerPanel extends AbstractEntityViewPanel implements
 		EntityDisplayerComponent<PlayerDto>, Initiable, InitializingBean {
 
 	/**
@@ -48,6 +50,9 @@ public class PlayerPanel extends AbstractEntityPanel implements
 
 	@Resource
 	private MessageResolver messageResolver;
+
+	@Resource
+	private PlayerPlace playerPlace;
 
 	private Layout layout;
 
@@ -144,6 +149,16 @@ public class PlayerPanel extends AbstractEntityPanel implements
 	@Override
 	public List<UpdatableContentDisplayer> getContentDisplayers() {
 		return contentDisplayers;
+	}
+
+	@Override
+	public EclihandPlace retrieveAssociatedPlace() {
+		return playerPlace;
+	}
+
+	@Override
+	public void display() {
+		this.playerPanelController.display(playerPlace.getId());
 	}
 
 }

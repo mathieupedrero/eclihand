@@ -17,7 +17,7 @@ import com.pedrero.eclihand.service.PlayerService;
 import com.pedrero.eclihand.service.TeamService;
 import com.pedrero.eclihand.ui.EntityDisplayerComponent;
 import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
-import com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel;
+import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
 import com.pedrero.eclihand.ui.panel.entity.TeamPanel;
 import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.UpdatableContentController;
@@ -110,7 +110,7 @@ public class TeamPanelController extends AbstractEntityController implements
 	}
 
 	@Override
-	public AbstractEntityPanel getEntityPanel() {
+	public AbstractEntityComponent getEntityPanel() {
 		return teamPanel;
 	}
 }

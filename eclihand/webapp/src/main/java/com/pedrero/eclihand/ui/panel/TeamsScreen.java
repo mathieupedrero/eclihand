@@ -11,8 +11,10 @@ import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.controller.panel.TeamsPanelController;
 import com.pedrero.eclihand.model.dto.TeamDto;
+import com.pedrero.eclihand.navigation.EclihandPlace;
+import com.pedrero.eclihand.navigation.EclihandViewImpl;
+import com.pedrero.eclihand.navigation.places.TeamsPlace;
 import com.pedrero.eclihand.ui.table.GenericTable;
-import com.pedrero.eclihand.utils.Displayer;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
@@ -22,10 +24,10 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Layout;
 
-@Component
+@Component(value = "teamsScreen")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class TeamsScreen extends EclihandAbstractComponent implements
-		Initiable, Displayer, InitializingBean {
+public class TeamsScreen extends EclihandViewImpl implements Initiable,
+		InitializingBean {
 	@Resource
 	private MessageResolver messageResolver;
 
@@ -41,6 +43,9 @@ public class TeamsScreen extends EclihandAbstractComponent implements
 	@Resource
 	private EclihandUiFactory eclihandUiFactory;
 
+	@Resource
+	private TeamsPlace teamsPlace;
+
 	private Button createNewTeamButton;
 
 	private Layout layout;
@@ -55,7 +60,8 @@ public class TeamsScreen extends EclihandAbstractComponent implements
 		if (layout == null) {
 			layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		}
-		this.addComponent(layout);
+		// this.setUiComponent(layout);
+		this.setContent(layout);
 
 		this.createNewTeamButton = eclihandUiFactory.createButton();
 		this.createNewTeamButton.setCaption(messageResolver
@@ -96,5 +102,10 @@ public class TeamsScreen extends EclihandAbstractComponent implements
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		init();
+	}
+
+	@Override
+	public EclihandPlace retrieveAssociatedPlace() {
+		return teamsPlace;
 	}
 }

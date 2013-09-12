@@ -24,10 +24,10 @@ public class UriFragmentManagerImpl implements UriFragmentManager {
 	private static final Pattern ESCAPE_CHARACTERS_PATTERN = Pattern.compile(ESCAPE_CHARACTERS_REGEX);
 
 	@Override
-	public Map<String, String> parse(String fragment) {
+	public Map<String, String> parse(String propertyFragment) {
 		Map<String, String> properties = new HashMap<String, String>();
 
-		Matcher parsingMatcher = PROPERTIES_PATTERN.matcher(fragment);
+		Matcher parsingMatcher = PROPERTIES_PATTERN.matcher(propertyFragment);
 
 		while (parsingMatcher.find()) {
 			String property = parsingMatcher.group(1);
@@ -41,7 +41,7 @@ public class UriFragmentManagerImpl implements UriFragmentManager {
 	}
 
 	@Override
-	public String computeFragment(Map<String, String> properties) {
+	public String computePropertyFragment(Map<String, String> properties) {
 		if (properties == null) {
 			return "";
 		}

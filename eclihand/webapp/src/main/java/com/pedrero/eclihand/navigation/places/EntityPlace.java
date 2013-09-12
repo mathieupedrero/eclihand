@@ -4,6 +4,10 @@ import java.util.Map;
 
 public abstract class EntityPlace extends IdentityPlace {
 
+	public EntityPlace(String placeName) {
+		super(placeName);
+	}
+
 	public final static String NEW_ENTITY_PROPERTY_FLAG = "new";
 
 	public final static String UPDATE_ENTITY_PROPERTY_FLAG = "upd";
@@ -25,10 +29,12 @@ public abstract class EntityPlace extends IdentityPlace {
 	protected Map<String, String> generateProperties() {
 		Map<String, String> propertiesMap = super.generateProperties();
 		if (getCreateMode()) {
-			propertiesMap.put(NEW_ENTITY_PROPERTY_FLAG, getCreateMode().toString());
+			propertiesMap.put(NEW_ENTITY_PROPERTY_FLAG, getCreateMode()
+					.toString());
 		}
 		if (getUpdateMode()) {
-			propertiesMap.put(UPDATE_ENTITY_PROPERTY_FLAG, getCreateMode().toString());
+			propertiesMap.put(UPDATE_ENTITY_PROPERTY_FLAG, getUpdateMode()
+					.toString());
 		}
 		return propertiesMap;
 	}

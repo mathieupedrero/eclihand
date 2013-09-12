@@ -13,7 +13,7 @@ import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.ui.EntityDisplayerComponent;
 import com.pedrero.eclihand.ui.custom.config.PropertyConfig;
 import com.pedrero.eclihand.ui.custom.config.PropertyDisplayerConfig;
-import com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel;
+import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
 import com.pedrero.eclihand.utils.EclihandUiException;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.UpdatableContentController;
@@ -43,8 +43,9 @@ import com.vaadin.ui.TextField;
  *            {@link DataObjectDto} type to be displayed
  */
 public class GenericPropertyDisplayer<T extends DataObjectDto> extends
-		AbstractEntityPanel implements Initiable, EntityDisplayerComponent<T>,
-		UpdatableContentDisplayer, InitializingBean {
+		AbstractEntityComponent implements Initiable,
+		EntityDisplayerComponent<T>, UpdatableContentDisplayer,
+		InitializingBean {
 
 	/**
 	 * 

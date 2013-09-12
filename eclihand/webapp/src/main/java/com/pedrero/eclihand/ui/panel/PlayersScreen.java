@@ -8,6 +8,9 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.controller.panel.PlayersPanelController;
+import com.pedrero.eclihand.navigation.EclihandPlace;
+import com.pedrero.eclihand.navigation.EclihandViewImpl;
+import com.pedrero.eclihand.navigation.places.PlayersPlace;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
@@ -18,10 +21,10 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 
-@Component
+@Component(value = "playersScreen")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class PlayersScreen extends EclihandAbstractComponent implements
-		Initiable, InitializingBean {
+public class PlayersScreen extends EclihandViewImpl implements Initiable,
+		InitializingBean {
 
 	@Resource
 	private MessageResolver messageResolver;
@@ -43,6 +46,9 @@ public class PlayersScreen extends EclihandAbstractComponent implements
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
 
+	@Resource
+	private PlayersPlace playersPlace;
+
 	/**
 	 * 
 	 */
@@ -52,7 +58,8 @@ public class PlayersScreen extends EclihandAbstractComponent implements
 		this.setCaption(messageResolver.getMessage("players.panel.title"));
 		if (layout == null) {
 			layout = eclihandLayoutFactory.createCommonVerticalLayout();
-			this.addComponent(layout);
+			// this.setUiComponent(layout);
+			this.setContent(layout);
 
 			this.titleLabel = eclihandUiFactory.createTitleLabel();
 			this.titleLabel.setValue(messageResolver
@@ -104,5 +111,14 @@ public class PlayersScreen extends EclihandAbstractComponent implements
 	public void afterPropertiesSet() throws Exception {
 		init();
 
+	}
+
+	@Override
+	public EclihandPlace retrieveAssociatedPlace() {
+		return playersPlace;
+	}
+
+	@Override
+	public void display() {
 	}
 }

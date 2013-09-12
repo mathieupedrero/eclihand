@@ -7,6 +7,10 @@ import com.pedrero.eclihand.navigation.EclihandPlaceImpl;
 
 public abstract class IdentityPlace extends EclihandPlaceImpl {
 
+	public IdentityPlace(String placeName) {
+		super(placeName);
+	}
+
 	public final static String ID_PROPERTY_FLAG = "id";
 
 	private Long id;

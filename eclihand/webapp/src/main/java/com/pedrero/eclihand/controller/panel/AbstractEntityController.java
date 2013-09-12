@@ -1,6 +1,6 @@
 package com.pedrero.eclihand.controller.panel;
 
-import com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel;
+import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
 
 
@@ -40,6 +40,6 @@ public abstract class AbstractEntityController {
 		}
 	}
 
-	public abstract AbstractEntityPanel getEntityPanel();
+	public abstract AbstractEntityComponent getEntityPanel();
 
 }

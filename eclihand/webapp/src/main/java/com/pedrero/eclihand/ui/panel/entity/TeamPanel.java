@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import com.pedrero.eclihand.controller.panel.TeamPanelController;
 import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.TeamDto;
+import com.pedrero.eclihand.navigation.EclihandPlace;
+import com.pedrero.eclihand.navigation.places.TeamPlace;
 import com.pedrero.eclihand.ui.EntityDisplayerComponent;
 import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
 import com.pedrero.eclihand.ui.table.GenericTable;
@@ -22,9 +24,9 @@ import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Layout;
 
-@Component
+@Component(value = "teamPanel")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class TeamPanel extends AbstractEntityPanel implements
+public class TeamPanel extends AbstractEntityViewPanel implements
 		EntityDisplayerComponent<TeamDto>, InitializingBean {
 
 	/**
@@ -45,7 +47,10 @@ public class TeamPanel extends AbstractEntityPanel implements
 	private EclihandLayoutFactory eclihandLayoutFactory;
 
 	@Resource
-	MessageResolver messageResolver;
+	private MessageResolver messageResolver;
+
+	@Resource
+	private TeamPlace teamPlace;
 
 	private Layout layout;
 
@@ -116,8 +121,6 @@ public class TeamPanel extends AbstractEntityPanel implements
 	}
 
 	public void validateChanges() {
-		// TODO Auto-generated method stub
-
 	}
 
 	/*
@@ -131,6 +134,16 @@ public class TeamPanel extends AbstractEntityPanel implements
 	public void afterPropertiesSet() throws Exception {
 		init();
 		super.afterPropertiesSet();
+	}
+
+	@Override
+	public EclihandPlace retrieveAssociatedPlace() {
+		return teamPlace;
+	}
+
+	@Override
+	public void display() {
+		this.teamPanelController.display(teamPlace.getId());
 	}
 
 }

@@ -6,18 +6,22 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 
-import com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel;
+import com.pedrero.eclihand.navigation.EclihandNavigator;
+import com.pedrero.eclihand.navigation.EclihandView;
 import com.pedrero.eclihand.ui.panel.entity.PlayerPanel;
+import com.pedrero.eclihand.ui.panel.entity.TeamPanel;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Panel;
 
-@org.springframework.stereotype.Component
+@org.springframework.stereotype.Component(value = "bodyPanel")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class BodyPanel extends Panel implements Initiable, InitializingBean {
+
+	@Resource(name = "eclihandContentPanel")
+	private Panel contentPanel;
 
 	@Resource
 	private HomeScreen homePanel;
@@ -26,7 +30,7 @@ public class BodyPanel extends Panel implements Initiable, InitializingBean {
 	private TeamsScreen teamsPanel;
 
 	@Resource
-	private AbstractEntityPanel teamPanel;
+	private TeamPanel teamPanel;
 
 	@Resource
 	private PlayersScreen playersPanel;
@@ -43,7 +47,8 @@ public class BodyPanel extends Panel implements Initiable, InitializingBean {
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
 
-	private Component currentPanel;
+	@Resource
+	private EclihandNavigator eclihandNavigator;
 
 	private Layout layout;
 
@@ -56,40 +61,33 @@ public class BodyPanel extends Panel implements Initiable, InitializingBean {
 		layout = eclihandLayoutFactory.createCommonHorizontalLayout();
 		this.setContent(layout);
 		layout.addComponent(leftPanel);
-		layout.addComponent(homePanel);
-		currentPanel = homePanel;
+		layout.addComponent(contentPanel);
+		contentPanel.setContent(homePanel);
 		this.setCaption(messageResolver.getMessage("body.caption"));
-
 	}
 
 	public void showTeamsPanel() {
-		layout.replaceComponent(currentPanel, teamsPanel);
-		currentPanel = teamsPanel;
+		eclihandNavigator.navigateTo(teamsPanel);
 	}
 
 	public void showTeamPanel() {
-		layout.replaceComponent(currentPanel, teamPanel);
-		currentPanel = teamPanel;
+		eclihandNavigator.navigateTo(teamPanel);
 	}
 
 	public void showPlayersPanel() {
-		layout.replaceComponent(currentPanel, playersPanel);
-		currentPanel = playersPanel;
+		eclihandNavigator.navigateTo(playersPanel);
 	}
 
 	public void showPlayerPanel() {
-		layout.replaceComponent(currentPanel, playerPanel);
-		currentPanel = playerPanel;
+		eclihandNavigator.navigateTo(playerPanel);
 	}
 
-	public void showComponent(Component panel) {
-		layout.replaceComponent(currentPanel, panel);
-		currentPanel = panel;
+	public void showComponent(EclihandView panel) {
+		eclihandNavigator.navigateTo(panel);
 	}
 
 	public void showHomePanel() {
-		layout.replaceComponent(currentPanel, homePanel);
-		currentPanel = homePanel;
+		eclihandNavigator.navigateTo(homePanel);
 	}
 
 	@Override

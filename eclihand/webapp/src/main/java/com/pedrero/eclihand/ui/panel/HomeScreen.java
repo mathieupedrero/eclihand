@@ -9,16 +9,18 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.controller.panel.HomePanelController;
-import com.pedrero.eclihand.utils.Displayer;
+import com.pedrero.eclihand.navigation.EclihandPlace;
+import com.pedrero.eclihand.navigation.EclihandViewImpl;
+import com.pedrero.eclihand.navigation.places.WelcomePlace;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Layout;
 
-@Component
+@Component(value = "homeScreen")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class HomeScreen extends EclihandAbstractComponent implements Initiable,
-		Displayer, InitializingBean {
+public class HomeScreen extends EclihandViewImpl implements Initiable,
+		InitializingBean {
 
 	@Resource
 	private HomePanelController homePanelController;
@@ -32,6 +34,9 @@ public class HomeScreen extends EclihandAbstractComponent implements Initiable,
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
 
+	@Resource
+	private WelcomePlace welcomePlace;
+
 	private Layout layout;
 
 	/**
@@ -42,7 +47,8 @@ public class HomeScreen extends EclihandAbstractComponent implements Initiable,
 	private void init() {
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		layout.setWidth(panelWidth);
-		this.addComponent(layout);
+		// this.setUiComponent(layout);
+		this.setContent(layout);
 		this.setCaption(messageResolver.getMessage("home.caption"));
 
 	}
@@ -55,6 +61,11 @@ public class HomeScreen extends EclihandAbstractComponent implements Initiable,
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		init();
+	}
+
+	@Override
+	public EclihandPlace retrieveAssociatedPlace() {
+		return welcomePlace;
 	}
 
 }

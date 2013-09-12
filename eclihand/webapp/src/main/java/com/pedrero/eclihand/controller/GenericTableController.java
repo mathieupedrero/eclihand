@@ -6,7 +6,7 @@ import com.pedrero.eclihand.controller.panel.AbstractEntityController;
 import com.pedrero.eclihand.controller.window.GenericSearchModalWindowController;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.service.DataObjectService;
-import com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel;
+import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
 import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.IDTOConsumer;
 import com.pedrero.eclihand.utils.UpdatableContentController;
@@ -92,7 +92,7 @@ public class GenericTableController<T extends DataObjectDto> extends
 	}
 
 	@Override
-	public AbstractEntityPanel getEntityPanel() {
+	public AbstractEntityComponent getEntityPanel() {
 		return genericTable;
 	}
 

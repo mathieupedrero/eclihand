@@ -15,7 +15,7 @@ import com.pedrero.eclihand.controller.EntityDisplayerController;
 import com.pedrero.eclihand.controller.GenericTableController;
 import com.pedrero.eclihand.controller.panel.BodyPanelController;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
-import com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel;
+import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
 import com.pedrero.eclihand.ui.table.config.TableColumnConfig;
 import com.pedrero.eclihand.ui.table.config.TableConfig;
 import com.pedrero.eclihand.utils.DisplayedEntity;
@@ -34,8 +34,9 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Table;
 
-public class GenericTable<T extends DataObjectDto> extends AbstractEntityPanel
-		implements UpdatableContentDisplayer, Initiable, InitializingBean {
+public class GenericTable<T extends DataObjectDto> extends
+		AbstractEntityComponent implements UpdatableContentDisplayer,
+		Initiable, InitializingBean {
 
 	private Table dataTable;
 
@@ -241,10 +242,11 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityPanel
 					public void buttonClick(ClickEvent event) {
 						T entity = dataObjects.get(event.getButton().getData())
 								.getEntity();
-						bodyPanelController
-								.showComponent(getEntityDisplayerController()
-										.getEntityDisplayerComponent());
-						getEntityDisplayerController().display(entity.getId());
+						// FIXME : Handle linkbutton
+						// bodyPanelController
+						// .showComponent(getEntityDisplayerController()
+						// .getEntityDisplayerComponent());
+						// getEntityDisplayerController().display(entity.getId());
 					}
 				});
 

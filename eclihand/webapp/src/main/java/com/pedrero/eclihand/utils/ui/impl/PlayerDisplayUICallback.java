@@ -20,8 +20,9 @@ public class PlayerDisplayUICallback implements UICallback<PlayerDto> {
 
 	@Override
 	public void execute(PlayerDto dataObject) {
-		bodyPanelController.showComponent(playerPanelController
-				.getEntityDisplayerComponent());
+		// FIXME: fix UICallback
+		// bodyPanelController.showComponent(playerPanelController
+		// .getEntityDisplayerComponent());
 		playerPanelController.display(dataObject.getId());
 
 	}
