@@ -1,13 +1,13 @@
 package com.pedrero.eclihand.model.dto;
 
-import java.util.Set;
+import java.util.List;
 
 import com.pedrero.eclihand.model.domain.Gender;
 
 public class TeamDto extends IllustrableDto {
 	private Integer year;
 
-	private Set<PlayerDto> players;
+	private List<PlayerDto> players;
 
 	private Gender gender;
 
@@ -19,11 +19,11 @@ public class TeamDto extends IllustrableDto {
 		this.year = year;
 	}
 
-	public Set<PlayerDto> getPlayers() {
+	public List<PlayerDto> getPlayers() {
 		return players;
 	}
 
-	public void setPlayers(Set<PlayerDto> players) {
+	public void setPlayers(List<PlayerDto> players) {
 		this.players = players;
 	}
 

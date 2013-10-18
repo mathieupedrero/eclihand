@@ -98,8 +98,8 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 
 	private void createLabelAndAddItToLineForProperty(Integer currentRow,
 			PropertyConfig property) {
-		Label label = new Label(messageResolver.getMessage(property
-				.getLabelKey()));
+		Label label = eclihandUiFactory.createLabel();
+		label.setValue(messageResolver.getMessage(property.getLabelKey()));
 		layout.addComponent(label, 0, currentRow);
 		layout.setComponentAlignment(label, Alignment.MIDDLE_RIGHT);
 	}
@@ -181,7 +181,7 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	}
 
 	private Label createLabelAndAddItAsValueToLine(Integer currentRow) {
-		Label value = new Label();
+		Label value = eclihandUiFactory.createLabel();
 		if (layout.getComponent(1, currentRow) != null) {
 			layout.removeComponent(1, currentRow);
 		}

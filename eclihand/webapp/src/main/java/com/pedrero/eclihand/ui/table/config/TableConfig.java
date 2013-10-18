@@ -10,7 +10,7 @@ public class TableConfig {
 
 	private String lineDescriptionKey;
 
-	private Boolean canRedirectToEntityDisplayer = false;
+	private Boolean actionsEnabled = false;
 
 	private Boolean canSelect = false;
 
@@ -52,13 +52,12 @@ public class TableConfig {
 		this.captionKey = captionKey;
 	}
 
-	public Boolean getCanRedirectToEntityDisplayer() {
-		return canRedirectToEntityDisplayer;
+	public Boolean getActionsEnabled() {
+		return actionsEnabled;
 	}
 
-	public void setCanRedirectToEntityDisplayer(
-			Boolean canRedirectToEntityDisplayer) {
-		this.canRedirectToEntityDisplayer = canRedirectToEntityDisplayer;
+	public void setActionsEnabled(Boolean actionsEnabled) {
+		this.actionsEnabled = actionsEnabled;
 	}
 
 	public String getLineDescriptionKey() {

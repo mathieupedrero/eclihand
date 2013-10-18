@@ -12,12 +12,14 @@ import com.pedrero.eclihand.model.domain.Player;
 import com.pedrero.eclihand.model.domain.Team;
 import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.TeamDto;
+import com.pedrero.eclihand.service.PlayerService;
 import com.pedrero.eclihand.service.TeamService;
 
 @Service
-public class TeamServiceImpl extends
- DataObjectServiceImpl<TeamDto, Team>
+public class TeamServiceImpl extends DataObjectServiceImpl<TeamDto, Team>
 		implements TeamService {
+	public static final String AGE_WHEN_PLAYING_FOR_TEAM = "age.when.playing.for.team";
+
 	@Resource
 	private TeamConverter teamConverter;
 
@@ -26,6 +28,9 @@ public class TeamServiceImpl extends
 
 	@Resource
 	private PlayerDao<Player> playerDao;
+
+	@Resource
+	private PlayerService playerService;
 
 	@Override
 	@Transactional
@@ -52,6 +57,20 @@ public class TeamServiceImpl extends
 		}
 		toDelete.getPlayers().clear();
 		teamDao.delete(toDelete);
+	}
+
+	@Override
+	public TeamDto findTeamToDisplay(Long id) {
+		Team entity = teamDao.findById(id);
+		TeamDto toReturn = teamConverter.convertToDto(entity);
+		for (PlayerDto player : toReturn.getPlayers()) {
+			Integer ageWhenPlayingForTeam = playerService
+					.computeAgeForPlayerWhenPlayingForTeam(player.getId(),
+							entity.getId());
+			player.getOtherProperties().put(AGE_WHEN_PLAYING_FOR_TEAM,
+					ageWhenPlayingForTeam);
+		}
+		return toReturn;
 	}
 
 	@Override

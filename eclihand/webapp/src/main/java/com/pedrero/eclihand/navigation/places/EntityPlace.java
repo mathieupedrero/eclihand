@@ -12,9 +12,9 @@ public abstract class EntityPlace extends IdentityPlace {
 
 	public final static String UPDATE_ENTITY_PROPERTY_FLAG = "upd";
 
-	private Boolean createMode;
+	private Boolean createMode = false;
 
-	private Boolean updateMode;
+	private Boolean updateMode = false;
 
 	@Override
 	protected void feedFromProperties(Map<String, String> properties) {

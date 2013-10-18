@@ -23,7 +23,7 @@
     				<property name="labelKey" value="common.season"/>
     				<property name="valuePath" value="year"/>
     				<property name="isDescriptionParam" value="true"/>
-    				<property name="isLink" value="true"/>
+    				<property name="action" ref="goToTeamAction"/>
     				<property name="formatter" ref="seasonFormatter"/>
     				<property name="enumType">
     					<value type="com.pedrero.eclihand.ui.config.EnumType">STRING</value>
@@ -51,7 +51,7 @@
     				<property name="labelKey" value="common.first.name"/>
     				<property name="valuePath" value="playerPerson.firstName"/>
     				<property name="isDescriptionParam" value="true"/>
-    				<property name="isLink" value="true"/>
+    				<property name="action" ref="goToPlayerAction"/>
     				<property name="enumType">
     					<value type="com.pedrero.eclihand.ui.config.EnumType">STRING</value>
     				</property>
@@ -61,7 +61,7 @@
     				<property name="labelKey" value="common.last.name"/>
     				<property name="valuePath" value="playerPerson.lastName"/>
     				<property name="isDescriptionParam" value="true"/>
-    				<property name="isLink" value="true"/>
+    				<property name="action" ref="goToPlayerAction"/>
     				<property name="enumType">
     					<value type="com.pedrero.eclihand.ui.config.EnumType">STRING</value>
     				</property>
@@ -82,13 +82,13 @@
 	<bean id="playerTableConfig" class="com.pedrero.eclihand.ui.table.config.TableConfig" parent="playerTableConfigPrototype">
     	<property name="captionKey" value="players.table.caption"/>
     	<property name="lineDescriptionKey" value="players.table.line.description"/>
-    	<property name="canRedirectToEntityDisplayer" value="true"/>
+    	<property name="actionsEnabled" value="true"/>
 	</bean>
 	
 	<bean id="searchPlayerTableConfigOneSelect" class="com.pedrero.eclihand.ui.table.config.TableConfig" parent="playerTableConfigPrototype">
     	<property name="captionKey" value="players.table.caption"/>
     	<property name="lineDescriptionKey" value="players.table.line.description"/>
-    	<property name="canRedirectToEntityDisplayer" value="false"/>
+    	<property name="actionsEnabled" value="false"/>
     	<property name="canSelect" value="true"/>
     	<property name="canMultiSelect" value="false"/>
 	</bean>
@@ -96,7 +96,7 @@
 	<bean id="teamTableConfig" class="com.pedrero.eclihand.ui.table.config.TableConfig" parent="teamTableConfigPrototype">
     	<property name="captionKey" value="team.table.caption"/>
     	<property name="lineDescriptionKey" value="team.table.line.description"/>
-    	<property name="canRedirectToEntityDisplayer" value="true"/>
+    	<property name="actionsEnabled" value="true"/>
 	</bean>
 	
 	<bean id="searchTeamTableConfigOneSelect" class="com.pedrero.eclihand.ui.table.config.TableConfig" parent="teamTableConfigPrototype">

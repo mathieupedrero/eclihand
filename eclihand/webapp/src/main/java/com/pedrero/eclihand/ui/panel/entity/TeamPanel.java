@@ -15,7 +15,7 @@ import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.places.TeamPlace;
-import com.pedrero.eclihand.ui.EntityDisplayerComponent;
+import com.pedrero.eclihand.ui.EntityDisplayerPanelComponent;
 import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
 import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.UpdatableContentController;
@@ -27,7 +27,7 @@ import com.vaadin.ui.Layout;
 @Component(value = "teamPanel")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class TeamPanel extends AbstractEntityViewPanel implements
-		EntityDisplayerComponent<TeamDto>, InitializingBean {
+		EntityDisplayerPanelComponent<TeamDto>, InitializingBean {
 
 	/**
 	 * 
@@ -92,6 +92,7 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 		teamPropertyDisplayer.display(entity);
 		playerTable.removeAllDataObjects();
 		playerTable.feed(entity.getPlayers());
+		teamPlace.setId(entity.getId());
 	}
 
 	private void init() {

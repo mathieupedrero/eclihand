@@ -15,7 +15,7 @@ public class TableColumnConfig {
 
 	private Boolean isDescriptionParam = false;
 
-	private Boolean isLink = false;
+	private ITableAction action = null;
 
 	private Converter<String, Object> formatter;
 
@@ -59,12 +59,12 @@ public class TableColumnConfig {
 		this.isDescriptionParam = isDescriptionParam;
 	}
 
-	public Boolean getIsLink() {
-		return isLink;
+	public ITableAction getAction() {
+		return action;
 	}
 
-	public void setIsLink(Boolean isLink) {
-		this.isLink = isLink;
+	public void setAction(ITableAction action) {
+		this.action = action;
 	}
 
 	public Converter<String, Object> getFormatter() {

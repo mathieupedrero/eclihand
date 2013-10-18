@@ -9,12 +9,13 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
 
-import com.pedrero.eclihand.controller.EntityDisplayerController;
+import com.pedrero.eclihand.controller.EntityDisplayerPanelController;
 import com.pedrero.eclihand.model.dto.PersonDto;
 import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.TeamDto;
+import com.pedrero.eclihand.navigation.EclihandNavigator;
 import com.pedrero.eclihand.service.PlayerService;
-import com.pedrero.eclihand.ui.EntityDisplayerComponent;
+import com.pedrero.eclihand.ui.EntityDisplayerPanelComponent;
 import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
 import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
 import com.pedrero.eclihand.ui.panel.entity.PlayerPanel;
@@ -24,7 +25,7 @@ import com.pedrero.eclihand.utils.UpdatableContentController;
 @Controller
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class PlayerPanelController extends AbstractEntityController implements
-		EntityDisplayerController<PlayerDto>, UpdatableContentController {
+		EntityDisplayerPanelController<PlayerDto>, UpdatableContentController {
 	/**
 	 * 
 	 */
@@ -45,17 +46,15 @@ public class PlayerPanelController extends AbstractEntityController implements
 	@Resource(name = "teamTableForPlayerPanel")
 	private GenericTable<TeamDto> teamTable;
 
+	@Resource
+	private EclihandNavigator navigator;
+
 	private PlayerDto player;
 
 	private void searchPlayerAndDisplay(Long teamId) {
-		PlayerDto entity = playerService.findById(teamId);
-		searchPlayerAndDisplay(entity);
-		player = entity;
 	}
 
-	private void searchPlayerAndDisplay(PlayerDto entity) {
-		makeReadOnly();
-		playerPanel.display(entity);
+	private void display(PlayerDto entity) {
 	}
 
 	@Override
@@ -75,12 +74,17 @@ public class PlayerPanelController extends AbstractEntityController implements
 	}
 
 	@Override
-	public void display(Long entityId) {
-		searchPlayerAndDisplay(entityId);
+	public void display(Long teamId) {
+		PlayerDto entity = playerService.findById(teamId);
+		display(entity);
+		player = entity;
+		makeReadOnly();
+		playerPanel.display(entity);
+		navigator.navigateTo(playerPanel);
 	}
 
 	@Override
-	public EntityDisplayerComponent<PlayerDto> getEntityDisplayerComponent() {
+	public EntityDisplayerPanelComponent<PlayerDto> getEntityDisplayerComponent() {
 		return playerPanel;
 	}
 
@@ -101,6 +105,12 @@ public class PlayerPanelController extends AbstractEntityController implements
 	@Override
 	public AbstractEntityComponent getEntityPanel() {
 		return playerPanel;
+	}
+
+	@Override
+	public void preparePlace(Long id) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

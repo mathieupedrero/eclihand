@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import org.mvel2.MVEL;
 import org.springframework.beans.factory.InitializingBean;
 
-import com.pedrero.eclihand.controller.EntityDisplayerController;
+import com.pedrero.eclihand.controller.EntityDisplayerPanelController;
 import com.pedrero.eclihand.controller.GenericTableController;
 import com.pedrero.eclihand.controller.panel.BodyPanelController;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
@@ -61,7 +61,7 @@ public class GenericTable<T extends DataObjectDto> extends
 	@Resource
 	private LocaleContainer localeContainer;
 
-	private EntityDisplayerController<T> entityDisplayerController;
+	private EntityDisplayerPanelController<T> entityDisplayerController;
 
 	private TableConfig tableConfig;
 
@@ -163,8 +163,8 @@ public class GenericTable<T extends DataObjectDto> extends
 		for (TableColumnConfig columnConfig : getTableConfig()
 				.getColumnConfigs()) {
 
-			if (columnConfig.getIsLink()
-					&& getTableConfig().getCanRedirectToEntityDisplayer()) {
+			if (columnConfig.getAction() != null
+					&& getTableConfig().getActionsEnabled()) {
 				container.addContainerProperty(columnConfig.getId(),
 						Button.class, null);
 
@@ -206,7 +206,7 @@ public class GenericTable<T extends DataObjectDto> extends
 		// List of linkButtons created for the line of the table
 		List<Button> linkButtonList = new ArrayList<Button>();
 
-		for (TableColumnConfig columnConfig : getTableConfig()
+		for (final TableColumnConfig columnConfig : getTableConfig()
 				.getColumnConfigs()) {
 			Object value = MVEL.eval(columnConfig.getValuePath(), object);
 			Object displayedValue = value;
@@ -222,8 +222,8 @@ public class GenericTable<T extends DataObjectDto> extends
 				descriptionParams.add(displayedValue);
 			}
 
-			if (columnConfig.getIsLink()
-					&& getTableConfig().getCanRedirectToEntityDisplayer()) {
+			if (columnConfig.getAction() != null
+					&& getTableConfig().getActionsEnabled()) {
 				// If column is a link (to redirect to entity displayer panel,
 				// adds a button link as data
 
@@ -242,11 +242,7 @@ public class GenericTable<T extends DataObjectDto> extends
 					public void buttonClick(ClickEvent event) {
 						T entity = dataObjects.get(event.getButton().getData())
 								.getEntity();
-						// FIXME : Handle linkbutton
-						// bodyPanelController
-						// .showComponent(getEntityDisplayerController()
-						// .getEntityDisplayerComponent());
-						// getEntityDisplayerController().display(entity.getId());
+						columnConfig.getAction().performAction(entity.getId());
 					}
 				});
 
@@ -391,23 +387,23 @@ public class GenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * @return the {@link EntityDisplayerController} associated to this
+	 * @return the {@link EntityDisplayerPanelController} associated to this
 	 *         {@link GenericTable}
 	 */
-	public EntityDisplayerController<T> getEntityDisplayerController() {
+	public EntityDisplayerPanelController<T> getEntityDisplayerController() {
 		return entityDisplayerController;
 	}
 
 	/**
-	 * Sets the {@link EntityDisplayerController} associated to this
+	 * Sets the {@link EntityDisplayerPanelController} associated to this
 	 * {@link GenericTable}
 	 * 
 	 * @param entityDisplayerController
-	 *            the {@link EntityDisplayerController} to associate with this
-	 *            {@link GenericTable}
+	 *            the {@link EntityDisplayerPanelController} to associate with
+	 *            this {@link GenericTable}
 	 */
 	public void setEntityDisplayerController(
-			EntityDisplayerController<T> entityDisplayerController) {
+			EntityDisplayerPanelController<T> entityDisplayerController) {
 		this.entityDisplayerController = entityDisplayerController;
 	}
 

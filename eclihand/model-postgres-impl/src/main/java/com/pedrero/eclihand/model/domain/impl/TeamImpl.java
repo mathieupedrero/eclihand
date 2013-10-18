@@ -1,5 +1,6 @@
 package com.pedrero.eclihand.model.domain.impl;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -26,7 +27,7 @@ public class TeamImpl extends IllustrableImpl implements Team {
 
 	@ManyToMany
 	@JoinTable(name = "AFF_PLAYER_TEAM_AFFILIATION", joinColumns = @JoinColumn(name = "AFF_TEA_ID"), inverseJoinColumns = @JoinColumn(name = "AFF_PLA_ID"))
-	private Set<PlayerImpl> players;
+	private final Set<PlayerImpl> players = new HashSet<PlayerImpl>();
 
 	@Column(name = "TEA_GENDER")
 	@Enumerated(EnumType.STRING)
@@ -46,12 +47,6 @@ public class TeamImpl extends IllustrableImpl implements Team {
 	@Override
 	public Set<Player> getPlayers() {
 		return (Set) players;
-	}
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
-	public void setPlayers(Set<Player> players) {
-		this.players = (Set) players;
 	}
 
 	@Override
