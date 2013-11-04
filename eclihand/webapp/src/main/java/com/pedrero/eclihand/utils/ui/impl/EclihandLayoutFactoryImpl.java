@@ -13,7 +13,7 @@ public class EclihandLayoutFactoryImpl implements EclihandLayoutFactory {
 	@Override
 	public VerticalLayout createCommonVerticalLayout() {
 		VerticalLayout layout = new VerticalLayout();
-		layout.setSizeUndefined();
+		layout.setSizeFull();
 		layout.setMargin(true);
 		return layout;
 	}
@@ -21,7 +21,7 @@ public class EclihandLayoutFactoryImpl implements EclihandLayoutFactory {
 	@Override
 	public HorizontalLayout createCommonHorizontalLayout() {
 		HorizontalLayout layout = new HorizontalLayout();
-		layout.setSizeUndefined();
+		layout.setSizeFull();
 		layout.setMargin(true);
 		return layout;
 	}
@@ -29,7 +29,7 @@ public class EclihandLayoutFactoryImpl implements EclihandLayoutFactory {
 	@Override
 	public GridLayout createCommonGridLayout(int columns, int rows) {
 		GridLayout layout = new GridLayout(columns, rows);
-		layout.setSizeUndefined();
+		layout.setSizeFull();
 		layout.setMargin(true);
 		return layout;
 	}

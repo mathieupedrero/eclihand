@@ -2,9 +2,8 @@ package com.pedrero.eclihand.ui.panel.entity;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-
-import org.springframework.beans.factory.InitializingBean;
 
 import com.pedrero.eclihand.ui.panel.EclihandAbstractComponent;
 import com.pedrero.eclihand.utils.UpdatableContentController;
@@ -18,7 +17,12 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Layout;
 
 public abstract class AbstractEntityComponent extends EclihandAbstractComponent
-		implements UpdatableContentDisplayer, InitializingBean {
+		implements UpdatableContentDisplayer {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7219745545618911623L;
 
 	private String makeUpdatableCaptionKey = UpdatableContentManager.MAKE_UPDATABLE_KEY;
 
@@ -27,11 +31,6 @@ public abstract class AbstractEntityComponent extends EclihandAbstractComponent
 	private String validateChangesCaptionKey = UpdatableContentManager.VALIDATE_CHANGES_KEY;
 
 	private String deleteCaptionKey = UpdatableContentManager.DELETE_KEY;
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7219745545618911623L;
 
 	@Resource
 	private EclihandUiFactory eclihandUiFactory;
@@ -94,7 +93,7 @@ public abstract class AbstractEntityComponent extends EclihandAbstractComponent
 		delete.setCaption(messageResolver.getMessage(deleteCaptionKey));
 
 		// Layouts
-		this.addComponent(globalLayout);
+		setCompositionRoot(globalLayout);
 		globalLayout.addComponent(getMainLayout());
 		globalLayout.addComponent(buttonsLayout);
 
@@ -185,14 +184,8 @@ public abstract class AbstractEntityComponent extends EclihandAbstractComponent
 				.getMessage(makeUpdatableCaptionKey));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
-	 */
-	@Override
-	public void afterPropertiesSet() throws Exception {
+	@PostConstruct
+	protected void postConstruct() {
 		init();
 	}
 

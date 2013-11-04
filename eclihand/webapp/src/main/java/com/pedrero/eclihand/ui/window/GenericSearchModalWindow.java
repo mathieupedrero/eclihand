@@ -1,8 +1,7 @@
 package com.pedrero.eclihand.ui.window;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-
-import org.springframework.beans.factory.InitializingBean;
 
 import com.pedrero.eclihand.controller.window.GenericSearchModalWindowController;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
@@ -25,7 +24,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
 
 public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
-		implements Initiable, Identifiable, InitializingBean {
+		implements Initiable, Identifiable {
 
 	/**
 	 * 
@@ -295,8 +294,8 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
 		return true;
 	}
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
+	@PostConstruct
+	protected void postConstruct() {
 		init();
 	}
 

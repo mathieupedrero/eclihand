@@ -2,9 +2,9 @@ package com.pedrero.eclihand.ui.panel;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -26,8 +26,7 @@ import com.vaadin.ui.Layout;
 
 @Component(value = "teamsScreen")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class TeamsScreen extends EclihandViewImpl implements Initiable,
-		InitializingBean {
+public class TeamsScreen extends EclihandViewImpl implements Initiable {
 	@Resource
 	private MessageResolver messageResolver;
 
@@ -61,7 +60,7 @@ public class TeamsScreen extends EclihandViewImpl implements Initiable,
 			layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		}
 		// this.setUiComponent(layout);
-		this.setContent(layout);
+		this.setCompositionRoot(layout);
 
 		this.createNewTeamButton = eclihandUiFactory.createButton();
 		this.createNewTeamButton.setCaption(messageResolver
@@ -99,8 +98,8 @@ public class TeamsScreen extends EclihandViewImpl implements Initiable,
 		teamTable.feed(teams);
 	}
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
+	@PostConstruct
+	protected void postConstruct() {
 		init();
 	}
 

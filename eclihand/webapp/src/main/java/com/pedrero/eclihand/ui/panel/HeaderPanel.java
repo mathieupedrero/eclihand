@@ -1,8 +1,8 @@
 package com.pedrero.eclihand.ui.panel;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -12,12 +12,12 @@ import com.pedrero.eclihand.ui.menubar.MainMenuBar;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
+import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.Panel;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class HeaderPanel extends Panel implements Initiable, InitializingBean {
+public class HeaderPanel extends CustomComponent implements Initiable {
 
 	@Resource
 	private HeaderPanelController headerPanelController;
@@ -38,14 +38,13 @@ public class HeaderPanel extends Panel implements Initiable, InitializingBean {
 	private static final long serialVersionUID = 3099650159349626440L;
 
 	private void init() {
-		this.setCaption(messageResolver.getMessage("header.caption"));
 		layout = eclihandLayoutFactory.createCommonHorizontalLayout();
-		this.setContent(layout);
+		this.setCompositionRoot(layout);
 		layout.addComponent(mainMenuBar);
 	}
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
+	@PostConstruct
+	protected void postConstruct() {
 		init();
 	}
 

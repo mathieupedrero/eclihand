@@ -1,8 +1,8 @@
 package com.pedrero.eclihand.ui.panel;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -23,8 +23,7 @@ import com.vaadin.ui.Layout;
 
 @Component(value = "playersScreen")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class PlayersScreen extends EclihandViewImpl implements Initiable,
-		InitializingBean {
+public class PlayersScreen extends EclihandViewImpl implements Initiable {
 
 	@Resource
 	private MessageResolver messageResolver;
@@ -59,7 +58,7 @@ public class PlayersScreen extends EclihandViewImpl implements Initiable,
 		if (layout == null) {
 			layout = eclihandLayoutFactory.createCommonVerticalLayout();
 			// this.setUiComponent(layout);
-			this.setContent(layout);
+			this.setCompositionRoot(layout);
 
 			this.titleLabel = eclihandUiFactory.createTitleLabel();
 			this.titleLabel.setValue(messageResolver
@@ -107,10 +106,9 @@ public class PlayersScreen extends EclihandViewImpl implements Initiable,
 		}
 	}
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
+	@PostConstruct
+	protected void postConstruct() {
 		init();
-
 	}
 
 	@Override

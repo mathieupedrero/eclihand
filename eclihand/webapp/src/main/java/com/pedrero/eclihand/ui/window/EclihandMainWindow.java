@@ -1,8 +1,8 @@
 package com.pedrero.eclihand.ui.window;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -17,8 +17,7 @@ import com.vaadin.ui.Panel;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class EclihandMainWindow extends Panel implements Initiable,
-		InitializingBean {
+public class EclihandMainWindow extends Panel implements Initiable {
 
 	/**
 	 * 
@@ -44,8 +43,8 @@ public class EclihandMainWindow extends Panel implements Initiable,
 		layout.addComponent(bodyPanel);
 	}
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
+	@PostConstruct
+	protected void postConstruct() {
 		init();
 	}
 

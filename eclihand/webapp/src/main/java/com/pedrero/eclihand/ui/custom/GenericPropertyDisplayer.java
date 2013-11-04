@@ -3,10 +3,10 @@ package com.pedrero.eclihand.ui.custom;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.mvel2.MVEL;
-import org.springframework.beans.factory.InitializingBean;
 
 import com.pedrero.eclihand.controller.GenericPropertyDisplayerController;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
@@ -44,8 +44,7 @@ import com.vaadin.ui.TextField;
  */
 public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 		AbstractEntityComponent implements Initiable,
-		EntityDisplayerComponent<T>, UpdatableContentDisplayer,
-		InitializingBean {
+		EntityDisplayerComponent<T>, UpdatableContentDisplayer {
 
 	/**
 	 * 
@@ -87,7 +86,7 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 
 		Integer rowNumber = getConfig().getProperties().size();
 		layout = eclihandLayoutFactory.createCommonGridLayout(2, rowNumber + 1);
-		this.addComponent(layout);
+		setCompositionRoot(layout);
 
 		Integer currentRow = 0;
 		for (PropertyConfig property : getConfig().getProperties()) {
@@ -286,17 +285,10 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 		return layout;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel#afterPropertiesSet
-	 * ()
-	 */
-	@Override
-	public void afterPropertiesSet() throws Exception {
+	@PostConstruct
+	protected void postConstruct(){
 		init();
-		super.afterPropertiesSet();
+		super.postConstruct();
 	}
 
 	/**

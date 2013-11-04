@@ -1,8 +1,8 @@
 package com.pedrero.eclihand.ui.panel;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -19,8 +19,7 @@ import com.vaadin.ui.Layout;
 
 @Component(value = "homeScreen")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class HomeScreen extends EclihandViewImpl implements Initiable,
-		InitializingBean {
+public class HomeScreen extends EclihandViewImpl implements Initiable {
 
 	@Resource
 	private HomePanelController homePanelController;
@@ -48,7 +47,7 @@ public class HomeScreen extends EclihandViewImpl implements Initiable,
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		layout.setWidth(panelWidth);
 		// this.setUiComponent(layout);
-		this.setContent(layout);
+		this.setCompositionRoot(layout);
 		this.setCaption(messageResolver.getMessage("home.caption"));
 
 	}
@@ -58,8 +57,8 @@ public class HomeScreen extends EclihandViewImpl implements Initiable,
 
 	}
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
+	@PostConstruct
+	protected void postConstruct() {
 		init();
 	}
 

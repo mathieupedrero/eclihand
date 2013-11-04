@@ -1,9 +1,10 @@
 package com.pedrero.eclihand.navigation;
 
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.Panel;
+import com.vaadin.ui.CustomComponent;
 
-public abstract class EclihandViewImpl extends Panel implements EclihandView {
+public abstract class EclihandViewImpl extends CustomComponent implements
+		EclihandView {
 	/**
 	 * 
 	 */

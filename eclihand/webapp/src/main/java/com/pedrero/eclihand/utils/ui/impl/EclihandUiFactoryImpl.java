@@ -27,6 +27,7 @@ public class EclihandUiFactoryImpl implements EclihandUiFactory {
 	public Panel createMainPanel() {
 		Panel panel = new Panel();
 		panel.setLocale(localeContainer.getLocale());
+		// panel.setSizeFull();
 		return panel;
 	}
 
@@ -34,6 +35,7 @@ public class EclihandUiFactoryImpl implements EclihandUiFactory {
 	public Panel createSubPanel() {
 		Panel panel = new Panel();
 		panel.setLocale(localeContainer.getLocale());
+		// panel.setSizeFull();
 		return panel;
 	}
 

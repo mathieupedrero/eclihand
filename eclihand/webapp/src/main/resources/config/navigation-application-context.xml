@@ -15,7 +15,6 @@
 
 	
 	<bean id="eclihandNavigator" class="com.pedrero.eclihand.navigation.EclihandNavigatorImpl"  scope="session">
-		<property name="viewDisplayPanel" ref="eclihandContentPanel" />
     	<property name="views">
     		<map>
     			<entry key="welcome" value-ref="homeScreen" />
