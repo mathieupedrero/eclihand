@@ -1,12 +1,14 @@
 package com.pedrero.eclihand.ui.custom;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-import org.mvel2.MVEL;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.pedrero.eclihand.controller.GenericPropertyDisplayerController;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
@@ -22,15 +24,14 @@ import com.pedrero.eclihand.utils.text.LocaleContainer;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
-import com.vaadin.data.util.ObjectProperty;
+import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextField;
 
@@ -51,6 +52,9 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	 */
 	private static final long serialVersionUID = 5698759988513402341L;
 
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(GenericPropertyDisplayer.class);
+
 	private GenericPropertyDisplayerController<T> genericPropertyDisplayerController;
 
 	/**
@@ -59,14 +63,24 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	private PropertyDisplayerConfig config;
 
 	/**
+	 * Properties to display in the component.
+	 */
+	private final List<String> propertiesToDisplay = new ArrayList<String>();
+
+	/**
 	 * The Data Object displayed by this entity displayer
 	 */
 	private T displayed;
 
 	/**
-	 * The display of the property displayer (as a grid)
+	 * The layout of the property displayer
 	 */
-	private GridLayout layout;
+	private FormLayout layout;
+
+	/**
+	 * The field group used for data binding
+	 */
+	private FieldGroup fieldGroup;
 
 	@Resource
 	private MessageResolver messageResolver;
@@ -80,54 +94,12 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	@Resource
 	private LocaleContainer localeContainer;
 
-	private void init() {
-		setShowButtons(config.getShowsEditButtons());
-		setShowDeleteButton(false);
-
-		Integer rowNumber = getConfig().getProperties().size();
-		layout = eclihandLayoutFactory.createCommonGridLayout(2, rowNumber + 1);
-		setCompositionRoot(layout);
-
-		Integer currentRow = 0;
-		for (PropertyConfig property : getConfig().getProperties()) {
-			createLabelAndAddItToLineForProperty(currentRow, property);
-			currentRow++;
-		}
-	}
-
-	private void createLabelAndAddItToLineForProperty(Integer currentRow,
-			PropertyConfig property) {
-		Label label = eclihandUiFactory.createLabel();
-		label.setValue(messageResolver.getMessage(property.getLabelKey()));
-		layout.addComponent(label, 0, currentRow);
-		layout.setComponentAlignment(label, Alignment.MIDDLE_RIGHT);
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void display(T entity) {
 		displayed = entity;
-		Integer currentRow = 0;
-		for (PropertyConfig property : getConfig().getProperties()) {
-			Object rawValue = MVEL.eval(property.getValuePath(), displayed);
-			if (getUpdatable()) {
-				AbstractField field = createEditableComponentAndAddItToLineForProperty(
-						currentRow, property);
-				if (rawValue != null) {
-					field.setValue(rawValue);
-				}
-			} else {
-				Label label = createLabelAndAddItAsValueToLine(currentRow);
-				if (property.getFormatter() != null) {
-					label.setConverter(property.getFormatter());
-				}
-				if (rawValue != null) {
-					label.setPropertyDataSource(new ObjectProperty<Object>(
-							rawValue));
-				}
-			}
-			currentRow++;
-		}
+		BeanItem<T> item = new BeanItem<T>(entity, propertiesToDisplay);
+		fieldGroup.setItemDataSource(item);
+		fieldGroup.bindMemberFields(layout);
 	}
 
 	/*
@@ -139,12 +111,7 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	@Override
 	public void makeUpdatable() {
 		setUpdatable(true);
-		Integer currentRow = 0;
-		for (PropertyConfig property : getConfig().getProperties()) {
-			createEditableComponentAndAddItToLineForProperty(currentRow,
-					property);
-			currentRow++;
-		}
+		layout.setEnabled(true);
 		if (displayed != null) {
 			display(displayed);
 		}
@@ -152,14 +119,12 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	}
 
 	@SuppressWarnings("rawtypes")
-	private AbstractField createEditableComponentAndAddItToLineForProperty(
-			Integer lineNumber, PropertyConfig property) {
+	private AbstractField createEditableComponentForProperty(
+			PropertyConfig property) {
 		AbstractField field = createAndConfigurePropertyComponent(property);
-		if (layout.getComponent(1, lineNumber) != null) {
-			layout.removeComponent(1, lineNumber);
-		}
-		layout.addComponent(field, 1, lineNumber);
-		layout.setComponentAlignment(field, Alignment.MIDDLE_LEFT);
+		field.setCaption(messageResolver.getMessage(property.getLabelKey()));
+		layout.addComponent(field);
+		// layout.setComponentAlignment(field, Alignment.MIDDLE_LEFT);
 		return field;
 	}
 
@@ -177,16 +142,6 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 		}
 		super.makeReadOnly();
 
-	}
-
-	private Label createLabelAndAddItAsValueToLine(Integer currentRow) {
-		Label value = eclihandUiFactory.createLabel();
-		if (layout.getComponent(1, currentRow) != null) {
-			layout.removeComponent(1, currentRow);
-		}
-		layout.addComponent(value, 1, currentRow);
-		layout.setComponentAlignment(value, Alignment.MIDDLE_LEFT);
-		return value;
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -252,13 +207,10 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	}
 
 	public void validateChanges() {
-		Integer currentRow = 0;
-		for (PropertyConfig property : getConfig().getProperties()) {
-			@SuppressWarnings("rawtypes")
-			Field value = (Field) layout.getComponent(1, currentRow);
-			Object rawValue = value.getValue();
-			MVEL.setProperty(displayed, property.getValuePath(), rawValue);
-			currentRow++;
+		try {
+			fieldGroup.commit();
+		} catch (CommitException e) {
+			LOGGER.error("erreur au commit du FieldGroup", e);
 		}
 	}
 
@@ -286,8 +238,21 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	}
 
 	@PostConstruct
-	protected void postConstruct(){
-		init();
+	protected void postConstruct() {
+		for (PropertyConfig property : config.getProperties()) {
+			propertiesToDisplay.add(property.getValuePath());
+		}
+
+		setShowButtons(config.getShowsEditButtons());
+		setShowDeleteButton(false);
+
+		layout = eclihandLayoutFactory.createFormLayout();
+		fieldGroup = new FieldGroup();
+		setCompositionRoot(layout);
+
+		for (PropertyConfig property : getConfig().getProperties()) {
+			createEditableComponentForProperty(property);
+		}
 		super.postConstruct();
 	}
 
