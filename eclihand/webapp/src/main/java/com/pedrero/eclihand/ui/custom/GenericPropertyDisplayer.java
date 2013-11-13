@@ -31,6 +31,7 @@ import com.vaadin.data.util.converter.Converter;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextField;
@@ -99,7 +100,6 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 		displayed = entity;
 		BeanItem<T> item = new BeanItem<T>(entity, propertiesToDisplay);
 		fieldGroup.setItemDataSource(item);
-		fieldGroup.bindMemberFields(layout);
 	}
 
 	/*
@@ -112,9 +112,6 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	public void makeUpdatable() {
 		setUpdatable(true);
 		layout.setEnabled(true);
-		if (displayed != null) {
-			display(displayed);
-		}
 		super.makeUpdatable();
 	}
 
@@ -147,9 +144,11 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	@SuppressWarnings("rawtypes")
 	private AbstractField createAndConfigurePropertyComponent(
 			PropertyConfig propertyConfig) {
+
+		Field<? extends Object> field = null;
 		Class<? extends Object> dataTypeClass = propertyConfig
 				.retrieveClassDataType();
-		if (dataTypeClass.equals(String.class)
+		toto: if (dataTypeClass.equals(String.class)
 				|| Number.class.isAssignableFrom(dataTypeClass)
 				|| dataTypeClass.isEnum() || dataTypeClass.equals(Date.class)) {
 			Converter<String, Object> converter = propertyConfig.getFormatter();
@@ -179,7 +178,8 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 						combo.setItemCaption(i, toDisplay.toString());
 					}
 				}
-				return combo;
+				field = combo;
+				break toto;
 			}
 			if (dataTypeClass.isEnum()) {
 				ComboBox combo = new ComboBox();
@@ -190,15 +190,24 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 									localeContainer.getLocale());
 					combo.setItemCaption(value, toDisplay.toString());
 				}
-				return combo;
+
+				field = combo;
+				break toto;
 			}
 			if (dataTypeClass.equals(Date.class)) {
-				return new DateField();
+
+				field = new DateField();
+				break toto;
 			}
-			return new TextField();
+			field = new TextField();
+			break toto;
 		}
-		throw new EclihandUiException("Configuration exception : datatype "
-				+ propertyConfig.getDataType() + " not handled in Config");
+		if (field == null) {
+			throw new EclihandUiException("Configuration exception : datatype "
+					+ propertyConfig.getDataType() + " not handled in Config");
+		}
+		fieldGroup.bind(field, propertyConfig.getValuePath());
+		return (AbstractField) field;
 	}
 
 	@Override
