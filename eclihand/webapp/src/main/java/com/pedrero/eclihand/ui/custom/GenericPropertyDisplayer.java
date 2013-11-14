@@ -1,6 +1,7 @@
 package com.pedrero.eclihand.ui.custom;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -98,7 +99,10 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	@Override
 	public void display(T entity) {
 		displayed = entity;
-		BeanItem<T> item = new BeanItem<T>(entity, propertiesToDisplay);
+		BeanItem<T> item = new BeanItem<T>(entity, Arrays.asList());
+		for (String property : propertiesToDisplay){
+			item.addNestedProperty(property);
+		}
 		fieldGroup.setItemDataSource(item);
 	}
 
