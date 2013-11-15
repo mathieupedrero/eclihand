@@ -100,12 +100,12 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	public void display(T entity) {
 		displayed = entity;
 		BeanItem<T> item = new BeanItem<T>(entity, Arrays.asList());
-		for (String property : propertiesToDisplay){
+		for (String property : propertiesToDisplay) {
 			item.addNestedProperty(property);
 		}
 		fieldGroup.setItemDataSource(item);
-		for (Field<?> field : fieldGroup.getFields()){
-			field.setReadOnly(getUpdatable());
+		for (Field<?> field : fieldGroup.getFields()) {
+			field.setReadOnly(!getUpdatable());
 		}
 	}
 
@@ -118,7 +118,7 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	@Override
 	public void makeUpdatable() {
 		setUpdatable(true);
-		for (Field<?> field : fieldGroup.getFields()){
+		for (Field<?> field : fieldGroup.getFields()) {
 			field.setReadOnly(false);
 		}
 		super.makeUpdatable();
@@ -143,7 +143,7 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	@Override
 	public void makeReadOnly() {
 		setUpdatable(false);
-		for (Field<?> field : fieldGroup.getFields()){
+		for (Field<?> field : fieldGroup.getFields()) {
 			field.setReadOnly(true);
 		}
 		super.makeReadOnly();

@@ -51,9 +51,6 @@ public class PlayerPanelController extends AbstractEntityController implements
 
 	private PlayerDto player;
 
-	private void searchPlayerAndDisplay(Long teamId) {
-	}
-
 	private void display(PlayerDto entity) {
 	}
 
