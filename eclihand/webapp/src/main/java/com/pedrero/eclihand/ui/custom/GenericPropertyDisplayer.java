@@ -104,6 +104,9 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 			item.addNestedProperty(property);
 		}
 		fieldGroup.setItemDataSource(item);
+		for (Field<?> field : fieldGroup.getFields()){
+			field.setReadOnly(getUpdatable());
+		}
 	}
 
 	/*
@@ -115,7 +118,9 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	@Override
 	public void makeUpdatable() {
 		setUpdatable(true);
-		layout.setEnabled(true);
+		for (Field<?> field : fieldGroup.getFields()){
+			field.setReadOnly(false);
+		}
 		super.makeUpdatable();
 	}
 
@@ -138,8 +143,8 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	@Override
 	public void makeReadOnly() {
 		setUpdatable(false);
-		if (displayed != null) {
-			display(displayed);
+		for (Field<?> field : fieldGroup.getFields()){
+			field.setReadOnly(true);
 		}
 		super.makeReadOnly();
 
