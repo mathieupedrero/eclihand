@@ -70,11 +70,6 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	private final List<String> propertiesToDisplay = new ArrayList<String>();
 
 	/**
-	 * The Data Object displayed by this entity displayer
-	 */
-	private T displayed;
-
-	/**
 	 * The layout of the property displayer
 	 */
 	private FormLayout layout;
@@ -98,7 +93,6 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 
 	@Override
 	public void display(T entity) {
-		displayed = entity;
 		BeanItem<T> item = new BeanItem<T>(entity, Arrays.asList());
 		for (String property : propertiesToDisplay) {
 			item.addNestedProperty(property);

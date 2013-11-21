@@ -3,9 +3,11 @@ package com.pedrero.eclihand.ui;
 import com.pedrero.eclihand.servlet.SpringVaadinServlet;
 import com.pedrero.eclihand.ui.window.EclihandMainWindow;
 import com.pedrero.eclihand.utils.text.LocaleContainer;
+import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 
+@Theme("eclihand")
 public class EclihandMainUI extends UI {
 
 	public EclihandMainUI() {
