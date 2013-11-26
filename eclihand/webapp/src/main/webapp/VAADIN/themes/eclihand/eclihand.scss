@@ -1,5 +1,8 @@
-@import "../runo/runo.scss";
+@import "../chameleon/chameleon.scss";
 
 @mixin eclihand {
-  @include runo;
+  @include chameleon;
+  div {
+		border:dashed;
+	}
 }
