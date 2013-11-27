@@ -1,8 +1,5 @@
-@import "../chameleon/chameleon.scss";
+@import "../reindeer/reindeer.scss";
 
 @mixin eclihand {
-  @include chameleon;
-  div {
-		border:dashed;
-	}
+  	@include reindeer;
 }

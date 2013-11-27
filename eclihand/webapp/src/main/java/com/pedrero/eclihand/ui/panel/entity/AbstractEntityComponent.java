@@ -161,27 +161,38 @@ public abstract class AbstractEntityComponent extends EclihandAbstractComponent
 
 	public void makeUpdatable() {
 		updatable = true;
-		delete.setVisible(getShowButtons() && getShowDeleteButton());
-		validateChanges.setVisible(getShowButtons());
-		switchUpdateModeButton.setVisible(getShowButtons());
+		buttonsLayout.setVisible(showButtons);
+		delete.setVisible(getShowDeleteButton());
+		validateChanges.setVisible(true);
+		switchUpdateModeButton.setVisible(true);
 		switchUpdateModeButton.setCaption(messageResolver
 				.getMessage(discardChangesCaptionKey));
 	}
 
 	public void makeCreateMode() {
 		updatable = true;
+		buttonsLayout.setVisible(showButtons);
 		delete.setVisible(false);
-		validateChanges.setVisible(getShowButtons());
+		validateChanges.setVisible(showButtons);
 		switchUpdateModeButton.setVisible(false);
 	}
 
 	public void makeReadOnly() {
 		updatable = false;
+		buttonsLayout.setVisible(showButtons);
 		delete.setVisible(false);
 		validateChanges.setVisible(false);
-		switchUpdateModeButton.setVisible(getShowButtons());
+		switchUpdateModeButton.setVisible(true);
 		switchUpdateModeButton.setCaption(messageResolver
 				.getMessage(makeUpdatableCaptionKey));
+	}
+	
+	/**
+	 * Adds a button to the Button Layout
+	 * @param button
+	 */
+	protected void addButton(Button button){
+		buttonsLayout.addComponent(button);
 	}
 
 	@PostConstruct
@@ -189,46 +200,11 @@ public abstract class AbstractEntityComponent extends EclihandAbstractComponent
 		init();
 	}
 
-	/**
-	 * @return the buttonsLayout
-	 */
-	protected Layout getButtonsLayout() {
-		return buttonsLayout;
-	}
-
-	/**
-	 * @return the validateChanges
-	 */
-	protected Button getValidateChanges() {
-		return validateChanges;
-	}
-
-	/**
-	 * @return the delete
-	 */
-	protected Button getDelete() {
-		return delete;
-	}
-
-	/**
-	 * @return the switchUpdateModeButton
-	 */
-	protected Button getSwitchUpdateModeButton() {
-		return switchUpdateModeButton;
-	}
-
 	public abstract List<UpdatableContentDisplayer> getContentDisplayers();
 
 	public abstract UpdatableContentController getController();
 
 	public abstract Layout getMainLayout();
-
-	/**
-	 * @return the showButtons
-	 */
-	protected Boolean getShowButtons() {
-		return showButtons;
-	}
 
 	/**
 	 * @param showButtons

@@ -97,8 +97,8 @@ public class GenericTable<T extends DataObjectDto> extends
 	}
 
 	private void postInit() {
-		getButtonsLayout().addComponent(removeAll);
-		getButtonsLayout().addComponent(add);
+		addButton(removeAll);
+		addButton(add);
 
 	}
 

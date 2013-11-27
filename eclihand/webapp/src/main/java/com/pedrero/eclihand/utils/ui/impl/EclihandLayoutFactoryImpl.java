@@ -15,7 +15,7 @@ public class EclihandLayoutFactoryImpl implements EclihandLayoutFactory {
 	public VerticalLayout createCommonVerticalLayout() {
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSizeFull();
-		layout.setMargin(true);
+		layout.setMargin(false);
 		return layout;
 	}
 
@@ -23,7 +23,7 @@ public class EclihandLayoutFactoryImpl implements EclihandLayoutFactory {
 	public HorizontalLayout createCommonHorizontalLayout() {
 		HorizontalLayout layout = new HorizontalLayout();
 		layout.setSizeFull();
-		layout.setMargin(true);
+		layout.setMargin(false);
 		return layout;
 	}
 
