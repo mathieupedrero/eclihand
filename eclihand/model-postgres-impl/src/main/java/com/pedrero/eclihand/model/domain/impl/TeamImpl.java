@@ -26,7 +26,7 @@ public class TeamImpl extends IllustrableImpl implements Team {
 	private Integer year;
 
 	@ManyToMany
-	@JoinTable(name = "AFF_PLAYER_TEAM_AFFILIATION", joinColumns = @JoinColumn(name = "AFF_TEA_ID"), inverseJoinColumns = @JoinColumn(name = "AFF_PLA_ID"))
+	@JoinTable(name = "PLA_PLAYER_TEA_TEAM", joinColumns = @JoinColumn(name = "TEA_ID"), inverseJoinColumns = @JoinColumn(name = "PLA_ID"))
 	private final Set<PlayerImpl> players = new HashSet<PlayerImpl>();
 
 	@Column(name = "TEA_GENDER")
