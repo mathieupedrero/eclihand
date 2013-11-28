@@ -1,14 +1,34 @@
-/*DROP INSTRUCTIONS*/
-DROP TABLE IF EXISTS AFF_PLAYER_TEAM_AFFILIATION;
-DROP TABLE IF EXISTS TEA_TEAM;
-DROP TABLE IF EXISTS PLA_PLAYER;
-DROP TABLE IF EXISTS PER_PERSON;
-DROP TABLE IF EXISTS ILL_ILLUSTRABLE;
-DROP TABLE IF EXISTS OBJ_OBJECT;
+﻿-- DROP INSTRUCTIONS
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
 
-DROP SEQUENCE IF EXISTS OBJ_OBJECT_ID_SEQ;
+DROP DATABASE eclihand;
 
-/*CREATE INSTRUCTIONS*/
+CREATE DATABASE eclihand WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'French_France.1252' LC_CTYPE = 'French_France.1252';
+ALTER DATABASE eclihand OWNER TO postgres;
+
+\connect eclihand
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+ALTER SCHEMA public OWNER TO postgres;
+COMMENT ON SCHEMA public IS 'standard public schema';
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+SET search_path = public, pg_catalog;
+SET default_tablespace = '';
+SET default_with_oids = false;
+
+--CREATE INSTRUCTIONS
 CREATE SEQUENCE OBJ_OBJECT_ID_SEQ;
 
 CREATE TABLE OBJ_OBJECT (
@@ -56,5 +76,3 @@ CONSTRAINT PK_AFF PRIMARY KEY (AFF_PLA_ID,AFF_TEA_ID),
 CONSTRAINT FK_AFF__PLA FOREIGN KEY (AFF_PLA_ID) REFERENCES PLA_PLAYER (ID),
 CONSTRAINT FK_AFF__TEA FOREIGN KEY (AFF_TEA_ID) REFERENCES TEA_TEAM (ID)
 );
-
-commit;

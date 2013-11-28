@@ -1,17 +1,70 @@
 /*DROP INSTRUCTIONS*/
-DROP TABLE IF EXISTS USR_USER_PRF_PROFILE;
-DROP TABLE IF EXISTS PRF_PROFILE_RGT_RIGHT;
-DROP TABLE IF EXISTS RGT_RIGHT;
-DROP TABLE IF EXISTS PRF_PROFILE;
-DROP TABLE IF EXISTS USR_USER;
-DROP TABLE IF EXISTS PLA_PLAYER_TEA_TEAM;
-DROP TABLE IF EXISTS TEA_TEAM;
-DROP TABLE IF EXISTS PLA_PLAYER;
-DROP TABLE IF EXISTS PER_PERSON;
-DROP TABLE IF EXISTS ILL_ILLUSTRABLE;
-DROP TABLE IF EXISTS OBJ_OBJECT;
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
 
-DROP SEQUENCE IF EXISTS OBJ_OBJECT_ID_SEQ;
+DROP DATABASE eclihand;
+--
+-- TOC entry 1960 (class 1262 OID 24576)
+-- Name: eclihand; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE eclihand WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'French_France.1252' LC_CTYPE = 'French_France.1252';
+
+
+ALTER DATABASE eclihand OWNER TO postgres;
+
+\connect eclihand
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 5 (class 2615 OID 2200)
+-- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA public;
+
+
+ALTER SCHEMA public OWNER TO postgres;
+
+--
+-- TOC entry 1961 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON SCHEMA public IS 'standard public schema';
+
+
+--
+-- TOC entry 175 (class 3079 OID 11727)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 1963 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
 
 /*CREATE INSTRUCTIONS*/
 CREATE SEQUENCE OBJ_OBJECT_ID_SEQ;
