@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
@@ -49,9 +49,8 @@
         <!-- common configuration shared by all executions -->
         <configuration>
           <driver>org.postgresql.Driver</driver>
-          <url>jdbc:postgressql://localhost:5432:postgres</url>
           <username>postgres</username>
-          <password>postgres</password>
+          <password>root</password>
         </configuration>
 		
 		<executions>
@@ -62,10 +61,25 @@
               <goal>execute</goal>
             </goals>
             <configuration>
-              <autocommit>true</autocommit>
+				<url>jdbc:postgresql://localhost:5432/postgres</url>
+          <autocommit>true</autocommit>
               <srcFiles>
                 <srcFile>src/sql/00_init.sql</srcFile>
-                <srcFile>src/sql/01_data.sql</srcFile>
+              </srcFiles>
+            </configuration>
+          </execution>
+          <execution>
+            <id>create-objects</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+			  <url>jdbc:postgresql://localhost:5432/eclihand</url>
+          <autocommit>false</autocommit>
+              <srcFiles>
+                <srcFile>src/sql/01_objects.sql</srcFile>
+                <srcFile>src/sql/02_data.sql</srcFile>
               </srcFiles>
             </configuration>
           </execution>
@@ -76,9 +90,10 @@
               <goal>execute</goal>
             </goals>
             <configuration>
-              <autocommit>true</autocommit>
+			  <url>jdbc:postgresql://localhost:5432/eclihand</url>
+          <autocommit>false</autocommit>
               <srcFiles>
-                <srcFile>src/sql/02_test_data.sql</srcFile>
+                <srcFile>src/sql/03_test_data.sql</srcFile>
               </srcFiles>
           <!--all executions are ignored if -Dmaven.test.skip=true-->
           <skip>${maven.test.skip}</skip>
