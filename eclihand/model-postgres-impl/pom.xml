@@ -52,24 +52,42 @@
           <url>jdbc:postgressql://localhost:5432:postgres</url>
           <username>postgres</username>
           <password>postgres</password>
-          <!--all executions are ignored if -Dmaven.test.skip=true-->
-          <skip>${maven.test.skip}</skip>
         </configuration>
 		
 		<executions>
           <execution>
-            <id>create-schema</id>
-            <phase>process-test-resources</phase>
+            <id>create-db</id>
+            <phase>pre-integration-test</phase>
             <goals>
               <goal>execute</goal>
             </goals>
             <configuration>
               <autocommit>true</autocommit>
               <srcFiles>
-                <srcFile>src/main/sql/00_init.sql.sql</srcFile>
+                <srcFile>src/sql/00_init.sql</srcFile>
+                <srcFile>src/sql/01_data.sql</srcFile>
               </srcFiles>
             </configuration>
           </execution>
+          <execution>
+            <id>test-datas</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <autocommit>true</autocommit>
+              <srcFiles>
+                <srcFile>src/sql/02_test_data.sql</srcFile>
+              </srcFiles>
+          <!--all executions are ignored if -Dmaven.test.skip=true-->
+          <skip>${maven.test.skip}</skip>
+            </configuration>
+          </execution>
 		</executions>
+		
+      </plugin>
+	  
+      </plugins>
   </build>
 </project>
