@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+xmlns="http://maven.apache.org/POM/4.0.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.pedrero</groupId>
@@ -11,33 +12,33 @@
   <artifactId>model-postgres-impl</artifactId>
   <name>model-postgres-impl</name>
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.sourceEncoding>
+    UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
-  	<dependency>
-  		<groupId>com.pedrero.eclihand</groupId>
-  		<artifactId>model-api</artifactId>
-  	</dependency>
     <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-entitymanager</artifactId>
+      <groupId>com.pedrero.eclihand</groupId>
+      <artifactId>model-api</artifactId>
     </dependency>
     <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-validator</artifactId>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
     </dependency>
     <dependency>
-   	 	<groupId>net.sf.dozer</groupId>
-   		<artifactId>dozer</artifactId>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.dozer</groupId>
+      <artifactId>dozer</artifactId>
     </dependency>
   </dependencies>
   <build>
-  <plugins>
+    <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>sql-maven-plugin</artifactId>
         <version>1.5</version>
-
         <dependencies>
           <dependency>
             <groupId>postgresql</groupId>
@@ -45,15 +46,14 @@
             <version>9.1-901.jdbc4</version>
           </dependency>
         </dependencies>
-
         <!-- common configuration shared by all executions -->
         <configuration>
           <driver>org.postgresql.Driver</driver>
-          <username>postgres</username>
-          <password>root</password>
+          <username>${database.username}</username>
+          <password>${database.pwd}</password>
+          <skip>${build.skip.sql}</skip>
         </configuration>
-		
-		<executions>
+        <executions>
           <execution>
             <id>create-db</id>
             <phase>pre-integration-test</phase>
@@ -61,8 +61,8 @@
               <goal>execute</goal>
             </goals>
             <configuration>
-				<url>jdbc:postgresql://localhost:5432/postgres</url>
-          <autocommit>true</autocommit>
+              <url>jdbc:postgresql://localhost:5432/postgres</url>
+              <autocommit>true</autocommit>
               <srcFiles>
                 <srcFile>src/sql/00_init.sql</srcFile>
               </srcFiles>
@@ -75,8 +75,8 @@
               <goal>execute</goal>
             </goals>
             <configuration>
-			  <url>jdbc:postgresql://localhost:5432/eclihand</url>
-          <autocommit>false</autocommit>
+              <url>jdbc:postgresql://localhost:5432/eclihand</url>
+              <autocommit>false</autocommit>
               <srcFiles>
                 <srcFile>src/sql/01_objects.sql</srcFile>
                 <srcFile>src/sql/02_data.sql</srcFile>
@@ -90,19 +90,16 @@
               <goal>execute</goal>
             </goals>
             <configuration>
-			  <url>jdbc:postgresql://localhost:5432/eclihand</url>
-          <autocommit>false</autocommit>
+              <url>jdbc:postgresql://localhost:5432/eclihand</url>
+              <autocommit>false</autocommit>
               <srcFiles>
                 <srcFile>src/sql/03_test_data.sql</srcFile>
               </srcFiles>
-          <!--all executions are ignored if -Dmaven.test.skip=true-->
-          <skip>${maven.test.skip}</skip>
+              <!--all executions are ignored if -Dmaven.test.skip=true-->
             </configuration>
           </execution>
-		</executions>
-		
+        </executions>
       </plugin>
-	  
-      </plugins>
+    </plugins>
   </build>
 </project>
