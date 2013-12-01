@@ -82,5 +82,72 @@
       <b>otherProperties</b>
     </field-exclude>
   </mapping>  
+            
+  <mapping map-id="user"> 
+    <class-a>com.pedrero.eclihand.model.domain.impl.UserImpl</class-a>
+    <class-b>com.pedrero.eclihand.model.dto.UserDto</class-b>   
+    <field map-id="profile-light" remove-orphans="true">
+      <a>profiles</a>
+      <b>profiles</b>
+    </field>  
+    <field-exclude>
+      <a>otherProperties</a>
+      <b>otherProperties</b>
+    </field-exclude>
+  </mapping>  
+  <mapping map-id="user-light"> 
+    <class-a>com.pedrero.eclihand.model.domain.impl.UserImpl</class-a>
+    <class-b>com.pedrero.eclihand.model.dto.UserDto</class-b>  
+    <field-exclude>
+      <a>profiles</a>
+      <b>profiles</b>
+    </field-exclude>   
+    <field-exclude>
+      <a>otherProperties</a>
+      <b>otherProperties</b>
+    </field-exclude>
+  </mapping> 
+            
+  <mapping map-id="profile"> 
+    <class-a>com.pedrero.eclihand.model.domain.impl.ProfileImpl</class-a>
+    <class-b>com.pedrero.eclihand.model.dto.ProfileDto</class-b>   
+    <field map-id="authorization-light" remove-orphans="true">
+      <a>authorizations</a>
+      <b>authorizations</b>
+    </field>  
+    <field-exclude>
+      <a>otherProperties</a>
+      <b>otherProperties</b>
+    </field-exclude>
+  </mapping>  
+  <mapping map-id="profile-light"> 
+    <class-a>com.pedrero.eclihand.model.domain.impl.ProfileImpl</class-a>
+    <class-b>com.pedrero.eclihand.model.dto.ProfileDto</class-b>  
+    <field-exclude>
+      <a>authorizations</a>
+      <b>authorizations</b>
+    </field-exclude>
+    <field-exclude>
+      <a>otherProperties</a>
+      <b>otherProperties</b>
+    </field-exclude>
+  </mapping> 
+            
+  <mapping map-id="authorization"> 
+    <class-a>com.pedrero.eclihand.model.domain.impl.AuthorizationImpl</class-a>
+    <class-b>com.pedrero.eclihand.model.dto.AuthorizationDto</class-b>   
+    <field-exclude>
+      <a>otherProperties</a>
+      <b>otherProperties</b>
+    </field-exclude>
+  </mapping>  
+  <mapping map-id="authorization-light"> 
+    <class-a>com.pedrero.eclihand.model.domain.impl.AuthorizationImpl</class-a>
+    <class-b>com.pedrero.eclihand.model.dto.AuthorizationDto</class-b>  
+    <field-exclude>
+      <a>otherProperties</a>
+      <b>otherProperties</b>
+    </field-exclude>
+  </mapping> 
 
 </mappings>
