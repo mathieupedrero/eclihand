@@ -24,6 +24,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <module>service-api</module>
     <module>service-impl</module>
     <module>webapp</module>
+    <module>webapp-client</module>
   </modules>
   <dependencyManagement>
     <dependencies>
