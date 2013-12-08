@@ -209,20 +209,22 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 					Integer end = Integer.valueOf(propertyConfig.getMaxValue());
 					for (Integer i = beginning; i <= end; i++) {
 						combo.addItem(i);
-						Object toDisplay = converter == null ? i : converter
-								.convertToPresentation(i,
+						String toDisplay = converter == null ? i.toString()
+								: converter.convertToPresentation(i,
+										String.class,
 										localeContainer.getLocale());
-						combo.setItemCaption(i, toDisplay.toString());
+						combo.setItemCaption(i, toDisplay);
 					}
 				} else if (Long.class.equals(dataTypeClass)) {
 					Long beginning = Long.valueOf(propertyConfig.getMinValue());
 					Long end = Long.valueOf(propertyConfig.getMaxValue());
 					for (Long i = beginning; i <= end; i++) {
 						combo.addItem(i);
-						Object toDisplay = converter == null ? i : converter
-								.convertToPresentation(i,
+						String toDisplay = converter == null ? i.toString()
+								: converter.convertToPresentation(i,
+										String.class,
 										localeContainer.getLocale());
-						combo.setItemCaption(i, toDisplay.toString());
+						combo.setItemCaption(i, toDisplay);
 					}
 				}
 				return combo;
@@ -231,10 +233,10 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 				ComboBox combo = new ComboBox();
 				for (Object value : dataTypeClass.getEnumConstants()) {
 					combo.addItem(value);
-					Object toDisplay = converter == null ? value : converter
-							.convertToPresentation(value,
-									localeContainer.getLocale());
-					combo.setItemCaption(value, toDisplay.toString());
+					String toDisplay = converter == null ? value.toString()
+							: converter.convertToPresentation(value,
+									String.class, localeContainer.getLocale());
+					combo.setItemCaption(value, toDisplay);
 				}
 				return combo;
 			}

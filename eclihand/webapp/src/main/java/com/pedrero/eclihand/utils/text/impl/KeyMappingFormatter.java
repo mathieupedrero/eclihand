@@ -7,7 +7,8 @@ import javax.annotation.Resource;
 
 import com.pedrero.eclihand.utils.text.MessageResolver;
 
-public class KeyMappingFormatter<T extends Object> extends EclihandUiConverter<String, T> {
+public class KeyMappingFormatter<T extends Object> extends
+		EclihandUiConverter<String, T> {
 	private final Class<String> PRESENTATION_TYPE = String.class;
 
 	/**
@@ -49,12 +50,15 @@ public class KeyMappingFormatter<T extends Object> extends EclihandUiConverter<S
 	}
 
 	@Override
-	protected T doConvertToModel(String value, Locale locale) {
-		throw new RuntimeException("Converting " + getPresentationType() + " to " + getModelType() + "is not yet implemented");
+	protected T doConvertToModel(String value, Class<? extends T> targetType,
+			Locale locale) {
+		throw new RuntimeException("Converting " + getPresentationType()
+				+ " to " + getModelType() + "is not yet implemented");
 	}
 
 	@Override
-	protected String doConvertToPresentation(T value, Locale locale) {
+	protected String doConvertToPresentation(T value,
+			Class<? extends String> targetType, Locale locale) {
 		return messageResolver.getMessage(keyMapping.get(value));
 	}
 

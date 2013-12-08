@@ -35,13 +35,16 @@ public class EclihandDateFormatter extends EclihandUiConverter<String, Date> {
 	}
 
 	@Override
-	protected Date doConvertToModel(String value, Locale locale) throws ParseException {
+	protected Date doConvertToModel(String value,
+			Class<? extends Date> targetType, Locale locale)
+			throws ParseException {
 		DateFormatter form = new DateFormatter();
 		return form.parse(value, locale);
 	}
 
 	@Override
-	protected String doConvertToPresentation(Date value, Locale locale) {
+	protected String doConvertToPresentation(Date value,
+			Class<? extends String> targetType, Locale locale) {
 		DateFormatter form = new DateFormatter();
 		return form.print(value, locale);
 	}

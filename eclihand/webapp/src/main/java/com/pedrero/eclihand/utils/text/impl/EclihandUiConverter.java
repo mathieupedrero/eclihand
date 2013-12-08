@@ -4,7 +4,8 @@ import java.util.Locale;
 
 import com.vaadin.data.util.converter.Converter;
 
-public abstract class EclihandUiConverter<PRESENTATION, MODEL> implements Converter<PRESENTATION, MODEL> {
+public abstract class EclihandUiConverter<PRESENTATION, MODEL> implements
+		Converter<PRESENTATION, MODEL> {
 
 	/**
 	 * 
@@ -15,33 +16,53 @@ public abstract class EclihandUiConverter<PRESENTATION, MODEL> implements Conver
 		super();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.vaadin.data.util.converter.Converter#convertToModel(java.lang.Object,
+	 * java.lang.Class, java.util.Locale)
+	 */
 	@Override
-	public final MODEL convertToModel(PRESENTATION value, Locale locale)
-			throws com.vaadin.data.util.converter.Converter.ConversionException {
+	public MODEL convertToModel(PRESENTATION value,
+			Class<? extends MODEL> targetType, Locale locale)
+			throws ConversionException {
 		try {
-			return doConvertToModel(value, locale);
+			return doConvertToModel(value, targetType, locale);
 		} catch (Exception e) {
 			throw handleExceptionOnConversion(value, getModelType(), e);
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.vaadin.data.util.converter.Converter#convertToPresentation(java.lang
+	 * .Object, java.lang.Class, java.util.Locale)
+	 */
 	@Override
-	public final PRESENTATION convertToPresentation(MODEL value, Locale locale)
-			throws com.vaadin.data.util.converter.Converter.ConversionException {
+	public PRESENTATION convertToPresentation(MODEL value,
+			Class<? extends PRESENTATION> targetType, Locale locale)
+			throws ConversionException {
 		try {
-			return doConvertToPresentation(value, locale);
+			return doConvertToPresentation(value, targetType, locale);
 		} catch (Exception e) {
 			throw handleExceptionOnConversion(value, getPresentationType(), e);
 		}
 	}
 
-	abstract protected MODEL doConvertToModel(PRESENTATION value, Locale locale) throws Exception;
+	abstract protected MODEL doConvertToModel(PRESENTATION value,
+			Class<? extends MODEL> targetType, Locale locale) throws Exception;
 
-	abstract protected PRESENTATION doConvertToPresentation(MODEL value, Locale locale) throws Exception;
+	abstract protected PRESENTATION doConvertToPresentation(MODEL value,
+			Class<? extends PRESENTATION> targetType, Locale locale)
+			throws Exception;
 
-	private com.vaadin.data.util.converter.Converter.ConversionException handleExceptionOnConversion(Object value,
-			Class<?> convertToType, Exception e) {
-		return new ConversionException("Error while converting " + value + " to " + convertToType.getSimpleName(), e);
+	private com.vaadin.data.util.converter.Converter.ConversionException handleExceptionOnConversion(
+			Object value, Class<?> convertToType, Exception e) {
+		return new ConversionException("Error while converting " + value
+				+ " to " + convertToType.getSimpleName(), e);
 	}
 
 }

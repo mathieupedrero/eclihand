@@ -209,11 +209,11 @@ public class GenericTable<T extends DataObjectDto> extends
 		for (final TableColumnConfig columnConfig : getTableConfig()
 				.getColumnConfigs()) {
 			Object value = MVEL.eval(columnConfig.getValuePath(), object);
-			Object displayedValue = value;
+			String displayedValue = value.toString();
 
 			if (columnConfig.getFormatter() != null) {
 				displayedValue = columnConfig.getFormatter()
-						.convertToPresentation(value,
+						.convertToPresentation(value, String.class,
 								localeContainer.getLocale());
 			}
 

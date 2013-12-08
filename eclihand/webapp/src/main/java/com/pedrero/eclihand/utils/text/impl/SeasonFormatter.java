@@ -20,7 +20,7 @@ public class SeasonFormatter extends EclihandUiConverter<String, Integer> {
 
 	private final Class<String> PRESENTATION_TYPE = String.class;
 	private final Class<Integer> MODEL_TYPE = Integer.class;
-	
+
 	@Resource
 	private LocaleContainer localeContainer;
 
@@ -35,7 +35,8 @@ public class SeasonFormatter extends EclihandUiConverter<String, Integer> {
 	}
 
 	@Override
-	protected Integer doConvertToModel(String value, Locale locale) {
+	protected Integer doConvertToModel(String value,
+			Class<? extends Integer> targetType, Locale locale) {
 		Pattern seasonPattern = Pattern.compile("\\d+/(\\d+)");
 		Matcher seasonMatcher = seasonPattern.matcher(value);
 		if (seasonMatcher.find()) {
@@ -45,7 +46,8 @@ public class SeasonFormatter extends EclihandUiConverter<String, Integer> {
 	}
 
 	@Override
-	protected String doConvertToPresentation(Integer value, Locale locale) {
+	protected String doConvertToPresentation(Integer value,
+			Class<? extends String> targetType, Locale locale) {
 		return (value - 1) + "/" + value;
 	}
 

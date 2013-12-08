@@ -25,18 +25,20 @@ public class SeasonFormatterTest {
 
 	@Test
 	public void convertToModel() {
-		int actual = seasonFormatter.convertToModel("2010/2011", Locale.FRANCE);
+		int actual = seasonFormatter.convertToModel("2010/2011", Integer.class,
+				Locale.FRANCE);
 		assertEquals(2011, actual);
 	}
 
 	@Test(expected = ConversionException.class)
 	public void convertToModel_badFormat() {
-		seasonFormatter.convertToModel("toto", Locale.FRANCE);
+		seasonFormatter.convertToModel("toto", Integer.class, Locale.FRANCE);
 	}
 
 	@Test
 	public void convertToPresentation() {
-		String actual = seasonFormatter.convertToPresentation(2011, Locale.FRANCE);
+		String actual = seasonFormatter.convertToPresentation(2011,
+				String.class, Locale.FRANCE);
 		assertEquals("2010/2011", actual);
 	}
 
