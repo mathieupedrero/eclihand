@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.controller.panel.PlayersPanelController;
@@ -22,7 +23,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 
 @Component(value = "playersScreen")
-@Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
+@Scope(value = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class PlayersScreen extends EclihandViewImpl implements Initiable,
 		InitializingBean {
 

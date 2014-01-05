@@ -44,7 +44,7 @@ public class EclihandMainWindow extends Panel implements Initiable {
 	public void postConstruct() throws Exception {
 		Layout layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		this.setContent(layout);
-		layout.addComponent(headerPanel);
+		// layout.addComponent(headerPanel);
 		layout.addComponent(bodyPanel);
 	}
 

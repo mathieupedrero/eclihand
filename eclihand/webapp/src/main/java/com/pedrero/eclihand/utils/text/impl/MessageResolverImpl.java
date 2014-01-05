@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -13,7 +14,7 @@ import com.pedrero.eclihand.utils.text.LocaleContainer;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 
 @Component
-@Scope(value = "session", proxyMode = ScopedProxyMode.INTERFACES)
+@Scope(value = BeanDefinition.SCOPE_SINGLETON, proxyMode = ScopedProxyMode.INTERFACES)
 public class MessageResolverImpl implements MessageResolver, Serializable {
 	/**
 	 * 

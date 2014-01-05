@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.controller.panel.AbstractEntityController;
@@ -27,7 +28,7 @@ import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Layout;
 
 @Component(value = "playerPanel")
-@Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
+@Scope(value = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class PlayerPanel extends AbstractEntityViewPanel implements
 		EntityDisplayerPanelComponent<PlayerDto>, Initiable, InitializingBean {
 

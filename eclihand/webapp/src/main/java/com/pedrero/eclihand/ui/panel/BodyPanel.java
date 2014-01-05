@@ -85,7 +85,7 @@ public class BodyPanel extends Panel implements Initiable {
 	public void postConstruct() {
 		layout = eclihandLayoutFactory.createCommonHorizontalLayout();
 		this.setContent(layout);
-		layout.addComponent(leftPanel);
+		// layout.addComponent(leftPanel);
 		layout.addComponent(contentPanel);
 		contentPanel.setContent(homePanel);
 		this.setCaption(messageResolver.getMessage("body.caption"));

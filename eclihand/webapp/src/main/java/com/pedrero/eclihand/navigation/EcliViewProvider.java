@@ -5,14 +5,20 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewProvider;
 
 @Component
-@Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
+@Scope(value = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class EcliViewProvider implements ViewProvider {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7569617022445501031L;
 
 	@Resource
 	private BeanFactory beanFactory;
