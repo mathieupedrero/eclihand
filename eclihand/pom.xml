@@ -306,7 +306,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
       </activation>
       <properties>
         <database.root.username>postgres</database.root.username>
-        <database.root.pwd>root</database.root.pwd>
+        <database.root.pwd>postgres</database.root.pwd>
         <database.eclihand.username>eclihand</database.eclihand.username>
         <database.eclihand.pwd>eclihand</database.eclihand.pwd>
       </properties>
