@@ -295,8 +295,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
       <properties>
         <database.root.username>postgres</database.root.username>
         <database.root.pwd>root</database.root.pwd>
-        <database.eclihand.username>postgres</database.eclihand.username>
-        <database.eclihand.pwd>root</database.eclihand.pwd>
+        <database.eclihand.username>eclihand</database.eclihand.username>
+        <database.eclihand.pwd>eclihand</database.eclihand.pwd>
       </properties>
     </profile>
     <profile>
@@ -307,8 +307,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
       <properties>
         <database.root.username>postgres</database.root.username>
         <database.root.pwd>root</database.root.pwd>
-        <database.eclihand.username>postgres</database.eclihand.username>
-        <database.eclihand.pwd>root</database.eclihand.pwd>
+        <database.eclihand.username>eclihand</database.eclihand.username>
+        <database.eclihand.pwd>eclihand</database.eclihand.pwd>
       </properties>
     </profile>
   </profiles>

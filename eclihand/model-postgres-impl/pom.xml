@@ -68,6 +68,22 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>configure-db</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<url>jdbc:postgresql://localhost:5432/eclihand</url>
+							<username>${database.root.username}</username>
+							<password>${database.root.pwd}</password>
+							<autocommit>false</autocommit>
+							<srcFiles>
+								<srcFile>src/sql/01_configuration.sql</srcFile>
+							</srcFiles>
+						</configuration>
+					</execution>
+					<execution>
 						<id>create-objects</id>
 						<phase>pre-integration-test</phase>
 						<goals>
@@ -79,8 +95,8 @@
 							<password>${database.eclihand.pwd}</password>
 							<autocommit>false</autocommit>
 							<srcFiles>
-								<srcFile>src/sql/01_objects.sql</srcFile>
-								<srcFile>src/sql/02_data.sql</srcFile>
+								<srcFile>src/sql/02_objects.sql</srcFile>
+								<srcFile>src/sql/03_data.sql</srcFile>
 							</srcFiles>
 						</configuration>
 					</execution>
@@ -96,7 +112,7 @@
 							<password>${database.eclihand.pwd}</password>
 							<autocommit>false</autocommit>
 							<srcFiles>
-								<srcFile>src/sql/03_test_data.sql</srcFile>
+								<srcFile>src/sql/04_test_data.sql</srcFile>
 							</srcFiles>
 							<!--all executions are ignored if -Dmaven.test.skip=true -->
 						</configuration>
