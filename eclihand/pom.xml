@@ -293,8 +293,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <profile>
       <id>AtWork</id>
       <properties>
-        <database.username>postgres</database.username>
-        <database.pwd>root</database.pwd>
+        <database.root.username>postgres</database.root.username>
+        <database.root.pwd>root</database.root.pwd>
+        <database.eclihand.username>postgres</database.eclihand.username>
+        <database.eclihand.pwd>root</database.eclihand.pwd>
       </properties>
     </profile>
     <profile>
@@ -303,8 +305,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
         <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
-        <database.username>postgres</database.username>
-        <database.pwd>postgres</database.pwd>
+        <database.root.username>postgres</database.root.username>
+        <database.root.pwd>root</database.root.pwd>
+        <database.eclihand.username>postgres</database.eclihand.username>
+        <database.eclihand.pwd>root</database.eclihand.pwd>
       </properties>
     </profile>
   </profiles>

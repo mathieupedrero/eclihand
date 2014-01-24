@@ -8,4 +8,4 @@ SET client_min_messages = warning;
 DROP DATABASE eclihand;
 
 CREATE DATABASE eclihand WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'French_France.1252' LC_CTYPE = 'French_France.1252';
-ALTER DATABASE eclihand OWNER TO postgres;
+ALTER DATABASE eclihand OWNER TO eclihand;

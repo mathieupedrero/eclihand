@@ -5,7 +5,7 @@ SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 
-ALTER SCHEMA public OWNER TO postgres;
+ALTER SCHEMA public OWNER TO eclihand;
 COMMENT ON SCHEMA public IS 'standard public schema';
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
