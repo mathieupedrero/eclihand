@@ -1,16 +1,18 @@
 package com.pedrero.eclihand.model.dto;
 
+import com.pedrero.eclihand.model.domain.Credential;
+
 
 public class AuthorizationDto extends DataObjectDto {
 
-	private String name;
+	private Credential credential;
 
-	public String getName() {
-		return name;
+	public Credential getCredential() {
+		return credential;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setCredential(Credential credential) {
+		this.credential = credential;
 	}
 
 }
