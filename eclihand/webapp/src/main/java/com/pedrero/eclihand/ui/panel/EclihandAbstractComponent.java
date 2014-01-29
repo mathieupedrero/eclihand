@@ -5,24 +5,26 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import com.pedrero.eclihand.controller.security.ISecuredObject;
 import com.pedrero.eclihand.controller.security.SecurityController;
 import com.pedrero.eclihand.model.domain.Credential;
 import com.vaadin.ui.VerticalLayout;
 
-public abstract class EclihandAbstractComponent extends VerticalLayout {
+public abstract class EclihandAbstractComponent extends VerticalLayout
+		implements ISecuredObject {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3646541775081297743L;
-	
+
 	@Resource
 	private SecurityController securityController;
-	
+
 	@PostConstruct
-	public void postConstruct(){
+	public void postConstruct() {
 		this.addComponentAttachListener(new ComponentAttachListener() {
-			
+
 			/**
 			 * 
 			 */
@@ -30,16 +32,14 @@ public abstract class EclihandAbstractComponent extends VerticalLayout {
 
 			@Override
 			public void componentAttachedToContainer(ComponentAttachEvent event) {
-				if (event.getComponent() instanceof EclihandAbstractComponent){
-					EclihandAbstractComponent component = (EclihandAbstractComponent) event.getComponent();
-					if (!securityController.userHasCredentialIn(component.getRequiredCredentials())){
-						EclihandAbstractComponent.this.removeComponent(component);
-					}
+				if (!securityController.canBeShown(event.getComponent())) {
+					EclihandAbstractComponent.this.removeComponent(event
+							.getComponent());
 				}
 			}
 		});
 	}
-	
+
 	private Set<Credential> requiredCredentials;
 
 	public Set<Credential> getRequiredCredentials() {
