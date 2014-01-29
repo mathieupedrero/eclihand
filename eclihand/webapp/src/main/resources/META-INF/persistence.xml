@@ -6,6 +6,9 @@
        <class>com.pedrero.eclihand.model.domain.impl.TeamImpl</class>
        <class>com.pedrero.eclihand.model.domain.impl.PersonImpl</class>
        <class>com.pedrero.eclihand.model.domain.impl.PlayerImpl</class>
+       <class>com.pedrero.eclihand.model.domain.impl.AuthorizationImpl</class>
+       <class>com.pedrero.eclihand.model.domain.impl.ProfileImpl</class>
+       <class>com.pedrero.eclihand.model.domain.impl.UserImpl</class>
       <properties>
          <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
          <!-- <property name="hibernate.hbm2ddl.auto" value="create-drop"/>-->

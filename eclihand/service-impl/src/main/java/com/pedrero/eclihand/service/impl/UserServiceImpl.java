@@ -8,22 +8,17 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pedrero.eclihand.converter.TeamConverter;
 import com.pedrero.eclihand.converter.UserConverter;
 import com.pedrero.eclihand.dao.PlayerDao;
-import com.pedrero.eclihand.dao.TeamDao;
 import com.pedrero.eclihand.dao.UserDao;
 import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.model.domain.Player;
-import com.pedrero.eclihand.model.domain.Team;
 import com.pedrero.eclihand.model.domain.User;
+import com.pedrero.eclihand.model.domain.UserType;
 import com.pedrero.eclihand.model.dto.AuthorizationDto;
-import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.ProfileDto;
-import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.model.dto.UserDto;
 import com.pedrero.eclihand.service.PlayerService;
-import com.pedrero.eclihand.service.TeamService;
 import com.pedrero.eclihand.service.UserService;
 
 @Service
@@ -64,12 +59,19 @@ public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User>
 	@Override
 	public Set<Credential> retrieveCredentialsFor(UserDto user) {
 		Set<Credential> credentials = new HashSet<Credential>();
-		for (ProfileDto profile : findById(user.getId()).getProfiles()){
-			for (AuthorizationDto authorization : profile.getAuthorizations()){
+		for (ProfileDto profile : findById(user.getId()).getProfiles()) {
+			for (AuthorizationDto authorization : profile.getAuthorizations()) {
 				credentials.add(authorization.getCredential());
 			}
 		}
 		return credentials;
+	}
+
+	@Override
+	@Transactional
+	public UserDto retrieveGuestUser() {
+		User guestUser = getDao().findByUserType(UserType.GUEST);
+		return getConverter().convertToDto(guestUser);
 	}
 
 }

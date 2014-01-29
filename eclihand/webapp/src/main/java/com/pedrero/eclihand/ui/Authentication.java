@@ -5,10 +5,10 @@ import org.springframework.context.annotation.ScopedProxyMode;
 
 import com.pedrero.eclihand.model.dto.UserDto;
 
-@org.springframework.stereotype.Component(value = "bodyPanel")
+@org.springframework.stereotype.Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Authentication {
-	
+
 	private UserDto authenticatedUser;
 
 	public UserDto getAuthenticatedUser() {

@@ -10,4 +10,6 @@ public interface User extends Illustrable {
 
 	Set<Profile> getProfiles();
 
+	UserType getUserType();
+
 }

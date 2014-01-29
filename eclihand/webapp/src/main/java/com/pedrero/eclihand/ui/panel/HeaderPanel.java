@@ -1,8 +1,8 @@
 package com.pedrero.eclihand.ui.panel;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ import com.vaadin.ui.Panel;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class HeaderPanel extends Panel implements Initiable, InitializingBean {
+public class HeaderPanel extends Panel implements Initiable {
 
 	@Resource
 	private HeaderPanelController headerPanelController;
@@ -37,16 +37,12 @@ public class HeaderPanel extends Panel implements Initiable, InitializingBean {
 	 */
 	private static final long serialVersionUID = 3099650159349626440L;
 
-	private void init() {
+	@PostConstruct
+	public void postConstruct() {
 		this.setCaption(messageResolver.getMessage("header.caption"));
 		layout = eclihandLayoutFactory.createCommonHorizontalLayout();
 		this.setContent(layout);
 		layout.addComponent(mainMenuBar);
-	}
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		init();
 	}
 
 }
