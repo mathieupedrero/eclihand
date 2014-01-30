@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ import com.vaadin.ui.Layout;
 import com.vaadin.ui.Panel;
 
 @Component
-@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
 public class LeftScreen extends Panel implements Initiable, InitializingBean {
 
 	@Resource

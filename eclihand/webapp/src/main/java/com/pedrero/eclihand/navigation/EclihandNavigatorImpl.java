@@ -1,11 +1,11 @@
 package com.pedrero.eclihand.navigation;
 
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
 import com.vaadin.navigator.Navigator;
+import com.vaadin.navigator.ViewProvider;
 import com.vaadin.ui.Panel;
 
 public class EclihandNavigatorImpl implements EclihandNavigator {
@@ -16,7 +16,7 @@ public class EclihandNavigatorImpl implements EclihandNavigator {
 
 	private Panel viewDisplayPanel;
 
-	private Map<String, EclihandView> views;
+	private List<ViewProvider> viewProviders;
 
 	public EclihandNavigatorImpl() {
 		super();
@@ -43,9 +43,8 @@ public class EclihandNavigatorImpl implements EclihandNavigator {
 	@PostConstruct
 	public void postConstruct() throws Exception {
 		navigator = new Navigator(viewDisplayPanel.getUI(), viewDisplayPanel);
-		for (Entry<String, EclihandView> viewAssociation : views.entrySet()) {
-			navigator.addView(viewAssociation.getKey(),
-					viewAssociation.getValue());
+		for (ViewProvider viewProvider : viewProviders) {
+			navigator.addProvider(viewProvider);
 		}
 	}
 
@@ -57,12 +56,12 @@ public class EclihandNavigatorImpl implements EclihandNavigator {
 		this.viewDisplayPanel = viewDisplayPanel;
 	}
 
-	public Map<String, EclihandView> getViews() {
-		return views;
+	public List<ViewProvider> getViewProviders() {
+		return viewProviders;
 	}
 
-	public void setViews(Map<String, EclihandView> views) {
-		this.views = views;
+	public void setViews(List<ViewProvider> viewProviders) {
+		this.viewProviders = viewProviders;
 	}
 
 }
