@@ -1,5 +1,5 @@
 package com.pedrero.eclihand.controller.security;
 
-public interface IsecurityRule {
+public interface ISecurityRule {
 	Boolean isAccessAllowed();
 }

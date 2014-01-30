@@ -3,13 +3,12 @@ package com.pedrero.eclihand.navigation;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.springframework.beans.factory.InitializingBean;
+import javax.annotation.PostConstruct;
 
 import com.vaadin.navigator.Navigator;
 import com.vaadin.ui.Panel;
 
-public class EclihandNavigatorImpl implements EclihandNavigator,
-		InitializingBean {
+public class EclihandNavigatorImpl implements EclihandNavigator {
 
 	private static final String FRAGMENT_SEPARATOR = "/";
 
@@ -41,8 +40,8 @@ public class EclihandNavigatorImpl implements EclihandNavigator,
 
 	}
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
+	@PostConstruct
+	public void postConstruct() throws Exception {
 		navigator = new Navigator(viewDisplayPanel.getUI(), viewDisplayPanel);
 		for (Entry<String, EclihandView> viewAssociation : views.entrySet()) {
 			navigator.addView(viewAssociation.getKey(),
@@ -50,32 +49,18 @@ public class EclihandNavigatorImpl implements EclihandNavigator,
 		}
 	}
 
-	/**
-	 * @return the viewDisplayPanel
-	 */
 	public Panel getViewDisplayPanel() {
 		return viewDisplayPanel;
 	}
 
-	/**
-	 * @param viewDisplayPanel
-	 *            the viewDisplayPanel to set
-	 */
 	public void setViewDisplayPanel(Panel viewDisplayPanel) {
 		this.viewDisplayPanel = viewDisplayPanel;
 	}
 
-	/**
-	 * @return the views
-	 */
 	public Map<String, EclihandView> getViews() {
 		return views;
 	}
 
-	/**
-	 * @param views
-	 *            the views to set
-	 */
 	public void setViews(Map<String, EclihandView> views) {
 		this.views = views;
 	}
