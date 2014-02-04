@@ -2,24 +2,24 @@ package com.pedrero.eclihand.ui.panel;
 
 import java.util.Locale;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.controller.panel.LeftPanelController;
+import com.pedrero.eclihand.ui.IFrameElement;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Panel;
 
 @Component
-@Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
-public class LeftScreen extends Panel implements Initiable, InitializingBean {
+@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class LeftScreen extends Panel implements Initiable, IFrameElement {
 
 	@Resource
 	private LeftPanelController leftPanelController;
@@ -30,24 +30,26 @@ public class LeftScreen extends Panel implements Initiable, InitializingBean {
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
 
-	private Layout layout;
-
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3108067403737976755L;
 
-	private void init() {
-		layout = eclihandLayoutFactory.createCommonVerticalLayout();
+	private void prepareContent() {
+		Layout layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		layout.setWidth(panelWidth);
 		this.setContent(layout);
 		this.setCaption(Locale.FRANCE.toString());
 	}
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		init();
+	@PostConstruct
+	public void postConstruct() throws Exception {
+		prepareContent();
+	}
 
+	@Override
+	public void refresh() {
+		prepareContent();
 	}
 
 }

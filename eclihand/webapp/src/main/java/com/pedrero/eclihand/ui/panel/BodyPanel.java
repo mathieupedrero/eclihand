@@ -1,8 +1,8 @@
 package com.pedrero.eclihand.ui.panel;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 
@@ -18,7 +18,7 @@ import com.vaadin.ui.Panel;
 
 @org.springframework.stereotype.Component(value = "bodyPanel")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class BodyPanel extends Panel implements Initiable, InitializingBean {
+public class BodyPanel extends Panel implements Initiable {
 
 	@Resource(name = "eclihandContentPanel")
 	private Panel contentPanel;
@@ -57,15 +57,6 @@ public class BodyPanel extends Panel implements Initiable, InitializingBean {
 	 */
 	private static final long serialVersionUID = 7526198221763033359L;
 
-	private void init() {
-		layout = eclihandLayoutFactory.createCommonHorizontalLayout();
-		this.setContent(layout);
-		layout.addComponent(leftPanel);
-		layout.addComponent(contentPanel);
-		contentPanel.setContent(homePanel);
-		this.setCaption(messageResolver.getMessage("body.caption"));
-	}
-
 	public void showTeamsPanel() {
 		eclihandNavigator.navigateTo(teamsPanel);
 	}
@@ -90,10 +81,14 @@ public class BodyPanel extends Panel implements Initiable, InitializingBean {
 		eclihandNavigator.navigateTo(homePanel);
 	}
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		init();
-
+	@PostConstruct
+	public void postConstruct() {
+		layout = eclihandLayoutFactory.createCommonHorizontalLayout();
+		this.setContent(layout);
+		layout.addComponent(leftPanel);
+		layout.addComponent(contentPanel);
+		contentPanel.setContent(homePanel);
+		this.setCaption(messageResolver.getMessage("body.caption"));
 	}
 
 }

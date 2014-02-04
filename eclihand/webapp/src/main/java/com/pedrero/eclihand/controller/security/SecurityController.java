@@ -12,10 +12,14 @@ import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.model.dto.UserDto;
 import com.pedrero.eclihand.service.UserService;
 import com.pedrero.eclihand.ui.Authentication;
+import com.pedrero.eclihand.ui.UIManager;
 import com.vaadin.ui.Component;
 
 @Controller
 public class SecurityController {
+
+	@Resource
+	private UIManager uiManager;
 
 	@Resource
 	private UserService userService;

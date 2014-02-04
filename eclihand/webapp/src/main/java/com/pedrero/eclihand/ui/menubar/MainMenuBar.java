@@ -3,8 +3,8 @@ package com.pedrero.eclihand.ui.menubar;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.controller.menubar.MainMenuBarController;
@@ -13,7 +13,7 @@ import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.vaadin.ui.MenuBar;
 
 @Component
-@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
 public class MainMenuBar extends MenuBar implements Initiable, InitializingBean {
 
 	public MainMenuBar() {

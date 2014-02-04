@@ -3,11 +3,13 @@ package com.pedrero.eclihand.ui.panel;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.controller.panel.HeaderPanelController;
+import com.pedrero.eclihand.ui.IFrameElement;
 import com.pedrero.eclihand.ui.menubar.MainMenuBar;
 import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
@@ -17,7 +19,7 @@ import com.vaadin.ui.Panel;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class HeaderPanel extends Panel implements Initiable {
+public class HeaderPanel extends Panel implements Initiable, IFrameElement {
 
 	@Resource
 	private HeaderPanelController headerPanelController;
@@ -26,12 +28,10 @@ public class HeaderPanel extends Panel implements Initiable {
 	private MessageResolver messageResolver;
 
 	@Resource
-	private MainMenuBar mainMenuBar;
+	private BeanFactory beanFactory;
 
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
-
-	private Layout layout;
 	/**
 	 * 
 	 */
@@ -40,9 +40,18 @@ public class HeaderPanel extends Panel implements Initiable {
 	@PostConstruct
 	public void postConstruct() {
 		this.setCaption(messageResolver.getMessage("header.caption"));
-		layout = eclihandLayoutFactory.createCommonHorizontalLayout();
+		defineLayout();
+	}
+
+	private void defineLayout() {
+		Layout layout = eclihandLayoutFactory.createCommonHorizontalLayout();
 		this.setContent(layout);
-		layout.addComponent(mainMenuBar);
+		layout.addComponent(beanFactory.getBean(MainMenuBar.class));
+	}
+
+	@Override
+	public void refresh() {
+		defineLayout();
 	}
 
 }
