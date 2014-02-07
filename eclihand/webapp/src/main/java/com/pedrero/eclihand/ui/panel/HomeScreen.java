@@ -1,8 +1,9 @@
 package com.pedrero.eclihand.ui.panel;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -20,13 +21,11 @@ import com.vaadin.ui.Layout;
 
 @Component(value = "homeScreen")
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class HomeScreen extends EclihandViewImpl implements Initiable,
-		InitializingBean {
+public class HomeScreen extends EclihandViewImpl implements Initiable {
 
 	@Resource
 	private HomePanelController homePanelController;
 
-	@Resource
 	private MessageResolver messageResolver;
 
 	@Value(value = "${main.panel.width}")
@@ -38,6 +37,9 @@ public class HomeScreen extends EclihandViewImpl implements Initiable,
 	@Resource
 	private WelcomePlace welcomePlace;
 
+	@Resource
+	private BeanFactory beanFactory;
+
 	private Layout layout;
 
 	/**
@@ -48,7 +50,6 @@ public class HomeScreen extends EclihandViewImpl implements Initiable,
 	private void init() {
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		layout.setWidth(panelWidth);
-		// this.setUiComponent(layout);
 		this.setContent(layout);
 		this.setCaption(messageResolver.getMessage("home.caption"));
 
@@ -59,8 +60,9 @@ public class HomeScreen extends EclihandViewImpl implements Initiable,
 
 	}
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
+	@PostConstruct
+	public void postConstruct() {
+		messageResolver = beanFactory.getBean(MessageResolver.class);
 		init();
 	}
 
