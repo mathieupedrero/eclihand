@@ -2,11 +2,6 @@ package com.pedrero.eclihand.ui;
 
 import java.util.Set;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
-
-@org.springframework.stereotype.Component
-@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UIManager {
 
 	private Set<IFrameElement> elements;
