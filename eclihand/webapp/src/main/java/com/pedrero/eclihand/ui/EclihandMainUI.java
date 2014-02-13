@@ -6,6 +6,7 @@ import com.pedrero.eclihand.ui.window.EclihandMainWindow;
 import com.pedrero.eclihand.utils.text.LocaleContainer;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 
 public class EclihandMainUI extends UI {
 
@@ -36,7 +37,7 @@ public class EclihandMainUI extends UI {
 
 	@Override
 	protected void init(VaadinRequest request) {
-		setContent(eclihandMainWindow);
+		setContent(new VerticalLayout(eclihandMainWindow));
 		localeContainer.setLocale(request.getLocale());
 		authentication.setAuthenticatedUser(userService.retrieveGuestUser());
 	}
