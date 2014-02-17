@@ -14,6 +14,7 @@ import com.pedrero.eclihand.model.dto.PersonDto;
 import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.navigation.EclihandNavigator;
+import com.pedrero.eclihand.navigation.places.PlayerPlace;
 import com.pedrero.eclihand.service.PlayerService;
 import com.pedrero.eclihand.ui.EntityDisplayerPanelComponent;
 import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
@@ -33,6 +34,9 @@ public class PlayerPanelController extends AbstractEntityController implements
 
 	@Resource
 	private PlayerPanel playerPanel;
+
+	@Resource
+	private PlayerPlace playerPlace;
 
 	@Resource
 	private PlayerService playerService;
@@ -80,7 +84,7 @@ public class PlayerPanelController extends AbstractEntityController implements
 		player = entity;
 		makeReadOnly();
 		playerPanel.display(entity);
-		navigator.navigateTo(playerPanel);
+		navigator.navigateTo(playerPlace);
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import com.pedrero.eclihand.controller.EntityDisplayerPanelController;
 import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.navigation.EclihandNavigator;
+import com.pedrero.eclihand.navigation.places.TeamPlace;
 import com.pedrero.eclihand.service.PlayerService;
 import com.pedrero.eclihand.service.TeamService;
 import com.pedrero.eclihand.ui.EntityDisplayerPanelComponent;
@@ -35,6 +36,9 @@ public class TeamPanelController extends AbstractEntityController implements
 
 	@Resource
 	private TeamPanel teamPanel;
+
+	@Resource
+	private TeamPlace teamPlace;
 
 	@Resource
 	private TeamService teamService;
@@ -63,7 +67,7 @@ public class TeamPanelController extends AbstractEntityController implements
 		team = entity;
 		makeReadOnly();
 		teamPanel.display(entity);
-		navigator.navigateTo(teamPanel);
+		navigator.navigateTo(teamPlace);
 	}
 
 	@Override

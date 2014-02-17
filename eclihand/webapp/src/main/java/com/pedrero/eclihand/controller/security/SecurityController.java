@@ -6,6 +6,8 @@ import java.util.Collections;
 
 import javax.annotation.Resource;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
 
 import com.pedrero.eclihand.model.domain.Credential;
@@ -16,6 +18,7 @@ import com.pedrero.eclihand.ui.UIManager;
 import com.vaadin.ui.Component;
 
 @Controller
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class SecurityController {
 
 	@Resource

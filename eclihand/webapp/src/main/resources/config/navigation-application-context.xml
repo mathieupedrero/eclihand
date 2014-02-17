@@ -57,7 +57,7 @@
 	<bean id="eclihandContentPanel" class="com.vaadin.ui.Panel" scope="session">
 		<aop:scoped-proxy proxy-target-class="true" />
 	</bean>
-	<bean class="com.pedrero.eclihand.ui.UIManager" scope="session">
+	<bean id="uiManager" class="com.pedrero.eclihand.ui.UIManager" scope="session">
 		<property name="elements">
 			<set>
             	<ref bean="leftScreen" />

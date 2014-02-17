@@ -6,7 +6,11 @@ import org.springframework.stereotype.Controller;
 
 import com.pedrero.eclihand.controller.EclihandController;
 import com.pedrero.eclihand.navigation.EclihandNavigatorImpl;
-import com.pedrero.eclihand.navigation.EclihandView;
+import com.pedrero.eclihand.navigation.places.PlayerPlace;
+import com.pedrero.eclihand.navigation.places.PlayersPlace;
+import com.pedrero.eclihand.navigation.places.TeamPlace;
+import com.pedrero.eclihand.navigation.places.TeamsPlace;
+import com.pedrero.eclihand.navigation.places.WelcomePlace;
 import com.pedrero.eclihand.ui.panel.BodyPanel;
 
 @Controller
@@ -40,29 +44,38 @@ public class BodyPanelController implements EclihandController {
 	@Resource
 	private EclihandNavigatorImpl eclihandNavigator;
 
+	@Resource
+	private TeamsPlace teamsPlace;
+
+	@Resource
+	private TeamPlace teamPlace;
+
+	@Resource
+	private PlayersPlace playersPlace;
+
+	@Resource
+	private PlayerPlace playerPlace;
+
+	@Resource
+	private WelcomePlace welcomePlace;
+
 	public void showTeamsPanel() {
-		teamsPanelController.display();
-		bodyPanel.showTeamsPanel();
+		eclihandNavigator.navigateTo(teamsPlace);
 	}
 
 	public void showTeamPanel() {
-		bodyPanel.showTeamPanel();
+		eclihandNavigator.navigateTo(teamsPlace);
 	}
 
 	public void showPlayersPanel() {
-		bodyPanel.showPlayersPanel();
+		eclihandNavigator.navigateTo(teamsPlace);
 	}
 
 	public void showPlayerPanel() {
-		bodyPanel.showPlayerPanel();
-	}
-
-	public void showComponent(EclihandView panel) {
-		bodyPanel.showComponent(panel);
+		eclihandNavigator.navigateTo(teamsPlace);
 	}
 
 	public void showHomePanel() {
-		homePanelController.display();
-		bodyPanel.showHomePanel();
+		eclihandNavigator.navigateTo(welcomePlace);
 	}
 }

@@ -23,9 +23,8 @@ public class EclihandNavigatorImpl implements EclihandNavigator {
 	}
 
 	@Override
-	public void navigateTo(EclihandView view) {
-		navigator
-				.navigateTo(view.retrieveAssociatedPlace().generateViewState());
+	public void navigateTo(EclihandPlace place) {
+		navigator.navigateTo(place.generateViewState());
 
 	}
 
