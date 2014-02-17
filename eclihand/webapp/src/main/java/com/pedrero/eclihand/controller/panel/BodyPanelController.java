@@ -64,15 +64,15 @@ public class BodyPanelController implements EclihandController {
 	}
 
 	public void showTeamPanel() {
-		eclihandNavigator.navigateTo(teamsPlace);
+		eclihandNavigator.navigateTo(teamPlace);
 	}
 
 	public void showPlayersPanel() {
-		eclihandNavigator.navigateTo(teamsPlace);
+		eclihandNavigator.navigateTo(playersPlace);
 	}
 
 	public void showPlayerPanel() {
-		eclihandNavigator.navigateTo(teamsPlace);
+		eclihandNavigator.navigateTo(playerPlace);
 	}
 
 	public void showHomePanel() {

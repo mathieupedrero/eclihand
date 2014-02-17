@@ -39,7 +39,7 @@ public class SecurityController {
 
 	private Boolean hasCredentialIn(UserDto user,
 			Collection<Credential> credentials) {
-		if (credentials.isEmpty()) {
+		if (credentials == null || credentials.isEmpty()) {
 			return true;
 		}
 		return !Collections.disjoint(userService.retrieveCredentialsFor(user),

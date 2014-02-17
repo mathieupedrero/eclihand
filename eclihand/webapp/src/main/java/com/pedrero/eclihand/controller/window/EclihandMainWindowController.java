@@ -14,6 +14,7 @@ import com.pedrero.eclihand.ui.window.EclihandMainWindow;
 import com.vaadin.ui.Window;
 
 @Controller
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class EclihandMainWindowController implements EclihandController,
 		WindowController {
 

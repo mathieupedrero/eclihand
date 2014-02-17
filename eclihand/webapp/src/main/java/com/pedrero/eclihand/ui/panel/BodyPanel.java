@@ -23,6 +23,9 @@ public class BodyPanel extends Panel implements Initiable {
 	private HomeScreen homePanel;
 
 	@Resource
+	private LeftScreen leftScreen;
+
+	@Resource
 	private MessageResolver messageResolver;
 
 	@Resource
@@ -39,7 +42,7 @@ public class BodyPanel extends Panel implements Initiable {
 	public void postConstruct() {
 		layout = eclihandLayoutFactory.createCommonHorizontalLayout();
 		this.setContent(layout);
-		// layout.addComponent(leftPanel);
+		layout.addComponent(leftScreen);
 		layout.addComponent(contentPanel);
 		contentPanel.setContent(homePanel);
 		this.setCaption(messageResolver.getMessage("body.caption"));
