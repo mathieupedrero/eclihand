@@ -1,15 +1,11 @@
 package com.pedrero.eclihand.controller.panel;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 
 import com.pedrero.eclihand.controller.EclihandController;
-import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.service.TeamService;
-import com.pedrero.eclihand.ui.panel.TeamsScreen;
 import com.pedrero.eclihand.utils.Displayer;
 
 @Controller
@@ -18,9 +14,6 @@ public class TeamsPanelController implements EclihandController, Displayer {
 	 * 
 	 */
 	private static final long serialVersionUID = 3448580944349868849L;
-
-	@Resource
-	private TeamsScreen teamsPanel;
 
 	@Resource
 	private TeamService teamService;
@@ -32,18 +25,14 @@ public class TeamsPanelController implements EclihandController, Displayer {
 	private TeamPanelController teamPanelController;
 
 	public void searchTeamsAndDisplay() {
-		teamsPanel.getTeamsTable().removeAllDataObjects();
-		List<TeamDto> teams = teamService.findAll();
-		teamsPanel.refreshTeams(teams);
 	}
 
 	@Override
 	public void display() {
-		teamsPanel.display();
+		bodyPanelController.showTeamsPanel();
 	};
 
 	public void openNewTeamForm() {
-		bodyPanelController.showTeamPanel();
 		teamPanelController.makeCreateMode();
 	}
 

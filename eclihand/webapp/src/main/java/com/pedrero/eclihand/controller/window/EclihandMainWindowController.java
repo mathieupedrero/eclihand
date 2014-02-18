@@ -8,8 +8,6 @@ import org.springframework.stereotype.Controller;
 
 import com.pedrero.eclihand.controller.EclihandController;
 import com.pedrero.eclihand.controller.WindowController;
-import com.pedrero.eclihand.controller.panel.BodyPanelController;
-import com.pedrero.eclihand.controller.panel.HeaderPanelController;
 import com.pedrero.eclihand.ui.window.EclihandMainWindow;
 import com.vaadin.ui.Window;
 
@@ -25,12 +23,6 @@ public class EclihandMainWindowController implements EclihandController,
 
 	@Resource
 	private EclihandMainWindow eclihandMainWindow;
-
-	@Resource
-	private HeaderPanelController headerPanelController;
-
-	@Resource
-	private BodyPanelController bodyPanelController;
 
 	@Override
 	public void addWindow(Window window) {

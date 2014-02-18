@@ -1,8 +1,5 @@
 package com.pedrero.eclihand.controller.panel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Scope;
@@ -17,10 +14,8 @@ import com.pedrero.eclihand.navigation.EclihandNavigator;
 import com.pedrero.eclihand.navigation.places.TeamPlace;
 import com.pedrero.eclihand.service.PlayerService;
 import com.pedrero.eclihand.service.TeamService;
-import com.pedrero.eclihand.ui.EntityDisplayerPanelComponent;
 import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
 import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
-import com.pedrero.eclihand.ui.panel.entity.TeamPanel;
 import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 
@@ -33,9 +28,6 @@ public class TeamPanelController extends AbstractEntityController implements
 	 * 
 	 */
 	private static final long serialVersionUID = 3448580944349868849L;
-
-	@Resource
-	private TeamPanel teamPanel;
 
 	@Resource
 	private TeamPlace teamPlace;
@@ -60,13 +52,13 @@ public class TeamPanelController extends AbstractEntityController implements
 
 	private TeamDto team;
 
-	@Override
 	@Transactional
 	public void display(Long entityId) {
 		TeamDto entity = teamService.findTeamToDisplay(entityId);
 		team = entity;
 		makeReadOnly();
-		teamPanel.display(entity);
+		teamPlace.setId(entityId);
+		teamPlace.setUpdateMode(false);
 		navigator.navigateTo(teamPlace);
 	}
 
@@ -75,13 +67,9 @@ public class TeamPanelController extends AbstractEntityController implements
 		super.makeCreateMode();
 		TeamDto newOne = new TeamDto();
 		team = newOne;
-		teamPanel.makeCreateMode();
-		teamPanel.display(newOne);
-	}
-
-	@Override
-	public EntityDisplayerPanelComponent<TeamDto> getEntityDisplayerComponent() {
-		return teamPanel;
+		teamPlace.setId(newOne.getId());
+		teamPlace.setUpdateMode(false);
+		navigator.navigateTo(teamPlace);
 	}
 
 	@Override
@@ -92,26 +80,25 @@ public class TeamPanelController extends AbstractEntityController implements
 
 	@Override
 	public void validateChanges() {
-		teamPanel.getTeamPropertyDisplayer().validateChanges();
-		teamPanel.getPlayerTable().validateChanges();
-		List<PlayerDto> teamList = new ArrayList<PlayerDto>(teamPanel
-				.getPlayerTable().retrieveData());
-		team.setPlayers(teamList);
-		if (team.getId() != null) {
-			teamService.update(team);
-		} else {
-			teamService.save(team);
-		}
+		// teamPanel.getTeamPropertyDisplayer().validateChanges();
+		// teamPanel.getPlayerTable().validateChanges();
+		// List<PlayerDto> teamList = new ArrayList<PlayerDto>(teamPanel
+		// .getPlayerTable().retrieveData());
+		// team.setPlayers(teamList);
+		// if (team.getId() != null) {
+		// teamService.update(team);
+		// } else {
+		// teamService.save(team);
+		// }
 	}
 
 	@Override
 	public AbstractEntityComponent getEntityPanel() {
-		return teamPanel;
+		return null;
 	}
 
 	@Override
-	public void preparePlace(Long id) {
-		// teamPanel.get
-
+	public TeamDto giveEntity() {
+		return teamService.findById(teamPlace.getId());
 	}
 }

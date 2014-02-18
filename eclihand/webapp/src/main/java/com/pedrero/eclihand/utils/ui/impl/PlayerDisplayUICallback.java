@@ -4,27 +4,25 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
-import com.pedrero.eclihand.controller.panel.BodyPanelController;
-import com.pedrero.eclihand.controller.panel.PlayerPanelController;
 import com.pedrero.eclihand.model.dto.PlayerDto;
+import com.pedrero.eclihand.navigation.EclihandNavigator;
+import com.pedrero.eclihand.navigation.places.PlayerPlace;
 import com.pedrero.eclihand.utils.ui.UICallback;
 
 @Component
 public class PlayerDisplayUICallback implements UICallback<PlayerDto> {
 
 	@Resource
-	private BodyPanelController bodyPanelController;
+	public PlayerPlace playerPlace;
 
 	@Resource
-	private PlayerPanelController playerPanelController;
+	public EclihandNavigator navigator;
 
 	@Override
 	public void execute(PlayerDto dataObject) {
-		// FIXME: fix UICallback
-		// bodyPanelController.showComponent(playerPanelController
-		// .getEntityDisplayerComponent());
-		playerPanelController.display(dataObject.getId());
-
+		playerPlace.setUpdateMode(false);
+		playerPlace.setId(dataObject.getId());
+		navigator.navigateTo(playerPlace);
 	}
 
 	@Override

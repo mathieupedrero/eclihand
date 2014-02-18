@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -30,7 +29,7 @@ import com.vaadin.ui.Layout;
 @Component(value = "playerPanel")
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class PlayerPanel extends AbstractEntityViewPanel implements
-		EntityDisplayerPanelComponent<PlayerDto>, Initiable, InitializingBean {
+		EntityDisplayerPanelComponent<PlayerDto>, Initiable {
 
 	/**
 	 * 
@@ -61,10 +60,6 @@ public class PlayerPanel extends AbstractEntityViewPanel implements
 
 	@Override
 	public void display(PlayerDto entity) {
-		playerPropertyDisplayer.display(entity);
-		teamTable.removeAllDataObjects();
-		teamTable.feed(entity.getTeams());
-		playerPlace.setId(entity.getId());
 	}
 
 	private void init() {
@@ -160,7 +155,10 @@ public class PlayerPanel extends AbstractEntityViewPanel implements
 
 	@Override
 	public void display() {
-		this.playerPanelController.display(playerPlace.getId());
+		PlayerDto entity = playerPanelController.giveEntity();
+		playerPropertyDisplayer.display(entity);
+		teamTable.removeAllDataObjects();
+		teamTable.feed(entity.getTeams());
 	}
 
 }

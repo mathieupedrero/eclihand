@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
-import com.pedrero.eclihand.controller.panel.HeaderPanelController;
 import com.pedrero.eclihand.ui.IFrameElement;
 import com.pedrero.eclihand.ui.menubar.MainMenuBar;
 import com.pedrero.eclihand.utils.Initiable;
@@ -20,9 +19,6 @@ import com.vaadin.ui.Panel;
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class HeaderPanel extends Panel implements Initiable, IFrameElement {
-
-	@Resource
-	private HeaderPanelController headerPanelController;
 
 	@Resource
 	private MessageResolver messageResolver;
