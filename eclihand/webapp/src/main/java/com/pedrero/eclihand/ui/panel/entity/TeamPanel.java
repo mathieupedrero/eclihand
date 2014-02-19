@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -28,7 +27,7 @@ import com.vaadin.ui.Layout;
 @Component(value = "teamPanel")
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class TeamPanel extends AbstractEntityViewPanel implements
-		EntityDisplayerPanelComponent<TeamDto>, InitializingBean {
+		EntityDisplayerPanelComponent<TeamDto> {
 
 	/**
 	 * 
@@ -90,13 +89,11 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 
 	@Override
 	public void display(TeamDto entity) {
-		teamPropertyDisplayer.display(entity);
-		playerTable.removeAllDataObjects();
-		playerTable.feed(entity.getPlayers());
-		teamPlace.setId(entity.getId());
 	}
 
-	private void init() {
+	@Override
+	protected void postConstruct() {
+		super.postConstruct();
 		contentDisplayers = new ArrayList<UpdatableContentDisplayer>();
 		contentDisplayers.add(teamPropertyDisplayer);
 		contentDisplayers.add(playerTable);
@@ -105,6 +102,10 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 
 		layout.addComponent(teamPropertyDisplayer);
 		layout.addComponent(playerTable);
+
+		TeamDto team = teamPanelController.giveEntity();
+		teamPropertyDisplayer.display(team);
+		playerTable.feed(team.getPlayers());
 	}
 
 	@Override
@@ -125,27 +126,9 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 	public void validateChanges() {
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel#afterPropertiesSet
-	 * ()
-	 */
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		init();
-		super.afterPropertiesSet();
-	}
-
 	@Override
 	public EclihandPlace retrieveAssociatedPlace() {
 		return teamPlace;
-	}
-
-	@Override
-	public void display() {
-		this.teamPanelController.display(teamPlace.getId());
 	}
 
 }

@@ -24,7 +24,7 @@ public abstract class EclihandAbstractComponent extends VerticalLayout
 	private SecurityController securityController;
 
 	@PostConstruct
-	public void postConstruct() {
+	protected void postConstruct() {
 		this.addComponentAttachListener(new SecurityComponentAttachListener(
 				securityController, this));
 	}

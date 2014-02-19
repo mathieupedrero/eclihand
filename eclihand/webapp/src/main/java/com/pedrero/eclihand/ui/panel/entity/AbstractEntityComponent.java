@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.InitializingBean;
-
 import com.pedrero.eclihand.ui.panel.EclihandAbstractComponent;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
@@ -18,7 +16,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Layout;
 
 public abstract class AbstractEntityComponent extends EclihandAbstractComponent
-		implements UpdatableContentDisplayer, InitializingBean {
+		implements UpdatableContentDisplayer {
 
 	private String makeUpdatableCaptionKey = UpdatableContentManager.MAKE_UPDATABLE_KEY;
 
@@ -79,7 +77,9 @@ public abstract class AbstractEntityComponent extends EclihandAbstractComponent
 		this.updatable = updatable;
 	}
 
-	private void init() {
+	@Override
+	protected void postConstruct() {
+		super.postConstruct();
 		globalLayout = eclihandLayoutFactory.createCommonVerticalLayout();
 		buttonsLayout = eclihandLayoutFactory.createCommonHorizontalLayout();
 
@@ -160,6 +160,7 @@ public abstract class AbstractEntityComponent extends EclihandAbstractComponent
 		}
 	}
 
+	@Override
 	public void makeUpdatable() {
 		updatable = true;
 		delete.setVisible(getShowButtons() && getShowDeleteButton());
@@ -169,6 +170,7 @@ public abstract class AbstractEntityComponent extends EclihandAbstractComponent
 				.getMessage(discardChangesCaptionKey));
 	}
 
+	@Override
 	public void makeCreateMode() {
 		updatable = true;
 		delete.setVisible(false);
@@ -176,6 +178,7 @@ public abstract class AbstractEntityComponent extends EclihandAbstractComponent
 		switchUpdateModeButton.setVisible(false);
 	}
 
+	@Override
 	public void makeReadOnly() {
 		updatable = false;
 		delete.setVisible(false);
@@ -183,17 +186,6 @@ public abstract class AbstractEntityComponent extends EclihandAbstractComponent
 		switchUpdateModeButton.setVisible(getShowButtons());
 		switchUpdateModeButton.setCaption(messageResolver
 				.getMessage(makeUpdatableCaptionKey));
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
-	 */
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		init();
 	}
 
 	/**

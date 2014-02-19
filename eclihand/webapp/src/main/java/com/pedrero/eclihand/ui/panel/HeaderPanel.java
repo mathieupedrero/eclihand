@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.ui.IFrameElement;
 import com.pedrero.eclihand.ui.menubar.MainMenuBar;
-import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Layout;
@@ -18,7 +17,7 @@ import com.vaadin.ui.Panel;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class HeaderPanel extends Panel implements Initiable, IFrameElement {
+public class HeaderPanel extends Panel implements IFrameElement {
 
 	@Resource
 	private MessageResolver messageResolver;

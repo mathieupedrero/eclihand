@@ -19,7 +19,6 @@ import com.pedrero.eclihand.navigation.places.PlayerPlace;
 import com.pedrero.eclihand.ui.EntityDisplayerPanelComponent;
 import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
 import com.pedrero.eclihand.ui.table.GenericTable;
-import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
 import com.pedrero.eclihand.utils.text.MessageResolver;
@@ -29,7 +28,7 @@ import com.vaadin.ui.Layout;
 @Component(value = "playerPanel")
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class PlayerPanel extends AbstractEntityViewPanel implements
-		EntityDisplayerPanelComponent<PlayerDto>, Initiable {
+		EntityDisplayerPanelComponent<PlayerDto> {
 
 	/**
 	 * 
@@ -62,7 +61,9 @@ public class PlayerPanel extends AbstractEntityViewPanel implements
 	public void display(PlayerDto entity) {
 	}
 
-	private void init() {
+	@Override
+	protected void postConstruct() {
+		super.postConstruct();
 		contentDisplayers = new ArrayList<UpdatableContentDisplayer>();
 		contentDisplayers.add(playerPropertyDisplayer);
 		contentDisplayers.add(teamTable);
@@ -71,19 +72,11 @@ public class PlayerPanel extends AbstractEntityViewPanel implements
 
 		layout.addComponent(playerPropertyDisplayer);
 		layout.addComponent(teamTable);
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel#afterPropertiesSet
-	 * ()
-	 */
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		init();
-		super.afterPropertiesSet();
+		PlayerDto entity = playerPanelController.giveEntity();
+		playerPropertyDisplayer.display(entity);
+		teamTable.removeAllDataObjects();
+		teamTable.feed(entity.getTeams());
 	}
 
 	/**
@@ -151,14 +144,6 @@ public class PlayerPanel extends AbstractEntityViewPanel implements
 	@Override
 	public EclihandPlace retrieveAssociatedPlace() {
 		return playerPlace;
-	}
-
-	@Override
-	public void display() {
-		PlayerDto entity = playerPanelController.giveEntity();
-		playerPropertyDisplayer.display(entity);
-		teamTable.removeAllDataObjects();
-		teamTable.feed(entity.getTeams());
 	}
 
 }

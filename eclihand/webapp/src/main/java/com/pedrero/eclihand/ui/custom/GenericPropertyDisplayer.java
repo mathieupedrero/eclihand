@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.mvel2.MVEL;
-import org.springframework.beans.factory.InitializingBean;
 
 import com.pedrero.eclihand.controller.GenericPropertyDisplayerController;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
@@ -15,7 +14,6 @@ import com.pedrero.eclihand.ui.custom.config.PropertyConfig;
 import com.pedrero.eclihand.ui.custom.config.PropertyDisplayerConfig;
 import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
 import com.pedrero.eclihand.utils.EclihandUiException;
-import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
 import com.pedrero.eclihand.utils.text.LocaleContainer;
@@ -43,9 +41,8 @@ import com.vaadin.ui.TextField;
  *            {@link DataObjectDto} type to be displayed
  */
 public class GenericPropertyDisplayer<T extends DataObjectDto> extends
-		AbstractEntityComponent implements Initiable,
-		EntityDisplayerComponent<T>, UpdatableContentDisplayer,
-		InitializingBean {
+		AbstractEntityComponent implements EntityDisplayerComponent<T>,
+		UpdatableContentDisplayer {
 
 	/**
 	 * 
@@ -81,7 +78,9 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	@Resource
 	private LocaleContainer localeContainer;
 
-	private void init() {
+	@Override
+	protected void postConstruct() {
+		super.postConstruct();
 		setShowButtons(config.getShowsEditButtons());
 		setShowDeleteButton(false);
 
@@ -286,19 +285,6 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	@Override
 	public Layout getMainLayout() {
 		return layout;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel#afterPropertiesSet
-	 * ()
-	 */
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		init();
-		super.afterPropertiesSet();
 	}
 
 	/**

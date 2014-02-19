@@ -8,7 +8,6 @@ import com.pedrero.eclihand.controller.window.GenericSearchModalWindowController
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.Identifiable;
-import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
@@ -25,7 +24,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
 
 public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
-		implements Initiable, Identifiable, InitializingBean {
+		implements Identifiable, InitializingBean {
 
 	/**
 	 * 

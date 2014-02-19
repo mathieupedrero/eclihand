@@ -2,9 +2,9 @@ package com.pedrero.eclihand.ui.panel;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -16,7 +16,6 @@ import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.EclihandViewImpl;
 import com.pedrero.eclihand.navigation.places.TeamsPlace;
 import com.pedrero.eclihand.ui.table.GenericTable;
-import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
@@ -27,8 +26,7 @@ import com.vaadin.ui.Layout;
 
 @Component(value = "teamsScreen")
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class TeamsScreen extends EclihandViewImpl implements Initiable,
-		InitializingBean {
+public class TeamsScreen extends EclihandViewImpl {
 	@Resource
 	private MessageResolver messageResolver;
 
@@ -49,19 +47,16 @@ public class TeamsScreen extends EclihandViewImpl implements Initiable,
 
 	private Button createNewTeamButton;
 
-	private Layout layout;
-
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5954828103989095039L;
 
-	private void init() {
+	@PostConstruct
+	protected void postConstruct() {
 		this.setCaption(messageResolver.getMessage("teams.panel.title"));
-		if (layout == null) {
-			layout = eclihandLayoutFactory.createCommonVerticalLayout();
-		}
-		// this.setUiComponent(layout);
+		Layout layout = eclihandLayoutFactory.createCommonVerticalLayout();
+
 		this.setContent(layout);
 
 		this.createNewTeamButton = eclihandUiFactory.createButton();
@@ -84,11 +79,8 @@ public class TeamsScreen extends EclihandViewImpl implements Initiable,
 
 		layout.addComponent(teamTable);
 		layout.addComponent(createNewTeamButton);
-	}
 
-	@Override
-	public void display() {
-		teamsPanelController.searchTeamsAndDisplay();
+		teamTable.feed(teamsPanelController.searchTeamsToDisplay());
 	}
 
 	public GenericTable<TeamDto> getTeamsTable() {
@@ -97,12 +89,6 @@ public class TeamsScreen extends EclihandViewImpl implements Initiable,
 
 	public void refreshTeams(List<TeamDto> teams) {
 		teamTable.removeAllDataObjects();
-		teamTable.feed(teams);
-	}
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		init();
 	}
 
 	@Override

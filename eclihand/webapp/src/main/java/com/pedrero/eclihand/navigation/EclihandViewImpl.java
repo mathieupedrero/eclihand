@@ -14,7 +14,6 @@ public abstract class EclihandViewImpl extends Panel implements EclihandView {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		retrieveAssociatedPlace().feedFromFragment(event.getParameters());
-		display();
 	}
 	//
 	// /**

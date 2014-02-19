@@ -1,8 +1,8 @@
 package com.pedrero.eclihand.ui.panel;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -12,7 +12,6 @@ import com.pedrero.eclihand.controller.panel.PlayersPanelController;
 import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.EclihandViewImpl;
 import com.pedrero.eclihand.navigation.places.PlayersPlace;
-import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
@@ -24,16 +23,13 @@ import com.vaadin.ui.Layout;
 
 @Component(value = "playersScreen")
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class PlayersScreen extends EclihandViewImpl implements Initiable,
-		InitializingBean {
+public class PlayersScreen extends EclihandViewImpl {
 
 	@Resource
 	private MessageResolver messageResolver;
 
 	@Resource
 	private PlayersPanelController playersPanelController;
-
-	private Layout layout;
 
 	private Label titleLabel;
 
@@ -55,71 +51,60 @@ public class PlayersScreen extends EclihandViewImpl implements Initiable,
 	 */
 	private static final long serialVersionUID = 5954828103989095039L;
 
-	private void init() {
+	@PostConstruct
+	protected void postConstruct() {
 		this.setCaption(messageResolver.getMessage("players.panel.title"));
-		if (layout == null) {
-			layout = eclihandLayoutFactory.createCommonVerticalLayout();
-			// this.setUiComponent(layout);
-			this.setContent(layout);
 
-			this.titleLabel = eclihandUiFactory.createTitleLabel();
-			this.titleLabel.setValue(messageResolver
-					.getMessage("players.panel.title"));
+		Layout layout = eclihandLayoutFactory.createCommonVerticalLayout();
 
-			this.searchButton = eclihandUiFactory.createButton();
-			this.searchButton.setCaption(messageResolver
-					.getMessage("common.find"));
+		this.setContent(layout);
 
-			this.searchButton.addClickListener(new ClickListener() {
+		this.titleLabel = eclihandUiFactory.createTitleLabel();
+		this.titleLabel.setValue(messageResolver
+				.getMessage("players.panel.title"));
 
-				/**
+		this.searchButton = eclihandUiFactory.createButton();
+		this.searchButton.setCaption(messageResolver.getMessage("common.find"));
+
+		this.searchButton.addClickListener(new ClickListener() {
+
+			/**
 				 * 
 				 */
-				private static final long serialVersionUID = -7117656998497854385L;
+			private static final long serialVersionUID = -7117656998497854385L;
 
-				@Override
-				public void buttonClick(ClickEvent event) {
-					playersPanelController.openPlayerSearchModalWindow();
+			@Override
+			public void buttonClick(ClickEvent event) {
+				playersPanelController.openPlayerSearchModalWindow();
 
-				}
-			});
+			}
+		});
 
-			this.createNewPlayerButton = eclihandUiFactory.createButton();
-			this.createNewPlayerButton.setCaption(messageResolver
-					.getMessage("players.create.new"));
+		this.createNewPlayerButton = eclihandUiFactory.createButton();
+		this.createNewPlayerButton.setCaption(messageResolver
+				.getMessage("players.create.new"));
 
-			this.createNewPlayerButton.addClickListener(new ClickListener() {
+		this.createNewPlayerButton.addClickListener(new ClickListener() {
 
-				/**
+			/**
 				 * 
 				 */
-				private static final long serialVersionUID = -7117656998497854385L;
+			private static final long serialVersionUID = -7117656998497854385L;
 
-				@Override
-				public void buttonClick(ClickEvent event) {
-					playersPanelController.openNewPlayerForm();
+			@Override
+			public void buttonClick(ClickEvent event) {
+				playersPanelController.openNewPlayerForm();
 
-				}
-			});
+			}
+		});
 
-			this.layout.addComponent(titleLabel);
-			this.layout.addComponent(searchButton);
-			this.layout.addComponent(createNewPlayerButton);
-		}
-	}
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		init();
-
+		layout.addComponent(titleLabel);
+		layout.addComponent(searchButton);
+		layout.addComponent(createNewPlayerButton);
 	}
 
 	@Override
 	public EclihandPlace retrieveAssociatedPlace() {
 		return playersPlace;
-	}
-
-	@Override
-	public void display() {
 	}
 }

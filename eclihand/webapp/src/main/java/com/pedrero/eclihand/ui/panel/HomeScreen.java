@@ -13,14 +13,13 @@ import com.pedrero.eclihand.controller.panel.HomePanelController;
 import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.EclihandViewImpl;
 import com.pedrero.eclihand.navigation.places.WelcomePlace;
-import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Layout;
 
 @Component(value = "homeScreen")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class HomeScreen extends EclihandViewImpl implements Initiable {
+public class HomeScreen extends EclihandViewImpl {
 
 	@Resource
 	private HomePanelController homePanelController;
@@ -51,11 +50,6 @@ public class HomeScreen extends EclihandViewImpl implements Initiable {
 		layout.setWidth(panelWidth);
 		this.setContent(layout);
 		this.setCaption(messageResolver.getMessage("home.caption"));
-
-	}
-
-	@Override
-	public void display() {
 
 	}
 

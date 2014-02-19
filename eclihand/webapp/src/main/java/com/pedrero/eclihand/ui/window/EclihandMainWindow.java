@@ -11,14 +11,13 @@ import com.pedrero.eclihand.controller.window.EclihandMainWindowController;
 import com.pedrero.eclihand.ui.Authentication;
 import com.pedrero.eclihand.ui.panel.BodyPanel;
 import com.pedrero.eclihand.ui.panel.HeaderPanel;
-import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Panel;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class EclihandMainWindow extends Panel implements Initiable {
+public class EclihandMainWindow extends Panel {
 
 	/**
 	 * 

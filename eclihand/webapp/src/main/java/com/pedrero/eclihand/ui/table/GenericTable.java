@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.mvel2.MVEL;
-import org.springframework.beans.factory.InitializingBean;
 
 import com.pedrero.eclihand.controller.EntityDisplayerPanelController;
 import com.pedrero.eclihand.controller.GenericTableController;
@@ -19,7 +19,6 @@ import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
 import com.pedrero.eclihand.ui.table.config.TableColumnConfig;
 import com.pedrero.eclihand.ui.table.config.TableConfig;
 import com.pedrero.eclihand.utils.DisplayedEntity;
-import com.pedrero.eclihand.utils.Initiable;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
 import com.pedrero.eclihand.utils.UpdatableContentManager;
@@ -35,8 +34,7 @@ import com.vaadin.ui.Layout;
 import com.vaadin.ui.Table;
 
 public class GenericTable<T extends DataObjectDto> extends
-		AbstractEntityComponent implements UpdatableContentDisplayer,
-		Initiable, InitializingBean {
+		AbstractEntityComponent implements UpdatableContentDisplayer {
 
 	private Table dataTable;
 
@@ -485,17 +483,11 @@ public class GenericTable<T extends DataObjectDto> extends
 		this.refreshData();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.pedrero.eclihand.ui.panel.entity.AbstractEntityPanel#afterPropertiesSet
-	 * ()
-	 */
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	@PostConstruct
+	protected void postConstruct() {
 		preInit();
-		super.afterPropertiesSet();
+		super.postConstruct();
 		postInit();
 	}
 

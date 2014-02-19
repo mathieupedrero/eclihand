@@ -6,10 +6,9 @@ import org.springframework.stereotype.Controller;
 
 import com.pedrero.eclihand.controller.EclihandController;
 import com.pedrero.eclihand.ui.panel.HomeScreen;
-import com.pedrero.eclihand.utils.Displayer;
 
 @Controller
-public class HomePanelController implements EclihandController, Displayer {
+public class HomePanelController implements EclihandController {
 
 	/**
 	 * 
@@ -18,10 +17,5 @@ public class HomePanelController implements EclihandController, Displayer {
 
 	@Resource
 	private HomeScreen homePanel;
-
-	@Override
-	public void display() {
-		homePanel.display();
-	}
 
 }
