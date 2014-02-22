@@ -10,6 +10,8 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.mvel2.MVEL;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.pedrero.eclihand.controller.EntityDisplayerPanelController;
 import com.pedrero.eclihand.controller.GenericTableController;
@@ -35,6 +37,9 @@ import com.vaadin.ui.Table;
 
 public class GenericTable<T extends DataObjectDto> extends
 		AbstractEntityComponent implements UpdatableContentDisplayer {
+
+	private final static Logger LOGGER = LoggerFactory
+			.getLogger(GenericTable.class);
 
 	private Table dataTable;
 
@@ -248,6 +253,9 @@ public class GenericTable<T extends DataObjectDto> extends
 				linkButton.setDescription(dataObjects.get(object.getId())
 						.getDescription());
 
+				LOGGER.info("item [{}]", item);
+				LOGGER.info("columnConfig {}", columnConfig);
+				LOGGER.info("columnConfig.id {}", columnConfig.getId());
 				item.getItemProperty(columnConfig.getId()).setValue(linkButton);
 			} else {
 				// else adds raw data
