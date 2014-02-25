@@ -45,7 +45,7 @@ public abstract class EclihandPlaceImpl implements EclihandPlace {
 	 * .String)
 	 */
 	@Override
-	public final void feedFromFragment(String fragment) {
+	public void feedFromFragment(String fragment) {
 		feedFromProperties(getUriFragmentManager().parse(fragment));
 	}
 
@@ -55,7 +55,7 @@ public abstract class EclihandPlaceImpl implements EclihandPlace {
 	 * @see com.pedrero.eclihand.navigation.EclihandPlace#generateFragment()
 	 */
 	@Override
-	public final String generateFragment() {
+	public String generateFragment() {
 		return getUriFragmentManager().computePropertyFragment(
 				generateProperties());
 	}

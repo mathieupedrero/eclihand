@@ -5,6 +5,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -27,6 +29,9 @@ import com.vaadin.ui.Layout;
 @Component(value = "teamsScreen")
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class TeamsScreen extends EclihandViewImpl {
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(TeamsScreen.class);
+
 	@Resource
 	private MessageResolver messageResolver;
 
@@ -54,6 +59,7 @@ public class TeamsScreen extends EclihandViewImpl {
 
 	@PostConstruct
 	protected void postConstruct() {
+		LOGGER.info("initializing TeamsPanel");
 		this.setCaption(messageResolver.getMessage("teams.panel.title"));
 		Layout layout = eclihandLayoutFactory.createCommonVerticalLayout();
 

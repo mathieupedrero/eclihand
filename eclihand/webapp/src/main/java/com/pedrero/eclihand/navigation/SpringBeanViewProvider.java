@@ -2,6 +2,8 @@ package com.pedrero.eclihand.navigation;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -14,6 +16,8 @@ import com.vaadin.navigator.ViewProvider;
 @Component
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class SpringBeanViewProvider implements ViewProvider {
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(SpringBeanViewProvider.class);
 
 	@Resource
 	private BeanFactory beanFactory;
@@ -41,6 +45,7 @@ public class SpringBeanViewProvider implements ViewProvider {
 
 	@Override
 	public View getView(String viewName) {
+		LOGGER.debug("view initialization for [{}]", viewName);
 		if (this.viewName.equals(viewName)) {
 			View view = beanFactory.getBean(viewClass);
 			return view;

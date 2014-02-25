@@ -160,11 +160,16 @@ public class GenericTable<T extends DataObjectDto> extends
 	 * Initializes the {@link GenericTable} (creates columns...).
 	 */
 	public void dataTableInit() {
+		LOGGER.debug("initializing Table for [{}]", getTableConfig()
+				.getCaptionKey());
+
 		dataTable.setSelectable(getTableConfig().getCanSelect());
 		dataTable.setMultiSelect(getTableConfig().getCanMultiSelect());
 		container = new IndexedContainer();
 		for (TableColumnConfig columnConfig : getTableConfig()
 				.getColumnConfigs()) {
+			LOGGER.debug("initializing column in table for [{}]",
+					columnConfig.getLabelKey());
 
 			if (columnConfig.getAction() != null
 					&& getTableConfig().getActionsEnabled()) {
@@ -202,6 +207,8 @@ public class GenericTable<T extends DataObjectDto> extends
 		displayedEntity.setEntity(object);
 		dataObjects.put(object.getId(), displayedEntity);
 
+		LOGGER.debug("creating item table for object with id {}",
+				object.getId());
 		Item item = container.addItem(object.getId());
 
 		List<Object> descriptionParams = new ArrayList<Object>();
@@ -253,9 +260,9 @@ public class GenericTable<T extends DataObjectDto> extends
 				linkButton.setDescription(dataObjects.get(object.getId())
 						.getDescription());
 
-				LOGGER.info("item [{}]", item);
-				LOGGER.info("columnConfig {}", columnConfig);
-				LOGGER.info("columnConfig.id {}", columnConfig.getId());
+				LOGGER.debug("item [{}]", item);
+				LOGGER.debug("columnConfig {}", columnConfig);
+				LOGGER.debug("columnConfig.id {}", columnConfig.getId());
 				item.getItemProperty(columnConfig.getId()).setValue(linkButton);
 			} else {
 				// else adds raw data
@@ -305,20 +312,24 @@ public class GenericTable<T extends DataObjectDto> extends
 	public void add(Iterable<T> objects) {
 		if (objects != null) {
 			for (T object : objects) {
+				LOGGER.debug("adding object with id {} to table.",
+						object.getId());
 				add(object);
 			}
 		}
 	}
 
 	/**
-	 * Initializes data of the {@link GenericTable} feedng it with the submitted
-	 * objects.
+	 * Initializes data of the {@link GenericTable} feeding it with the
+	 * submitted objects.
 	 * 
 	 * @param objects
 	 *            the {@link DataObjectDto} to initialize with the
 	 *            {@link GenericTable}
 	 */
 	public void feed(Collection<T> objects) {
+		LOGGER.debug("feeding table with object list ({} elements)",
+				objects.size());
 		initialDataObjectsList = objects;
 		add(objects);
 	}
@@ -359,6 +370,7 @@ public class GenericTable<T extends DataObjectDto> extends
 	 * list.
 	 */
 	public void refreshData() {
+		LOGGER.debug("Data table refresh");
 		this.removeAllDataObjects();
 		this.add(initialDataObjectsList);
 	}
@@ -465,6 +477,7 @@ public class GenericTable<T extends DataObjectDto> extends
 
 	@Override
 	public void makeUpdatable() {
+		LOGGER.debug("Putting table to updatable Mode");
 		boolean updateMode = true;
 		setTableUpdatable(updateMode);
 		super.makeUpdatable();
@@ -472,6 +485,7 @@ public class GenericTable<T extends DataObjectDto> extends
 
 	@Override
 	public void makeCreateMode() {
+		LOGGER.debug("Putting table to create Mode");
 		boolean updateMode = true;
 		setTableUpdatable(updateMode);
 		super.makeCreateMode();
@@ -479,6 +493,7 @@ public class GenericTable<T extends DataObjectDto> extends
 
 	@Override
 	public void makeReadOnly() {
+		LOGGER.debug("Putting table to read-only Mode");
 		boolean updateMode = false;
 		setTableUpdatable(updateMode);
 		super.makeReadOnly();

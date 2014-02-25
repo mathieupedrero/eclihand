@@ -152,12 +152,6 @@ public abstract class AbstractEntityComponent extends EclihandAbstractComponent
 				}
 			}
 		});
-
-		if (updatable) {
-			makeUpdatable();
-		} else {
-			makeReadOnly();
-		}
 	}
 
 	@Override
