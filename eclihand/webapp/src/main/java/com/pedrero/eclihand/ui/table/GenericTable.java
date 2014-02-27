@@ -92,7 +92,6 @@ public class GenericTable<T extends DataObjectDto> extends
 		setShowDeleteButton(false);
 
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
-		layout.removeAllComponents();
 
 		initializeUIComponents();
 		dataTableInit();
@@ -117,6 +116,7 @@ public class GenericTable<T extends DataObjectDto> extends
 	}
 
 	private void initializeUIComponents() {
+		LOGGER.debug("Initializing data table UI components");
 		dataTable = new Table();
 
 		removeAll = eclihandUiFactory.createButton();
@@ -509,6 +509,7 @@ public class GenericTable<T extends DataObjectDto> extends
 	@Override
 	@PostConstruct
 	protected void postConstruct() {
+		LOGGER.debug("GenericTable bean initialization");
 		preInit();
 		super.postConstruct();
 		postInit();

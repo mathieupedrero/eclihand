@@ -18,19 +18,19 @@
 		<property name="entityDisplayerController" ref="teamPanelController"/>
 	</bean>
 	
-	<bean id="teamTableForTeamsPanel" parent="teamTablePrototype" scope="session">
-		<property name="genericTableController" ref="teamTableControllerForTeamsPanel"/>
+	<bean id="teamTableForTeamsPanel" parent="teamTablePrototype" scope="prototype">
+		<property name="genericTableController" ref="teamTableControllerPrototype"/>
     	
     	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
 	
-	<bean id="teamTableForPlayerPanel" parent="teamTablePrototype" scope="session">
-		<property name="genericTableController" ref="teamTableControllerForPlayerPanel"/>
+	<bean id="teamTableForPlayerPanel" parent="teamTablePrototype" scope="prototype">
+		<property name="genericTableController" ref="teamTableControllerPrototype"/>
     	
     	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
 	
-	<bean id="playerTable" class="com.pedrero.eclihand.ui.table.GenericTable" scope="session">
+	<bean id="playerTable" class="com.pedrero.eclihand.ui.table.GenericTable" scope="prototype">
 		<property name="tableConfig" ref="playerTableConfig"/>
 		<property name="entityDisplayerController" ref="playerPanelController"/>
 		<property name="genericTableController" ref="playerTableController"/>
@@ -38,19 +38,19 @@
     	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
 	
-	<bean id="playerTableSelectOne" class="com.pedrero.eclihand.ui.table.GenericTable" scope="session">
+	<bean id="playerTableSelectOne" class="com.pedrero.eclihand.ui.table.GenericTable" scope="prototype">
 		<property name="tableConfig" ref="searchPlayerTableConfigOneSelect"/>
     	
     	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
 	
-	<bean id="pickingTeamTable" class="com.pedrero.eclihand.ui.table.GenericTable" scope="session">
+	<bean id="pickingTeamTable" class="com.pedrero.eclihand.ui.table.GenericTable" scope="prototype">
 		<property name="tableConfig" ref="searchTeamTableConfigOneSelect"/>
     	
     	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
 	
-	<bean id="pickingPlayerTable" class="com.pedrero.eclihand.ui.table.GenericTable" scope="session">
+	<bean id="pickingPlayerTable" class="com.pedrero.eclihand.ui.table.GenericTable" scope="prototype">
 		<property name="tableConfig" ref="searchPlayerTableConfigOneSelect"/>
     	
     	<aop:scoped-proxy proxy-target-class="true"/>
@@ -64,15 +64,6 @@
 	<bean id="playerTableController" class="com.pedrero.eclihand.controller.GenericTableController"  scope="prototype">
 		<property name="service" ref="playerServiceImpl"/>
 		<property name="genericSearchModalWindowController" ref="pickingPlayerSearchModalWindowController"/>
-		<property name="genericTable" ref="playerTable"/>
-	</bean>
-	
-	<bean id="teamTableControllerForTeamsPanel" parent="teamTableControllerPrototype">
-		<property name="genericTable" ref="teamTableForTeamsPanel"/>
-	</bean>
-	
-	<bean id="teamTableControllerForPlayerPanel" parent="teamTableControllerPrototype">
-		<property name="genericTable" ref="teamTableForPlayerPanel"/>
 	</bean>
 	
 </beans>

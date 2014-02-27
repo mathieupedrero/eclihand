@@ -21,9 +21,6 @@ public class TeamsPanelController implements EclihandController {
 	private TeamService teamService;
 
 	@Resource
-	private BodyPanelController bodyPanelController;
-
-	@Resource
 	private TeamPanelController teamPanelController;
 
 	public List<TeamDto> searchTeamsToDisplay() {

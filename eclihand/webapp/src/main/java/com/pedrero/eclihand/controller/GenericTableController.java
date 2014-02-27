@@ -7,7 +7,6 @@ import com.pedrero.eclihand.controller.window.GenericSearchModalWindowController
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.service.DataObjectService;
 import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
-import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.IDTOConsumer;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 
@@ -21,19 +20,9 @@ public class GenericTableController<T extends DataObjectDto> extends
 	 */
 	private static final long serialVersionUID = 5326406973664925578L;
 
-	private GenericTable<T> genericTable;
-
 	private DataObjectService<T> service;
 
 	private GenericSearchModalWindowController<T> genericSearchModalWindowController;
-
-	public GenericTable<T> getGenericTable() {
-		return genericTable;
-	}
-
-	public void setGenericTable(GenericTable<T> genericTable) {
-		this.genericTable = genericTable;
-	}
 
 	public DataObjectService<T> getService() {
 		return service;
@@ -49,12 +38,12 @@ public class GenericTableController<T extends DataObjectDto> extends
 
 	@Override
 	public void consume(T entity) {
-		genericTable.add(entity);
+		// genericTable.add(entity);
 	}
 
 	@Override
 	public void consume(Iterable<T> entity) {
-		genericTable.add(entity);
+		// genericTable.add(entity);
 	}
 
 	/*
@@ -65,7 +54,7 @@ public class GenericTableController<T extends DataObjectDto> extends
 	 */
 	@Override
 	public void validateChanges() {
-		getGenericTable().saveData();
+		// getGenericTable().saveData();
 	}
 
 	/**
@@ -93,7 +82,7 @@ public class GenericTableController<T extends DataObjectDto> extends
 
 	@Override
 	public AbstractEntityComponent getEntityPanel() {
-		return genericTable;
+		return null;
 	}
 
 }
