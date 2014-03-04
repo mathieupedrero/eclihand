@@ -8,15 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pedrero.eclihand.controller.EntityDisplayerPanelController;
-import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.navigation.EclihandNavigator;
 import com.pedrero.eclihand.navigation.places.TeamPlace;
+import com.pedrero.eclihand.navigation.places.WelcomePlace;
 import com.pedrero.eclihand.service.PlayerService;
 import com.pedrero.eclihand.service.TeamService;
-import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
 import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
-import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 
 @Controller
@@ -33,19 +31,13 @@ public class TeamPanelController extends AbstractEntityController implements
 	private TeamPlace teamPlace;
 
 	@Resource
+	private WelcomePlace welcomePlace;
+
+	@Resource
 	private TeamService teamService;
 
 	@Resource
 	private PlayerService playerService;
-
-	@Resource
-	private BodyPanelController bodyPanelController;
-
-	@Resource
-	private GenericPropertyDisplayer<TeamDto> teamPropertyDisplayer;
-
-	@Resource
-	private GenericTable<PlayerDto> playerTable;
 
 	@Resource
 	private EclihandNavigator navigator;
@@ -75,7 +67,7 @@ public class TeamPanelController extends AbstractEntityController implements
 	@Override
 	public void delete() {
 		teamService.delete(team);
-		bodyPanelController.showHomePanel();
+		navigator.navigateTo(welcomePlace);
 	}
 
 	@Override

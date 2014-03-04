@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import com.pedrero.eclihand.controller.EntityDisplayerPanelController;
 import com.pedrero.eclihand.controller.GenericTableController;
-import com.pedrero.eclihand.controller.panel.BodyPanelController;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
 import com.pedrero.eclihand.ui.table.config.TableColumnConfig;
@@ -51,9 +50,6 @@ public class GenericTable<T extends DataObjectDto> extends
 
 	@Resource
 	private MessageResolver messageResolver;
-
-	@Resource
-	private BodyPanelController bodyPanelController;
 
 	@Resource
 	private EclihandUiFactory eclihandUiFactory;
