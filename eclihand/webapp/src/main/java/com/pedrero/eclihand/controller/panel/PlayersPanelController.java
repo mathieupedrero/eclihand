@@ -8,7 +8,6 @@ import com.pedrero.eclihand.controller.EclihandController;
 import com.pedrero.eclihand.controller.window.GenericSearchModalWindowController;
 import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.service.PlayerService;
-import com.pedrero.eclihand.ui.panel.PlayersScreen;
 
 @Controller
 public class PlayersPanelController implements EclihandController {
@@ -16,9 +15,6 @@ public class PlayersPanelController implements EclihandController {
 	 * 
 	 */
 	private static final long serialVersionUID = 3448580944349868849L;
-
-	@Resource
-	private PlayersScreen playersPanel;
 
 	@Resource
 	private BodyPanelController bodyPanelController;

@@ -15,7 +15,6 @@
 	
 	<bean id="teamTablePrototype" class="com.pedrero.eclihand.ui.table.GenericTable" scope="prototype">
 		<property name="tableConfig" ref="teamTableConfig"/>
-		<property name="entityDisplayerController" ref="teamPanelController"/>
 	</bean>
 	
 	<bean id="teamTableForTeamsPanel" parent="teamTablePrototype" scope="prototype">
@@ -32,7 +31,6 @@
 	
 	<bean id="playerTable" class="com.pedrero.eclihand.ui.table.GenericTable" scope="prototype">
 		<property name="tableConfig" ref="playerTableConfig"/>
-		<property name="entityDisplayerController" ref="playerPanelController"/>
 		<property name="genericTableController" ref="playerTableController"/>
     	
     	<aop:scoped-proxy proxy-target-class="true"/>

@@ -13,7 +13,6 @@ import org.mvel2.MVEL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.pedrero.eclihand.controller.EntityDisplayerPanelController;
 import com.pedrero.eclihand.controller.GenericTableController;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
@@ -59,8 +58,6 @@ public class GenericTable<T extends DataObjectDto> extends
 
 	@Resource
 	private LocaleContainer localeContainer;
-
-	private EntityDisplayerPanelController<T> entityDisplayerController;
 
 	private TableConfig tableConfig;
 
@@ -400,59 +397,18 @@ public class GenericTable<T extends DataObjectDto> extends
 		return selection;
 	}
 
-	/**
-	 * @return the {@link EntityDisplayerPanelController} associated to this
-	 *         {@link GenericTable}
-	 */
-	public EntityDisplayerPanelController<T> getEntityDisplayerController() {
-		return entityDisplayerController;
-	}
-
-	/**
-	 * Sets the {@link EntityDisplayerPanelController} associated to this
-	 * {@link GenericTable}
-	 * 
-	 * @param entityDisplayerController
-	 *            the {@link EntityDisplayerPanelController} to associate with
-	 *            this {@link GenericTable}
-	 */
-	public void setEntityDisplayerController(
-			EntityDisplayerPanelController<T> entityDisplayerController) {
-		this.entityDisplayerController = entityDisplayerController;
-	}
-
-	/**
-	 * Gets the {@link TableConfig}
-	 * 
-	 * @return the {@link TableConfig}
-	 */
 	public TableConfig getTableConfig() {
 		return tableConfig;
 	}
 
-	/**
-	 * Sets the {@link TableConfig}
-	 * 
-	 * @param tableConfig
-	 *            the {@link TableConfig} to set.
-	 */
 	public void setTableConfig(TableConfig tableConfig) {
 		this.tableConfig = tableConfig;
 	}
 
-	/**
-	 * Sets the controller of the {@link GenericTable}
-	 * 
-	 * @return the controller of the {@link GenericTable}
-	 */
 	public GenericTableController<T> getGenericTableController() {
 		return genericTableController;
 	}
 
-	/**
-	 * @param Sets
-	 *            the controller of the Table.
-	 */
 	public void setGenericTableController(
 			GenericTableController<T> genericTableController) {
 		this.genericTableController = genericTableController;
@@ -462,11 +418,6 @@ public class GenericTable<T extends DataObjectDto> extends
 		getGenericTableController().validateChanges();
 	}
 
-	/**
-	 * retrieves the data contained in the {@link GenericTable}
-	 * 
-	 * @return the data contained in the {@link GenericTable}.
-	 */
 	public Collection<T> retrieveData() {
 		return initialDataObjectsList;
 	}
