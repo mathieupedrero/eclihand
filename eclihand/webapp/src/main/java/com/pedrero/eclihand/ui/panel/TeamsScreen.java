@@ -83,7 +83,8 @@ public class TeamsScreen extends EclihandViewImpl {
 			}
 		});
 
-		layout.addComponent(teamTable);
+		// FIXME : Ajout de la table des équipes
+		// layout.addComponent(teamTable);
 		layout.addComponent(createNewTeamButton);
 
 		teamTable.feed(teamsPanelController.searchTeamsToDisplay());

@@ -14,7 +14,7 @@
         http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 	
-	<bean id="playerSearchModalWindow" class="com.pedrero.eclihand.ui.window.GenericSearchModalWindow" scope="session">
+	<bean id="playerSearchModalWindow" class="com.pedrero.eclihand.ui.window.GenericSearchModalWindow" scope="prototype">
 		<property name="id" value="playerSearchModalWindow"/>
     	<property name="displayGenericTable" ref="playerTableSelectOne" />
     	<property name="searchModalWindowController" ref="playerSearchModalWindowController" />
@@ -27,7 +27,7 @@
     	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
 	
-	<bean id="pickingPlayerSearchModalWindow" class="com.pedrero.eclihand.ui.window.GenericSearchModalWindow" scope="session">
+	<bean id="pickingPlayerSearchModalWindow" class="com.pedrero.eclihand.ui.window.GenericSearchModalWindow" scope="prototype">
 		<property name="id" value="pickingPlayerSearchModalWindow"/>
     	<property name="displayGenericTable" ref="pickingPlayerTable" />
     	<property name="searchModalWindowController" ref="pickingPlayerSearchModalWindowController" />
@@ -40,7 +40,7 @@
     	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
 	
-	<bean id="pickingTeamSearchModalWindow" class="com.pedrero.eclihand.ui.window.GenericSearchModalWindow" scope="session">
+	<bean id="pickingTeamSearchModalWindow" class="com.pedrero.eclihand.ui.window.GenericSearchModalWindow" scope="prototype">
 		<property name="id" value="pickingTeamSearchModalWindow"/>
     	<property name="displayGenericTable" ref="pickingTeamTable" />
     	<property name="searchModalWindowController" ref="pickingTeamSearchModalWindowController" />

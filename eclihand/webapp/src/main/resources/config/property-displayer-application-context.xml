@@ -17,14 +17,14 @@
 	<import resource="classpath:/config/property-displayer-config-application-context.xml"/>
 
 	
-	<bean id="teamPropertyDisplayer" class="com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer" scope="session">
+	<bean id="teamPropertyDisplayer" class="com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer" scope="prototype">
     	<property name="config" ref="teamPropertyDisplayerConfig" />
     	<property name="genericPropertyDisplayerController" ref="teamPropertyDisplayerController" />
     	
     	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
 	
-	<bean id="playerPropertyDisplayer" class="com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer" scope="session">
+	<bean id="playerPropertyDisplayer" class="com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer" scope="prototype">
     	<property name="config" ref="playerPropertyDisplayerConfig" />
     	<property name="genericPropertyDisplayerController" ref="playerPropertyDisplayerController" />
     	
