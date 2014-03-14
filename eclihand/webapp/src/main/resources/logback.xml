@@ -20,10 +20,10 @@
 	</logger>
 	
 	<!-- Spring bean creation logger for debug -->
-	<logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" additivity="false">
-		<level value="DEBUG" />
-		<appender-ref ref="STDOUT" />
-	</logger>
+<!-- 	<logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" additivity="false"> -->
+<!-- 		<level value="DEBUG" /> -->
+<!-- 		<appender-ref ref="STDOUT" /> -->
+<!-- 	</logger> -->
 	
 	<logger name="org.hibernate" additivity="false">
 		<level value="WARN" />

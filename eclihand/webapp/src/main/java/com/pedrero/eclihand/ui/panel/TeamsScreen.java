@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -22,11 +23,10 @@ import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 
-@Component(value = "teamsScreen")
+@Component
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class TeamsScreen extends EclihandViewImpl {
 	private static final Logger LOGGER = LoggerFactory
@@ -52,6 +52,9 @@ public class TeamsScreen extends EclihandViewImpl {
 
 	private Button createNewTeamButton;
 
+	@Value(value = "${main.panel.width}")
+	private String panelWidth;
+
 	/**
 	 * 
 	 */
@@ -62,32 +65,36 @@ public class TeamsScreen extends EclihandViewImpl {
 		LOGGER.info("initializing TeamsPanel");
 		this.setCaption(messageResolver.getMessage("teams.panel.title"));
 		Layout layout = eclihandLayoutFactory.createCommonVerticalLayout();
+		layout.setWidth(panelWidth);
 
 		this.setContent(layout);
 
-		this.createNewTeamButton = eclihandUiFactory.createButton();
-		this.createNewTeamButton.setCaption(messageResolver
-				.getMessage("players.create.new"));
+		// this.createNewTeamButton = eclihandUiFactory.createButton();
+		// this.createNewTeamButton.setCaption(messageResolver
+		// .getMessage("players.create.new"));
+		//
+		// this.createNewTeamButton.addClickListener(new ClickListener() {
+		//
+		// /**
+		// *
+		// */
+		// private static final long serialVersionUID = -7117656998497854385L;
+		//
+		// @Override
+		// public void buttonClick(ClickEvent event) {
+		// teamsPanelController.openNewTeamForm();
+		//
+		// }
+		// });
+		//
+		// // FIXME : Ajout de la table des équipes
+		// // layout.addComponent(teamTable);
+		// layout.addComponent(createNewTeamButton);
+		//
+		// teamTable.feed(teamsPanelController.searchTeamsToDisplay());
 
-		this.createNewTeamButton.addClickListener(new ClickListener() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -7117656998497854385L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				teamsPanelController.openNewTeamForm();
-
-			}
-		});
-
-		// FIXME : Ajout de la table des équipes
-		// layout.addComponent(teamTable);
-		layout.addComponent(createNewTeamButton);
-
-		teamTable.feed(teamsPanelController.searchTeamsToDisplay());
+		layout.addComponent(new Label("Toto"));
+		this.setCaption(messageResolver.getMessage("home.caption"));
 	}
 
 	public GenericTable<TeamDto> getTeamsTable() {
