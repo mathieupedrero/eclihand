@@ -87,7 +87,7 @@ public class TeamsScreen extends EclihandViewImpl {
 		// }
 		// });
 		//
-		// // FIXME : Ajout de la table des équipes
+		// // FIXME : Ajout de la table des Ã©quipes
 		// // layout.addComponent(teamTable);
 		// layout.addComponent(createNewTeamButton);
 		//

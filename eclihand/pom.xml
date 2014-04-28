@@ -23,7 +23,6 @@
 		<module>service-api</module>
 		<module>service-impl</module>
 		<module>webapp</module>
-		<module>webapp-client-fat</module>
 	</modules>
 	<dependencyManagement>
 		<dependencies>
@@ -284,6 +283,7 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
+        			<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 		</plugins>
