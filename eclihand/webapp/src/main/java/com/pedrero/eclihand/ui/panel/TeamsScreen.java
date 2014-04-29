@@ -69,6 +69,10 @@ public class TeamsScreen extends EclihandViewImpl {
 
 		this.setContent(layout);
 
+		Label label = eclihandUiFactory.createLabel();
+		label.setValue("Teams");
+		layout.addComponent(label);
+
 		// this.createNewTeamButton = eclihandUiFactory.createButton();
 		// this.createNewTeamButton.setCaption(messageResolver
 		// .getMessage("players.create.new"));

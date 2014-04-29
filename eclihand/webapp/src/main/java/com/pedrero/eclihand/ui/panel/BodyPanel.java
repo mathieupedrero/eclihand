@@ -43,6 +43,7 @@ public class BodyPanel extends Panel {
 		this.setContent(layout);
 		layout.addComponent(leftScreen);
 		layout.addComponent(contentPanel);
+		contentPanel.setCaption("TOTO");
 		// contentPanel.setContent(homePanel);
 		this.setCaption(messageResolver.getMessage("body.caption"));
 	}

@@ -15,6 +15,8 @@ import com.pedrero.eclihand.navigation.EclihandViewImpl;
 import com.pedrero.eclihand.navigation.places.WelcomePlace;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
+import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 
 @Component
@@ -29,6 +31,9 @@ public class HomeScreen extends EclihandViewImpl {
 
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
+
+	@Resource
+	private EclihandUiFactory eclihandUiFactory;
 
 	@Resource
 	private WelcomePlace welcomePlace;
@@ -46,6 +51,9 @@ public class HomeScreen extends EclihandViewImpl {
 	private void init() {
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		layout.setWidth(panelWidth);
+		Label label = eclihandUiFactory.createLabel();
+		label.setValue("Accueil");
+		layout.addComponent(label);
 		this.setContent(layout);
 		this.setCaption(messageResolver.getMessage("home.caption"));
 

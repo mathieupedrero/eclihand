@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ import com.vaadin.ui.Layout;
 
 @Component(value = "playersScreen")
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Lazy(false)
 public class PlayersScreen extends EclihandViewImpl {
 
 	@Resource
@@ -56,6 +58,10 @@ public class PlayersScreen extends EclihandViewImpl {
 		this.setCaption(messageResolver.getMessage("players.panel.title"));
 
 		Layout layout = eclihandLayoutFactory.createCommonVerticalLayout();
+
+		Label label = eclihandUiFactory.createLabel();
+		label.setValue("Players");
+		layout.addComponent(label);
 
 		this.setContent(layout);
 
