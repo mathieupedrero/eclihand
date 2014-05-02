@@ -23,8 +23,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 
 @Component(value = "playersScreen")
-@Scope(value = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
-@Lazy(false)
+@Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
 public class PlayersScreen extends EclihandViewImpl {
 
 	@Resource

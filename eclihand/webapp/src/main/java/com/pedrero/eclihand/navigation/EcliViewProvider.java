@@ -11,7 +11,9 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.navigator.ViewProvider;
+import com.vaadin.ui.Panel;
 
 @Component
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -47,7 +49,8 @@ public class EcliViewProvider implements ViewProvider {
 	public View getView(String viewName) {
 		LOGGER.debug("view initialization for [{}]", viewName);
 		if (this.viewName.equals(viewName)) {
-			return beanFactory.getBean(viewClass);
+			View view = beanFactory.getBean(viewClass);
+			return view;
 		}
 		return null;
 	}
@@ -66,6 +69,24 @@ public class EcliViewProvider implements ViewProvider {
 
 	public void setViewClass(Class<? extends View> viewClass) {
 		this.viewClass = viewClass;
+	}
+	
+	private class ViewImpl extends Panel implements View{
+
+		private final String name;
+		
+		public ViewImpl(String name) {
+			super();
+			this.name = name;
+			
+			this.setCaption(name);
+		}
+
+		@Override
+		public void enter(ViewChangeEvent event) {
+			LOGGER.debug("entered {}",name);
+		}
+		
 	}
 
 }

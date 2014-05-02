@@ -3,6 +3,7 @@ package com.pedrero.eclihand.ui.panel;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 
@@ -44,7 +45,9 @@ public class BodyPanel extends Panel {
 		layout.addComponent(leftScreen);
 		layout.addComponent(contentPanel);
 		contentPanel.setCaption("TOTO");
-		// contentPanel.setContent(homePanel);
+		Panel content = new Panel();
+		content.setCaption("First panel shown");
+		contentPanel.setContent(content);
 		this.setCaption(messageResolver.getMessage("body.caption"));
 	}
 

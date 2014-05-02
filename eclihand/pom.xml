@@ -324,5 +324,14 @@
 				<database.eclihand.pwd>eclihand</database.eclihand.pwd>
 			</properties>
 		</profile>
+		<profile>
+			<id>fernand</id>
+			<properties>
+				<database.root.username>root</database.root.username>
+				<database.root.pwd>root</database.root.pwd>
+				<database.eclihand.username>eclihand</database.eclihand.username>
+				<database.eclihand.pwd>eclihand</database.eclihand.pwd>
+			</properties>
+		</profile>
 	</profiles>
 </project>

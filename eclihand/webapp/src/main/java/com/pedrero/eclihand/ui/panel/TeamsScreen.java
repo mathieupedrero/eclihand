@@ -27,7 +27,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 
 @Component
-@Scope(value = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
 public class TeamsScreen extends EclihandViewImpl {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(TeamsScreen.class);

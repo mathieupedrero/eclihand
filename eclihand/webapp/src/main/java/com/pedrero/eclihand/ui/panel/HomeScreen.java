@@ -20,7 +20,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 
 @Component
-@Scope(value = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
 public class HomeScreen extends EclihandViewImpl {
 
 	@Resource
