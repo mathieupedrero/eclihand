@@ -18,22 +18,20 @@ import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.PasswordField;
-import com.vaadin.ui.TextField;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class LoginPanel extends EclihandAbstractComponent {
-
-	@Override
-	public final Set<Credential> getRequiredCredentials() {
-		return new HashSet<Credential>(Arrays.asList(Credential.CONNECT));
-	}
+public class LogoutPanel extends EclihandAbstractComponent {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6928146680402643741L;
+
+	@Override
+	public final Set<Credential> getRequiredCredentials() {
+		return new HashSet<Credential>(Arrays.asList(Credential.OWN_TEAM_EDIT));
+	}
 
 	@Resource
 	private MessageResolver messageResolver;
@@ -48,15 +46,9 @@ public class LoginPanel extends EclihandAbstractComponent {
 	@PostConstruct
 	public void postConstruct() {
 		Layout layout = eclihandLayoutFactory.createCommonFormLayout();
-		TextField loginField = eclihandUiFactory.createTextField();
-		loginField.setCaption(messageResolver.getMessage("login.login"));
-		layout.addComponent(loginField);
-		PasswordField passwordField = eclihandUiFactory.createPasswordField();
-		passwordField.setCaption(messageResolver.getMessage("login.password"));
-		layout.addComponent(passwordField);
-		Button logInButton = eclihandUiFactory.createButton();
-		logInButton.setCaption(messageResolver.getMessage("login.log_in"));
-		layout.addComponent(logInButton);
+		Button logOutButton = eclihandUiFactory.createButton();
+		logOutButton.setCaption(messageResolver.getMessage("login.log_out"));
+		layout.addComponent(logOutButton);
 		this.addComponent(layout);
 	}
 }

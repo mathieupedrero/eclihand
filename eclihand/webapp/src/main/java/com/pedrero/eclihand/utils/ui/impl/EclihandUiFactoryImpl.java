@@ -12,6 +12,7 @@ import com.vaadin.ui.DateField;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
@@ -70,6 +71,16 @@ public class EclihandUiFactoryImpl implements EclihandUiFactory {
 		TextField textField = new TextField();
 		textField.setLocale(localeContainer.getLocale());
 		return textField;
+	}
+
+	/**
+	 * @see com.pedrero.eclihand.utils.ui.EclihandUiFactory#createPasswordField()
+	 */
+	@Override
+	public PasswordField createPasswordField() {
+		PasswordField passwordField = new PasswordField();
+		passwordField.setLocale(localeContainer.getLocale());
+		return passwordField;
 	}
 
 	@Override
