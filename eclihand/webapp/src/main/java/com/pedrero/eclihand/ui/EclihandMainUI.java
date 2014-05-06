@@ -37,9 +37,9 @@ public class EclihandMainUI extends UI {
 
 	@Override
 	protected void init(VaadinRequest request) {
+		authentication.setAuthenticatedUser(userService.retrieveGuestUser());
 		setContent(new VerticalLayout(eclihandMainWindow));
 		localeContainer.setLocale(request.getLocale());
-		authentication.setAuthenticatedUser(userService.retrieveGuestUser());
 	}
 
 }

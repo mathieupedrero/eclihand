@@ -23,8 +23,8 @@ public class SecurityComponentAttachListener implements ComponentAttachListener 
 
 	@Override
 	public void componentAttachedToContainer(ComponentAttachEvent event) {
-		if (!securityController.canBeShown(event.getComponent())) {
-			layout.removeComponent(event.getComponent());
+		if (!securityController.canBeShown(event.getAttachedComponent())) {
+			layout.removeComponent(event.getAttachedComponent());
 		}
 	}
 

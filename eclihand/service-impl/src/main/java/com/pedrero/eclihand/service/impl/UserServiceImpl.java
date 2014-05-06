@@ -57,6 +57,7 @@ public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User>
 	}
 
 	@Override
+	@Transactional
 	public Set<Credential> retrieveCredentialsFor(UserDto user) {
 		Set<Credential> credentials = new HashSet<Credential>();
 		for (ProfileDto profile : findById(user.getId()).getProfiles()) {

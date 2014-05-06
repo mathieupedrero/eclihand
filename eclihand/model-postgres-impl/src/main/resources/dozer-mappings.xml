@@ -86,7 +86,7 @@
   <mapping map-id="user"> 
     <class-a>com.pedrero.eclihand.model.domain.impl.UserImpl</class-a>
     <class-b>com.pedrero.eclihand.model.dto.UserDto</class-b>   
-    <field map-id="profile-light" remove-orphans="true">
+    <field map-id="profile" remove-orphans="true">
       <a>profiles</a>
       <b>profiles</b>
     </field>  
@@ -115,10 +115,10 @@
       <a>authorizations</a>
       <b>authorizations</b>
     </field>  
-    <field-exclude>
-      <a>otherProperties</a>
-      <b>otherProperties</b>
-    </field-exclude>
+<!--     <field-exclude> -->
+<!--       <a>otherProperties</a> -->
+<!--       <b>otherProperties</b> -->
+<!--     </field-exclude> -->
   </mapping>  
   <mapping map-id="profile-light"> 
     <class-a>com.pedrero.eclihand.model.domain.impl.ProfileImpl</class-a>
