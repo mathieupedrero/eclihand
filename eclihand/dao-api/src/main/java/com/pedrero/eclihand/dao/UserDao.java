@@ -7,4 +7,6 @@ public interface UserDao<T extends User> extends DataObjectDao<T> {
 
 	public User findByUserType(UserType userType);
 
+	public User findByLoginAndPassword(String login, String password);
+
 }

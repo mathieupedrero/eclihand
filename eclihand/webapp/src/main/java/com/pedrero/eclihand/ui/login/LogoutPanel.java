@@ -12,11 +12,16 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.model.domain.Credential;
+import com.pedrero.eclihand.service.UserService;
+import com.pedrero.eclihand.ui.Authentication;
+import com.pedrero.eclihand.ui.UIManager;
 import com.pedrero.eclihand.ui.panel.EclihandAbstractComponent;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Layout;
 
 @Component
@@ -42,12 +47,30 @@ public class LogoutPanel extends EclihandAbstractComponent {
 	@Resource
 	private EclihandUiFactory eclihandUiFactory;
 
+	@Resource
+	private UserService userService;
+
+	@Resource
+	private Authentication authentication;
+
+	@Resource
+	private UIManager uiManager;
+
 	@Override
 	@PostConstruct
 	public void postConstruct() {
 		Layout layout = eclihandLayoutFactory.createCommonFormLayout();
 		Button logOutButton = eclihandUiFactory.createButton();
 		logOutButton.setCaption(messageResolver.getMessage("login.log_out"));
+		logOutButton.addClickListener(new ClickListener() {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				authentication.setAuthenticatedUser(userService
+						.retrieveGuestUser());
+				uiManager.refreshFrameElements();
+			}
+		});
 		layout.addComponent(logOutButton);
 		this.addComponent(layout);
 	}

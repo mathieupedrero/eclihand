@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.pedrero.eclihand.converter.UserConverter;
 import com.pedrero.eclihand.dao.PlayerDao;
 import com.pedrero.eclihand.dao.UserDao;
+import com.pedrero.eclihand.model.domain.Authorization;
 import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.model.domain.Player;
+import com.pedrero.eclihand.model.domain.Profile;
 import com.pedrero.eclihand.model.domain.User;
 import com.pedrero.eclihand.model.domain.UserType;
-import com.pedrero.eclihand.model.dto.AuthorizationDto;
-import com.pedrero.eclihand.model.dto.ProfileDto;
 import com.pedrero.eclihand.model.dto.UserDto;
 import com.pedrero.eclihand.service.PlayerService;
 import com.pedrero.eclihand.service.UserService;
@@ -60,8 +60,8 @@ public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User>
 	@Transactional
 	public Set<Credential> retrieveCredentialsFor(UserDto user) {
 		Set<Credential> credentials = new HashSet<Credential>();
-		for (ProfileDto profile : findById(user.getId()).getProfiles()) {
-			for (AuthorizationDto authorization : profile.getAuthorizations()) {
+		for (Profile profile : getDao().findById(user.getId()).getProfiles()) {
+			for (Authorization authorization : profile.getAuthorizations()) {
 				credentials.add(authorization.getCredential());
 			}
 		}
@@ -73,6 +73,14 @@ public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User>
 	public UserDto retrieveGuestUser() {
 		User guestUser = getDao().findByUserType(UserType.GUEST);
 		return getConverter().convertToDto(guestUser);
+	}
+
+	@Override
+	@Transactional
+	public UserDto login(String login, String md5EncodedPassword) {
+		User loggedIn = getDao().findByLoginAndPassword(login,
+				md5EncodedPassword);
+		return loggedIn == null ? null : getConverter().convertToDto(loggedIn);
 	}
 
 }
