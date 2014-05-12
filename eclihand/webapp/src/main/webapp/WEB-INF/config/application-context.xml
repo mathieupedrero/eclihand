@@ -23,6 +23,9 @@
 	-->
 	<context:component-scan base-package="com.pedrero.eclihand" />
 
+	<!-- MenuBar Config import-->
+	<import resource="classpath:/config/menu-bar-application-context.xml"/>
+
 	<!-- Table Config import-->
 	<import resource="classpath:/config/table-config-application-context.xml"/>
 

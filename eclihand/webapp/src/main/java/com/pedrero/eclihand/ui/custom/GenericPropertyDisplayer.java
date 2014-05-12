@@ -2,12 +2,14 @@ package com.pedrero.eclihand.ui.custom;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
 import org.mvel2.MVEL;
 
 import com.pedrero.eclihand.controller.GenericPropertyDisplayerController;
+import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.ui.EntityDisplayerComponent;
 import com.pedrero.eclihand.ui.custom.config.PropertyConfig;
@@ -294,6 +296,12 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	public void setGenericPropertyDisplayerController(
 			GenericPropertyDisplayerController<T> genericPropertyDisplayerController) {
 		this.genericPropertyDisplayerController = genericPropertyDisplayerController;
+	}
+
+	@Override
+	public Set<Credential> getRequiredCredentials() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

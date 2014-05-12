@@ -1,7 +1,9 @@
 package com.pedrero.eclihand.ui.panel.entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -11,6 +13,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.controller.panel.TeamPanelController;
+import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.navigation.EclihandPlace;
@@ -129,6 +132,11 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 	@Override
 	public EclihandPlace retrieveAssociatedPlace() {
 		return teamPlace;
+	}
+
+	@Override
+	public Set<Credential> getRequiredCredentials() {
+		return new HashSet<Credential>();
 	}
 
 }

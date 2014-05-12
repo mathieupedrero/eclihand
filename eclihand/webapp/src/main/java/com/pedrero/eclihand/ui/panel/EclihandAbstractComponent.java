@@ -29,18 +29,10 @@ public abstract class EclihandAbstractComponent extends VerticalLayout
 				securityController, this));
 	}
 
-	private Set<Credential> requiredCredentials;
-
 	private ISecurityRule securityRule;
 
 	@Override
-	public Set<Credential> getRequiredCredentials() {
-		return requiredCredentials;
-	}
-
-	public void setRequiredCredentials(Set<Credential> requiredCredentials) {
-		this.requiredCredentials = requiredCredentials;
-	}
+	public abstract Set<Credential> getRequiredCredentials();
 
 	@Override
 	public ISecurityRule getSecurityRule() {
