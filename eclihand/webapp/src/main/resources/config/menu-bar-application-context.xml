@@ -12,10 +12,43 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+        
+        
+    <!-- Main Menu Bar -->
+	<bean id="mainMenuBar" class=" com.pedrero.eclihand.ui.menubar.MainMenuBar" scope="session">
+		<property name="menuItemModels">
+			<list>
+				<ref bean="homeMenuItemModel" />
+				<ref bean="teamsMenuItemModel" />
+				<ref bean="playersMenuItemModel" />
+				<ref bean="myAccountMenuItemModel" />
+			</list>
+		</property>
+    	
+    	<aop:scoped-proxy proxy-target-class="true"/>
+	</bean>
 	
-	<bean id="homeMenuItemModel" class=" com.pedrero.eclihand.ui.menubar.menuitem.EclihandMenuItemModel" scope="prototype">
+    <!-- Menu Items Configuration -->
+	<bean id="homeMenuItemModel" class=" com.pedrero.eclihand.ui.menubar.menuitem.EclihandMenuItemModel">
 		<property name="captionKey" value="common.home"/>
 		<property name="actionFragment" value="home"/>
+	</bean>
+	<bean id="teamsMenuItemModel" class=" com.pedrero.eclihand.ui.menubar.menuitem.EclihandMenuItemModel">
+		<property name="captionKey" value="common.teams"/>
+		<property name="actionFragment" value="teams"/>
+	</bean>
+	<bean id="playersMenuItemModel" class=" com.pedrero.eclihand.ui.menubar.menuitem.EclihandMenuItemModel">
+		<property name="captionKey" value="common.players"/>
+		<property name="actionFragment" value="players"/>
+	</bean>
+	<bean id="myAccountMenuItemModel" class=" com.pedrero.eclihand.ui.menubar.menuitem.EclihandMenuItemModel">
+		<property name="captionKey" value="common.my_account"/>
+		<property name="actionFragment" value="my-account"/>
+		<property name="requiredCredentials">
+			<set>
+				<value type="com.pedrero.eclihand.model.domain.Credential">OWN_ACCOUNT_MANAGEMENT</value>
+			</set>
+		</property>
 	</bean>
 	
 </beans>

@@ -62,6 +62,7 @@
 			<set>
             	<ref bean="leftScreen" />
             	<ref bean="headerPanel" />
+            	<ref bean="mainMenuBar" />
 			</set>
 		</property>
 		<aop:scoped-proxy proxy-target-class="true" />
