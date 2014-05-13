@@ -54,9 +54,6 @@ public class TeamsScreen extends EclihandViewImpl {
 
 	private Button createNewTeamButton;
 
-	@Value(value = "${main.panel.width}")
-	private String panelWidth;
-
 	/**
 	 * 
 	 */
@@ -67,7 +64,6 @@ public class TeamsScreen extends EclihandViewImpl {
 		LOGGER.info("initializing TeamsPanel");
 		this.setCaption(messageResolver.getMessage("teams.panel.title"));
 		Layout layout = eclihandLayoutFactory.createCommonVerticalLayout();
-		layout.setWidth(panelWidth);
 
 		this.setContent(layout);
 

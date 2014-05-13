@@ -31,7 +31,7 @@
     <!-- Menu Items Configuration -->
 	<bean id="homeMenuItemModel" class=" com.pedrero.eclihand.ui.menubar.menuitem.EclihandMenuItemModel">
 		<property name="captionKey" value="common.home"/>
-		<property name="actionFragment" value="home"/>
+		<property name="actionFragment" value="welcome"/>
 	</bean>
 	<bean id="teamsMenuItemModel" class=" com.pedrero.eclihand.ui.menubar.menuitem.EclihandMenuItemModel">
 		<property name="captionKey" value="common.teams"/>

@@ -3,6 +3,7 @@ package com.pedrero.eclihand.ui.panel;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 
@@ -19,7 +20,7 @@ public class BodyPanel extends Panel {
 	private Panel contentPanel;
 
 	@Resource
-	private HomeScreen homePanel;
+	private HomeScreen homeScreen;
 
 	@Resource
 	private LeftScreen leftScreen;
@@ -29,6 +30,9 @@ public class BodyPanel extends Panel {
 
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
+
+	@Value(value = "${main.panel.width}")
+	private String panelWidth;
 
 	private Layout layout;
 
@@ -43,10 +47,8 @@ public class BodyPanel extends Panel {
 		this.setContent(layout);
 		layout.addComponent(leftScreen);
 		layout.addComponent(contentPanel);
-		contentPanel.setCaption("TOTO");
-		Panel content = new Panel();
-		content.setCaption("First panel shown");
-		contentPanel.setContent(content);
+		contentPanel.setWidth(panelWidth);
+		contentPanel.setContent(homeScreen);
 		this.setCaption(messageResolver.getMessage("body.caption"));
 	}
 

@@ -4,15 +4,13 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.EclihandViewImpl;
-import com.pedrero.eclihand.navigation.places.WelcomePlace;
+import com.pedrero.eclihand.navigation.places.MyAccountPlace;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
@@ -21,7 +19,7 @@ import com.vaadin.ui.Layout;
 
 @Component
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
-public class HomeScreen extends EclihandViewImpl {
+public class MyAccountScreen extends EclihandViewImpl {
 
 	@Resource
 	private MessageResolver messageResolver;
@@ -33,7 +31,7 @@ public class HomeScreen extends EclihandViewImpl {
 	private EclihandUiFactory eclihandUiFactory;
 
 	@Resource
-	private WelcomePlace welcomePlace;
+	private MyAccountPlace myAccountPlace;
 
 	@Resource
 	private BeanFactory beanFactory;
@@ -48,10 +46,11 @@ public class HomeScreen extends EclihandViewImpl {
 	private void init() {
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		Label label = eclihandUiFactory.createLabel();
-		label.setValue("Accueil");
+		String title = messageResolver.getMessage("my_account.caption");
+		label.setValue(title);
 		layout.addComponent(label);
 		this.setContent(layout);
-		this.setCaption(messageResolver.getMessage("home.caption"));
+		this.setCaption(title);
 
 	}
 
@@ -62,7 +61,7 @@ public class HomeScreen extends EclihandViewImpl {
 
 	@Override
 	public EclihandPlace retrieveAssociatedPlace() {
-		return welcomePlace;
+		return myAccountPlace;
 	}
 
 }

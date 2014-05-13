@@ -12,6 +12,8 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.model.domain.Credential;
+import com.pedrero.eclihand.navigation.EclihandNavigator;
+import com.pedrero.eclihand.navigation.places.WelcomePlace;
 import com.pedrero.eclihand.service.UserService;
 import com.pedrero.eclihand.ui.Authentication;
 import com.pedrero.eclihand.ui.UIManager;
@@ -56,6 +58,12 @@ public class LogoutPanel extends EclihandAbstractComponent {
 	@Resource
 	private UIManager uiManager;
 
+	@Resource
+	private EclihandNavigator eclihandNavigator;
+
+	@Resource
+	private WelcomePlace welcomePlace;
+
 	@Override
 	@PostConstruct
 	public void postConstruct() {
@@ -64,11 +72,17 @@ public class LogoutPanel extends EclihandAbstractComponent {
 		logOutButton.setCaption(messageResolver.getMessage("login.log_out"));
 		logOutButton.addClickListener(new ClickListener() {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -6743298776085934799L;
+
 			@Override
 			public void buttonClick(ClickEvent event) {
 				authentication.setAuthenticatedUser(userService
 						.retrieveGuestUser());
 				uiManager.refreshFrameElements();
+				eclihandNavigator.navigateTo(welcomePlace);
 			}
 		});
 		layout.addComponent(logOutButton);

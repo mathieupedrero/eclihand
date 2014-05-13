@@ -38,6 +38,12 @@
 					</property>
 				</bean>
 				<bean class="com.pedrero.eclihand.navigation.EcliViewProvider">
+					<property name="viewName" value="my-account" />
+					<property name="viewClass">
+						<value type="java.lang.Class">com.pedrero.eclihand.ui.panel.MyAccountScreen</value>
+					</property>
+				</bean>
+				<bean class="com.pedrero.eclihand.navigation.EcliViewProvider">
 					<property name="viewName" value="player" />
 					<property name="viewClass">
 						<value type="java.lang.Class">com.pedrero.eclihand.ui.panel.entity.PlayerPanel</value>
