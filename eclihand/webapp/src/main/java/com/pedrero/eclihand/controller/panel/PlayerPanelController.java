@@ -9,13 +9,11 @@ import org.springframework.stereotype.Controller;
 import com.pedrero.eclihand.controller.EntityDisplayerPanelController;
 import com.pedrero.eclihand.model.dto.PersonDto;
 import com.pedrero.eclihand.model.dto.PlayerDto;
-import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.navigation.EclihandNavigator;
 import com.pedrero.eclihand.navigation.places.PlayerPlace;
 import com.pedrero.eclihand.service.PlayerService;
 import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
 import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
-import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 
 @Controller
@@ -38,9 +36,9 @@ public class PlayerPanelController extends AbstractEntityController implements
 
 	@Resource
 	private GenericPropertyDisplayer<PlayerDto> playerPropertyDisplayer;
-
-	@Resource(name = "teamTableForPlayerPanel")
-	private GenericTable<TeamDto> teamTable;
+	//
+	// @Resource(name = "teamTableForPlayerPanel")
+	// private GenericTable<TeamDto> teamTable;
 
 	@Resource
 	private EclihandNavigator navigator;

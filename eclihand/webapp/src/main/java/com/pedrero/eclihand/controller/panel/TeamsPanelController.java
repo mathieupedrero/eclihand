@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.pedrero.eclihand.controller.EclihandController;
@@ -11,6 +12,7 @@ import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.service.TeamService;
 
 @Controller
+@Scope(value = "prototype")
 public class TeamsPanelController implements EclihandController {
 	/**
 	 * 

@@ -2,6 +2,7 @@ package com.pedrero.eclihand.controller.action;
 
 import javax.annotation.Resource;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.navigation.EclihandNavigator;
@@ -9,6 +10,7 @@ import com.pedrero.eclihand.navigation.places.PlayerPlace;
 import com.pedrero.eclihand.ui.table.config.ITableAction;
 
 @Component
+@Scope(value = "prototype")
 public class GoToPlayerAction implements ITableAction {
 
 	@Resource

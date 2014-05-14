@@ -5,7 +5,6 @@ import javax.annotation.Resource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.pedrero.eclihand.controller.EntityDisplayerPanelController;
 import com.pedrero.eclihand.model.dto.TeamDto;
@@ -18,7 +17,7 @@ import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 
 @Controller
-@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Scope(proxyMode = ScopedProxyMode.NO, value = "prototype")
 public class TeamPanelController extends AbstractEntityController implements
 		EntityDisplayerPanelController<TeamDto>, UpdatableContentController {
 
@@ -44,11 +43,9 @@ public class TeamPanelController extends AbstractEntityController implements
 
 	private TeamDto team;
 
-	@Transactional
 	public void display(Long entityId) {
 		TeamDto entity = teamService.findTeamToDisplay(entityId);
 		team = entity;
-		makeReadOnly();
 		teamPlace.setId(entityId);
 		teamPlace.setUpdateMode(false);
 		navigator.navigateTo(teamPlace);

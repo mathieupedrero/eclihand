@@ -60,6 +60,7 @@ public class TeamServiceImpl extends DataObjectServiceImpl<TeamDto, Team>
 	}
 
 	@Override
+	@Transactional
 	public TeamDto findTeamToDisplay(Long id) {
 		Team entity = teamDao.findById(id);
 		TeamDto toReturn = teamConverter.convertToDto(entity);

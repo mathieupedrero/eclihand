@@ -19,27 +19,19 @@
 	
 	<bean id="teamTableForTeamsPanel" parent="teamTablePrototype" scope="prototype">
 		<property name="genericTableController" ref="teamTableControllerPrototype"/>
-    	
-    	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
 	
 	<bean id="teamTableForPlayerPanel" parent="teamTablePrototype" scope="prototype">
 		<property name="genericTableController" ref="teamTableControllerPrototype"/>
-    	
-    	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
 	
 	<bean id="playerTable" class="com.pedrero.eclihand.ui.table.GenericTable" scope="prototype">
 		<property name="tableConfig" ref="playerTableConfig"/>
 		<property name="genericTableController" ref="playerTableController"/>
-    	
-    	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
 	
 	<bean id="playerTableSelectOne" class="com.pedrero.eclihand.ui.table.GenericTable" scope="prototype">
 		<property name="tableConfig" ref="searchPlayerTableConfigOneSelect"/>
-    	
-    	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
 	
 	<bean id="pickingTeamTable" class="com.pedrero.eclihand.ui.table.GenericTable" scope="prototype">

@@ -7,10 +7,8 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.controller.panel.TeamsPanelController;
@@ -23,10 +21,10 @@ import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.Button.ClickEvent;
 
 @Component
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
@@ -71,29 +69,28 @@ public class TeamsScreen extends EclihandViewImpl {
 		label.setValue("Teams");
 		layout.addComponent(label);
 
-		 this.createNewTeamButton = eclihandUiFactory.createButton();
-		 this.createNewTeamButton.setCaption(messageResolver
-		 .getMessage("players.create.new"));
-		
-		 this.createNewTeamButton.addClickListener(new ClickListener() {
-		
-		 /**
+		this.createNewTeamButton = eclihandUiFactory.createButton();
+		this.createNewTeamButton.setCaption(messageResolver
+				.getMessage("players.create.new"));
+
+		this.createNewTeamButton.addClickListener(new ClickListener() {
+
+			/**
 		 *
 		 */
-		 private static final long serialVersionUID = -7117656998497854385L;
-		
-		 @Override
-		 public void buttonClick(ClickEvent event) {
-		 teamsPanelController.openNewTeamForm();
-		
-		 }
-		 });
-		
-		 // FIXME : Ajout de la table des équipes
-		 // layout.addComponent(teamTable);
-		 layout.addComponent(createNewTeamButton);
-		
-		 teamTable.feed(teamsPanelController.searchTeamsToDisplay());
+			private static final long serialVersionUID = -7117656998497854385L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				teamsPanelController.openNewTeamForm();
+
+			}
+		});
+
+		layout.addComponent(teamTable);
+		layout.addComponent(createNewTeamButton);
+
+		teamTable.feed(teamsPanelController.searchTeamsToDisplay());
 
 		this.setCaption(messageResolver.getMessage("home.caption"));
 	}
