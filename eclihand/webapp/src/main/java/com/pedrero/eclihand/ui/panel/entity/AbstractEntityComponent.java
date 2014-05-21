@@ -113,9 +113,9 @@ public abstract class AbstractEntityComponent extends EclihandAbstractComponent
 			@Override
 			public void buttonClick(ClickEvent event) {
 				if (updatable) {
-					getController().makeReadOnly();
+					makeReadOnly();
 				} else {
-					getController().makeUpdatable();
+					makeUpdatable();
 				}
 			}
 		});
@@ -131,8 +131,8 @@ public abstract class AbstractEntityComponent extends EclihandAbstractComponent
 			@Override
 			public void buttonClick(ClickEvent event) {
 				if (updatable) {
-					getController().validateChanges();
-					getController().makeReadOnly();
+					validateChanges();
+					makeReadOnly();
 				}
 			}
 		});
@@ -148,11 +148,15 @@ public abstract class AbstractEntityComponent extends EclihandAbstractComponent
 			@Override
 			public void buttonClick(ClickEvent event) {
 				if (updatable) {
-					getController().delete();
+					delete();
 				}
 			}
 		});
 	}
+
+	public abstract void delete();
+
+	public abstract void validateChanges();
 
 	@Override
 	public void makeUpdatable() {

@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.mvel2.MVEL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -417,6 +418,7 @@ public class GenericTable<T extends DataObjectDto> extends
 		this.genericTableController = genericTableController;
 	}
 
+	@Override
 	public void validateChanges() {
 		getGenericTableController().validateChanges();
 	}
@@ -483,5 +485,10 @@ public class GenericTable<T extends DataObjectDto> extends
 	@Override
 	public Set<Credential> getRequiredCredentials() {
 		return new HashSet<Credential>();
+	}
+
+	@Override
+	public void delete() {
+		throw new NotImplementedException();
 	}
 }

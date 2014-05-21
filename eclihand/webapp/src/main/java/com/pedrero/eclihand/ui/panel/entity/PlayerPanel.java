@@ -154,4 +154,25 @@ public class PlayerPanel extends AbstractEntityViewPanel implements
 		return new HashSet<Credential>();
 	}
 
+	@Override
+	public void delete() {
+		// playerService.delete(player);
+		// bodyPanelController.showHomePanel();
+	}
+
+	@Override
+	public void validateChanges() {
+		// playerPanel.getPlayerPropertyDisplayer().validateChanges();
+		// playerPanel.getTeamTable().validateChanges();
+		// Set<TeamDto> teamList = new
+		// HashSet<TeamDto>(playerPanel.getTeamTable()
+		// .retrieveData());
+		// player.setTeams(teamList);
+		// if (player.getId() != null) {
+		// playerService.update(player);
+		// } else {
+		// playerService.save(player);
+		// }
+	}
+
 }

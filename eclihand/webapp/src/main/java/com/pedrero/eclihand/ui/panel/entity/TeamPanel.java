@@ -94,12 +94,12 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 
 	@Override
 	protected void postConstruct() {
+		layout = eclihandLayoutFactory.createCommonVerticalLayout();
+
 		super.postConstruct();
 		contentDisplayers = new ArrayList<UpdatableContentDisplayer>();
 		contentDisplayers.add(teamPropertyDisplayer);
 		contentDisplayers.add(playerTable);
-
-		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 
 		layout.addComponent(teamPropertyDisplayer);
 		layout.addComponent(playerTable);
@@ -124,6 +124,7 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 		return layout;
 	}
 
+	@Override
 	public void validateChanges() {
 	}
 
@@ -135,6 +136,12 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 	@Override
 	public Set<Credential> getRequiredCredentials() {
 		return new HashSet<Credential>();
+	}
+
+	@Override
+	public void delete() {
+		// teamService.delete(team);
+		// navigator.navigateTo(welcomePlace);
 	}
 
 }

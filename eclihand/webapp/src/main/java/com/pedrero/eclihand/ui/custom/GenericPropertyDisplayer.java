@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.mvel2.MVEL;
 
 import com.pedrero.eclihand.controller.GenericPropertyDisplayerController;
@@ -82,12 +83,12 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 
 	@Override
 	protected void postConstruct() {
+		Integer rowNumber = getConfig().getProperties().size();
+		layout = eclihandLayoutFactory.createCommonGridLayout(2, rowNumber + 1);
 		super.postConstruct();
 		setShowButtons(config.getShowsEditButtons());
 		setShowDeleteButton(false);
 
-		Integer rowNumber = getConfig().getProperties().size();
-		layout = eclihandLayoutFactory.createCommonGridLayout(2, rowNumber + 1);
 		this.addComponent(layout);
 
 		Integer currentRow = 0;
@@ -255,6 +256,7 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 		this.makeUpdatable();
 	}
 
+	@Override
 	public void validateChanges() {
 		Integer currentRow = 0;
 		for (PropertyConfig property : getConfig().getProperties()) {
@@ -300,8 +302,12 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 
 	@Override
 	public Set<Credential> getRequiredCredentials() {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void delete() {
+		throw new NotImplementedException();
 	}
 
 }

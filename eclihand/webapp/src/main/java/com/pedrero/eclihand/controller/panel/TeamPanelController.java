@@ -2,8 +2,6 @@ package com.pedrero.eclihand.controller.panel;
 
 import javax.annotation.Resource;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
 
 import com.pedrero.eclihand.controller.EntityDisplayerPanelController;
@@ -17,7 +15,6 @@ import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 
 @Controller
-@Scope(proxyMode = ScopedProxyMode.NO, value = "prototype")
 public class TeamPanelController extends AbstractEntityController implements
 		EntityDisplayerPanelController<TeamDto>, UpdatableContentController {
 
