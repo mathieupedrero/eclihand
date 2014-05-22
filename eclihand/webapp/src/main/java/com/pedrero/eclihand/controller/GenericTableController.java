@@ -20,20 +20,14 @@ public class GenericTableController<T extends DataObjectDto> extends
 	 */
 	private static final long serialVersionUID = 5326406973664925578L;
 
-	private DataObjectService<T> service;
-
-	private GenericSearchModalWindowController<T> genericSearchModalWindowController;
-
 	public DataObjectService<T> getService() {
-		return service;
+		return null;
 	}
 
 	public void setService(DataObjectService<T> service) {
-		this.service = service;
 	}
 
 	public void openPlayerSearchModalWindow() {
-		genericSearchModalWindowController.openWindow();
 	}
 
 	@Override
@@ -61,7 +55,7 @@ public class GenericTableController<T extends DataObjectDto> extends
 	 * @return the search controller to add entities to the monitored list.
 	 */
 	public GenericSearchModalWindowController<T> getGenericSearchModalWindowController() {
-		return genericSearchModalWindowController;
+		return null;
 	}
 
 	/**
@@ -71,7 +65,6 @@ public class GenericTableController<T extends DataObjectDto> extends
 	 */
 	public void setGenericSearchModalWindowController(
 			GenericSearchModalWindowController<T> genericSearchModalWindowController) {
-		this.genericSearchModalWindowController = genericSearchModalWindowController;
 	}
 
 	@Override

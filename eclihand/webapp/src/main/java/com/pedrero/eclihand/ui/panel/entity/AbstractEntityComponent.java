@@ -216,8 +216,6 @@ public abstract class AbstractEntityComponent extends EclihandAbstractComponent
 
 	public abstract List<UpdatableContentDisplayer> getContentDisplayers();
 
-	public abstract UpdatableContentController getController();
-
 	public abstract Layout getMainLayout();
 
 	/**

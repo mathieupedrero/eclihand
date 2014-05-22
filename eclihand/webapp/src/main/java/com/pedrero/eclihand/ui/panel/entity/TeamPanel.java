@@ -115,11 +115,6 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 	}
 
 	@Override
-	public UpdatableContentController getController() {
-		return teamPanelController;
-	}
-
-	@Override
 	public Layout getMainLayout() {
 		return layout;
 	}

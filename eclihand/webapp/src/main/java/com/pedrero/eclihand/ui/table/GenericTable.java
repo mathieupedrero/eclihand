@@ -17,8 +17,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.pedrero.eclihand.controller.GenericTableController;
+import com.pedrero.eclihand.controller.window.GenericSearchModalWindowController;
 import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
+import com.pedrero.eclihand.service.DataObjectService;
 import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
 import com.pedrero.eclihand.ui.table.config.TableColumnConfig;
 import com.pedrero.eclihand.ui.table.config.TableConfig;
@@ -37,7 +39,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Table;
 
-public class GenericTable<T extends DataObjectDto> extends
+public abstract class GenericTable<T extends DataObjectDto> extends
 		AbstractEntityComponent implements UpdatableContentDisplayer {
 
 	private final static Logger LOGGER = LoggerFactory
@@ -65,8 +67,6 @@ public class GenericTable<T extends DataObjectDto> extends
 
 	private TableConfig tableConfig;
 
-	private GenericTableController<T> genericTableController;
-
 	/**
 	 * Button to remove all data from dataTable
 	 */
@@ -78,6 +78,10 @@ public class GenericTable<T extends DataObjectDto> extends
 	private Button add;
 
 	private Layout layout;
+
+	private DataObjectService<T> service;
+
+	private GenericSearchModalWindowController<T> genericSearchModalWindowController;
 
 	/**
 	 * 
@@ -145,9 +149,7 @@ public class GenericTable<T extends DataObjectDto> extends
 			@Override
 			public void buttonClick(ClickEvent event) {
 				if (getUpdatable()) {
-					getGenericTableController()
-							.getGenericSearchModalWindowController()
-							.openWindow();
+					//openSearchWindow();
 				}
 			}
 		});
@@ -409,20 +411,6 @@ public class GenericTable<T extends DataObjectDto> extends
 		this.tableConfig = tableConfig;
 	}
 
-	public GenericTableController<T> getGenericTableController() {
-		return genericTableController;
-	}
-
-	public void setGenericTableController(
-			GenericTableController<T> genericTableController) {
-		this.genericTableController = genericTableController;
-	}
-
-	@Override
-	public void validateChanges() {
-		getGenericTableController().validateChanges();
-	}
-
 	public Collection<T> retrieveData() {
 		return initialDataObjectsList;
 	}
@@ -473,11 +461,6 @@ public class GenericTable<T extends DataObjectDto> extends
 	}
 
 	@Override
-	public UpdatableContentController getController() {
-		return genericTableController;
-	}
-
-	@Override
 	public Layout getMainLayout() {
 		return layout;
 	}
@@ -490,5 +473,11 @@ public class GenericTable<T extends DataObjectDto> extends
 	@Override
 	public void delete() {
 		throw new NotImplementedException();
+	}
+
+	@Override
+	public void validateChanges() {
+		// TODO Auto-generated method stub
+		
 	}
 }
