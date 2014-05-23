@@ -18,7 +18,7 @@ import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.places.TeamPlace;
 import com.pedrero.eclihand.ui.EntityDisplayerPanelComponent;
 import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
-import com.pedrero.eclihand.ui.table.AbstractGenericTable;
+import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
 import com.pedrero.eclihand.utils.text.MessageResolver;
@@ -39,7 +39,7 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 	private GenericPropertyDisplayer<TeamDto> teamPropertyDisplayer;
 
 	@Resource
-	private AbstractGenericTable<PlayerDto> playerTable;
+	private GenericTable<PlayerDto> playerTable;
 
 	@Resource
 	private TeamPanelController teamPanelController;
@@ -76,7 +76,7 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 	/**
 	 * @return the playerTable
 	 */
-	public AbstractGenericTable<PlayerDto> getPlayerTable() {
+	public GenericTable<PlayerDto> getPlayerTable() {
 		return playerTable;
 	}
 
@@ -84,7 +84,7 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 	 * @param playerTable
 	 *            the playerTable to set
 	 */
-	public void setPlayerTable(AbstractGenericTable<PlayerDto> playerTable) {
+	public void setPlayerTable(GenericTable<PlayerDto> playerTable) {
 		this.playerTable = playerTable;
 	}
 

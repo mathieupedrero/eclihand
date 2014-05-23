@@ -18,16 +18,13 @@
 	</bean>
 	
 	<bean id="teamTableForTeamsPanel" parent="teamTablePrototype" scope="prototype">
-		<property name="genericTableController" ref="teamTableControllerPrototype"/>
 	</bean>
 	
 	<bean id="teamTableForPlayerPanel" parent="teamTablePrototype" scope="prototype">
-		<property name="genericTableController" ref="teamTableControllerPrototype"/>
 	</bean>
 	
 	<bean id="playerTable" class="com.pedrero.eclihand.ui.table.GenericTable" scope="prototype">
 		<property name="tableConfig" ref="playerTableConfig"/>
-		<property name="genericTableController" ref="playerTableController"/>
 	</bean>
 	
 	<bean id="playerTableSelectOne" class="com.pedrero.eclihand.ui.table.GenericTable" scope="prototype">
@@ -44,16 +41,6 @@
 		<property name="tableConfig" ref="searchPlayerTableConfigOneSelect"/>
     	
     	<aop:scoped-proxy proxy-target-class="true"/>
-	</bean>
-	
-	<bean id="teamTableControllerPrototype" class="com.pedrero.eclihand.controller.GenericTableController" scope="prototype">
-		<property name="service" ref="teamServiceImpl"/>
-		<property name="genericSearchModalWindowController" ref="pickingTeamSearchModalWindowController"/>
-	</bean>
-	
-	<bean id="playerTableController" class="com.pedrero.eclihand.controller.GenericTableController"  scope="prototype">
-		<property name="service" ref="playerServiceImpl"/>
-		<property name="genericSearchModalWindowController" ref="pickingPlayerSearchModalWindowController"/>
 	</bean>
 	
 </beans>

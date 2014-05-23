@@ -45,10 +45,6 @@
 	<import resource="classpath:/config/search-modal-windows-application-context.xml"/>
 
 
-	<!-- Controllers for search modal windows import-->
-	<import resource="classpath:/config/search-modal-windows-controllers-application-context.xml"/>
-
-
 	<!-- UI Callbacks import-->
 	<import resource="classpath:/config/ui-callbacks-application-context.xml"/>
 

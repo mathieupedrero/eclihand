@@ -85,6 +85,6 @@ public class TeamPanelController extends AbstractEntityController implements
 
 	@Override
 	public TeamDto giveEntity() {
-		return teamService.findById(teamPlace.getId());
+		return teamService.findTeamToDisplay(teamPlace.getId());
 	}
 }

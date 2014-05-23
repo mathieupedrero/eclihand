@@ -2,6 +2,8 @@ package com.pedrero.eclihand.controller.panel;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.pedrero.eclihand.controller.EclihandController;
@@ -13,6 +15,7 @@ import com.pedrero.eclihand.navigation.places.TeamsPlace;
 import com.pedrero.eclihand.navigation.places.WelcomePlace;
 
 @Controller
+@Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
 public class BodyPanelController implements EclihandController {
 	/**
 	 * 

@@ -144,9 +144,7 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 					property);
 			currentRow++;
 		}
-		if (displayed != null) {
-			display(displayed);
-		}
+		display(displayed);
 		super.makeUpdatable();
 	}
 
@@ -171,9 +169,7 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	@Override
 	public void makeReadOnly() {
 		setUpdatable(false);
-		if (displayed != null) {
-			display(displayed);
-		}
+		display(displayed);
 		super.makeReadOnly();
 
 	}

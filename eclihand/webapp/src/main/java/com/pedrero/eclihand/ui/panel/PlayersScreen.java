@@ -7,18 +7,24 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.pedrero.eclihand.model.dto.PlayerDto;
+import com.pedrero.eclihand.navigation.EclihandNavigator;
 import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.EclihandViewImpl;
+import com.pedrero.eclihand.navigation.places.PlayerPlace;
 import com.pedrero.eclihand.navigation.places.PlayersPlace;
+import com.pedrero.eclihand.service.PlayerService;
 import com.pedrero.eclihand.utils.spring.EclihandBeanFactory;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
+import com.pedrero.eclihand.utils.ui.UICallback;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.Window;
 
 @Component(value = "playersScreen")
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
@@ -43,7 +49,16 @@ public class PlayersScreen extends EclihandViewImpl {
 	private PlayersPlace playersPlace;
 
 	@Resource
+	private PlayerPlace playerPlace;
+
+	@Resource
 	private EclihandBeanFactory beanFactory;
+
+	@Resource
+	private PlayerService playerService;
+
+	@Resource
+	private EclihandNavigator navigator;
 
 	/**
 	 * 
@@ -78,7 +93,16 @@ public class PlayersScreen extends EclihandViewImpl {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				// getUI().addWindow(beanFactory.getBean());
+				getUI().addWindow(
+						(Window) beanFactory.getBean("playerSearchModalWindow",
+								new UICallback<PlayerDto>() {
+
+									@Override
+									public void execute(PlayerDto dataObject) {
+										playerPlace.setId(dataObject.getId());
+										navigator.navigateTo(playerPlace);
+									}
+								}, playerService));
 
 			}
 		});

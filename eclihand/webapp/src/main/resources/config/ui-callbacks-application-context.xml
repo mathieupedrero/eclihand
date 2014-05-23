@@ -15,11 +15,4 @@
 
 
 	
-	<bean id="teamPickupUiCallback" class="com.pedrero.eclihand.utils.ui.impl.DTOPickupUICallback">
-    	<property name="dtoConsumer" ref="teamTableControllerPrototype"/>
-	</bean>
-	
-	<bean id="playerPickupUiCallback" class="com.pedrero.eclihand.utils.ui.impl.DTOPickupUICallback">
-    	<property name="dtoConsumer" ref="playerTableController"/>
-	</bean>
 </beans>

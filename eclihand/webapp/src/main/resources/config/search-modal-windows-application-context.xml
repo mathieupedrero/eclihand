@@ -14,17 +14,14 @@
         http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 	
-	<bean id="playerSearchModalWindow" class="com.pedrero.eclihand.ui.window.GenericSearchModalWindow" scope="prototype">
+	<bean id="playerSearchModalWindow" class="com.pedrero.eclihand.ui.window.impl.SinglePlayerSearchModalWindow" scope="prototype">
 		<property name="id" value="playerSearchModalWindow"/>
     	<property name="displayGenericTable" ref="playerTableSelectOne" />
-    	<property name="searchModalWindowController" ref="playerSearchModalWindowController" />
     	<property name="captionKey" value="search.players" />
     	<property name="titleKey" value="search.players" />
     	<property name="cancelButtonKey" value="common.cancel" />
     	<property name="validateButtonKey" value="common.lets.go" />
     	<property name="searchButtonKey" value="common.search" />
-    	
-    	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
 	
 	<bean id="pickingPlayerSearchModalWindow" class="com.pedrero.eclihand.ui.window.GenericSearchModalWindow" scope="prototype">
@@ -36,8 +33,6 @@
     	<property name="cancelButtonKey" value="common.cancel" />
     	<property name="validateButtonKey" value="common.lets.go" />
     	<property name="searchButtonKey" value="common.search" />
-    	
-    	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
 	
 	<bean id="pickingTeamSearchModalWindow" class="com.pedrero.eclihand.ui.window.GenericSearchModalWindow" scope="prototype">
@@ -49,8 +44,6 @@
     	<property name="cancelButtonKey" value="common.cancel" />
     	<property name="validateButtonKey" value="common.lets.go" />
     	<property name="searchButtonKey" value="common.search" />
-    	
-    	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
 	
 </beans>

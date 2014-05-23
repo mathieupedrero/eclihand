@@ -6,10 +6,13 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.service.DataObjectService;
-import com.pedrero.eclihand.ui.table.AbstractGenericTable;
+import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.Identifiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
@@ -29,6 +32,8 @@ import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
 
+@Component
+@Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
 public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 		Window implements Identifiable, InitializingBean {
 
@@ -60,7 +65,7 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 
 	private ProgressIndicator progressIndicator;
 
-	private AbstractGenericTable<T> displayGenericTable;
+	private GenericTable<T> displayGenericTable;
 
 	// Fields fed by spring configuration
 
@@ -87,7 +92,8 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 		this.service = service;
 	}
 
-	private void init() {
+	@Override
+	public void afterPropertiesSet() throws Exception {
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		this.setContent(layout);
 		this.setModal(true);
@@ -223,12 +229,11 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 				messageResolver.getMessage(searchButtonKey));
 	}
 
-	public AbstractGenericTable<T> getDisplayGenericTable() {
+	public GenericTable<T> getDisplayGenericTable() {
 		return displayGenericTable;
 	}
 
-	public void setDisplayGenericTable(
-			AbstractGenericTable<T> displayGenericTable) {
+	public void setDisplayGenericTable(GenericTable<T> displayGenericTable) {
 		this.displayGenericTable = displayGenericTable;
 	}
 
@@ -326,11 +331,6 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 		} else if (!getId().equals(other.getId()))
 			return false;
 		return true;
-	}
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		init();
 	}
 
 }

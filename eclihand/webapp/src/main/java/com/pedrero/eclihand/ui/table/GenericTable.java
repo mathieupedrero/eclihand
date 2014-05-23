@@ -39,11 +39,11 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Table;
 
-public abstract class AbstractGenericTable<T extends DataObjectDto> extends
+public class GenericTable<T extends DataObjectDto> extends
 		AbstractEntityComponent implements UpdatableContentDisplayer {
 
 	private final static Logger LOGGER = LoggerFactory
-			.getLogger(AbstractGenericTable.class);
+			.getLogger(GenericTable.class);
 
 	private Table dataTable;
 
@@ -110,8 +110,7 @@ public abstract class AbstractGenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Refreshes visibility and accessibility for the
-	 * {@link AbstractGenericTable}
+	 * Refreshes visibility and accessibility for the {@link GenericTable}
 	 */
 	public void refreshButtonsState() {
 		removeAll.setVisible(getUpdatable());
@@ -169,7 +168,7 @@ public abstract class AbstractGenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Initializes the {@link AbstractGenericTable} (creates columns...).
+	 * Initializes the {@link GenericTable} (creates columns...).
 	 */
 	public void dataTableInit() {
 		LOGGER.debug("initializing Table for [{}]", getTableConfig()
@@ -208,7 +207,7 @@ public abstract class AbstractGenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Adds {@link DataObjectDto} to the {@link AbstractGenericTable}.
+	 * Adds {@link DataObjectDto} to the {@link GenericTable}.
 	 * 
 	 * @param object
 	 *            the {@link DataObjectDto} to add
@@ -231,17 +230,15 @@ public abstract class AbstractGenericTable<T extends DataObjectDto> extends
 		for (final TableColumnConfig columnConfig : getTableConfig()
 				.getColumnConfigs()) {
 			Object value = MVEL.eval(columnConfig.getValuePath(), object);
-			String displayedValue = value.toString();
 
 			if (columnConfig.getFormatter() != null) {
-				displayedValue = columnConfig.getFormatter()
-						.convertToPresentation(value, String.class,
-								localeContainer.getLocale());
+				value = columnConfig.getFormatter().convertToPresentation(
+						value, String.class, localeContainer.getLocale());
 			}
 
 			// Gathering information for description computing
 			if (columnConfig.getIsDescriptionParam()) {
-				descriptionParams.add(displayedValue);
+				descriptionParams.add(value);
 			}
 
 			if (columnConfig.getAction() != null
@@ -250,7 +247,7 @@ public abstract class AbstractGenericTable<T extends DataObjectDto> extends
 				// adds a button link as data
 
 				Button linkButton = eclihandUiFactory.createLinkButton();
-				linkButton.setCaption(displayedValue.toString());
+				linkButton.setCaption(value.toString());
 				linkButton.setData(object.getId());
 
 				linkButton.addClickListener(new Button.ClickListener() {
@@ -278,8 +275,7 @@ public abstract class AbstractGenericTable<T extends DataObjectDto> extends
 				item.getItemProperty(columnConfig.getId()).setValue(linkButton);
 			} else {
 				// else adds raw data
-				item.getItemProperty(columnConfig.getId()).setValue(
-						displayedValue);
+				item.getItemProperty(columnConfig.getId()).setValue(value);
 			}
 
 		}
@@ -316,11 +312,10 @@ public abstract class AbstractGenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Adds many {@link DataObjectDto} to this {@link AbstractGenericTable}.
+	 * Adds many {@link DataObjectDto} to this {@link GenericTable}.
 	 * 
 	 * @param objects
-	 *            The {@link DataObjectDto} to add to the
-	 *            {@link AbstractGenericTable}
+	 *            The {@link DataObjectDto} to add to the {@link GenericTable}
 	 */
 	public void add(Iterable<T> objects) {
 		if (objects != null) {
@@ -333,12 +328,12 @@ public abstract class AbstractGenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Initializes data of the {@link AbstractGenericTable} feeding it with the
+	 * Initializes data of the {@link GenericTable} feeding it with the
 	 * submitted objects.
 	 * 
 	 * @param objects
 	 *            the {@link DataObjectDto} to initialize with the
-	 *            {@link AbstractGenericTable}
+	 *            {@link GenericTable}
 	 */
 	public void feed(Collection<T> objects) {
 		LOGGER.debug("feeding table with object list ({} elements)",
@@ -348,7 +343,7 @@ public abstract class AbstractGenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Removes an element from the {@link AbstractGenericTable}.
+	 * Removes an element from the {@link GenericTable}.
 	 * 
 	 * @param object
 	 *            the {@link DataObjectDto} to remove
@@ -359,7 +354,7 @@ public abstract class AbstractGenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Removes many {@link DataObjectDto} from the {@link AbstractGenericTable}.
+	 * Removes many {@link DataObjectDto} from the {@link GenericTable}.
 	 * 
 	 * @param objects
 	 *            the {@link DataObjectDto}s to remove
@@ -371,7 +366,7 @@ public abstract class AbstractGenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Clears the {@link AbstractGenericTable} from its contained objects.
+	 * Clears the {@link GenericTable} from its contained objects.
 	 */
 	public void removeAllDataObjects() {
 		container.removeAllItems();
@@ -379,8 +374,8 @@ public abstract class AbstractGenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Refreshes the {@link AbstractGenericTable} with the initial
-	 * {@link DataObjectDto} list.
+	 * Refreshes the {@link GenericTable} with the initial {@link DataObjectDto}
+	 * list.
 	 */
 	public void refreshData() {
 		LOGGER.debug("Data table refresh");
@@ -389,7 +384,7 @@ public abstract class AbstractGenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Commits the modifications made to the {@link AbstractGenericTable} data.
+	 * Commits the modifications made to the {@link GenericTable} data.
 	 */
 	public void saveData() {
 		List<T> entityDisplayed = new ArrayList<T>();
@@ -403,7 +398,7 @@ public abstract class AbstractGenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Retrieves the {@link AbstractGenericTable} selection
+	 * Retrieves the {@link GenericTable} selection
 	 * 
 	 * @return
 	 */
