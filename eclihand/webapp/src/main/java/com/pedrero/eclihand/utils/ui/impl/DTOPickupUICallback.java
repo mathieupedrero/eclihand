@@ -17,11 +17,6 @@ public class DTOPickupUICallback<T extends DataObjectDto> implements
 		dtoConsumer.consume(dataObject);
 	}
 
-	@Override
-	public void execute(Iterable<T> dataObjectList) {
-		dtoConsumer.consume(dataObjectList);
-	}
-
 	public IDTOConsumer<T> getDtoConsumer() {
 		return dtoConsumer;
 	}

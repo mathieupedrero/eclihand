@@ -16,22 +16,22 @@ import org.mvel2.MVEL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.pedrero.eclihand.controller.GenericTableController;
-import com.pedrero.eclihand.controller.window.GenericSearchModalWindowController;
 import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.service.DataObjectService;
 import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
 import com.pedrero.eclihand.ui.table.config.TableColumnConfig;
 import com.pedrero.eclihand.ui.table.config.TableConfig;
+import com.pedrero.eclihand.ui.window.GenericSearchModalWindow;
 import com.pedrero.eclihand.utils.DisplayedEntity;
-import com.pedrero.eclihand.utils.UpdatableContentController;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
 import com.pedrero.eclihand.utils.UpdatableContentManager;
+import com.pedrero.eclihand.utils.spring.EclihandBeanFactory;
 import com.pedrero.eclihand.utils.text.LocaleContainer;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
+import com.pedrero.eclihand.utils.ui.UICallback;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.Button;
@@ -39,11 +39,11 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Table;
 
-public abstract class GenericTable<T extends DataObjectDto> extends
+public abstract class AbstractGenericTable<T extends DataObjectDto> extends
 		AbstractEntityComponent implements UpdatableContentDisplayer {
 
 	private final static Logger LOGGER = LoggerFactory
-			.getLogger(GenericTable.class);
+			.getLogger(AbstractGenericTable.class);
 
 	private Table dataTable;
 
@@ -65,6 +65,9 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 	@Resource
 	private LocaleContainer localeContainer;
 
+	@Resource
+	private EclihandBeanFactory beanFactory;
+
 	private TableConfig tableConfig;
 
 	/**
@@ -79,9 +82,9 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 
 	private Layout layout;
 
-	private DataObjectService<T> service;
+	private Class<? extends GenericSearchModalWindow<T>> searchModalWindowClass;
 
-	private GenericSearchModalWindowController<T> genericSearchModalWindowController;
+	private DataObjectService<T> service;
 
 	/**
 	 * 
@@ -107,7 +110,8 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Refreshes visibility and accessibility for the {@link GenericTable}
+	 * Refreshes visibility and accessibility for the
+	 * {@link AbstractGenericTable}
 	 */
 	public void refreshButtonsState() {
 		removeAll.setVisible(getUpdatable());
@@ -149,14 +153,23 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 			@Override
 			public void buttonClick(ClickEvent event) {
 				if (getUpdatable()) {
-					//openSearchWindow();
+					getUI().addWindow(
+							beanFactory.getBean(searchModalWindowClass,
+									new UICallback<T>() {
+
+										@Override
+										public void execute(T dataObject) {
+											add(dataObject);
+
+										}
+									}, service));
 				}
 			}
 		});
 	}
 
 	/**
-	 * Initializes the {@link GenericTable} (creates columns...).
+	 * Initializes the {@link AbstractGenericTable} (creates columns...).
 	 */
 	public void dataTableInit() {
 		LOGGER.debug("initializing Table for [{}]", getTableConfig()
@@ -195,7 +208,7 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Adds {@link DataObjectDto} to the {@link GenericTable}.
+	 * Adds {@link DataObjectDto} to the {@link AbstractGenericTable}.
 	 * 
 	 * @param object
 	 *            the {@link DataObjectDto} to add
@@ -303,10 +316,11 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Adds many {@link DataObjectDto} to this {@link GenericTable}.
+	 * Adds many {@link DataObjectDto} to this {@link AbstractGenericTable}.
 	 * 
 	 * @param objects
-	 *            The {@link DataObjectDto} to add to the {@link GenericTable}
+	 *            The {@link DataObjectDto} to add to the
+	 *            {@link AbstractGenericTable}
 	 */
 	public void add(Iterable<T> objects) {
 		if (objects != null) {
@@ -319,12 +333,12 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Initializes data of the {@link GenericTable} feeding it with the
+	 * Initializes data of the {@link AbstractGenericTable} feeding it with the
 	 * submitted objects.
 	 * 
 	 * @param objects
 	 *            the {@link DataObjectDto} to initialize with the
-	 *            {@link GenericTable}
+	 *            {@link AbstractGenericTable}
 	 */
 	public void feed(Collection<T> objects) {
 		LOGGER.debug("feeding table with object list ({} elements)",
@@ -334,7 +348,7 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Removes an element from the {@link GenericTable}.
+	 * Removes an element from the {@link AbstractGenericTable}.
 	 * 
 	 * @param object
 	 *            the {@link DataObjectDto} to remove
@@ -345,7 +359,7 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Removes many {@link DataObjectDto} from the {@link GenericTable}.
+	 * Removes many {@link DataObjectDto} from the {@link AbstractGenericTable}.
 	 * 
 	 * @param objects
 	 *            the {@link DataObjectDto}s to remove
@@ -357,7 +371,7 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Clears the {@link GenericTable} from its contained objects.
+	 * Clears the {@link AbstractGenericTable} from its contained objects.
 	 */
 	public void removeAllDataObjects() {
 		container.removeAllItems();
@@ -365,8 +379,8 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Refreshes the {@link GenericTable} with the initial {@link DataObjectDto}
-	 * list.
+	 * Refreshes the {@link AbstractGenericTable} with the initial
+	 * {@link DataObjectDto} list.
 	 */
 	public void refreshData() {
 		LOGGER.debug("Data table refresh");
@@ -375,7 +389,7 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Commits the modifications made to the {@link GenericTable} data.
+	 * Commits the modifications made to the {@link AbstractGenericTable} data.
 	 */
 	public void saveData() {
 		List<T> entityDisplayed = new ArrayList<T>();
@@ -389,7 +403,7 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 	}
 
 	/**
-	 * Retrieves the {@link GenericTable} selection
+	 * Retrieves the {@link AbstractGenericTable} selection
 	 * 
 	 * @return
 	 */
@@ -478,6 +492,6 @@ public abstract class GenericTable<T extends DataObjectDto> extends
 	@Override
 	public void validateChanges() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

@@ -1,16 +1,22 @@
 package com.pedrero.eclihand.ui.window;
 
+import java.util.Collection;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.InitializingBean;
 
-import com.pedrero.eclihand.controller.window.GenericSearchModalWindowController;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
-import com.pedrero.eclihand.ui.table.GenericTable;
+import com.pedrero.eclihand.service.DataObjectService;
+import com.pedrero.eclihand.ui.table.AbstractGenericTable;
 import com.pedrero.eclihand.utils.Identifiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
+import com.pedrero.eclihand.utils.ui.UICallback;
+import com.pedrero.eclihand.utils.ui.worker.AsynchronousUIWorker;
+import com.pedrero.eclihand.utils.ui.worker.UIAction;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -23,8 +29,8 @@ import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
 
-public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
-		implements Identifiable, InitializingBean {
+public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
+		Window implements Identifiable, InitializingBean {
 
 	/**
 	 * 
@@ -54,11 +60,9 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
 
 	private ProgressIndicator progressIndicator;
 
-	private GenericTable<T> displayGenericTable;
+	private AbstractGenericTable<T> displayGenericTable;
 
 	// Fields fed by spring configuration
-
-	private GenericSearchModalWindowController<T> searchModalWindowController;
 
 	private String captionKey;
 
@@ -71,6 +75,17 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
 	private String searchButtonKey;
 
 	private Layout layout;
+
+	private final DataObjectService<T> service;
+
+	private final UICallback<T> callback;
+
+	public GenericSearchModalWindow(UICallback<T> callback,
+			DataObjectService<T> service) {
+		super();
+		this.callback = callback;
+		this.service = service;
+	}
 
 	private void init() {
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
@@ -136,11 +151,41 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				getSearchModalWindowController().searchAndDisplay(
-						searchTextField.getValue().toString());
+				searchAndDisplay(searchTextField.getValue().toString());
 			}
 		});
 		searchButton.setClickShortcut(KeyCode.ENTER);
+	}
+
+	public void searchAndDisplay(String criterium) {
+		progressIndicator.setEnabled(true);
+		progressIndicator.setVisible(true);
+		UIAction action = new SearchAndDisplayUIAction(criterium);
+		AsynchronousUIWorker worker = new AsynchronousUIWorker();
+		worker.setAction(action);
+		worker.start();
+	}
+
+	private class SearchAndDisplayUIAction implements UIAction {
+
+		public SearchAndDisplayUIAction(String criterium) {
+			super();
+			this.criterium = criterium;
+		}
+
+		private final String criterium;
+
+		@Override
+		public void run() {
+			List<T> results = service.searchByCriterium(criterium);
+			synchronized (getUI()) {
+				feedTableWith(results);
+				progressIndicator.setVisible(false);
+				progressIndicator.setEnabled(false);
+			}
+
+		}
+
 	}
 
 	private void initValidateButton() {
@@ -154,12 +199,17 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				getSearchModalWindowController().validateChoice(
-						getDisplayGenericTable().retrieveSelection());
+				validateChoice(getDisplayGenericTable().retrieveSelection());
 				close();
 
 			}
 		});
+	}
+
+	private void validateChoice(Collection<T> selection) {
+		for (T selected : selection) {
+			callback.execute(selected);
+		}
 	}
 
 	private void initLabels() {
@@ -173,21 +223,13 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
 				messageResolver.getMessage(searchButtonKey));
 	}
 
-	public GenericTable<T> getDisplayGenericTable() {
+	public AbstractGenericTable<T> getDisplayGenericTable() {
 		return displayGenericTable;
 	}
 
-	public void setDisplayGenericTable(GenericTable<T> displayGenericTable) {
+	public void setDisplayGenericTable(
+			AbstractGenericTable<T> displayGenericTable) {
 		this.displayGenericTable = displayGenericTable;
-	}
-
-	public GenericSearchModalWindowController<T> getSearchModalWindowController() {
-		return searchModalWindowController;
-	}
-
-	public void setSearchModalWindowController(
-			GenericSearchModalWindowController<T> searchModalWindowController) {
-		this.searchModalWindowController = searchModalWindowController;
 	}
 
 	public void feedTableWith(Iterable<T> objects) {
@@ -209,14 +251,6 @@ public class GenericSearchModalWindow<T extends DataObjectDto> extends Window
 
 	public Button getCancelButton() {
 		return cancelButton;
-	}
-
-	public ProgressIndicator getProgressIndicator() {
-		return progressIndicator;
-	}
-
-	public void setProgressIndicator(ProgressIndicator progressIndicator) {
-		this.progressIndicator = progressIndicator;
 	}
 
 	@Override

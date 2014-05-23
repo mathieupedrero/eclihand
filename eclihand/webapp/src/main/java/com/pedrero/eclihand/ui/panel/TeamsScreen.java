@@ -16,7 +16,7 @@ import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.EclihandViewImpl;
 import com.pedrero.eclihand.navigation.places.TeamsPlace;
-import com.pedrero.eclihand.ui.table.GenericTable;
+import com.pedrero.eclihand.ui.table.AbstractGenericTable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
@@ -39,7 +39,7 @@ public class TeamsScreen extends EclihandViewImpl {
 	private TeamsPanelController teamsPanelController;
 
 	@Resource(name = "teamTableForTeamsPanel")
-	private GenericTable<TeamDto> teamTable;
+	private AbstractGenericTable<TeamDto> teamTable;
 
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
@@ -95,7 +95,7 @@ public class TeamsScreen extends EclihandViewImpl {
 		this.setCaption(messageResolver.getMessage("home.caption"));
 	}
 
-	public GenericTable<TeamDto> getTeamsTable() {
+	public AbstractGenericTable<TeamDto> getTeamsTable() {
 		return teamTable;
 	}
 

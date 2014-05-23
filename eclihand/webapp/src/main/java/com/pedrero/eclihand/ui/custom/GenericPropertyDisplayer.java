@@ -9,7 +9,6 @@ import javax.annotation.Resource;
 import org.apache.commons.lang.NotImplementedException;
 import org.mvel2.MVEL;
 
-import com.pedrero.eclihand.controller.GenericPropertyDisplayerController;
 import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.ui.EntityDisplayerComponent;
@@ -17,7 +16,6 @@ import com.pedrero.eclihand.ui.custom.config.PropertyConfig;
 import com.pedrero.eclihand.ui.custom.config.PropertyDisplayerConfig;
 import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
 import com.pedrero.eclihand.utils.EclihandUiException;
-import com.pedrero.eclihand.utils.UpdatableContentController;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
 import com.pedrero.eclihand.utils.text.LocaleContainer;
 import com.pedrero.eclihand.utils.text.MessageResolver;
@@ -51,8 +49,6 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	 * 
 	 */
 	private static final long serialVersionUID = 5698759988513402341L;
-
-	private GenericPropertyDisplayerController<T> genericPropertyDisplayerController;
 
 	/**
 	 * The configuration of this Property Displayer
@@ -282,22 +278,8 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	}
 
 	@Override
-	public UpdatableContentController getController() {
-		return genericPropertyDisplayerController;
-	}
-
-	@Override
 	public Layout getMainLayout() {
 		return layout;
-	}
-
-	/**
-	 * @param genericPropertyDisplayerController
-	 *            the genericPropertyDisplayerController to set
-	 */
-	public void setGenericPropertyDisplayerController(
-			GenericPropertyDisplayerController<T> genericPropertyDisplayerController) {
-		this.genericPropertyDisplayerController = genericPropertyDisplayerController;
 	}
 
 	@Override

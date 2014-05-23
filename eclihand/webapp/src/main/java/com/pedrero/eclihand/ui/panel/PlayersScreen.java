@@ -4,15 +4,13 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
-import com.pedrero.eclihand.controller.panel.PlayersPanelController;
 import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.EclihandViewImpl;
 import com.pedrero.eclihand.navigation.places.PlayersPlace;
+import com.pedrero.eclihand.utils.spring.EclihandBeanFactory;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
@@ -29,9 +27,6 @@ public class PlayersScreen extends EclihandViewImpl {
 	@Resource
 	private MessageResolver messageResolver;
 
-	@Resource
-	private PlayersPanelController playersPanelController;
-
 	private Label titleLabel;
 
 	private Button searchButton;
@@ -46,6 +41,9 @@ public class PlayersScreen extends EclihandViewImpl {
 
 	@Resource
 	private PlayersPlace playersPlace;
+
+	@Resource
+	private EclihandBeanFactory beanFactory;
 
 	/**
 	 * 
@@ -80,7 +78,7 @@ public class PlayersScreen extends EclihandViewImpl {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				playersPanelController.openPlayerSearchModalWindow();
+				// getUI().addWindow(beanFactory.getBean());
 
 			}
 		});
@@ -98,7 +96,7 @@ public class PlayersScreen extends EclihandViewImpl {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				playersPanelController.openNewPlayerForm();
+				// playersPanelController.openNewPlayerForm();
 
 			}
 		});
