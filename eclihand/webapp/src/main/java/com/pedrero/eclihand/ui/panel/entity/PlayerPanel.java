@@ -31,6 +31,7 @@ import com.vaadin.ui.Layout;
 public class PlayerPanel extends AbstractEntityViewPanel implements
 		EntityDisplayerPanelComponent<PlayerDto> {
 
+
 	/**
 	 * 
 	 */
@@ -126,15 +127,15 @@ public class PlayerPanel extends AbstractEntityViewPanel implements
 		this.playerPropertyDisplayer = playerPropertyDisplayer;
 	}
 
-	@Override
-	public Layout getMainLayout() {
-		return layout;
-	}
-
-	@Override
-	public List<UpdatableContentDisplayer> getContentDisplayers() {
-		return contentDisplayers;
-	}
+//	@Override
+//	public Layout getMainLayout() {
+//		return layout;
+//	}
+//
+//	@Override
+//	public List<UpdatableContentDisplayer> getContentDisplayers() {
+//		return contentDisplayers;
+//	}
 
 	@Override
 	public EclihandPlace retrieveAssociatedPlace() {
@@ -146,25 +147,25 @@ public class PlayerPanel extends AbstractEntityViewPanel implements
 		return new HashSet<Credential>();
 	}
 
-	@Override
-	public void delete() {
-		// playerService.delete(player);
-		// bodyPanelController.showHomePanel();
-	}
-
-	@Override
-	public void validateChanges() {
-		// playerPanel.getPlayerPropertyDisplayer().validateChanges();
-		// playerPanel.getTeamTable().validateChanges();
-		// Set<TeamDto> teamList = new
-		// HashSet<TeamDto>(playerPanel.getTeamTable()
-		// .retrieveData());
-		// player.setTeams(teamList);
-		// if (player.getId() != null) {
-		// playerService.update(player);
-		// } else {
-		// playerService.save(player);
-		// }
-	}
+//	@Override
+//	public void delete() {
+//		// playerService.delete(player);
+//		// bodyPanelController.showHomePanel();
+//	}
+//
+//	@Override
+//	public void validateChanges() {
+//		// playerPanel.getPlayerPropertyDisplayer().validateChanges();
+//		// playerPanel.getTeamTable().validateChanges();
+//		// Set<TeamDto> teamList = new
+//		// HashSet<TeamDto>(playerPanel.getTeamTable()
+//		// .retrieveData());
+//		// player.setTeams(teamList);
+//		// if (player.getId() != null) {
+//		// playerService.update(player);
+//		// } else {
+//		// playerService.save(player);
+//		// }
+//	}
 
 }

@@ -20,6 +20,7 @@ import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.service.DataObjectService;
 import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
+import com.pedrero.eclihand.ui.panel.entity.EditMode;
 import com.pedrero.eclihand.ui.table.config.TableColumnConfig;
 import com.pedrero.eclihand.ui.table.config.TableConfig;
 import com.pedrero.eclihand.ui.window.GenericSearchModalWindow;
@@ -41,6 +42,10 @@ import com.vaadin.ui.Table;
 
 public class GenericTable<T extends DataObjectDto> extends
 		AbstractEntityComponent implements UpdatableContentDisplayer {
+
+	public GenericTable() {
+		super(EditMode.VIEW);
+	}
 
 	private final static Logger LOGGER = LoggerFactory
 			.getLogger(GenericTable.class);
@@ -92,8 +97,8 @@ public class GenericTable<T extends DataObjectDto> extends
 	private static final long serialVersionUID = -5410222330558478558L;
 
 	private void preInit() {
-		setShowButtons(tableConfig.getShowsEditButtons());
-		setShowDeleteButton(false);
+//		setShowButtons(tableConfig.getShowsEditButtons());
+//		setShowDeleteButton(false);
 
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 
@@ -104,8 +109,8 @@ public class GenericTable<T extends DataObjectDto> extends
 	}
 
 	private void postInit() {
-		getButtonsLayout().addComponent(removeAll);
-		getButtonsLayout().addComponent(add);
+//		getButtonsLayout().addComponent(removeAll);
+//		getButtonsLayout().addComponent(add);
 
 	}
 
@@ -113,10 +118,10 @@ public class GenericTable<T extends DataObjectDto> extends
 	 * Refreshes visibility and accessibility for the {@link GenericTable}
 	 */
 	public void refreshButtonsState() {
-		removeAll.setVisible(getUpdatable());
-		removeAll.setEnabled(getUpdatable());
-		add.setVisible(getUpdatable());
-		add.setEnabled(getUpdatable());
+//		removeAll.setVisible(getUpdatable());
+//		removeAll.setEnabled(getUpdatable());
+//		add.setVisible(getUpdatable());
+//		add.setEnabled(getUpdatable());
 	}
 
 	private void initializeUIComponents() {
@@ -134,9 +139,9 @@ public class GenericTable<T extends DataObjectDto> extends
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if (getUpdatable()) {
-					removeAllDataObjects();
-				}
+//				if (getUpdatable()) {
+//					removeAllDataObjects();
+//				}
 			}
 		});
 
@@ -151,18 +156,18 @@ public class GenericTable<T extends DataObjectDto> extends
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if (getUpdatable()) {
-					getUI().addWindow(
-							beanFactory.getBean(searchModalWindowClass,
-									new UICallback<T>() {
-
-										@Override
-										public void execute(T dataObject) {
-											add(dataObject);
-
-										}
-									}, service));
-				}
+//				if (getUpdatable()) {
+//					getUI().addWindow(
+//							beanFactory.getBean(searchModalWindowClass,
+//									new UICallback<T>() {
+//
+//										@Override
+//										public void execute(T dataObject) {
+//											add(dataObject);
+//
+//										}
+//									}, service));
+//				}
 			}
 		});
 	}
@@ -194,12 +199,12 @@ public class GenericTable<T extends DataObjectDto> extends
 			dataTable.setColumnHeader(columnConfig.getId(),
 					messageResolver.getMessage(columnConfig.getLabelKey()));
 		}
-		if (getUpdatable()) {
-			container.addContainerProperty(UpdatableContentManager.class,
-					Button.class, null);
-
-			dataTable.setColumnHeader(UpdatableContentManager.class, "remove");
-		}
+//		if (getUpdatable()) {
+//			container.addContainerProperty(UpdatableContentManager.class,
+//					Button.class, null);
+//
+//			dataTable.setColumnHeader(UpdatableContentManager.class, "remove");
+//		}
 
 		dataTable.setContainerDataSource(container);
 		dataTable.setCaption(messageResolver.getMessage(getTableConfig()
@@ -289,26 +294,26 @@ public class GenericTable<T extends DataObjectDto> extends
 			linkButton.setDescription(displayedEntity.getDescription());
 		}
 
-		if (getUpdatable()) {
-			Button deleteButton = eclihandUiFactory.createLinkButton();
-			deleteButton.setData(object);
-
-			deleteButton.addClickListener(new Button.ClickListener() {
-
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = -6563780592033942016L;
-
-				@Override
-				public void buttonClick(ClickEvent event) {
-					remove((T) event.getButton().getData());
-				}
-			});
-			deleteButton.setCaption("delete");
-			item.getItemProperty(UpdatableContentManager.class).setValue(
-					deleteButton);
-		}
+//		if (getUpdatable()) {
+//			Button deleteButton = eclihandUiFactory.createLinkButton();
+//			deleteButton.setData(object);
+//
+//			deleteButton.addClickListener(new Button.ClickListener() {
+//
+//				/**
+//				 * 
+//				 */
+//				private static final long serialVersionUID = -6563780592033942016L;
+//
+//				@Override
+//				public void buttonClick(ClickEvent event) {
+//					remove((T) event.getButton().getData());
+//				}
+//			});
+//			deleteButton.setCaption("delete");
+//			item.getItemProperty(UpdatableContentManager.class).setValue(
+//					deleteButton);
+//		}
 	}
 
 	/**
@@ -429,7 +434,6 @@ public class GenericTable<T extends DataObjectDto> extends
 		LOGGER.debug("Putting table to updatable Mode");
 		boolean updateMode = true;
 		setTableUpdatable(updateMode);
-		super.makeUpdatable();
 	}
 
 	@Override
@@ -437,7 +441,6 @@ public class GenericTable<T extends DataObjectDto> extends
 		LOGGER.debug("Putting table to create Mode");
 		boolean updateMode = true;
 		setTableUpdatable(updateMode);
-		super.makeCreateMode();
 	}
 
 	@Override
@@ -445,11 +448,9 @@ public class GenericTable<T extends DataObjectDto> extends
 		LOGGER.debug("Putting table to read-only Mode");
 		boolean updateMode = false;
 		setTableUpdatable(updateMode);
-		super.makeReadOnly();
 	}
 
 	private void setTableUpdatable(boolean updateMode) {
-		this.setUpdatable(updateMode);
 		this.refreshButtonsState();
 		this.dataTableInit();
 		this.refreshData();
@@ -464,29 +465,29 @@ public class GenericTable<T extends DataObjectDto> extends
 		postInit();
 	}
 
-	@Override
-	public List<UpdatableContentDisplayer> getContentDisplayers() {
-		return null;
-	}
-
-	@Override
-	public Layout getMainLayout() {
-		return layout;
-	}
+//	@Override
+//	public List<UpdatableContentDisplayer> getContentDisplayers() {
+//		return null;
+//	}
+//
+//	@Override
+//	public Layout getMainLayout() {
+//		return layout;
+//	}
 
 	@Override
 	public Set<Credential> getRequiredCredentials() {
 		return new HashSet<Credential>();
 	}
 
-	@Override
-	public void delete() {
-		throw new NotImplementedException();
-	}
-
-	@Override
-	public void validateChanges() {
-		// TODO Auto-generated method stub
-
-	}
+//	@Override
+//	public void delete() {
+//		throw new NotImplementedException();
+//	}
+//
+//	@Override
+//	public void validateChanges() {
+//		// TODO Auto-generated method stub
+//
+//	}
 }

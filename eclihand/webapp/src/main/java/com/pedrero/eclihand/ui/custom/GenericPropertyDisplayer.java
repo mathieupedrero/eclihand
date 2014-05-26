@@ -14,6 +14,7 @@ import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.ui.EntityDisplayerComponent;
 import com.pedrero.eclihand.ui.custom.config.PropertyConfig;
 import com.pedrero.eclihand.ui.custom.config.PropertyDisplayerConfig;
+import com.pedrero.eclihand.ui.panel.EclihandAbstractComponent;
 import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
 import com.pedrero.eclihand.utils.EclihandUiException;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
@@ -42,28 +43,13 @@ import com.vaadin.ui.TextField;
  *            {@link DataObjectDto} type to be displayed
  */
 public class GenericPropertyDisplayer<T extends DataObjectDto> extends
-		AbstractEntityComponent implements EntityDisplayerComponent<T>,
+		EclihandAbstractComponent implements EntityDisplayerComponent<T>,
 		UpdatableContentDisplayer {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5698759988513402341L;
-
-	/**
-	 * The configuration of this Property Displayer
-	 */
-	private PropertyDisplayerConfig config;
-
-	/**
-	 * The Data Object displayed by this entity displayer
-	 */
-	private T displayed;
-
-	/**
-	 * The display of the property displayer (as a grid)
-	 */
-	private GridLayout layout;
 
 	@Resource
 	private MessageResolver messageResolver;
@@ -76,13 +62,34 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 
 	@Resource
 	private LocaleContainer localeContainer;
+	
+	private final boolean updatable;
+
+	/**
+	 * The configuration of this Property Displayer
+	 */
+	private PropertyDisplayerConfig config;
+
+	/**
+	 * The Data Object displayed by this entity displayer
+	 */
+	private T displayed;
+
+	public GenericPropertyDisplayer(boolean updatable) {
+		super();
+		this.updatable = updatable;
+	}
+
+	/**
+	 * The display of the property displayer (as a grid)
+	 */
+	private GridLayout layout;
 
 	@Override
 	protected void postConstruct() {
 		Integer rowNumber = getConfig().getProperties().size();
 		layout = eclihandLayoutFactory.createCommonGridLayout(2, rowNumber + 1);
 		super.postConstruct();
-		setShowButtons(config.getShowsEditButtons());
 		setShowDeleteButton(false);
 
 		this.addComponent(layout);
@@ -109,7 +116,7 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 		Integer currentRow = 0;
 		for (PropertyConfig property : getConfig().getProperties()) {
 			Object rawValue = MVEL.eval(property.getValuePath(), displayed);
-			if (getUpdatable()) {
+			if (updatable) {
 				AbstractField field = createEditableComponentAndAddItToLineForProperty(
 						currentRow, property);
 				if (rawValue != null) {
@@ -137,7 +144,6 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	 */
 	@Override
 	public void makeUpdatable() {
-		setUpdatable(true);
 		Integer currentRow = 0;
 		for (PropertyConfig property : getConfig().getProperties()) {
 			createEditableComponentAndAddItToLineForProperty(currentRow,
@@ -168,7 +174,6 @@ public class GenericPropertyDisplayer<T extends DataObjectDto> extends
 	 */
 	@Override
 	public void makeReadOnly() {
-		setUpdatable(false);
 		display(displayed);
 		super.makeReadOnly();
 

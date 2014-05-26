@@ -109,19 +109,19 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 		playerTable.feed(team.getPlayers());
 	}
 
-	@Override
-	public List<UpdatableContentDisplayer> getContentDisplayers() {
-		return contentDisplayers;
-	}
-
-	@Override
-	public Layout getMainLayout() {
-		return layout;
-	}
-
-	@Override
-	public void validateChanges() {
-	}
+//	@Override
+//	public List<UpdatableContentDisplayer> getContentDisplayers() {
+//		return contentDisplayers;
+//	}
+//
+//	@Override
+//	public Layout getMainLayout() {
+//		return layout;
+//	}
+//
+//	@Override
+//	public void validateChanges() {
+//	}
 
 	@Override
 	public EclihandPlace retrieveAssociatedPlace() {
@@ -133,10 +133,10 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 		return new HashSet<Credential>();
 	}
 
-	@Override
-	public void delete() {
-		// teamService.delete(team);
-		// navigator.navigateTo(welcomePlace);
-	}
+//	@Override
+//	public void delete() {
+//		// teamService.delete(team);
+//		// navigator.navigateTo(welcomePlace);
+//	}
 
 }
