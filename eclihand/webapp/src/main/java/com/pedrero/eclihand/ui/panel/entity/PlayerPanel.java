@@ -19,7 +19,7 @@ import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.places.PlayerPlace;
 import com.pedrero.eclihand.ui.EntityDisplayerPanelComponent;
-import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
+import com.pedrero.eclihand.ui.custom.AbstractGenericPropertyDisplayer;
 import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
 import com.pedrero.eclihand.utils.text.MessageResolver;
@@ -41,7 +41,7 @@ public class PlayerPanel extends AbstractEntityViewPanel implements
 	private PlayerPanelController playerPanelController;
 
 	@Resource
-	private GenericPropertyDisplayer<PlayerDto> playerPropertyDisplayer;
+	private AbstractGenericPropertyDisplayer<PlayerDto> playerPropertyDisplayer;
 
 	@Resource(name = "teamTableForPlayerPanel")
 	private GenericTable<TeamDto> teamTable;
@@ -114,7 +114,7 @@ public class PlayerPanel extends AbstractEntityViewPanel implements
 	/**
 	 * @return the playerPropertyDisplayer
 	 */
-	public GenericPropertyDisplayer<PlayerDto> getPlayerPropertyDisplayer() {
+	public AbstractGenericPropertyDisplayer<PlayerDto> getPlayerPropertyDisplayer() {
 		return playerPropertyDisplayer;
 	}
 
@@ -123,7 +123,7 @@ public class PlayerPanel extends AbstractEntityViewPanel implements
 	 *            the playerPropertyDisplayer to set
 	 */
 	public void setPlayerPropertyDisplayer(
-			GenericPropertyDisplayer<PlayerDto> playerPropertyDisplayer) {
+			AbstractGenericPropertyDisplayer<PlayerDto> playerPropertyDisplayer) {
 		this.playerPropertyDisplayer = playerPropertyDisplayer;
 	}
 

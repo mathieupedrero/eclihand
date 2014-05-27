@@ -17,7 +17,7 @@ import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.places.TeamPlace;
 import com.pedrero.eclihand.ui.EntityDisplayerPanelComponent;
-import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
+import com.pedrero.eclihand.ui.custom.AbstractGenericPropertyDisplayer;
 import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
@@ -36,7 +36,7 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 	private static final long serialVersionUID = -6976637745365811486L;
 
 	@Resource
-	private GenericPropertyDisplayer<TeamDto> teamPropertyDisplayer;
+	private AbstractGenericPropertyDisplayer<TeamDto> teamPropertyDisplayer;
 
 	@Resource
 	private GenericTable<PlayerDto> playerTable;
@@ -60,7 +60,7 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 	/**
 	 * @return the teamPropertyDisplayer
 	 */
-	public GenericPropertyDisplayer<TeamDto> getTeamPropertyDisplayer() {
+	public AbstractGenericPropertyDisplayer<TeamDto> getTeamPropertyDisplayer() {
 		return teamPropertyDisplayer;
 	}
 
@@ -69,7 +69,7 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 	 *            the teamPropertyDisplayer to set
 	 */
 	public void setTeamPropertyDisplayer(
-			GenericPropertyDisplayer<TeamDto> teamPropertyDisplayer) {
+			AbstractGenericPropertyDisplayer<TeamDto> teamPropertyDisplayer) {
 		this.teamPropertyDisplayer = teamPropertyDisplayer;
 	}
 

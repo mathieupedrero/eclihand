@@ -12,7 +12,7 @@ import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.navigation.EclihandNavigator;
 import com.pedrero.eclihand.navigation.places.PlayerPlace;
 import com.pedrero.eclihand.service.PlayerService;
-import com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer;
+import com.pedrero.eclihand.ui.custom.AbstractGenericPropertyDisplayer;
 import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
 import com.pedrero.eclihand.utils.UpdatableContentController;
 
@@ -35,7 +35,7 @@ public class PlayerPanelController extends AbstractEntityController implements
 	private BodyPanelController bodyPanelController;
 
 	@Resource
-	private GenericPropertyDisplayer<PlayerDto> playerPropertyDisplayer;
+	private AbstractGenericPropertyDisplayer<PlayerDto> playerPropertyDisplayer;
 	//
 	// @Resource(name = "teamTableForPlayerPanel")
 	// private GenericTable<TeamDto> teamTable;
