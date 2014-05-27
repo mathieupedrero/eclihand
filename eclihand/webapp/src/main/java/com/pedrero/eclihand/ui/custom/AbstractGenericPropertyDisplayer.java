@@ -15,7 +15,6 @@ import com.pedrero.eclihand.ui.custom.config.PropertyConfig;
 import com.pedrero.eclihand.ui.custom.config.PropertyDisplayerConfig;
 import com.pedrero.eclihand.ui.panel.entity.EditMode;
 import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
-import com.pedrero.eclihand.utils.text.LocaleContainer;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
@@ -48,9 +47,6 @@ public abstract class AbstractGenericPropertyDisplayer<T extends DataObjectDto>
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
 
-	@Resource
-	private LocaleContainer localeContainer;
-
 	/**
 	 * The configuration of this Property Displayer
 	 */
@@ -75,8 +71,6 @@ public abstract class AbstractGenericPropertyDisplayer<T extends DataObjectDto>
 		Integer rowNumber = getConfig().getProperties().size();
 		layout = eclihandLayoutFactory.createCommonGridLayout(2, rowNumber + 1);
 		super.postConstruct();
-		setShowDeleteButton(false);
-
 		this.addComponent(layout);
 
 		Integer currentRow = 0;
@@ -85,6 +79,9 @@ public abstract class AbstractGenericPropertyDisplayer<T extends DataObjectDto>
 			currentRow++;
 		}
 	}
+
+	abstract protected void createAndAddComponent(Integer currentRow,
+			PropertyConfig property, Object rawValue);
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
@@ -97,9 +94,6 @@ public abstract class AbstractGenericPropertyDisplayer<T extends DataObjectDto>
 			currentRow++;
 		}
 	}
-
-	abstract protected void createAndAddComponent(Integer currentRow,
-			PropertyConfig property, Object rawValue);
 
 	/*
 	 * (non-Javadoc)
