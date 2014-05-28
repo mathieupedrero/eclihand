@@ -11,7 +11,6 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.mvel2.MVEL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +24,6 @@ import com.pedrero.eclihand.ui.table.config.TableColumnConfig;
 import com.pedrero.eclihand.ui.table.config.TableConfig;
 import com.pedrero.eclihand.ui.window.GenericSearchModalWindow;
 import com.pedrero.eclihand.utils.DisplayedEntity;
-import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
-import com.pedrero.eclihand.utils.UpdatableContentManager;
 import com.pedrero.eclihand.utils.spring.EclihandBeanFactory;
 import com.pedrero.eclihand.utils.text.LocaleContainer;
 import com.pedrero.eclihand.utils.text.MessageResolver;
@@ -37,26 +34,20 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Table;
 
-public class GenericTable<T extends DataObjectDto> extends
-		AbstractEntityComponent implements UpdatableContentDisplayer {
+public class GenericTable<T extends DataObjectDto> extends AbstractEntityComponent {
 
-	public GenericTable() {
-		super(EditMode.VIEW);
-	}
+	private static final Object REMOVE_BUTTON_PROPERTY_KEY = new Object();
 
-	private final static Logger LOGGER = LoggerFactory
-			.getLogger(GenericTable.class);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5410222330558478558L;
 
-	private Table dataTable;
-
-	private IndexedContainer container;
-
-	private final Map<Long, DisplayedEntity<T>> dataObjects = new HashMap<Long, DisplayedEntity<T>>();
-
-	private Collection<T> initialDataObjectsList;
+	private static final Logger LOGGER = LoggerFactory.getLogger(GenericTable.class);
 
 	@Resource
 	private MessageResolver messageResolver;
@@ -75,15 +66,13 @@ public class GenericTable<T extends DataObjectDto> extends
 
 	private TableConfig tableConfig;
 
-	/**
-	 * Button to remove all data from dataTable
-	 */
-	private Button removeAll;
+	private final Table dataTable = new Table();
 
-	/**
-	 * Button to add data to dataTable
-	 */
-	private Button add;
+	private IndexedContainer container;
+
+	private final Map<Long, DisplayedEntity<T>> dataObjects = new HashMap<Long, DisplayedEntity<T>>();
+
+	private Collection<T> initialDataObjectsList;
 
 	private Layout layout;
 
@@ -91,124 +80,92 @@ public class GenericTable<T extends DataObjectDto> extends
 
 	private DataObjectService<T> service;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5410222330558478558L;
-
-	private void preInit() {
-//		setShowButtons(tableConfig.getShowsEditButtons());
-//		setShowDeleteButton(false);
-
-		layout = eclihandLayoutFactory.createCommonVerticalLayout();
-
-		initializeUIComponents();
-		dataTableInit();
-		layout.addComponent(dataTable);
-
+	public GenericTable(EditMode editMode) {
+		super(editMode);
 	}
 
-	private void postInit() {
-//		getButtonsLayout().addComponent(removeAll);
-//		getButtonsLayout().addComponent(add);
-
-	}
-
-	/**
-	 * Refreshes visibility and accessibility for the {@link GenericTable}
-	 */
-	public void refreshButtonsState() {
-//		removeAll.setVisible(getUpdatable());
-//		removeAll.setEnabled(getUpdatable());
-//		add.setVisible(getUpdatable());
-//		add.setEnabled(getUpdatable());
-	}
-
-	private void initializeUIComponents() {
+	private void initializeButtons() {
 		LOGGER.debug("Initializing data table UI components");
-		dataTable = new Table();
 
-		removeAll = eclihandUiFactory.createButton();
+		Button removeAll = eclihandUiFactory.createButton();
 		removeAll.setCaption("remove.all");
 		removeAll.addClickListener(new Button.ClickListener() {
 
 			/**
-			 * 
-			 */
+				 * 
+				 */
 			private static final long serialVersionUID = -6563780592033942016L;
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-//				if (getUpdatable()) {
-//					removeAllDataObjects();
-//				}
+				if (!getEditMode().isReadOnly()) {
+					removeAllDataObjectsFromTable();
+					initialDataObjectsList.clear();
+				}
 			}
 		});
+		removeAll.setVisible(true);
+		removeAll.setEnabled(true);
 
-		add = eclihandUiFactory.createButton();
+		Button add = eclihandUiFactory.createButton();
 		add.setCaption("add");
 		add.addClickListener(new Button.ClickListener() {
 
 			/**
-			 * 
-			 */
+				 * 
+				 */
 			private static final long serialVersionUID = -6563780592033942016L;
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-//				if (getUpdatable()) {
-//					getUI().addWindow(
-//							beanFactory.getBean(searchModalWindowClass,
-//									new UICallback<T>() {
-//
-//										@Override
-//										public void execute(T dataObject) {
-//											add(dataObject);
-//
-//										}
-//									}, service));
-//				}
+				if (!getEditMode().isReadOnly()) {
+					getUI().addWindow(beanFactory.getBean(searchModalWindowClass, new UICallback<T>() {
+						@Override
+						public void execute(T dataObject) {
+							addToTable(dataObject);
+							initialDataObjectsList.add(dataObject);
+						}
+					}, service));
+				}
 			}
 		});
+		add.setVisible(true);
+		add.setEnabled(true);
+
+		HorizontalLayout buttonsLayout = eclihandLayoutFactory.createCommonHorizontalLayout();
+		layout.addComponent(buttonsLayout);
+		buttonsLayout.addComponent(add);
+		buttonsLayout.addComponent(removeAll);
 	}
 
 	/**
 	 * Initializes the {@link GenericTable} (creates columns...).
 	 */
 	public void dataTableInit() {
-		LOGGER.debug("initializing Table for [{}]", getTableConfig()
-				.getCaptionKey());
+		LOGGER.debug("initializing Table for [{}]", getTableConfig().getCaptionKey());
 
 		dataTable.setSelectable(getTableConfig().getCanSelect());
 		dataTable.setMultiSelect(getTableConfig().getCanMultiSelect());
 		container = new IndexedContainer();
-		for (TableColumnConfig columnConfig : getTableConfig()
-				.getColumnConfigs()) {
-			LOGGER.debug("initializing column in table for [{}]",
-					columnConfig.getLabelKey());
+		for (TableColumnConfig columnConfig : getTableConfig().getColumnConfigs()) {
+			LOGGER.debug("initializing column in table for [{}]", columnConfig.getLabelKey());
 
-			if (columnConfig.getAction() != null
-					&& getTableConfig().getActionsEnabled()) {
-				container.addContainerProperty(columnConfig.getId(),
-						Button.class, null);
+			if (columnConfig.getAction() != null && getTableConfig().getActionsEnabled()) {
+				container.addContainerProperty(columnConfig.getId(), Button.class, null);
 
 			} else {
-				container.addContainerProperty(columnConfig.getId(),
-						columnConfig.getEnumType().getType(), null);
+				container.addContainerProperty(columnConfig.getId(), columnConfig.getEnumType().getType(), null);
 			}
-			dataTable.setColumnHeader(columnConfig.getId(),
-					messageResolver.getMessage(columnConfig.getLabelKey()));
+			dataTable.setColumnHeader(columnConfig.getId(), messageResolver.getMessage(columnConfig.getLabelKey()));
 		}
-//		if (getUpdatable()) {
-//			container.addContainerProperty(UpdatableContentManager.class,
-//					Button.class, null);
-//
-//			dataTable.setColumnHeader(UpdatableContentManager.class, "remove");
-//		}
+		if (!getEditMode().isReadOnly()) {
+			container.addContainerProperty(REMOVE_BUTTON_PROPERTY_KEY, Button.class, null);
+
+			dataTable.setColumnHeader(REMOVE_BUTTON_PROPERTY_KEY, "remove");
+		}
 
 		dataTable.setContainerDataSource(container);
-		dataTable.setCaption(messageResolver.getMessage(getTableConfig()
-				.getCaptionKey()));
+		dataTable.setCaption(messageResolver.getMessage(getTableConfig().getCaptionKey()));
 	}
 
 	/**
@@ -218,13 +175,12 @@ public class GenericTable<T extends DataObjectDto> extends
 	 *            the {@link DataObjectDto} to add
 	 */
 	@SuppressWarnings("unchecked")
-	public void add(T object) {
+	public void addToTable(T object) {
 		DisplayedEntity<T> displayedEntity = new DisplayedEntity<T>();
 		displayedEntity.setEntity(object);
 		dataObjects.put(object.getId(), displayedEntity);
 
-		LOGGER.debug("creating item table for object with id {}",
-				object.getId());
+		LOGGER.debug("creating item table for object with id {}", object.getId());
 		Item item = container.addItem(object.getId());
 
 		List<Object> descriptionParams = new ArrayList<Object>();
@@ -232,13 +188,12 @@ public class GenericTable<T extends DataObjectDto> extends
 		// List of linkButtons created for the line of the table
 		List<Button> linkButtonList = new ArrayList<Button>();
 
-		for (final TableColumnConfig columnConfig : getTableConfig()
-				.getColumnConfigs()) {
+		for (final TableColumnConfig columnConfig : getTableConfig().getColumnConfigs()) {
 			Object value = MVEL.eval(columnConfig.getValuePath(), object);
 
 			if (columnConfig.getFormatter() != null) {
-				value = columnConfig.getFormatter().convertToPresentation(
-						value, String.class, localeContainer.getLocale());
+				value = columnConfig.getFormatter().convertToPresentation(value, String.class,
+						localeContainer.getLocale());
 			}
 
 			// Gathering information for description computing
@@ -246,8 +201,7 @@ public class GenericTable<T extends DataObjectDto> extends
 				descriptionParams.add(value);
 			}
 
-			if (columnConfig.getAction() != null
-					&& getTableConfig().getActionsEnabled()) {
+			if (columnConfig.getAction() != null && getTableConfig().getActionsEnabled()) {
 				// If column is a link (to redirect to entity displayer panel,
 				// adds a button link as data
 
@@ -264,15 +218,13 @@ public class GenericTable<T extends DataObjectDto> extends
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						T entity = dataObjects.get(event.getButton().getData())
-								.getEntity();
+						T entity = dataObjects.get(event.getButton().getData()).getEntity();
 						columnConfig.getAction().performAction(entity.getId());
 					}
 				});
 
 				linkButtonList.add(linkButton);
-				linkButton.setDescription(dataObjects.get(object.getId())
-						.getDescription());
+				linkButton.setDescription(dataObjects.get(object.getId()).getDescription());
 
 				LOGGER.debug("item [{}]", item);
 				LOGGER.debug("columnConfig {}", columnConfig);
@@ -285,8 +237,7 @@ public class GenericTable<T extends DataObjectDto> extends
 
 		}
 		// computing description with gathered information
-		displayedEntity.setDescription(messageResolver.getMessage(
-				getTableConfig().getLineDescriptionKey(),
+		displayedEntity.setDescription(messageResolver.getMessage(getTableConfig().getLineDescriptionKey(),
 				descriptionParams.toArray()));
 
 		// feeding buttons description
@@ -294,26 +245,21 @@ public class GenericTable<T extends DataObjectDto> extends
 			linkButton.setDescription(displayedEntity.getDescription());
 		}
 
-//		if (getUpdatable()) {
-//			Button deleteButton = eclihandUiFactory.createLinkButton();
-//			deleteButton.setData(object);
-//
-//			deleteButton.addClickListener(new Button.ClickListener() {
-//
-//				/**
-//				 * 
-//				 */
-//				private static final long serialVersionUID = -6563780592033942016L;
-//
-//				@Override
-//				public void buttonClick(ClickEvent event) {
-//					remove((T) event.getButton().getData());
-//				}
-//			});
-//			deleteButton.setCaption("delete");
-//			item.getItemProperty(UpdatableContentManager.class).setValue(
-//					deleteButton);
-//		}
+		if (!getEditMode().isReadOnly()) {
+			Button deleteButton = eclihandUiFactory.createLinkButton();
+			deleteButton.setData(object);
+
+			deleteButton.addClickListener(new Button.ClickListener() {
+				private static final long serialVersionUID = -6563780592033942016L;
+
+				@Override
+				public void buttonClick(ClickEvent event) {
+					removeFromTable((T) event.getButton().getData());
+				}
+			});
+			deleteButton.setCaption("delete");
+			item.getItemProperty(REMOVE_BUTTON_PROPERTY_KEY).setValue(deleteButton);
+		}
 	}
 
 	/**
@@ -322,12 +268,11 @@ public class GenericTable<T extends DataObjectDto> extends
 	 * @param objects
 	 *            The {@link DataObjectDto} to add to the {@link GenericTable}
 	 */
-	public void add(Iterable<T> objects) {
+	public void addToTable(Iterable<T> objects) {
 		if (objects != null) {
 			for (T object : objects) {
-				LOGGER.debug("adding object with id {} to table.",
-						object.getId());
-				add(object);
+				LOGGER.debug("adding object with id {} to table.", object.getId());
+				addToTable(object);
 			}
 		}
 	}
@@ -341,10 +286,9 @@ public class GenericTable<T extends DataObjectDto> extends
 	 *            {@link GenericTable}
 	 */
 	public void feed(Collection<T> objects) {
-		LOGGER.debug("feeding table with object list ({} elements)",
-				objects.size());
+		LOGGER.debug("feeding table with object list ({} elements)", objects.size());
 		initialDataObjectsList = objects;
-		add(objects);
+		addToTable(objects);
 	}
 
 	/**
@@ -353,7 +297,7 @@ public class GenericTable<T extends DataObjectDto> extends
 	 * @param object
 	 *            the {@link DataObjectDto} to remove
 	 */
-	public void remove(T object) {
+	public void removeFromTable(T object) {
 		container.removeItem(object.getId());
 		dataObjects.remove(object.getId());
 	}
@@ -364,16 +308,16 @@ public class GenericTable<T extends DataObjectDto> extends
 	 * @param objects
 	 *            the {@link DataObjectDto}s to remove
 	 */
-	public void remove(Iterable<T> objects) {
+	public void removeFromTable(Iterable<T> objects) {
 		for (T object : objects) {
-			remove(object);
+			removeFromTable(object);
 		}
 	}
 
 	/**
 	 * Clears the {@link GenericTable} from its contained objects.
 	 */
-	public void removeAllDataObjects() {
+	public void removeAllDataObjectsFromTable() {
 		container.removeAllItems();
 		dataObjects.clear();
 	}
@@ -384,22 +328,7 @@ public class GenericTable<T extends DataObjectDto> extends
 	 */
 	public void refreshData() {
 		LOGGER.debug("Data table refresh");
-		this.removeAllDataObjects();
-		this.add(initialDataObjectsList);
-	}
-
-	/**
-	 * Commits the modifications made to the {@link GenericTable} data.
-	 */
-	public void saveData() {
-		List<T> entityDisplayed = new ArrayList<T>();
-
-		for (DisplayedEntity<T> displayedEntity : dataObjects.values()) {
-			T entity = displayedEntity.getEntity();
-			entityDisplayed.add(entity);
-		}
-
-		initialDataObjectsList = entityDisplayed;
+		this.addToTable(initialDataObjectsList);
 	}
 
 	/**
@@ -430,64 +359,22 @@ public class GenericTable<T extends DataObjectDto> extends
 	}
 
 	@Override
-	public void makeUpdatable() {
-		LOGGER.debug("Putting table to updatable Mode");
-		boolean updateMode = true;
-		setTableUpdatable(updateMode);
-	}
-
-	@Override
-	public void makeCreateMode() {
-		LOGGER.debug("Putting table to create Mode");
-		boolean updateMode = true;
-		setTableUpdatable(updateMode);
-	}
-
-	@Override
-	public void makeReadOnly() {
-		LOGGER.debug("Putting table to read-only Mode");
-		boolean updateMode = false;
-		setTableUpdatable(updateMode);
-	}
-
-	private void setTableUpdatable(boolean updateMode) {
-		this.refreshButtonsState();
-		this.dataTableInit();
-		this.refreshData();
-	}
-
-	@Override
 	@PostConstruct
 	protected void postConstruct() {
 		LOGGER.debug("GenericTable bean initialization");
-		preInit();
 		super.postConstruct();
-		postInit();
-	}
 
-//	@Override
-//	public List<UpdatableContentDisplayer> getContentDisplayers() {
-//		return null;
-//	}
-//
-//	@Override
-//	public Layout getMainLayout() {
-//		return layout;
-//	}
+		layout = eclihandLayoutFactory.createCommonVerticalLayout();
+		layout.addComponent(dataTable);
+		dataTableInit();
+		if (!getEditMode().isReadOnly()) {
+			initializeButtons();
+		}
+		this.refreshData();
+	}
 
 	@Override
 	public Set<Credential> getRequiredCredentials() {
 		return new HashSet<Credential>();
 	}
-
-//	@Override
-//	public void delete() {
-//		throw new NotImplementedException();
-//	}
-//
-//	@Override
-//	public void validateChanges() {
-//		// TODO Auto-generated method stub
-//
-//	}
 }

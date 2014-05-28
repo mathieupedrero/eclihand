@@ -5,7 +5,8 @@ import javax.annotation.Resource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.pedrero.eclihand.controller.panel.TeamPanelController;
+import com.pedrero.eclihand.navigation.EclihandNavigator;
+import com.pedrero.eclihand.navigation.places.TeamPlace;
 import com.pedrero.eclihand.ui.table.config.ITableAction;
 
 @Component
@@ -13,11 +14,15 @@ import com.pedrero.eclihand.ui.table.config.ITableAction;
 public class GoToTeamAction implements ITableAction {
 
 	@Resource
-	public TeamPanelController teamPanelController;
+	private TeamPlace teamPlace;
+
+	@Resource
+	private EclihandNavigator navigator;
 
 	@Override
 	public void performAction(Long id) {
-		teamPanelController.display(id);
+		teamPlace.setId(id);
+		navigator.navigateTo(teamPlace);
 	}
 
 }

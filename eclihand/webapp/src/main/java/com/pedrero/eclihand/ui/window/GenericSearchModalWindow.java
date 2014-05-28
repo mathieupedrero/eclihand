@@ -238,8 +238,8 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 	}
 
 	public void feedTableWith(Iterable<T> objects) {
-		getDisplayGenericTable().removeAllDataObjects();
-		getDisplayGenericTable().add(objects);
+		getDisplayGenericTable().removeAllDataObjectsFromTable();
+		getDisplayGenericTable().addToTable(objects);
 	}
 
 	public Label getTitleLabel() {

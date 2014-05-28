@@ -1,8 +1,6 @@
 package com.pedrero.eclihand.ui.panel.entity;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -10,7 +8,6 @@ import javax.annotation.Resource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.pedrero.eclihand.controller.panel.TeamPanelController;
 import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.TeamDto;
@@ -19,8 +16,6 @@ import com.pedrero.eclihand.navigation.places.TeamPlace;
 import com.pedrero.eclihand.ui.EntityDisplayerPanelComponent;
 import com.pedrero.eclihand.ui.custom.AbstractGenericPropertyDisplayer;
 import com.pedrero.eclihand.ui.table.GenericTable;
-import com.pedrero.eclihand.utils.UpdatableContentController;
-import com.pedrero.eclihand.utils.UpdatableContentDisplayer;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Layout;
@@ -42,9 +37,6 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 	private GenericTable<PlayerDto> playerTable;
 
 	@Resource
-	private TeamPanelController teamPanelController;
-
-	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
 
 	@Resource
@@ -54,8 +46,6 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 	private TeamPlace teamPlace;
 
 	private Layout layout;
-
-	private List<UpdatableContentDisplayer> contentDisplayers;
 
 	/**
 	 * @return the teamPropertyDisplayer
@@ -89,39 +79,29 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 	}
 
 	@Override
-	public void display(TeamDto entity) {
-	}
-
-	@Override
 	protected void postConstruct() {
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 
 		super.postConstruct();
-		contentDisplayers = new ArrayList<UpdatableContentDisplayer>();
-		contentDisplayers.add(teamPropertyDisplayer);
-		contentDisplayers.add(playerTable);
 
 		layout.addComponent(teamPropertyDisplayer);
 		layout.addComponent(playerTable);
 
-		TeamDto team = teamPanelController.giveEntity();
-		teamPropertyDisplayer.display(team);
-		playerTable.feed(team.getPlayers());
 	}
 
-//	@Override
-//	public List<UpdatableContentDisplayer> getContentDisplayers() {
-//		return contentDisplayers;
-//	}
-//
-//	@Override
-//	public Layout getMainLayout() {
-//		return layout;
-//	}
-//
-//	@Override
-//	public void validateChanges() {
-//	}
+	// @Override
+	// public List<UpdatableContentDisplayer> getContentDisplayers() {
+	// return contentDisplayers;
+	// }
+	//
+	// @Override
+	// public Layout getMainLayout() {
+	// return layout;
+	// }
+	//
+	// @Override
+	// public void validateChanges() {
+	// }
 
 	@Override
 	public EclihandPlace retrieveAssociatedPlace() {
@@ -133,10 +113,10 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 		return new HashSet<Credential>();
 	}
 
-//	@Override
-//	public void delete() {
-//		// teamService.delete(team);
-//		// navigator.navigateTo(welcomePlace);
-//	}
+	// @Override
+	// public void delete() {
+	// // teamService.delete(team);
+	// // navigator.navigateTo(welcomePlace);
+	// }
 
 }

@@ -11,11 +11,11 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.pedrero.eclihand.controller.panel.TeamsPanelController;
 import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.EclihandViewImpl;
 import com.pedrero.eclihand.navigation.places.TeamsPlace;
+import com.pedrero.eclihand.service.TeamService;
 import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
@@ -29,14 +29,10 @@ import com.vaadin.ui.Layout;
 @Component
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
 public class TeamsScreen extends EclihandViewImpl {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(TeamsScreen.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TeamsScreen.class);
 
 	@Resource
 	private MessageResolver messageResolver;
-
-	@Resource
-	private TeamsPanelController teamsPanelController;
 
 	@Resource(name = "teamTableForTeamsPanel")
 	private GenericTable<TeamDto> teamTable;
@@ -49,6 +45,9 @@ public class TeamsScreen extends EclihandViewImpl {
 
 	@Resource
 	private TeamsPlace teamsPlace;
+
+	@Resource
+	private TeamService teamService;
 
 	private Button createNewTeamButton;
 
@@ -70,8 +69,7 @@ public class TeamsScreen extends EclihandViewImpl {
 		layout.addComponent(label);
 
 		this.createNewTeamButton = eclihandUiFactory.createButton();
-		this.createNewTeamButton.setCaption(messageResolver
-				.getMessage("players.create.new"));
+		this.createNewTeamButton.setCaption(messageResolver.getMessage("players.create.new"));
 
 		this.createNewTeamButton.addClickListener(new ClickListener() {
 
@@ -82,7 +80,7 @@ public class TeamsScreen extends EclihandViewImpl {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				teamsPanelController.openNewTeamForm();
+				// teamsPanelController.openNewTeamForm();
 
 			}
 		});
@@ -90,7 +88,7 @@ public class TeamsScreen extends EclihandViewImpl {
 		layout.addComponent(teamTable);
 		layout.addComponent(createNewTeamButton);
 
-		teamTable.feed(teamsPanelController.searchTeamsToDisplay());
+		teamTable.feed(teamService.findAll());
 
 		this.setCaption(messageResolver.getMessage("home.caption"));
 	}
@@ -100,7 +98,7 @@ public class TeamsScreen extends EclihandViewImpl {
 	}
 
 	public void refreshTeams(List<TeamDto> teams) {
-		teamTable.removeAllDataObjects();
+		teamTable.removeAllDataObjectsFromTable();
 	}
 
 	@Override

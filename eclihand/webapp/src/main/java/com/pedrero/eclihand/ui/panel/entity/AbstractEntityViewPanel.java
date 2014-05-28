@@ -1,35 +1,30 @@
 package com.pedrero.eclihand.ui.panel.entity;
 
-import java.util.Set;
-
 import javax.annotation.Resource;
 
-import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.EclihandView;
-import com.pedrero.eclihand.utils.UpdatableContentManager;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Layout;
 
-public abstract class AbstractEntityViewPanel extends AbstractEntityComponent
-		implements EclihandView {
+public abstract class AbstractEntityViewPanel extends AbstractEntityComponent implements EclihandView {
 
 	public AbstractEntityViewPanel() {
 		super(EditMode.VIEW);
 	}
 
-	private String makeUpdatableCaptionKey = UpdatableContentManager.MAKE_UPDATABLE_KEY;
+	private static final String MAKE_UPDATABLE_KEY = "common.make.updatable";
 
-	private String discardChangesCaptionKey = UpdatableContentManager.DISCARD_CHANGES_KEY;
+	private static final String DISCARD_CHANGES_KEY = "common.discard.changes";
 
-	private String validateChangesCaptionKey = UpdatableContentManager.VALIDATE_CHANGES_KEY;
+	private static final String VALIDATE_CHANGES_KEY = "common.validate.changes";
 
-	private String deleteCaptionKey = UpdatableContentManager.DELETE_KEY;
+	private static final String DELETE_KEY = "common.delete";
 
 	@Resource
 	private EclihandUiFactory eclihandUiFactory;
@@ -39,7 +34,7 @@ public abstract class AbstractEntityViewPanel extends AbstractEntityComponent
 
 	@Resource
 	private MessageResolver messageResolver;
-	
+
 	/**
 	 * Button to switch to update mode
 	 */
@@ -56,46 +51,41 @@ public abstract class AbstractEntityViewPanel extends AbstractEntityComponent
 
 	private Layout buttonsLayout;
 
-	private Boolean showButtons = true;
+	private final Boolean showButtons = true;
 
-	private Boolean updatable = false;
+	private final Boolean updatable = false;
 
-	private Boolean showDeleteButton = true;
+	private final Boolean showDeleteButton = true;
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 9093227224467715454L;
-	
+
 	@Override
 	public EclihandPlace retrieveAssociatedPlace() {
 		return null;
 	}
 
-	@Override
 	public void makeUpdatable() {
 
-		delete.setVisible(showButtons /*&&  getShowDeleteButton()*/);
+		delete.setVisible(showButtons /* && getShowDeleteButton() */);
 		validateChanges.setVisible(showButtons);
 		switchUpdateModeButton.setVisible(showButtons);
-		switchUpdateModeButton.setCaption(messageResolver
-				.getMessage(discardChangesCaptionKey));
+		switchUpdateModeButton.setCaption(messageResolver.getMessage(DISCARD_CHANGES_KEY));
 	}
 
-	@Override
 	public void makeCreateMode() {
 		delete.setVisible(false);
 		validateChanges.setVisible(showButtons);
 		switchUpdateModeButton.setVisible(false);
 	}
 
-	@Override
 	public void makeReadOnly() {
 		delete.setVisible(false);
 		validateChanges.setVisible(false);
 		switchUpdateModeButton.setVisible(showButtons);
-		switchUpdateModeButton.setCaption(messageResolver
-				.getMessage(makeUpdatableCaptionKey));
+		switchUpdateModeButton.setCaption(messageResolver.getMessage(MAKE_UPDATABLE_KEY));
 	}
 
 	@Override
@@ -103,14 +93,12 @@ public abstract class AbstractEntityViewPanel extends AbstractEntityComponent
 		super.postConstruct();
 
 		switchUpdateModeButton = eclihandUiFactory.createButton();
-		switchUpdateModeButton.setCaption(messageResolver
-				.getMessage(updatable ? makeUpdatableCaptionKey
-						: discardChangesCaptionKey));
+		switchUpdateModeButton.setCaption(messageResolver.getMessage(updatable ? MAKE_UPDATABLE_KEY
+				: DISCARD_CHANGES_KEY));
 		validateChanges = eclihandUiFactory.createButton();
-		validateChanges.setCaption(messageResolver
-				.getMessage(validateChangesCaptionKey));
+		validateChanges.setCaption(messageResolver.getMessage(VALIDATE_CHANGES_KEY));
 		delete = eclihandUiFactory.createButton();
-		delete.setCaption(messageResolver.getMessage(deleteCaptionKey));
+		delete.setCaption(messageResolver.getMessage(DELETE_KEY));
 
 		buttonsLayout.addComponent(switchUpdateModeButton);
 		buttonsLayout.addComponent(validateChanges);
@@ -145,7 +133,7 @@ public abstract class AbstractEntityViewPanel extends AbstractEntityComponent
 			@Override
 			public void buttonClick(ClickEvent event) {
 				if (updatable) {
-					//validateChanges();
+					// validateChanges();
 					makeReadOnly();
 				}
 			}
@@ -162,7 +150,7 @@ public abstract class AbstractEntityViewPanel extends AbstractEntityComponent
 			@Override
 			public void buttonClick(ClickEvent event) {
 				if (updatable) {
-					//delete();
+					// delete();
 				}
 			}
 		});

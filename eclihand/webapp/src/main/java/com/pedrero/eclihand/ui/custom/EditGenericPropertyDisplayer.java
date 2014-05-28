@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
+import org.mvel2.MVEL;
+
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.ui.custom.config.PropertyConfig;
 import com.pedrero.eclihand.ui.panel.entity.EditMode;
@@ -15,7 +17,7 @@ import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.DateField;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.TextField;
 
 public class EditGenericPropertyDisplayer<T extends DataObjectDto> extends
@@ -27,11 +29,12 @@ public class EditGenericPropertyDisplayer<T extends DataObjectDto> extends
 	@Resource
 	private LocaleContainer localeContainer;
 
-	public EditGenericPropertyDisplayer(EditMode editMode) {
-		super(editMode);
+	public EditGenericPropertyDisplayer(EditMode editMode, T edited) {
+		super(editMode, edited);
 	}
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	protected void createAndAddComponent(Integer currentRow,
 			PropertyConfig property, Object rawValue) {
 		AbstractField field = createEditableComponentAndAddItToLineForProperty(
@@ -40,13 +43,6 @@ public class EditGenericPropertyDisplayer<T extends DataObjectDto> extends
 			field.setValue(rawValue);
 		}
 
-	}
-
-	private Label createLabelAndAddItAsValueToLine(Integer currentRow) {
-		Label value = eclihandUiFactory.createLabel();
-		getMainLayout().addComponent(value, 1, currentRow);
-		getMainLayout().setComponentAlignment(value, Alignment.MIDDLE_LEFT);
-		return value;
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -115,6 +111,17 @@ public class EditGenericPropertyDisplayer<T extends DataObjectDto> extends
 		}
 		throw new EclihandUiException("Configuration exception : datatype "
 				+ propertyConfig.getDataType() + " not handled in Config");
+	}
+
+	public void validateChanges() {
+		Integer currentRow = 0;
+		for (PropertyConfig property : getConfig().getProperties()) {
+			@SuppressWarnings("rawtypes")
+			Field value = (Field) getMainLayout().getComponent(1, currentRow);
+			Object rawValue = value.getValue();
+			MVEL.setProperty(getDisplayed(), property.getValuePath(), rawValue);
+			currentRow++;
+		}
 	}
 
 }

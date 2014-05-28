@@ -16,8 +16,8 @@ public class ViewGenericPropertyDisplayer<T extends DataObjectDto> extends
 	@Resource
 	private EclihandUiFactory eclihandUiFactory;
 
-	public ViewGenericPropertyDisplayer() {
-		super(EditMode.VIEW);
+	public ViewGenericPropertyDisplayer(T displayed) {
+		super(EditMode.VIEW, displayed);
 	}
 
 	@Override
