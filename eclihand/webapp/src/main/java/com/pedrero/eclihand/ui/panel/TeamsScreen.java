@@ -1,7 +1,5 @@
 package com.pedrero.eclihand.ui.panel;
 
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
@@ -16,7 +14,9 @@ import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.EclihandViewImpl;
 import com.pedrero.eclihand.navigation.places.TeamsPlace;
 import com.pedrero.eclihand.service.TeamService;
+import com.pedrero.eclihand.ui.panel.entity.EditMode;
 import com.pedrero.eclihand.ui.table.GenericTable;
+import com.pedrero.eclihand.utils.spring.EclihandBeanFactory;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
@@ -34,9 +34,6 @@ public class TeamsScreen extends EclihandViewImpl {
 	@Resource
 	private MessageResolver messageResolver;
 
-	@Resource(name = "teamTableForTeamsPanel")
-	private GenericTable<TeamDto> teamTable;
-
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
 
@@ -48,6 +45,9 @@ public class TeamsScreen extends EclihandViewImpl {
 
 	@Resource
 	private TeamService teamService;
+
+	@Resource
+	private EclihandBeanFactory beanFactory;
 
 	private Button createNewTeamButton;
 
@@ -85,20 +85,15 @@ public class TeamsScreen extends EclihandViewImpl {
 			}
 		});
 
-		layout.addComponent(teamTable);
+		GenericTable<TeamDto> teamTableForTeamPanel = (GenericTable<TeamDto>) beanFactory.getBean(
+				"teamTableForTeamsPanel", EditMode.VIEW);
+
+		layout.addComponent(teamTableForTeamPanel);
 		layout.addComponent(createNewTeamButton);
 
-		teamTable.feed(teamService.findAll());
+		teamTableForTeamPanel.feed(teamService.findAll());
 
 		this.setCaption(messageResolver.getMessage("home.caption"));
-	}
-
-	public GenericTable<TeamDto> getTeamsTable() {
-		return teamTable;
-	}
-
-	public void refreshTeams(List<TeamDto> teams) {
-		teamTable.removeAllDataObjectsFromTable();
 	}
 
 	@Override

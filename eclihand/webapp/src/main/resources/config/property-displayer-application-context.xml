@@ -17,11 +17,11 @@
 	<import resource="classpath:/config/property-displayer-config-application-context.xml"/>
 
 	
-	<bean id="teamPropertyDisplayer" class="com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer" scope="prototype">
+	<bean id="teamPropertyDisplayer" class="com.pedrero.eclihand.ui.custom.AbstractGenericPropertyDisplayer" scope="prototype">
     	<property name="config" ref="teamPropertyDisplayerConfig" />
 	</bean>
 	
-	<bean id="playerPropertyDisplayer" class="com.pedrero.eclihand.ui.custom.GenericPropertyDisplayer" scope="prototype">
+	<bean id="playerPropertyDisplayer" class="com.pedrero.eclihand.ui.custom.AbstractGenericPropertyDisplayer" scope="prototype">
     	<property name="config" ref="playerPropertyDisplayerConfig" />
 	</bean>
 	

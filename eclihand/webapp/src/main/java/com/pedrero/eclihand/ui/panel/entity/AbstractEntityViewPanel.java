@@ -100,6 +100,8 @@ public abstract class AbstractEntityViewPanel extends AbstractEntityComponent im
 		delete = eclihandUiFactory.createButton();
 		delete.setCaption(messageResolver.getMessage(DELETE_KEY));
 
+		buttonsLayout = eclihandLayoutFactory.createCommonHorizontalLayout();
+
 		buttonsLayout.addComponent(switchUpdateModeButton);
 		buttonsLayout.addComponent(validateChanges);
 		buttonsLayout.addComponent(delete);

@@ -75,11 +75,8 @@ public class PlayersScreen extends EclihandViewImpl {
 		label.setValue("Players");
 		layout.addComponent(label);
 
-		this.setContent(layout);
-
 		this.titleLabel = eclihandUiFactory.createTitleLabel();
-		this.titleLabel.setValue(messageResolver
-				.getMessage("players.panel.title"));
+		this.titleLabel.setValue(messageResolver.getMessage("players.panel.title"));
 
 		this.searchButton = eclihandUiFactory.createButton();
 		this.searchButton.setCaption(messageResolver.getMessage("common.find"));
@@ -93,23 +90,20 @@ public class PlayersScreen extends EclihandViewImpl {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				getUI().addWindow(
-						(Window) beanFactory.getBean("playerSearchModalWindow",
-								new UICallback<PlayerDto>() {
+				getUI().addWindow((Window) beanFactory.getBean("playerSearchModalWindow", new UICallback<PlayerDto>() {
 
-									@Override
-									public void execute(PlayerDto dataObject) {
-										playerPlace.setId(dataObject.getId());
-										navigator.navigateTo(playerPlace);
-									}
-								}, playerService));
+					@Override
+					public void execute(PlayerDto dataObject) {
+						playerPlace.setId(dataObject.getId());
+						navigator.navigateTo(playerPlace);
+					}
+				}, playerService));
 
 			}
 		});
 
 		this.createNewPlayerButton = eclihandUiFactory.createButton();
-		this.createNewPlayerButton.setCaption(messageResolver
-				.getMessage("players.create.new"));
+		this.createNewPlayerButton.setCaption(messageResolver.getMessage("players.create.new"));
 
 		this.createNewPlayerButton.addClickListener(new ClickListener() {
 
@@ -128,6 +122,8 @@ public class PlayersScreen extends EclihandViewImpl {
 		layout.addComponent(titleLabel);
 		layout.addComponent(searchButton);
 		layout.addComponent(createNewPlayerButton);
+
+		this.setContent(layout);
 	}
 
 	@Override

@@ -33,14 +33,10 @@
 	
 	<bean id="pickingTeamTable" class="com.pedrero.eclihand.ui.table.GenericTable" scope="prototype">
 		<property name="tableConfig" ref="searchTeamTableConfigOneSelect"/>
-    	
-    	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
 	
 	<bean id="pickingPlayerTable" class="com.pedrero.eclihand.ui.table.GenericTable" scope="prototype">
 		<property name="tableConfig" ref="searchPlayerTableConfigOneSelect"/>
-    	
-    	<aop:scoped-proxy proxy-target-class="true"/>
 	</bean>
 	
 </beans>

@@ -366,6 +366,7 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityCompone
 
 		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		layout.addComponent(dataTable);
+		this.addComponent(layout);
 		dataTableInit();
 		if (!getEditMode().isReadOnly()) {
 			initializeButtons();

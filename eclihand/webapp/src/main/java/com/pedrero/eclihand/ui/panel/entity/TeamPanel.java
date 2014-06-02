@@ -13,28 +13,23 @@ import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.places.TeamPlace;
+import com.pedrero.eclihand.service.TeamService;
 import com.pedrero.eclihand.ui.EntityDisplayerPanelComponent;
-import com.pedrero.eclihand.ui.custom.AbstractGenericPropertyDisplayer;
+import com.pedrero.eclihand.ui.custom.ViewGenericPropertyDisplayer;
 import com.pedrero.eclihand.ui.table.GenericTable;
+import com.pedrero.eclihand.utils.spring.EclihandBeanFactory;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Layout;
 
 @Component(value = "teamPanel")
 @Scope(value = "prototype")
-public class TeamPanel extends AbstractEntityViewPanel implements
-		EntityDisplayerPanelComponent<TeamDto> {
+public class TeamPanel extends AbstractEntityViewPanel implements EntityDisplayerPanelComponent<TeamDto> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6976637745365811486L;
-
-	@Resource
-	private AbstractGenericPropertyDisplayer<TeamDto> teamPropertyDisplayer;
-
-	@Resource
-	private GenericTable<PlayerDto> playerTable;
 
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
@@ -43,65 +38,35 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 	private MessageResolver messageResolver;
 
 	@Resource
+	private EclihandBeanFactory eclihandBeanFactory;
+
+	@Resource
 	private TeamPlace teamPlace;
+
+	@Resource
+	private TeamService teamService;
 
 	private Layout layout;
 
-	/**
-	 * @return the teamPropertyDisplayer
-	 */
-	public AbstractGenericPropertyDisplayer<TeamDto> getTeamPropertyDisplayer() {
-		return teamPropertyDisplayer;
-	}
-
-	/**
-	 * @param teamPropertyDisplayer
-	 *            the teamPropertyDisplayer to set
-	 */
-	public void setTeamPropertyDisplayer(
-			AbstractGenericPropertyDisplayer<TeamDto> teamPropertyDisplayer) {
-		this.teamPropertyDisplayer = teamPropertyDisplayer;
-	}
-
-	/**
-	 * @return the playerTable
-	 */
-	public GenericTable<PlayerDto> getPlayerTable() {
-		return playerTable;
-	}
-
-	/**
-	 * @param playerTable
-	 *            the playerTable to set
-	 */
-	public void setPlayerTable(GenericTable<PlayerDto> playerTable) {
-		this.playerTable = playerTable;
-	}
-
 	@Override
 	protected void postConstruct() {
-		layout = eclihandLayoutFactory.createCommonVerticalLayout();
-
 		super.postConstruct();
+
+		layout = eclihandLayoutFactory.createCommonVerticalLayout();
+		TeamDto teamToDisplay = teamService.findById(teamPlace.getId());
+
+		ViewGenericPropertyDisplayer<TeamDto> teamPropertyDisplayer = (ViewGenericPropertyDisplayer<TeamDto>) eclihandBeanFactory
+				.getBean("teamPropertyDisplayer", teamToDisplay);
+		GenericTable<PlayerDto> playerTable = (GenericTable<PlayerDto>) eclihandBeanFactory.getBean("playerTable",
+				EditMode.VIEW);
+		playerTable.feed(teamToDisplay.getPlayers());
 
 		layout.addComponent(teamPropertyDisplayer);
 		layout.addComponent(playerTable);
 
-	}
+		this.addComponent(layout);
 
-	// @Override
-	// public List<UpdatableContentDisplayer> getContentDisplayers() {
-	// return contentDisplayers;
-	// }
-	//
-	// @Override
-	// public Layout getMainLayout() {
-	// return layout;
-	// }
-	//
-	// @Override
-	// public void validateChanges() {
-	// }
+	}
 
 	@Override
 	public EclihandPlace retrieveAssociatedPlace() {
@@ -112,11 +77,5 @@ public class TeamPanel extends AbstractEntityViewPanel implements
 	public Set<Credential> getRequiredCredentials() {
 		return new HashSet<Credential>();
 	}
-
-	// @Override
-	// public void delete() {
-	// // teamService.delete(team);
-	// // navigator.navigateTo(welcomePlace);
-	// }
 
 }
