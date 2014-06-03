@@ -80,4 +80,16 @@ public class PlayerPanel extends AbstractEntityViewPanel implements EntityDispla
 		return new HashSet<Credential>();
 	}
 
+	@Override
+	protected Set<Credential> credetialsToEdit() {
+		HashSet<Credential> credentials = new HashSet<Credential>();
+		credentials.add(Credential.PLAYER_EDIT);
+		return credentials;
+	}
+
+	@Override
+	protected com.vaadin.ui.Component editComponent() {
+		return this;
+	}
+
 }

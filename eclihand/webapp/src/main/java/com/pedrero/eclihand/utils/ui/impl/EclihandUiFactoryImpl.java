@@ -1,9 +1,12 @@
 package com.pedrero.eclihand.utils.ui.impl;
 
+import java.util.Set;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
+import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.utils.text.LocaleContainer;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
 import com.vaadin.ui.Button;
@@ -16,6 +19,7 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.BaseTheme;
 
 @Component
@@ -111,6 +115,26 @@ public class EclihandUiFactoryImpl implements EclihandUiFactory {
 		return button;
 	}
 
+	/**
+	 * @see com.pedrero.eclihand.utils.ui.EclihandUiFactory#createButton(com.pedrero.eclihand.model.domain.Credential[])
+	 */
+	@Override
+	public Button createButton(Credential... credentials) {
+		Button button = new SecuredButton(credentials);
+		button.setLocale(localeContainer.getLocale());
+		return button;
+	}
+
+	/**
+	 * @see com.pedrero.eclihand.utils.ui.EclihandUiFactory#createButton(com.pedrero.eclihand.model.domain.Credential[])
+	 */
+	@Override
+	public Button createButton(Set<Credential> credentials) {
+		Button button = new SecuredButton(credentials);
+		button.setLocale(localeContainer.getLocale());
+		return button;
+	}
+
 	@Override
 	public Button createLinkButton() {
 		Button button = new Button();
@@ -134,6 +158,15 @@ public class EclihandUiFactoryImpl implements EclihandUiFactory {
 		progressIndicator.setPollingInterval(20);
 		progressIndicator.setVisible(false);
 		return progressIndicator;
+	}
+
+	@Override
+	public Window createModalWindow(com.vaadin.ui.Component bodyComponent) {
+		Window window = new Window();
+		window.setModal(true);
+		window.setContent(bodyComponent);
+		window.setLocale(localeContainer.getLocale());
+		return window;
 	}
 
 }

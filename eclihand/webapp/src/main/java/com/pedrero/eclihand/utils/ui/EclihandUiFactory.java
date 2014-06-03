@@ -1,7 +1,11 @@
 package com.pedrero.eclihand.utils.ui;
 
+import java.util.Set;
+
+import com.pedrero.eclihand.model.domain.Credential;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
@@ -10,6 +14,7 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.Window;
 
 /**
  * Factory that creates Vaadin ui objects.
@@ -19,39 +24,57 @@ import com.vaadin.ui.TextField;
  */
 public interface EclihandUiFactory {
 
-	public Panel createMainPanel();
+	Panel createMainPanel();
 
-	public Panel createSubPanel();
+	Panel createSubPanel();
 
-	public Label createTitleLabel();
+	Label createTitleLabel();
 
-	public Label createSubTitleLabel();
+	Label createSubTitleLabel();
 
-	public Label createLabel();
+	Label createLabel();
 
-	public Table createEntityTable();
+	Table createEntityTable();
 
-	public TextField createTextField();
+	TextField createTextField();
 
 	/**
 	 * Creates a Vaadin {@link PasswordField}
 	 * 
 	 * @return
 	 */
-	public PasswordField createPasswordField();
+	PasswordField createPasswordField();
 
-	public DateField createDateField();
+	DateField createDateField();
 
-	public DateField createDateHourField();
+	DateField createDateHourField();
 
-	public ComboBox createComboBox();
+	ComboBox createComboBox();
 
-	public Button createButton();
+	Button createButton();
 
-	public Button createLinkButton();
+	/**
+	 * Creates a button secured by the specified credentials.
+	 * 
+	 * @param credentials
+	 * @return
+	 */
+	Button createButton(Credential... credentials);
 
-	public Link createSimpleLink();
+	/**
+	 * Creates a button secured by the specified credentials.
+	 * 
+	 * @param credentials
+	 * @return
+	 */
+	Button createButton(Set<Credential> credentials);
 
-	public ProgressIndicator createIndeterminateProgressIndicator();
+	Button createLinkButton();
+
+	Link createSimpleLink();
+
+	ProgressIndicator createIndeterminateProgressIndicator();
+
+	Window createModalWindow(Component bodyComponent);
 
 }

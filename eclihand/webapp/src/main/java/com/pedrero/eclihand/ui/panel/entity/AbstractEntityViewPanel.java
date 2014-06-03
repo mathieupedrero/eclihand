@@ -1,8 +1,13 @@
 package com.pedrero.eclihand.ui.panel.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.annotation.Resource;
 
-import com.pedrero.eclihand.navigation.EclihandPlace;
+import org.apache.commons.lang.NotImplementedException;
+
+import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.navigation.EclihandView;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
@@ -10,6 +15,7 @@ import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Layout;
 
 public abstract class AbstractEntityViewPanel extends AbstractEntityComponent implements EclihandView {
@@ -18,13 +24,7 @@ public abstract class AbstractEntityViewPanel extends AbstractEntityComponent im
 		super(EditMode.VIEW);
 	}
 
-	private static final String MAKE_UPDATABLE_KEY = "common.make.updatable";
-
-	private static final String DISCARD_CHANGES_KEY = "common.discard.changes";
-
-	private static final String VALIDATE_CHANGES_KEY = "common.validate.changes";
-
-	private static final String DELETE_KEY = "common.delete";
+	private static final String MODIFY_KEY = "common.modify";
 
 	@Resource
 	private EclihandUiFactory eclihandUiFactory;
@@ -35,27 +35,15 @@ public abstract class AbstractEntityViewPanel extends AbstractEntityComponent im
 	@Resource
 	private MessageResolver messageResolver;
 
-	/**
-	 * Button to switch to update mode
-	 */
-	private Button switchUpdateModeButton;
+	protected Set<Credential> credetialsToEdit() {
+		HashSet<Credential> set = new HashSet<Credential>();
+		set.add(Credential.FORBIDDEN);
+		return set;
+	}
 
-	/**
-	 * Button to validate changes made in update mode
-	 */
-	private Button validateChanges;
-	/**
-	 * Button to validate changes made in update mode
-	 */
-	private Button delete;
-
-	private Layout buttonsLayout;
-
-	private final Boolean showButtons = true;
-
-	private final Boolean updatable = false;
-
-	private final Boolean showDeleteButton = true;
+	protected Component editComponent() {
+		throw new NotImplementedException();
+	};
 
 	/**
 	 * 
@@ -63,99 +51,25 @@ public abstract class AbstractEntityViewPanel extends AbstractEntityComponent im
 	private static final long serialVersionUID = 9093227224467715454L;
 
 	@Override
-	public EclihandPlace retrieveAssociatedPlace() {
-		return null;
-	}
-
-	public void makeUpdatable() {
-
-		delete.setVisible(showButtons /* && getShowDeleteButton() */);
-		validateChanges.setVisible(showButtons);
-		switchUpdateModeButton.setVisible(showButtons);
-		switchUpdateModeButton.setCaption(messageResolver.getMessage(DISCARD_CHANGES_KEY));
-	}
-
-	public void makeCreateMode() {
-		delete.setVisible(false);
-		validateChanges.setVisible(showButtons);
-		switchUpdateModeButton.setVisible(false);
-	}
-
-	public void makeReadOnly() {
-		delete.setVisible(false);
-		validateChanges.setVisible(false);
-		switchUpdateModeButton.setVisible(showButtons);
-		switchUpdateModeButton.setCaption(messageResolver.getMessage(MAKE_UPDATABLE_KEY));
-	}
-
-	@Override
 	protected void postConstruct() {
 		super.postConstruct();
-
-		switchUpdateModeButton = eclihandUiFactory.createButton();
-		switchUpdateModeButton.setCaption(messageResolver.getMessage(updatable ? MAKE_UPDATABLE_KEY
-				: DISCARD_CHANGES_KEY));
-		validateChanges = eclihandUiFactory.createButton();
-		validateChanges.setCaption(messageResolver.getMessage(VALIDATE_CHANGES_KEY));
-		delete = eclihandUiFactory.createButton();
-		delete.setCaption(messageResolver.getMessage(DELETE_KEY));
-
-		buttonsLayout = eclihandLayoutFactory.createCommonHorizontalLayout();
-
-		buttonsLayout.addComponent(switchUpdateModeButton);
-		buttonsLayout.addComponent(validateChanges);
-		buttonsLayout.addComponent(delete);
-
-		// switchUpdateModeButton.setCaption(messageResolver.getMessage(UpdatableContentManager.MAKE_UPDATABLE_KEY));
-		switchUpdateModeButton.addClickListener(new Button.ClickListener() {
+		Layout buttonsLayout = eclihandLayoutFactory.createCommonHorizontalLayout();
+		Button editButton = eclihandUiFactory.createButton(credetialsToEdit());
+		buttonsLayout.addComponent(editButton);
+		editButton.setCaption(messageResolver.getMessage(MODIFY_KEY));
+		editButton.addClickListener(new Button.ClickListener() {
 
 			/**
 			 * 
 			 */
-			private static final long serialVersionUID = -6563780592033942016L;
+			private static final long serialVersionUID = 7681596058867795285L;
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if (updatable) {
-					makeReadOnly();
-				} else {
-					makeUpdatable();
-				}
+				AbstractEntityViewPanel.this.getUI().addWindow(eclihandUiFactory.createModalWindow(editComponent()));
 			}
 		});
-
-		// validateChanges.setCaption(messageResolver.getMessage(UpdatableContentManager.VALIDATE_CHANGES_KEY));
-		validateChanges.addClickListener(new Button.ClickListener() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -6563780592033942016L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				if (updatable) {
-					// validateChanges();
-					makeReadOnly();
-				}
-			}
-		});
-
-		// delete.setCaption(messageResolver.getMessage(UpdatableContentManager.DELETE_KEY));
-		delete.addClickListener(new Button.ClickListener() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -6563780592033942016L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				if (updatable) {
-					// delete();
-				}
-			}
-		});
+		this.addComponent(buttonsLayout);
 	}
 
 	@Override
