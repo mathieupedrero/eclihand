@@ -39,8 +39,8 @@ public class LeftScreen extends Panel implements IFrameElement {
 	private void prepareContent() {
 		Layout layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		this.setContent(layout);
-		layout.addComponent(loginPanel);
-		layout.addComponent(logoutPanel);
+		layout.addComponent(loginPanel.getWrapperLayout());
+		layout.addComponent(logoutPanel.getWrapperLayout());
 		this.setCaption(messageResolver.getMessage("left.caption"));
 	}
 

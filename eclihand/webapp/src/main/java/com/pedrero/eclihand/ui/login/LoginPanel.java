@@ -35,18 +35,12 @@ import com.vaadin.ui.TextField;
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class LoginPanel extends EclihandAbstractComponent {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(LoginPanel.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(LoginPanel.class);
 
 	@Override
 	public final Set<Credential> getRequiredCredentials() {
 		return new HashSet<Credential>(Arrays.asList(Credential.CONNECT));
 	}
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6928146680402643741L;
 
 	@Resource
 	private MessageResolver messageResolver;
@@ -73,8 +67,7 @@ public class LoginPanel extends EclihandAbstractComponent {
 		final TextField loginField = eclihandUiFactory.createTextField();
 		loginField.setCaption(messageResolver.getMessage("login.login"));
 		layout.addComponent(loginField);
-		final PasswordField passwordField = eclihandUiFactory
-				.createPasswordField();
+		final PasswordField passwordField = eclihandUiFactory.createPasswordField();
 		passwordField.setCaption(messageResolver.getMessage("login.password"));
 		layout.addComponent(passwordField);
 		Button logInButton = eclihandUiFactory.createButton();
@@ -107,20 +100,17 @@ public class LoginPanel extends EclihandAbstractComponent {
 
 				md5Password = buf.toString();
 
-				UserDto loggedIn = userService.login(loginField.getValue(),
-						md5Password);
+				UserDto loggedIn = userService.login(loginField.getValue(), md5Password);
 				if (loggedIn == null) {
-					LOGGER.info("Erreur de login pour {} - {}",
-							loginField.getValue(), md5Password);
+					LOGGER.info("Erreur de login pour {} - {}", loginField.getValue(), md5Password);
 				} else {
-					LOGGER.info("Logged in pour {} - {}",
-							loginField.getValue(), md5Password);
+					LOGGER.info("Logged in pour {} - {}", loginField.getValue(), md5Password);
 					authentication.setAuthenticatedUser(loggedIn);
 					uiManager.refreshFrameElements();
 				}
 			}
 		});
 		layout.addComponent(logInButton);
-		this.addComponent(layout);
+		this.getMainLayout().addComponent(layout);
 	}
 }

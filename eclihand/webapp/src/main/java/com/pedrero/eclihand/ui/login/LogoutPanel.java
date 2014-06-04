@@ -30,11 +30,6 @@ import com.vaadin.ui.Layout;
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class LogoutPanel extends EclihandAbstractComponent {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6928146680402643741L;
-
 	@Override
 	public final Set<Credential> getRequiredCredentials() {
 		return new HashSet<Credential>(Arrays.asList(Credential.OWN_TEAM_EDIT));
@@ -79,13 +74,12 @@ public class LogoutPanel extends EclihandAbstractComponent {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				authentication.setAuthenticatedUser(userService
-						.retrieveGuestUser());
+				authentication.setAuthenticatedUser(userService.retrieveGuestUser());
 				uiManager.refreshFrameElements();
 				eclihandNavigator.navigateTo(welcomePlace);
 			}
 		});
 		layout.addComponent(logOutButton);
-		this.addComponent(layout);
+		this.getMainLayout().addComponent(layout);
 	}
 }

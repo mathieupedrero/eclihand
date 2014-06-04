@@ -34,8 +34,8 @@ import com.vaadin.ui.Window;
 
 @Component
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
-public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
-		Window implements Identifiable, InitializingBean {
+public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends Window implements Identifiable,
+		InitializingBean {
 
 	/**
 	 * 
@@ -85,8 +85,7 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 
 	private final UICallback<T> callback;
 
-	public GenericSearchModalWindow(UICallback<T> callback,
-			DataObjectService<T> service) {
+	public GenericSearchModalWindow(UICallback<T> callback, DataObjectService<T> service) {
 		super();
 		this.callback = callback;
 		this.service = service;
@@ -106,24 +105,21 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 
 		titleLabel = eclihandUiFactory.createTitleLabel();
 
-		progressIndicator = eclihandUiFactory
-				.createIndeterminateProgressIndicator();
+		progressIndicator = eclihandUiFactory.createIndeterminateProgressIndicator();
 
-		GridLayout searchFormLayout = eclihandLayoutFactory
-				.createCommonGridLayout(2, 1);
+		GridLayout searchFormLayout = eclihandLayoutFactory.createCommonGridLayout(2, 1);
 		searchFormLayout.addComponent(searchTextField);
 		searchFormLayout.addComponent(searchButton);
 
 		searchFormLayout.setSizeUndefined();
 
-		HorizontalLayout buttonsLayout = eclihandLayoutFactory
-				.createCommonHorizontalLayout();
+		HorizontalLayout buttonsLayout = eclihandLayoutFactory.createCommonHorizontalLayout();
 		buttonsLayout.addComponent(validateButton);
 		buttonsLayout.addComponent(cancelButton);
 
 		layout.addComponent(titleLabel);
 		layout.addComponent(searchFormLayout);
-		layout.addComponent(getDisplayGenericTable());
+		layout.addComponent(getDisplayGenericTable().getWrapperLayout());
 		layout.addComponent(buttonsLayout);
 		layout.addComponent(progressIndicator);
 
@@ -221,12 +217,9 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends
 	private void initLabels() {
 		this.setCaption(messageResolver.getMessage(captionKey));
 		this.getTitleLabel().setCaption(messageResolver.getMessage(titleKey));
-		this.getCancelButton().setCaption(
-				messageResolver.getMessage(cancelButtonKey));
-		this.getValidateButton().setCaption(
-				messageResolver.getMessage(validateButtonKey));
-		this.getSearchButton().setCaption(
-				messageResolver.getMessage(searchButtonKey));
+		this.getCancelButton().setCaption(messageResolver.getMessage(cancelButtonKey));
+		this.getValidateButton().setCaption(messageResolver.getMessage(validateButtonKey));
+		this.getSearchButton().setCaption(messageResolver.getMessage(searchButtonKey));
 	}
 
 	public GenericTable<T> getDisplayGenericTable() {

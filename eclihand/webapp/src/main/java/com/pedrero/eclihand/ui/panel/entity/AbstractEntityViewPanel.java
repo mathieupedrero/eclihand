@@ -16,7 +16,6 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Layout;
 
 public abstract class AbstractEntityViewPanel extends AbstractEntityComponent implements EclihandView {
 
@@ -53,9 +52,7 @@ public abstract class AbstractEntityViewPanel extends AbstractEntityComponent im
 	@Override
 	protected void postConstruct() {
 		super.postConstruct();
-		Layout buttonsLayout = eclihandLayoutFactory.createCommonHorizontalLayout();
 		Button editButton = eclihandUiFactory.createButton(credetialsToEdit());
-		buttonsLayout.addComponent(editButton);
 		editButton.setCaption(messageResolver.getMessage(MODIFY_KEY));
 		editButton.addClickListener(new Button.ClickListener() {
 
@@ -66,10 +63,11 @@ public abstract class AbstractEntityViewPanel extends AbstractEntityComponent im
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				AbstractEntityViewPanel.this.getUI().addWindow(eclihandUiFactory.createModalWindow(editComponent()));
+				AbstractEntityViewPanel.this.getMainLayout().getUI()
+						.addWindow(eclihandUiFactory.createModalWindow(editComponent()));
 			}
 		});
-		this.addComponent(buttonsLayout);
+		this.addRightDownComponent(editButton);
 	}
 
 	@Override

@@ -15,7 +15,6 @@ import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.places.PlayerPlace;
 import com.pedrero.eclihand.service.PlayerService;
-import com.pedrero.eclihand.ui.EntityDisplayerPanelComponent;
 import com.pedrero.eclihand.ui.custom.ViewGenericPropertyDisplayer;
 import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.spring.EclihandBeanFactory;
@@ -25,12 +24,7 @@ import com.vaadin.ui.Layout;
 
 @Component(value = "playerPanel")
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
-public class PlayerPanel extends AbstractEntityViewPanel implements EntityDisplayerPanelComponent<PlayerDto> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6976637745365811486L;
+public class PlayerPanel extends AbstractEntityViewPanel {
 
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
@@ -53,8 +47,6 @@ public class PlayerPanel extends AbstractEntityViewPanel implements EntityDispla
 	protected void postConstruct() {
 		super.postConstruct();
 
-		layout = eclihandLayoutFactory.createCommonVerticalLayout();
-
 		PlayerDto playerToDisplay = playerService.findById(playerPlace.getId());
 
 		ViewGenericPropertyDisplayer<PlayerDto> playerPropertyDisplayer = (ViewGenericPropertyDisplayer<PlayerDto>) beanFactory
@@ -64,10 +56,8 @@ public class PlayerPanel extends AbstractEntityViewPanel implements EntityDispla
 
 		teamTable.feed(playerToDisplay.getTeams());
 
-		layout.addComponent(playerPropertyDisplayer);
-		layout.addComponent(teamTable);
-
-		this.addComponent(layout);
+		getMainLayout().addComponent(playerPropertyDisplayer.getWrapperLayout());
+		getMainLayout().addComponent(teamTable.getWrapperLayout());
 	}
 
 	@Override
@@ -85,11 +75,6 @@ public class PlayerPanel extends AbstractEntityViewPanel implements EntityDispla
 		HashSet<Credential> credentials = new HashSet<Credential>();
 		credentials.add(Credential.PLAYER_EDIT);
 		return credentials;
-	}
-
-	@Override
-	protected com.vaadin.ui.Component editComponent() {
-		return this;
 	}
 
 }

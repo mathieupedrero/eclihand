@@ -8,7 +8,6 @@ import org.mvel2.MVEL;
 
 import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
-import com.pedrero.eclihand.ui.EntityDisplayerComponent;
 import com.pedrero.eclihand.ui.custom.config.PropertyConfig;
 import com.pedrero.eclihand.ui.custom.config.PropertyDisplayerConfig;
 import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
@@ -26,13 +25,7 @@ import com.vaadin.ui.GridLayout;
  * @param <T>
  *            {@link DataObjectDto} type to be displayed
  */
-public abstract class AbstractGenericPropertyDisplayer<T extends DataObjectDto>
-		extends AbstractEntityComponent implements EntityDisplayerComponent<T> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5698759988513402341L;
+public abstract class AbstractGenericPropertyDisplayer<T extends DataObjectDto> extends AbstractEntityComponent {
 
 	@Resource
 	private MessageResolver messageResolver;
@@ -68,7 +61,7 @@ public abstract class AbstractGenericPropertyDisplayer<T extends DataObjectDto>
 		Integer rowNumber = getConfig().getProperties().size();
 		layout = eclihandLayoutFactory.createCommonGridLayout(2, rowNumber + 1);
 		super.postConstruct();
-		this.addComponent(layout);
+		getMainLayout().addComponent(layout);
 		display(displayed);
 	}
 
@@ -81,8 +74,7 @@ public abstract class AbstractGenericPropertyDisplayer<T extends DataObjectDto>
 		}
 	}
 
-	abstract protected void createAndAddComponent(Integer currentRow,
-			PropertyConfig property, Object rawValue);
+	abstract protected void createAndAddComponent(Integer currentRow, PropertyConfig property, Object rawValue);
 
 	public PropertyDisplayerConfig getConfig() {
 		return config;
@@ -92,6 +84,7 @@ public abstract class AbstractGenericPropertyDisplayer<T extends DataObjectDto>
 		this.config = config;
 	}
 
+	@Override
 	public GridLayout getMainLayout() {
 		return layout;
 	}

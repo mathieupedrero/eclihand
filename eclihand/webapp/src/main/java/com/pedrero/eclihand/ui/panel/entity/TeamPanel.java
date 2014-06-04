@@ -14,22 +14,16 @@ import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.places.TeamPlace;
 import com.pedrero.eclihand.service.TeamService;
-import com.pedrero.eclihand.ui.EntityDisplayerPanelComponent;
 import com.pedrero.eclihand.ui.custom.ViewGenericPropertyDisplayer;
 import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.spring.EclihandBeanFactory;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
-import com.vaadin.ui.Layout;
+import com.vaadin.ui.VerticalLayout;
 
 @Component(value = "teamPanel")
 @Scope(value = "prototype")
-public class TeamPanel extends AbstractEntityViewPanel implements EntityDisplayerPanelComponent<TeamDto> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6976637745365811486L;
+public class TeamPanel extends AbstractEntityViewPanel {
 
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
@@ -46,13 +40,12 @@ public class TeamPanel extends AbstractEntityViewPanel implements EntityDisplaye
 	@Resource
 	private TeamService teamService;
 
-	private Layout layout;
+	private VerticalLayout layout;
 
 	@Override
 	protected void postConstruct() {
 		super.postConstruct();
 
-		layout = eclihandLayoutFactory.createCommonVerticalLayout();
 		TeamDto teamToDisplay = teamService.findById(teamPlace.getId());
 
 		ViewGenericPropertyDisplayer<TeamDto> teamPropertyDisplayer = (ViewGenericPropertyDisplayer<TeamDto>) eclihandBeanFactory
@@ -61,10 +54,8 @@ public class TeamPanel extends AbstractEntityViewPanel implements EntityDisplaye
 				EditMode.VIEW);
 		playerTable.feed(teamToDisplay.getPlayers());
 
-		layout.addComponent(teamPropertyDisplayer);
-		layout.addComponent(playerTable);
-
-		this.addComponent(layout);
+		getMainLayout().addComponent(teamPropertyDisplayer.getWrapperLayout());
+		getMainLayout().addComponent(playerTable.getWrapperLayout());
 
 	}
 

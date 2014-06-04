@@ -42,11 +42,6 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityCompone
 
 	private static final Object REMOVE_BUTTON_PROPERTY_KEY = new Object();
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5410222330558478558L;
-
 	private static final Logger LOGGER = LoggerFactory.getLogger(GenericTable.class);
 
 	@Resource
@@ -119,7 +114,7 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityCompone
 			@Override
 			public void buttonClick(ClickEvent event) {
 				if (!getEditMode().isReadOnly()) {
-					getUI().addWindow(beanFactory.getBean(searchModalWindowClass, new UICallback<T>() {
+					getMainLayout().getUI().addWindow(beanFactory.getBean(searchModalWindowClass, new UICallback<T>() {
 						@Override
 						public void execute(T dataObject) {
 							addToTable(dataObject);
@@ -364,14 +359,13 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityCompone
 		LOGGER.debug("GenericTable bean initialization");
 		super.postConstruct();
 
-		layout = eclihandLayoutFactory.createCommonVerticalLayout();
-		layout.addComponent(dataTable);
-		this.addComponent(layout);
 		dataTableInit();
 		if (!getEditMode().isReadOnly()) {
 			initializeButtons();
 		}
 		this.refreshData();
+
+		this.dataTable.setPageLength(5);
 	}
 
 	@Override
