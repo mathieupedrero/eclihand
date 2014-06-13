@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Scope;
@@ -60,8 +59,8 @@ public class LogoutPanel extends EclihandAbstractComponent {
 	private WelcomePlace welcomePlace;
 
 	@Override
-	@PostConstruct
 	public void postConstruct() {
+		super.postConstruct();
 		Layout layout = eclihandLayoutFactory.createCommonFormLayout();
 		Button logOutButton = eclihandUiFactory.createButton();
 		logOutButton.setCaption(messageResolver.getMessage("login.log_out"));

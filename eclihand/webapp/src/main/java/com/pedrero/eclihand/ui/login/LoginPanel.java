@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -61,8 +60,8 @@ public class LoginPanel extends EclihandAbstractComponent {
 	private UIManager uiManager;
 
 	@Override
-	@PostConstruct
 	public void postConstruct() {
+		super.postConstruct();
 		Layout layout = eclihandLayoutFactory.createCommonFormLayout();
 		final TextField loginField = eclihandUiFactory.createTextField();
 		loginField.setCaption(messageResolver.getMessage("login.login"));
