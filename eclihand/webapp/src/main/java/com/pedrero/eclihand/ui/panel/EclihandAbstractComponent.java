@@ -7,12 +7,14 @@ import javax.annotation.Resource;
 
 import com.pedrero.eclihand.controller.security.ISecuredObject;
 import com.pedrero.eclihand.controller.security.ISecurityRule;
+import com.pedrero.eclihand.controller.security.SecuredComponent;
 import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.Panel;
 
 public abstract class EclihandAbstractComponent implements ISecuredObject {
 
@@ -26,6 +28,8 @@ public abstract class EclihandAbstractComponent implements ISecuredObject {
 	private Layout rightDownLayout;
 
 	private Layout leftDownLayout;
+
+	private Panel mainComponent;
 
 	@PostConstruct
 	protected void postConstruct() {
@@ -43,6 +47,21 @@ public abstract class EclihandAbstractComponent implements ISecuredObject {
 		buttonsLayout.setComponentAlignment(leftDownLayout, Alignment.MIDDLE_LEFT);
 		buttonsLayout.addComponent(rightDownLayout);
 		buttonsLayout.setComponentAlignment(rightDownLayout, Alignment.MIDDLE_RIGHT);
+
+		mainComponent = new SecuredComponent() {
+
+			@Override
+			public Set<Credential> getRequiredCredentials() {
+				return EclihandAbstractComponent.this.getRequiredCredentials();
+			}
+
+			@Override
+			public ISecurityRule getSecurityRule() {
+				return EclihandAbstractComponent.this.getSecurityRule();
+			}
+
+		};
+		mainComponent.setContent(wrapperLayout);
 	}
 
 	private ISecurityRule securityRule;
@@ -59,12 +78,12 @@ public abstract class EclihandAbstractComponent implements ISecuredObject {
 		this.securityRule = securityRule;
 	}
 
-	public Layout getMainLayout() {
+	protected Layout getMainLayout() {
 		return mainLayout;
 	}
 
-	public Layout getWrapperLayout() {
-		return wrapperLayout;
+	public Panel getComponent() {
+		return mainComponent;
 	}
 
 	public void addLeftDownComponent(Component component) {

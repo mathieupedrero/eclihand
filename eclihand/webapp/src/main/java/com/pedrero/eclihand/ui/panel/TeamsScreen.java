@@ -88,7 +88,7 @@ public class TeamsScreen extends EclihandViewImpl {
 		GenericTable<TeamDto> teamTableForTeamPanel = (GenericTable<TeamDto>) beanFactory.getBean(
 				"teamTableForTeamsPanel", EditMode.VIEW);
 
-		layout.addComponent(teamTableForTeamPanel.getWrapperLayout());
+		layout.addComponent(teamTableForTeamPanel.getComponent());
 		layout.addComponent(createNewTeamButton);
 
 		teamTableForTeamPanel.feed(teamService.findAll());

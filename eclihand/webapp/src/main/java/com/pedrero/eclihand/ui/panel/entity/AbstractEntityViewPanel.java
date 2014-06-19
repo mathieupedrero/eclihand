@@ -63,7 +63,7 @@ public abstract class AbstractEntityViewPanel extends AbstractEntityComponent im
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				AbstractEntityViewPanel.this.getMainLayout().getUI()
+				AbstractEntityViewPanel.this.getComponent().getUI()
 						.addWindow(eclihandUiFactory.createModalWindow(editComponent()));
 			}
 		});

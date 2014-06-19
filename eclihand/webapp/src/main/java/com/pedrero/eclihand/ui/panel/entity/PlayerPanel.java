@@ -56,8 +56,8 @@ public class PlayerPanel extends AbstractEntityViewPanel {
 
 		teamTable.feed(playerToDisplay.getTeams());
 
-		getMainLayout().addComponent(playerPropertyDisplayer.getWrapperLayout());
-		getMainLayout().addComponent(teamTable.getWrapperLayout());
+		getMainLayout().addComponent(playerPropertyDisplayer.getComponent());
+		getMainLayout().addComponent(teamTable.getComponent());
 	}
 
 	@Override

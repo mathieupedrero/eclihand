@@ -114,7 +114,7 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityCompone
 			@Override
 			public void buttonClick(ClickEvent event) {
 				if (!getEditMode().isReadOnly()) {
-					getMainLayout().getUI().addWindow(beanFactory.getBean(searchModalWindowClass, new UICallback<T>() {
+					getComponent().getUI().addWindow(beanFactory.getBean(searchModalWindowClass, new UICallback<T>() {
 						@Override
 						public void execute(T dataObject) {
 							addToTable(dataObject);

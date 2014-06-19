@@ -119,7 +119,7 @@ public abstract class GenericSearchModalWindow<T extends DataObjectDto> extends 
 
 		layout.addComponent(titleLabel);
 		layout.addComponent(searchFormLayout);
-		layout.addComponent(getDisplayGenericTable().getWrapperLayout());
+		layout.addComponent(getDisplayGenericTable().getComponent());
 		layout.addComponent(buttonsLayout);
 		layout.addComponent(progressIndicator);
 
