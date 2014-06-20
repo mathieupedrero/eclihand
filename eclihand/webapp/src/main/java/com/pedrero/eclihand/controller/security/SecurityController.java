@@ -3,6 +3,7 @@ package com.pedrero.eclihand.controller.security;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -37,34 +38,41 @@ public class SecurityController {
 		return userService.retrieveCredentialsFor(user).contains(credential);
 	}
 
-	private Boolean hasCredentialIn(UserDto user,
-			Collection<Credential> credentials) {
+	private Boolean hasCredentialIn(UserDto user, Collection<Credential> credentials) {
 		if (credentials == null || credentials.isEmpty()) {
 			return true;
 		}
-		return !Collections.disjoint(userService.retrieveCredentialsFor(user),
-				credentials);
+		return !Collections.disjoint(userService.retrieveCredentialsFor(user), credentials);
 	}
 
 	public Boolean userHasCredential(Credential credential) {
-		return this.hasCredential(currentAuthentication.getAuthenticatedUser(),
-				credential);
+		return this.hasCredential(currentAuthentication.getAuthenticatedUser(), credential);
 	}
 
 	public Boolean userHasCredentialIn(Collection<Credential> credentials) {
-		return this.hasCredentialIn(
-				currentAuthentication.getAuthenticatedUser(), credentials);
+		return this.hasCredentialIn(currentAuthentication.getAuthenticatedUser(), credentials);
 	}
 
 	public Boolean userHasCredentialIn(Credential... credentials) {
 		return this.userHasCredentialIn(Arrays.asList(credentials));
 	}
 
+	public Boolean userHasCredentialIn(Credential credential, Credential... credentials) {
+		if (credentials.length == 0) {
+			return this.userHasCredential(credential);
+		}
+		List<Credential> credentialList = Arrays.asList(credentials);
+		credentialList.add(credential);
+		return this.userHasCredentialIn(credentialList);
+	}
+
 	public Boolean canBeShown(Component component) {
 		if (component instanceof ISecuredObject) {
 			ISecuredObject eclihandComponent = (ISecuredObject) component;
-			return userHasCredentialIn(eclihandComponent
-					.getRequiredCredentials());
+			ISecurityRule securityRule = eclihandComponent.getSecurityRule();
+			if (securityRule != null) {
+				return securityRule.isAccessAllowed();
+			}
 		}
 		return true;
 	}

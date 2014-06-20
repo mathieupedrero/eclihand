@@ -1,12 +1,10 @@
 package com.pedrero.eclihand.utils.ui.impl;
 
-import java.util.Set;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
-import com.pedrero.eclihand.model.domain.Credential;
+import com.pedrero.eclihand.controller.security.ISecurityRule;
 import com.pedrero.eclihand.utils.text.LocaleContainer;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
 import com.vaadin.ui.Button;
@@ -115,22 +113,9 @@ public class EclihandUiFactoryImpl implements EclihandUiFactory {
 		return button;
 	}
 
-	/**
-	 * @see com.pedrero.eclihand.utils.ui.EclihandUiFactory#createButton(com.pedrero.eclihand.model.domain.Credential[])
-	 */
 	@Override
-	public Button createButton(Credential... credentials) {
-		Button button = new SecuredButton(credentials);
-		button.setLocale(localeContainer.getLocale());
-		return button;
-	}
-
-	/**
-	 * @see com.pedrero.eclihand.utils.ui.EclihandUiFactory#createButton(com.pedrero.eclihand.model.domain.Credential[])
-	 */
-	@Override
-	public Button createButton(Set<Credential> credentials) {
-		Button button = new SecuredButton(credentials);
+	public Button createButton(ISecurityRule rule) {
+		Button button = new SecuredButton(rule);
 		button.setLocale(localeContainer.getLocale());
 		return button;
 	}

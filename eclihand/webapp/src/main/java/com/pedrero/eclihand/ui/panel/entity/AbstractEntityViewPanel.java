@@ -1,12 +1,12 @@
 package com.pedrero.eclihand.ui.panel.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import static com.pedrero.eclihand.controller.security.SecurityRuleUtils.userHas;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.NotImplementedException;
 
+import com.pedrero.eclihand.controller.security.ISecurityRule;
 import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.navigation.EclihandView;
 import com.pedrero.eclihand.utils.text.MessageResolver;
@@ -34,10 +34,8 @@ public abstract class AbstractEntityViewPanel extends AbstractEntityComponent im
 	@Resource
 	private MessageResolver messageResolver;
 
-	protected Set<Credential> credetialsToEdit() {
-		HashSet<Credential> set = new HashSet<Credential>();
-		set.add(Credential.FORBIDDEN);
-		return set;
+	protected ISecurityRule ruleToEdit() {
+		return userHas(Credential.FORBIDDEN);
 	}
 
 	protected Component editComponent() {
@@ -52,7 +50,7 @@ public abstract class AbstractEntityViewPanel extends AbstractEntityComponent im
 	@Override
 	protected void postConstruct() {
 		super.postConstruct();
-		Button editButton = eclihandUiFactory.createButton(credetialsToEdit());
+		Button editButton = eclihandUiFactory.createButton(ruleToEdit());
 		editButton.setCaption(messageResolver.getMessage(MODIFY_KEY));
 		editButton.addClickListener(new Button.ClickListener() {
 

@@ -3,10 +3,8 @@ package com.pedrero.eclihand.ui.table;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -15,7 +13,6 @@ import org.mvel2.MVEL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.service.DataObjectService;
 import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
@@ -366,10 +363,5 @@ public class GenericTable<T extends DataObjectDto> extends AbstractEntityCompone
 		this.refreshData();
 
 		this.dataTable.setPageLength(5);
-	}
-
-	@Override
-	public Set<Credential> getRequiredCredentials() {
-		return new HashSet<Credential>();
 	}
 }

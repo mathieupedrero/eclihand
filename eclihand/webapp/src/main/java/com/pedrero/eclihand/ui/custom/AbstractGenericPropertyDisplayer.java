@@ -1,12 +1,9 @@
 package com.pedrero.eclihand.ui.custom;
 
-import java.util.Set;
-
 import javax.annotation.Resource;
 
 import org.mvel2.MVEL;
 
-import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.ui.custom.config.PropertyConfig;
 import com.pedrero.eclihand.ui.custom.config.PropertyDisplayerConfig;
@@ -87,11 +84,6 @@ public abstract class AbstractGenericPropertyDisplayer<T extends DataObjectDto> 
 	@Override
 	public GridLayout getMainLayout() {
 		return layout;
-	}
-
-	@Override
-	public Set<Credential> getRequiredCredentials() {
-		return null;
 	}
 
 	public T getDisplayed() {

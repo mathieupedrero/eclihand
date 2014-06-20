@@ -1,7 +1,6 @@
 package com.pedrero.eclihand.ui.panel.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import static com.pedrero.eclihand.controller.security.SecurityRuleUtils.userHas;
 
 import javax.annotation.Resource;
 
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.pedrero.eclihand.controller.security.ISecurityRule;
 import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.TeamDto;
@@ -25,6 +25,11 @@ import com.vaadin.ui.Layout;
 @Component(value = "playerPanel")
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
 public class PlayerPanel extends AbstractEntityViewPanel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7123569734332936207L;
 
 	@Resource
 	private EclihandLayoutFactory eclihandLayoutFactory;
@@ -66,15 +71,8 @@ public class PlayerPanel extends AbstractEntityViewPanel {
 	}
 
 	@Override
-	public Set<Credential> getRequiredCredentials() {
-		return new HashSet<Credential>();
-	}
-
-	@Override
-	protected Set<Credential> credetialsToEdit() {
-		HashSet<Credential> credentials = new HashSet<Credential>();
-		credentials.add(Credential.PLAYER_EDIT);
-		return credentials;
+	protected ISecurityRule ruleToEdit() {
+		return userHas(Credential.PLAYER_EDIT);
 	}
 
 }

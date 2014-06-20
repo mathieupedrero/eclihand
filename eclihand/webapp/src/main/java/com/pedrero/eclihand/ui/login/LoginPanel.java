@@ -1,10 +1,9 @@
 package com.pedrero.eclihand.ui.login;
 
+import static com.pedrero.eclihand.controller.security.SecurityRuleUtils.userHasOneOf;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -14,6 +13,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
+import com.pedrero.eclihand.controller.security.ISecurityRule;
 import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.model.dto.UserDto;
 import com.pedrero.eclihand.service.UserService;
@@ -37,8 +37,8 @@ public class LoginPanel extends EclihandAbstractComponent {
 	private static final Logger LOGGER = LoggerFactory.getLogger(LoginPanel.class);
 
 	@Override
-	public final Set<Credential> getRequiredCredentials() {
-		return new HashSet<Credential>(Arrays.asList(Credential.CONNECT));
+	public ISecurityRule getSecurityRule() {
+		return userHasOneOf(Credential.CONNECT);
 	}
 
 	@Resource
@@ -72,6 +72,11 @@ public class LoginPanel extends EclihandAbstractComponent {
 		Button logInButton = eclihandUiFactory.createButton();
 		logInButton.setCaption(messageResolver.getMessage("login.log_in"));
 		logInButton.addClickListener(new ClickListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 6580065112238446374L;
 
 			@Override
 			public void buttonClick(ClickEvent event) {

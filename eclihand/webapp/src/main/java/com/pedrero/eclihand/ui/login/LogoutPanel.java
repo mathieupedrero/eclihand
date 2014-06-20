@@ -1,8 +1,6 @@
 package com.pedrero.eclihand.ui.login;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import static com.pedrero.eclihand.controller.security.SecurityRuleUtils.userHasOneOf;
 
 import javax.annotation.Resource;
 
@@ -10,6 +8,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
+import com.pedrero.eclihand.controller.security.ISecurityRule;
 import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.navigation.EclihandNavigator;
 import com.pedrero.eclihand.navigation.places.WelcomePlace;
@@ -30,8 +29,8 @@ import com.vaadin.ui.Layout;
 public class LogoutPanel extends EclihandAbstractComponent {
 
 	@Override
-	public final Set<Credential> getRequiredCredentials() {
-		return new HashSet<Credential>(Arrays.asList(Credential.OWN_TEAM_EDIT));
+	public ISecurityRule getSecurityRule() {
+		return userHasOneOf(Credential.OWN_TEAM_EDIT);
 	}
 
 	@Resource

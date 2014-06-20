@@ -1,8 +1,6 @@
 package com.pedrero.eclihand.utils.ui;
 
-import java.util.Set;
-
-import com.pedrero.eclihand.model.domain.Credential;
+import com.pedrero.eclihand.controller.security.ISecurityRule;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -54,20 +52,12 @@ public interface EclihandUiFactory {
 	Button createButton();
 
 	/**
-	 * Creates a button secured by the specified credentials.
+	 * Creates a button secured by the specified rule.
 	 * 
-	 * @param credentials
+	 * @param rule
 	 * @return
 	 */
-	Button createButton(Credential... credentials);
-
-	/**
-	 * Creates a button secured by the specified credentials.
-	 * 
-	 * @param credentials
-	 * @return
-	 */
-	Button createButton(Set<Credential> credentials);
+	Button createButton(ISecurityRule rule);
 
 	Button createLinkButton();
 
