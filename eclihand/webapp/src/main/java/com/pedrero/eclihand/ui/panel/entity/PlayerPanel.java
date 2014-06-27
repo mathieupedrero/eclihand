@@ -20,7 +20,6 @@ import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.spring.EclihandBeanFactory;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
-import com.vaadin.ui.Layout;
 
 @Component(value = "playerPanel")
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
@@ -45,8 +44,6 @@ public class PlayerPanel extends AbstractEntityViewPanel {
 
 	@Resource
 	private PlayerService playerService;
-
-	private Layout layout;
 
 	@Override
 	protected void postConstruct() {

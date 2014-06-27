@@ -1,8 +1,8 @@
 package com.pedrero.eclihand.ui.panel.entity;
 
-import com.pedrero.eclihand.ui.panel.EclihandAbstractComponent;
+import com.pedrero.eclihand.navigation.AbstractEclihandComponent;
 
-public abstract class AbstractEntityComponent extends EclihandAbstractComponent {
+public abstract class AbstractEntityComponent extends AbstractEclihandComponent {
 
 	private final EditMode editMode;
 

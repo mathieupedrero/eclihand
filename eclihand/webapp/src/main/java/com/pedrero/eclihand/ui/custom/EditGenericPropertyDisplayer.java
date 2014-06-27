@@ -35,10 +35,8 @@ public class EditGenericPropertyDisplayer<T extends DataObjectDto> extends
 
 	@Override
 	@SuppressWarnings("rawtypes")
-	protected void createAndAddComponent(Integer currentRow,
-			PropertyConfig property, Object rawValue) {
-		AbstractField field = createEditableComponentAndAddItToLineForProperty(
-				currentRow, property);
+	protected void createAndAddComponent(Integer currentRow, PropertyConfig property, Object rawValue) {
+		AbstractField field = createEditableComponentAndAddItToLineForProperty(currentRow, property);
 		if (rawValue != null) {
 			field.setValue(rawValue);
 		}
@@ -46,8 +44,7 @@ public class EditGenericPropertyDisplayer<T extends DataObjectDto> extends
 	}
 
 	@SuppressWarnings("rawtypes")
-	private AbstractField createEditableComponentAndAddItToLineForProperty(
-			Integer lineNumber, PropertyConfig property) {
+	private AbstractField createEditableComponentAndAddItToLineForProperty(Integer lineNumber, PropertyConfig property) {
 		AbstractField field = createAndConfigurePropertyComponent(property);
 		getMainLayout().addComponent(field, 1, lineNumber);
 		getMainLayout().setComponentAlignment(field, Alignment.MIDDLE_LEFT);
@@ -55,28 +52,21 @@ public class EditGenericPropertyDisplayer<T extends DataObjectDto> extends
 	}
 
 	@SuppressWarnings("rawtypes")
-	private AbstractField createAndConfigurePropertyComponent(
-			PropertyConfig propertyConfig) {
-		Class<? extends Object> dataTypeClass = propertyConfig
-				.retrieveClassDataType();
-		if (dataTypeClass.equals(String.class)
-				|| Number.class.isAssignableFrom(dataTypeClass)
+	private AbstractField createAndConfigurePropertyComponent(PropertyConfig propertyConfig) {
+		Class<? extends Object> dataTypeClass = propertyConfig.retrieveClassDataType();
+		if (dataTypeClass.equals(String.class) || Number.class.isAssignableFrom(dataTypeClass)
 				|| dataTypeClass.isEnum() || dataTypeClass.equals(Date.class)) {
 			Converter<String, Object> converter = propertyConfig.getFormatter();
 
-			if (propertyConfig.getMaxValue() != null
-					&& propertyConfig.getMinValue() != null) {
+			if (propertyConfig.getMaxValue() != null && propertyConfig.getMinValue() != null) {
 				ComboBox combo = new ComboBox();
 				if (Integer.class.equals(dataTypeClass)) {
-					Integer beginning = Integer.valueOf(propertyConfig
-							.getMinValue());
+					Integer beginning = Integer.valueOf(propertyConfig.getMinValue());
 					Integer end = Integer.valueOf(propertyConfig.getMaxValue());
 					for (Integer i = beginning; i <= end; i++) {
 						combo.addItem(i);
-						String toDisplay = converter == null ? i.toString()
-								: converter.convertToPresentation(i,
-										String.class,
-										localeContainer.getLocale());
+						String toDisplay = converter == null ? i.toString() : converter.convertToPresentation(i,
+								String.class, localeContainer.getLocale());
 						combo.setItemCaption(i, toDisplay);
 					}
 				} else if (Long.class.equals(dataTypeClass)) {
@@ -84,10 +74,8 @@ public class EditGenericPropertyDisplayer<T extends DataObjectDto> extends
 					Long end = Long.valueOf(propertyConfig.getMaxValue());
 					for (Long i = beginning; i <= end; i++) {
 						combo.addItem(i);
-						String toDisplay = converter == null ? i.toString()
-								: converter.convertToPresentation(i,
-										String.class,
-										localeContainer.getLocale());
+						String toDisplay = converter == null ? i.toString() : converter.convertToPresentation(i,
+								String.class, localeContainer.getLocale());
 						combo.setItemCaption(i, toDisplay);
 					}
 				}
@@ -97,9 +85,8 @@ public class EditGenericPropertyDisplayer<T extends DataObjectDto> extends
 				ComboBox combo = new ComboBox();
 				for (Object value : dataTypeClass.getEnumConstants()) {
 					combo.addItem(value);
-					String toDisplay = converter == null ? value.toString()
-							: converter.convertToPresentation(value,
-									String.class, localeContainer.getLocale());
+					String toDisplay = converter == null ? value.toString() : converter.convertToPresentation(value,
+							String.class, localeContainer.getLocale());
 					combo.setItemCaption(value, toDisplay);
 				}
 				return combo;
@@ -109,8 +96,8 @@ public class EditGenericPropertyDisplayer<T extends DataObjectDto> extends
 			}
 			return new TextField();
 		}
-		throw new EclihandUiException("Configuration exception : datatype "
-				+ propertyConfig.getDataType() + " not handled in Config");
+		throw new EclihandUiException("Configuration exception : datatype " + propertyConfig.getDataType()
+				+ " not handled in Config");
 	}
 
 	public void validateChanges() {

@@ -11,15 +11,12 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.navigator.ViewProvider;
-import com.vaadin.ui.Panel;
 
 @Component
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class EcliViewProvider implements ViewProvider {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(EcliViewProvider.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(EcliViewProvider.class);
 
 	/**
 	 * 
@@ -38,8 +35,7 @@ public class EcliViewProvider implements ViewProvider {
 		if (null == navigationState) {
 			return null;
 		}
-		if (navigationState.equals(viewName)
-				|| navigationState.startsWith(viewName + "/")) {
+		if (navigationState.equals(viewName) || navigationState.startsWith(viewName + "/")) {
 			return viewName;
 		}
 		return null;
@@ -69,24 +65,6 @@ public class EcliViewProvider implements ViewProvider {
 
 	public void setViewClass(Class<? extends View> viewClass) {
 		this.viewClass = viewClass;
-	}
-	
-	private class ViewImpl extends Panel implements View{
-
-		private final String name;
-		
-		public ViewImpl(String name) {
-			super();
-			this.name = name;
-			
-			this.setCaption(name);
-		}
-
-		@Override
-		public void enter(ViewChangeEvent event) {
-			LOGGER.debug("entered {}",name);
-		}
-		
 	}
 
 }

@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.controller.security.ISecurityRule;
 import com.pedrero.eclihand.model.domain.Credential;
+import com.pedrero.eclihand.navigation.AbstractEclihandComponent;
 import com.pedrero.eclihand.navigation.EclihandNavigator;
 import com.pedrero.eclihand.navigation.places.WelcomePlace;
 import com.pedrero.eclihand.service.UserService;
 import com.pedrero.eclihand.ui.Authentication;
 import com.pedrero.eclihand.ui.UIManager;
-import com.pedrero.eclihand.ui.panel.EclihandAbstractComponent;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
@@ -26,10 +26,10 @@ import com.vaadin.ui.Layout;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class LogoutPanel extends EclihandAbstractComponent {
+public class LogoutPanel extends AbstractEclihandComponent {
 
 	@Override
-	public ISecurityRule getSecurityRule() {
+	public ISecurityRule buildSecurityRule() {
 		return userHasOneOf(Credential.OWN_TEAM_EDIT);
 	}
 

@@ -16,10 +16,10 @@ import org.springframework.stereotype.Component;
 import com.pedrero.eclihand.controller.security.ISecurityRule;
 import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.model.dto.UserDto;
+import com.pedrero.eclihand.navigation.AbstractEclihandComponent;
 import com.pedrero.eclihand.service.UserService;
 import com.pedrero.eclihand.ui.Authentication;
 import com.pedrero.eclihand.ui.UIManager;
-import com.pedrero.eclihand.ui.panel.EclihandAbstractComponent;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
 import com.pedrero.eclihand.utils.ui.EclihandUiFactory;
@@ -32,12 +32,12 @@ import com.vaadin.ui.TextField;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class LoginPanel extends EclihandAbstractComponent {
+public class LoginPanel extends AbstractEclihandComponent {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LoginPanel.class);
 
 	@Override
-	public ISecurityRule getSecurityRule() {
+	public ISecurityRule buildSecurityRule() {
 		return userHasOneOf(Credential.CONNECT);
 	}
 

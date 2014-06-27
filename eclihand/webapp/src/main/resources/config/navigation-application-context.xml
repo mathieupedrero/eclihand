@@ -16,7 +16,6 @@
 
 	<bean id="eclihandNavigator" class="com.pedrero.eclihand.navigation.EclihandNavigatorImpl"
 		scope="session">
-		<property name="viewDisplayPanel" ref="eclihandContentPanel" />
 		<property name="views">
 			<list>
 				<bean class="com.pedrero.eclihand.navigation.EcliViewProvider">
@@ -58,9 +57,6 @@
 			</list>
 		</property>
 
-		<aop:scoped-proxy proxy-target-class="true" />
-	</bean>
-	<bean id="eclihandContentPanel" class="com.vaadin.ui.Panel" scope="session">
 		<aop:scoped-proxy proxy-target-class="true" />
 	</bean>
 	<bean id="uiManager" class="com.pedrero.eclihand.ui.UIManager" scope="session">

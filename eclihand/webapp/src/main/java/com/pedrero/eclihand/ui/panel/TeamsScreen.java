@@ -1,6 +1,5 @@
 package com.pedrero.eclihand.ui.panel;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -10,8 +9,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.model.dto.TeamDto;
+import com.pedrero.eclihand.navigation.AbstractEclihandView;
 import com.pedrero.eclihand.navigation.EclihandPlace;
-import com.pedrero.eclihand.navigation.EclihandViewImpl;
 import com.pedrero.eclihand.navigation.places.TeamsPlace;
 import com.pedrero.eclihand.service.TeamService;
 import com.pedrero.eclihand.ui.panel.entity.EditMode;
@@ -24,12 +23,16 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
 
 @Component
 @Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
-public class TeamsScreen extends EclihandViewImpl {
+public class TeamsScreen extends AbstractEclihandView {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TeamsScreen.class);
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5954828103989095039L;
 
 	@Resource
 	private MessageResolver messageResolver;
@@ -51,22 +54,15 @@ public class TeamsScreen extends EclihandViewImpl {
 
 	private Button createNewTeamButton;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5954828103989095039L;
-
-	@PostConstruct
+	@Override
 	protected void postConstruct() {
+		super.postConstruct();
 		LOGGER.info("initializing TeamsPanel");
-		this.setCaption(messageResolver.getMessage("teams.panel.title"));
-		Layout layout = eclihandLayoutFactory.createCommonVerticalLayout();
-
-		this.setContent(layout);
+		this.getComponent().setCaption(messageResolver.getMessage("teams.panel.title"));
 
 		Label label = eclihandUiFactory.createLabel();
 		label.setValue("Teams");
-		layout.addComponent(label);
+		this.getMainLayout().addComponent(label);
 
 		this.createNewTeamButton = eclihandUiFactory.createButton();
 		this.createNewTeamButton.setCaption(messageResolver.getMessage("players.create.new"));
@@ -88,12 +84,10 @@ public class TeamsScreen extends EclihandViewImpl {
 		GenericTable<TeamDto> teamTableForTeamPanel = (GenericTable<TeamDto>) beanFactory.getBean(
 				"teamTableForTeamsPanel", EditMode.VIEW);
 
-		layout.addComponent(teamTableForTeamPanel.getComponent());
-		layout.addComponent(createNewTeamButton);
+		this.getMainLayout().addComponent(teamTableForTeamPanel.getComponent());
+		this.getMainLayout().addComponent(createNewTeamButton);
 
 		teamTableForTeamPanel.feed(teamService.findAll());
-
-		this.setCaption(messageResolver.getMessage("home.caption"));
 	}
 
 	@Override

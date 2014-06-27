@@ -16,11 +16,8 @@ import com.vaadin.ui.Panel;
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class BodyPanel extends Panel {
 
-	@Resource(name = "eclihandContentPanel")
-	private Panel contentPanel;
-
 	@Resource
-	private HomeScreen homeScreen;
+	private EclihandContentPanel contentPanel;
 
 	@Resource
 	private LeftScreen leftScreen;
@@ -46,9 +43,8 @@ public class BodyPanel extends Panel {
 		layout = eclihandLayoutFactory.createCommonHorizontalLayout();
 		this.setContent(layout);
 		layout.addComponent(leftScreen);
-		layout.addComponent(contentPanel);
-		contentPanel.setWidth(panelWidth);
-		contentPanel.setContent(homeScreen);
+		layout.addComponent(contentPanel.getComponent());
+		contentPanel.getComponent().setWidth(panelWidth);
 		this.setCaption(messageResolver.getMessage("body.caption"));
 	}
 

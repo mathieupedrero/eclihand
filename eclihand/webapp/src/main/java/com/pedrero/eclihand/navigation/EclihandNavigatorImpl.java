@@ -3,10 +3,11 @@ package com.pedrero.eclihand.navigation;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
+import com.pedrero.eclihand.ui.panel.EclihandContentPanel;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.ViewProvider;
-import com.vaadin.ui.Panel;
 
 public class EclihandNavigatorImpl implements EclihandNavigator {
 
@@ -14,7 +15,8 @@ public class EclihandNavigatorImpl implements EclihandNavigator {
 
 	private Navigator navigator;
 
-	private Panel viewDisplayPanel;
+	@Resource
+	private EclihandContentPanel eclihandContentPanel;
 
 	private List<ViewProvider> viewProviders;
 
@@ -41,18 +43,10 @@ public class EclihandNavigatorImpl implements EclihandNavigator {
 
 	@PostConstruct
 	public void postConstruct() throws Exception {
-		navigator = new Navigator(viewDisplayPanel.getUI(), viewDisplayPanel);
+		navigator = new Navigator(eclihandContentPanel.getComponent().getUI(), eclihandContentPanel);
 		for (ViewProvider viewProvider : viewProviders) {
 			navigator.addProvider(viewProvider);
 		}
-	}
-
-	public Panel getViewDisplayPanel() {
-		return viewDisplayPanel;
-	}
-
-	public void setViewDisplayPanel(Panel viewDisplayPanel) {
-		this.viewDisplayPanel = viewDisplayPanel;
 	}
 
 	public List<ViewProvider> getViewProviders() {

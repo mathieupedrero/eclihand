@@ -21,8 +21,7 @@ public class ViewGenericPropertyDisplayer<T extends DataObjectDto> extends
 	}
 
 	@Override
-	protected void createAndAddComponent(Integer currentRow,
-			PropertyConfig property, Object rawValue) {
+	protected void createAndAddComponent(Integer currentRow, PropertyConfig property, Object rawValue) {
 		Label label = createLabelAndAddItAsValueToLine(currentRow);
 		if (property.getFormatter() != null) {
 			label.setConverter(property.getFormatter());

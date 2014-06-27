@@ -8,6 +8,8 @@ import org.apache.commons.lang.NotImplementedException;
 
 import com.pedrero.eclihand.controller.security.ISecurityRule;
 import com.pedrero.eclihand.model.domain.Credential;
+import com.pedrero.eclihand.navigation.AbstractEclihandView;
+import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.EclihandView;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;
@@ -17,11 +19,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 
-public abstract class AbstractEntityViewPanel extends AbstractEntityComponent implements EclihandView {
-
-	public AbstractEntityViewPanel() {
-		super(EditMode.VIEW);
-	}
+public abstract class AbstractEntityViewPanel extends AbstractEclihandView implements EclihandView {
 
 	private static final String MODIFY_KEY = "common.modify";
 
@@ -71,6 +69,11 @@ public abstract class AbstractEntityViewPanel extends AbstractEntityComponent im
 	@Override
 	public void enter(ViewChangeEvent event) {
 		retrieveAssociatedPlace().feedFromFragment(event.getParameters());
+	}
+
+	@Override
+	public EclihandPlace retrieveAssociatedPlace() {
+		return null;
 	}
 
 }

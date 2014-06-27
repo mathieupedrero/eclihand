@@ -1,4 +1,4 @@
-package com.pedrero.eclihand.ui.panel;
+package com.pedrero.eclihand.navigation;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -13,7 +13,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Panel;
 
-public abstract class EclihandAbstractComponent implements ISecuredObject {
+public abstract class AbstractEclihandComponent implements ISecuredObject {
 
 	private static final String LIGHT_STYLE = "light";
 
@@ -56,7 +56,7 @@ public abstract class EclihandAbstractComponent implements ISecuredObject {
 
 			@Override
 			public ISecurityRule getSecurityRule() {
-				return EclihandAbstractComponent.this.getSecurityRule();
+				return AbstractEclihandComponent.this.getSecurityRule();
 			}
 
 		};
@@ -67,12 +67,15 @@ public abstract class EclihandAbstractComponent implements ISecuredObject {
 	private ISecurityRule securityRule;
 
 	@Override
-	public ISecurityRule getSecurityRule() {
+	public final ISecurityRule getSecurityRule() {
+		if (securityRule == null) {
+			securityRule = buildSecurityRule();
+		}
 		return securityRule;
 	}
 
-	public void setSecurityRule(ISecurityRule securityRule) {
-		this.securityRule = securityRule;
+	protected ISecurityRule buildSecurityRule() {
+		return null;
 	}
 
 	protected Layout getMainLayout() {
