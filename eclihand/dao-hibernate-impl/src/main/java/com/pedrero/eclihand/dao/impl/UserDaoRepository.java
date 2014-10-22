@@ -9,8 +9,7 @@ import com.pedrero.eclihand.dao.UserDao;
 import com.pedrero.eclihand.model.domain.impl.UserImpl;
 
 @Repository
-public interface UserDaoRepository extends UserDao<UserImpl>,
-		JpaRepository<UserImpl, Long> {
+public interface UserDaoRepository extends UserDao, JpaRepository<UserImpl, Long> {
 
 	@Override
 	public List<UserImpl> findByIndexLikeIgnoreCase(String index);

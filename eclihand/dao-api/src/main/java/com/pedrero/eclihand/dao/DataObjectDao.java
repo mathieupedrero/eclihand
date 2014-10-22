@@ -21,12 +21,12 @@ public interface DataObjectDao<T extends DataObject> {
 
 	void deleteAll();
 
-	public List<T> findAll();
+	public List<? extends T> findAll();
 
 	public boolean exists(Long id);
 
 	long count();
 
-	public List<T> findByIndexLikeIgnoreCase(String index);
+	public List<? extends T> findByIndexLikeIgnoreCase(String index);
 
 }

@@ -4,17 +4,26 @@
 
 <web-app>
 	<display-name>Eclihand</display-name>
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/config/application-context.xml</param-value> <!-- /WEB-INF/config/security-application-context.xml -->
-	</context-param>
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-	<listener>
+<!-- 	<listener> -->
+<!-- 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> -->
+<!-- 	</listener> -->
+<!-- 	<listener> -->
 		<!-- To allow session-scoped beans -->
-		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-	</listener>
+<!-- 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class> -->
+<!-- 	</listener> -->
+	<servlet>    
+		<servlet-name>eclihand-rest</servlet-name>    
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>   
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/config/application-context.xml</param-value> <!-- /WEB-INF/config/security-application-context.xml -->
+		</init-param> 
+		<load-on-startup>1</load-on-startup>    
+	</servlet>
+	<servlet-mapping>    
+		<servlet-name>eclihand-rest</servlet-name>    
+		<url-pattern>/*</url-pattern>    
+	</servlet-mapping>
 	<resource-ref>
 		<description>DB Connection</description>
 		<res-ref-name>jdbc/postgres/eclihand</res-ref-name>

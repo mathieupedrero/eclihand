@@ -22,8 +22,7 @@ import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.service.PlayerService;
 
 @Service
-public class PlayerServiceImpl extends DataObjectServiceImpl<PlayerDto, Player>
-		implements PlayerService {
+public class PlayerServiceImpl extends DataObjectServiceImpl<PlayerDto, Player> implements PlayerService {
 
 	@Resource
 	private PlayerConverter playerConverter;
@@ -32,13 +31,13 @@ public class PlayerServiceImpl extends DataObjectServiceImpl<PlayerDto, Player>
 	private PersonConverter personConverter;
 
 	@Resource
-	private PlayerDao<Player> playerDao;
+	private PlayerDao playerDao;
 
 	@Resource
-	private PersonDao<Person> personDao;
+	private PersonDao personDao;
 
 	@Resource
-	private TeamDao<Team> teamDao;
+	private TeamDao teamDao;
 
 	@Override
 	public PlayerConverter getConverter() {
@@ -50,11 +49,11 @@ public class PlayerServiceImpl extends DataObjectServiceImpl<PlayerDto, Player>
 	}
 
 	@Override
-	public PlayerDao<Player> getDao() {
+	public PlayerDao getDao() {
 		return playerDao;
 	}
 
-	public void setDao(PlayerDao<Player> playerDao) {
+	public void setDao(PlayerDao playerDao) {
 		this.playerDao = playerDao;
 	}
 
@@ -98,18 +97,14 @@ public class PlayerServiceImpl extends DataObjectServiceImpl<PlayerDto, Player>
 	}
 
 	@Override
-	public Integer computeAgeForPlayerWhenPlayingForTeam(Long playerId,
-			Long teamId) {
+	public Integer computeAgeForPlayerWhenPlayingForTeam(Long playerId, Long teamId) {
 		Team team = teamDao.findById(teamId);
 		Player player = playerDao.findById(playerId);
 		GregorianCalendar playerBirthDate = new GregorianCalendar();
 		playerBirthDate.setTime(player.getPlayerPerson().getBirthDate());
-		Integer playerBirthDateYear = playerBirthDate
-				.get(GregorianCalendar.YEAR);
-		Integer playerBirthDateMonth = playerBirthDate
-				.get(GregorianCalendar.MONTH);
-		return team.getYear() - playerBirthDateYear
-				- (playerBirthDateMonth < GregorianCalendar.SEPTEMBER ? 1 : 2);
+		Integer playerBirthDateYear = playerBirthDate.get(GregorianCalendar.YEAR);
+		Integer playerBirthDateMonth = playerBirthDate.get(GregorianCalendar.MONTH);
+		return team.getYear() - playerBirthDateYear - (playerBirthDateMonth < GregorianCalendar.SEPTEMBER ? 1 : 2);
 	}
 
 	/*
@@ -134,8 +129,7 @@ public class PlayerServiceImpl extends DataObjectServiceImpl<PlayerDto, Player>
 	@Transactional
 	public List<PlayerDto> searchByCriterium(Object criterium) {
 		List<PlayerDto> result = new ArrayList<PlayerDto>();
-		for (Player player : getDao().findByPlayerPersonIndexLikeIgnoreCase(
-				"%" + criterium.toString() + "%")) {
+		for (Player player : getDao().findByPlayerPersonIndexLikeIgnoreCase("%" + criterium.toString() + "%")) {
 			result.add(getConverter().convertToDto(player));
 		}
 		return result;

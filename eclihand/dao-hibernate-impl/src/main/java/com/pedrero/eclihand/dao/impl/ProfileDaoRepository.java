@@ -9,7 +9,7 @@ import com.pedrero.eclihand.dao.ProfileDao;
 import com.pedrero.eclihand.model.domain.impl.ProfileImpl;
 
 @Repository
-public interface ProfileDaoRepository extends ProfileDao<ProfileImpl>,
+public interface ProfileDaoRepository extends ProfileDao,
 		JpaRepository<ProfileImpl, Long> {
 
 	@Override

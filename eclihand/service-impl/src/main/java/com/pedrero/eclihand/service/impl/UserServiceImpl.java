@@ -13,7 +13,6 @@ import com.pedrero.eclihand.dao.PlayerDao;
 import com.pedrero.eclihand.dao.UserDao;
 import com.pedrero.eclihand.model.domain.Authorization;
 import com.pedrero.eclihand.model.domain.Credential;
-import com.pedrero.eclihand.model.domain.Player;
 import com.pedrero.eclihand.model.domain.Profile;
 import com.pedrero.eclihand.model.domain.User;
 import com.pedrero.eclihand.model.domain.UserType;
@@ -22,18 +21,17 @@ import com.pedrero.eclihand.service.PlayerService;
 import com.pedrero.eclihand.service.UserService;
 
 @Service
-public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User>
-		implements UserService {
+public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User> implements UserService {
 	public static final String AGE_WHEN_PLAYING_FOR_TEAM = "age.when.playing.for.team";
 
 	@Resource
 	private UserConverter userConverter;
 
 	@Resource
-	private UserDao<User> userDao;
+	private UserDao userDao;
 
 	@Resource
-	private PlayerDao<Player> playerDao;
+	private PlayerDao playerDao;
 
 	@Resource
 	private PlayerService playerService;
@@ -48,11 +46,11 @@ public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User>
 	}
 
 	@Override
-	public UserDao<User> getDao() {
+	public UserDao getDao() {
 		return userDao;
 	}
 
-	public void setTeamDao(UserDao<User> userDao) {
+	public void setTeamDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
 
@@ -78,8 +76,7 @@ public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User>
 	@Override
 	@Transactional
 	public UserDto login(String login, String md5EncodedPassword) {
-		User loggedIn = getDao().findByLoginAndPassword(login,
-				md5EncodedPassword);
+		User loggedIn = getDao().findByLoginAndPassword(login, md5EncodedPassword);
 		return loggedIn == null ? null : getConverter().convertToDto(loggedIn);
 	}
 

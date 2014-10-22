@@ -16,18 +16,17 @@ import com.pedrero.eclihand.service.PlayerService;
 import com.pedrero.eclihand.service.TeamService;
 
 @Service
-public class TeamServiceImpl extends DataObjectServiceImpl<TeamDto, Team>
-		implements TeamService {
+public class TeamServiceImpl extends DataObjectServiceImpl<TeamDto, Team> implements TeamService {
 	public static final String AGE_WHEN_PLAYING_FOR_TEAM = "age.when.playing.for.team";
 
 	@Resource
 	private TeamConverter teamConverter;
 
 	@Resource
-	private TeamDao<Team> teamDao;
+	private TeamDao teamDao;
 
 	@Resource
-	private PlayerDao<Player> playerDao;
+	private PlayerDao playerDao;
 
 	@Resource
 	private PlayerService playerService;
@@ -65,11 +64,9 @@ public class TeamServiceImpl extends DataObjectServiceImpl<TeamDto, Team>
 		Team entity = teamDao.findById(id);
 		TeamDto toReturn = teamConverter.convertToDto(entity);
 		for (PlayerDto player : toReturn.getPlayers()) {
-			Integer ageWhenPlayingForTeam = playerService
-					.computeAgeForPlayerWhenPlayingForTeam(player.getId(),
-							entity.getId());
-			player.getOtherProperties().put(AGE_WHEN_PLAYING_FOR_TEAM,
-					ageWhenPlayingForTeam);
+			Integer ageWhenPlayingForTeam = playerService.computeAgeForPlayerWhenPlayingForTeam(player.getId(),
+					entity.getId());
+			player.getOtherProperties().put(AGE_WHEN_PLAYING_FOR_TEAM, ageWhenPlayingForTeam);
 		}
 		return toReturn;
 	}
@@ -84,11 +81,11 @@ public class TeamServiceImpl extends DataObjectServiceImpl<TeamDto, Team>
 	}
 
 	@Override
-	public TeamDao<Team> getDao() {
+	public TeamDao getDao() {
 		return teamDao;
 	}
 
-	public void setTeamDao(TeamDao<Team> teamDao) {
+	public void setTeamDao(TeamDao teamDao) {
 		this.teamDao = teamDao;
 	}
 

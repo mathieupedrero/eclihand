@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.pedrero.eclihand.model.domain.Player;
 
-public interface PlayerDao<T extends Player> extends DataObjectDao<T> {
+public interface PlayerDao extends DataObjectDao<Player> {
 
-	public List<T> findByPlayerPersonIndexLikeIgnoreCase(String index);
+	public List<? extends Player> findByPlayerPersonIndexLikeIgnoreCase(String index);
 
 }

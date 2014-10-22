@@ -11,13 +11,12 @@ import com.pedrero.eclihand.model.dto.PersonDto;
 import com.pedrero.eclihand.service.PersonService;
 
 @Service
-public class PersonServiceImpl extends DataObjectServiceImpl<PersonDto, Person>
-		implements PersonService {
+public class PersonServiceImpl extends DataObjectServiceImpl<PersonDto, Person> implements PersonService {
 	@Resource
 	private PersonConverter personConverter;
 
 	@Resource
-	private PersonDao<Person> personDao;
+	private PersonDao personDao;
 
 	@Override
 	public PersonConverter getConverter() {
@@ -29,11 +28,11 @@ public class PersonServiceImpl extends DataObjectServiceImpl<PersonDto, Person>
 	}
 
 	@Override
-	public PersonDao<Person> getDao() {
+	public PersonDao getDao() {
 		return personDao;
 	}
 
-	public void setPersonDao(PersonDao<Person> personDao) {
+	public void setPersonDao(PersonDao personDao) {
 		this.personDao = personDao;
 	}
 

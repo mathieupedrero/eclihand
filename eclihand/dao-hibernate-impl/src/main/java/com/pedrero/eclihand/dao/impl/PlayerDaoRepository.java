@@ -9,8 +9,7 @@ import com.pedrero.eclihand.dao.PlayerDao;
 import com.pedrero.eclihand.model.domain.impl.PlayerImpl;
 
 @Repository
-public interface PlayerDaoRepository extends PlayerDao<PlayerImpl>,
-		JpaRepository<PlayerImpl, Long> {
+public interface PlayerDaoRepository extends PlayerDao, JpaRepository<PlayerImpl, Long> {
 
 	@Override
 	public List<PlayerImpl> findByIndexLikeIgnoreCase(String index);
