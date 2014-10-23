@@ -1,15 +1,14 @@
 package com.pedrero.eclihand.model.dto;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class DataObjectDto {
 
 	private Long id;
-	
+
 	private String index;
 
-	private final Map<String, Object> otherProperties = new HashMap<String, Object>();
+	private Map<String, Object> otherProperties;
 
 	public DataObjectDto() {
 		super();
@@ -33,6 +32,10 @@ public class DataObjectDto {
 
 	public Map<String, Object> getOtherProperties() {
 		return otherProperties;
+	}
+
+	public void setOtherProperties(Map<String, Object> otherProperties) {
+		this.otherProperties = otherProperties;
 	}
 
 }

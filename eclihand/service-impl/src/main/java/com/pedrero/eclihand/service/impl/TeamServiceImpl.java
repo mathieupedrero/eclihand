@@ -1,5 +1,7 @@
 package com.pedrero.eclihand.service.impl;
 
+import java.util.HashMap;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -66,6 +68,7 @@ public class TeamServiceImpl extends DataObjectServiceImpl<TeamDto, Team> implem
 		for (PlayerDto player : toReturn.getPlayers()) {
 			Integer ageWhenPlayingForTeam = playerService.computeAgeForPlayerWhenPlayingForTeam(player.getId(),
 					entity.getId());
+			player.setOtherProperties(new HashMap<String, Object>());
 			player.getOtherProperties().put(AGE_WHEN_PLAYING_FOR_TEAM, ageWhenPlayingForTeam);
 		}
 		return toReturn;
