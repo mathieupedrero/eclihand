@@ -2,6 +2,7 @@ package com.pedrero.eclihand.dao;
 
 import java.util.List;
 
+import com.pedrero.eclihand.dao.request.PageableParam;
 import com.pedrero.eclihand.model.domain.DataObject;
 
 public interface DataObjectDao<T extends DataObject> {
@@ -22,6 +23,8 @@ public interface DataObjectDao<T extends DataObject> {
 	void deleteAll();
 
 	public List<? extends T> findAll();
+
+	public List<? extends T> findAll(PageableParam pageable);
 
 	public boolean exists(Long id);
 
