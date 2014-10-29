@@ -18,8 +18,6 @@ public interface DataObjectDao<T extends DataObject> {
 
 	public void delete(Long id);
 
-	void delete(Iterable<? extends T> entities);
-
 	void deleteAll();
 
 	public Iterable<? extends T> findAll();
