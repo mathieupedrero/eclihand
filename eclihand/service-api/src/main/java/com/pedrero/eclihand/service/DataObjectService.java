@@ -3,6 +3,7 @@ package com.pedrero.eclihand.service;
 import java.util.List;
 
 import com.pedrero.eclihand.model.dto.DataObjectDto;
+import com.pedrero.eclihand.model.dto.PageableDto;
 
 public interface DataObjectService<T extends DataObjectDto> {
 	public T save(T dto);
@@ -14,7 +15,9 @@ public interface DataObjectService<T extends DataObjectDto> {
 	public void delete(T dto);
 
 	public List<T> findAll();
-	
+
+	public List<T> findAll(PageableDto pageable);
+
 	public List<T> searchByCriterium(Object criterium);
 
 }

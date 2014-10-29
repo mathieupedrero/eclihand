@@ -3,16 +3,23 @@ package com.pedrero.eclihand.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pedrero.eclihand.converter.Converter;
 import com.pedrero.eclihand.dao.DataObjectDao;
+import com.pedrero.eclihand.dao.request.factory.PageableFactory;
 import com.pedrero.eclihand.model.domain.DataObject;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
+import com.pedrero.eclihand.model.dto.PageableDto;
 import com.pedrero.eclihand.service.DataObjectService;
 
 public abstract class DataObjectServiceImpl<T extends DataObjectDto, U extends DataObject> implements
 		DataObjectService<T> {
+
+	@Resource
+	private PageableFactory pageableFactory;
 
 	@Override
 	@Transactional
@@ -50,6 +57,15 @@ public abstract class DataObjectServiceImpl<T extends DataObjectDto, U extends D
 	public List<T> findAll() {
 		List<T> result = new ArrayList<T>();
 		for (U entity : getDao().findAll()) {
+			result.add(getConverter().convertToDto(entity));
+		}
+		return result;
+	}
+
+	@Override
+	public List<T> findAll(PageableDto pageable) {
+		List<T> result = new ArrayList<T>();
+		for (U entity : getDao().findAll(pageableFactory.createFrom(pageable))) {
 			result.add(getConverter().convertToDto(entity));
 		}
 		return result;

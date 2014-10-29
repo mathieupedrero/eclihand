@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.pedrero.eclihand.model.dto.DataObjectDto;
+import com.pedrero.eclihand.model.dto.PageableDto;
 import com.pedrero.eclihand.service.DataObjectService;
 
 public abstract class AbstractWs<T extends DataObjectDto> {
@@ -26,6 +27,11 @@ public abstract class AbstractWs<T extends DataObjectDto> {
 	@RequestMapping(method = RequestMethod.GET, value = "/all")
 	public List<T> findAll() {
 		return getService().findAll();
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/page")
+	public List<T> find(@RequestBody PageableDto pageable) {
+		return getService().findAll(pageable);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)

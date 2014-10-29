@@ -22,9 +22,9 @@ public interface DataObjectDao<T extends DataObject> {
 
 	void deleteAll();
 
-	public List<? extends T> findAll();
+	public Iterable<? extends T> findAll();
 
-	public List<? extends T> findAll(PageableParam pageable);
+	public Iterable<? extends T> findAll(PageableParam pageable);
 
 	public boolean exists(Long id);
 
