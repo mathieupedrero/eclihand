@@ -1,15 +1,12 @@
 package com.pedrero.eclihand.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Resource;
+import java.util.stream.Collectors;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pedrero.eclihand.converter.Converter;
 import com.pedrero.eclihand.dao.DataObjectDao;
-import com.pedrero.eclihand.dao.request.factory.PageableFactory;
 import com.pedrero.eclihand.model.domain.DataObject;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.model.dto.PageableDto;
@@ -17,9 +14,6 @@ import com.pedrero.eclihand.service.DataObjectService;
 
 public abstract class DataObjectServiceImpl<T extends DataObjectDto, U extends DataObject> implements
 		DataObjectService<T> {
-
-	@Resource
-	private PageableFactory pageableFactory;
 
 	@Override
 	@Transactional
@@ -55,30 +49,20 @@ public abstract class DataObjectServiceImpl<T extends DataObjectDto, U extends D
 	@Override
 	@Transactional
 	public List<T> findAll() {
-		List<T> result = new ArrayList<T>();
-		for (U entity : getDao().findAll()) {
-			result.add(getConverter().convertToDto(entity));
-		}
-		return result;
+		return getDao().findAllObjects().stream().map(getConverter()::convertToDto).collect(Collectors.toList());
 	}
 
 	@Override
 	public List<T> findAll(PageableDto pageable) {
-		List<T> result = new ArrayList<T>();
-		for (U entity : getDao().findAll(pageableFactory.createFrom(pageable))) {
-			result.add(getConverter().convertToDto(entity));
-		}
-		return result;
+		return getDao().findAllObjects(pageable).stream().map(getConverter()::convertToDto)
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	@Transactional
 	public List<T> searchByCriterium(Object criterium) {
-		List<T> result = new ArrayList<T>();
-		for (U entity : getDao().findByIndexLikeIgnoreCase("%" + criterium.toString() + "%")) {
-			result.add(getConverter().convertToDto(entity));
-		}
-		return result;
+		return getDao().findByIndexLikeIgnoreCase("%" + criterium.toString() + "%").stream()
+				.map(getConverter()::convertToDto).collect(Collectors.toList());
 	}
 
 	abstract public DataObjectDao<U> getDao();
