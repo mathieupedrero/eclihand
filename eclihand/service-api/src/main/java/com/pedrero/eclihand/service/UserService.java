@@ -31,4 +31,12 @@ public interface UserService extends DataObjectService<UserDto> {
 	 */
 	public UserDto login(String login, String md5EncodedPassword);
 
+	/**
+	 * Retrieves an uver given it's login.
+	 * 
+	 * @param login
+	 * @return
+	 */
+	public UserDto retrieveByLogin(String login);
+
 }

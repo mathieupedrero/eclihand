@@ -80,4 +80,12 @@ public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User> implem
 		return loggedIn == null ? null : getConverter().convertToDto(loggedIn);
 	}
 
+	/**
+	 * @see com.pedrero.eclihand.service.UserService#retrieveByLogin(java.lang.String)
+	 */
+	@Override
+	public UserDto retrieveByLogin(String login) {
+		return getConverter().convertToDto(getDao().findByLogin(login));
+	}
+
 }

@@ -35,11 +35,9 @@ public class EclihandFilter extends GenericFilterBean {
 	private final AuthenticationEntryPoint authenticationEntryPoint;
 	private final Md5PasswordEncoder md5;
 
-	// public EclihandFilter(AuthenticationManager authenticationManager) {
-	// this(authenticationManager, new RestAuthenticationEntryPoint());
-	// ((RestAuthenticationEntryPoint)
-	// this.authenticationEntryPoint).setRealmName("Secure realm");
-	// }
+	public EclihandFilter(AuthenticationManager authenticationManager) {
+		this(authenticationManager, new EclihandAuthenticationEntryPoint());
+	}
 
 	public EclihandFilter(AuthenticationManager authenticationManager, AuthenticationEntryPoint authenticationEntryPoint) {
 		this.authenticationManager = authenticationManager;
@@ -115,5 +113,4 @@ public class EclihandFilter extends GenericFilterBean {
 			// authenticationException);
 		}
 	}
-
 }
