@@ -1,6 +1,7 @@
 package com.pedrero.eclihand.rest.security;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
@@ -12,16 +13,20 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.time.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.web.filter.GenericFilterBean;
 
-import com.pedrero.eclihand.model.exception.EclihandRuntimeException;
-
 public class EclihandFilter extends GenericFilterBean {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(EclihandFilter.class);
 
 	// Enable Multi-Read for PUT and POST requests
 	private static final Set<String> METHOD_HAS_CONTENT = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
@@ -53,16 +58,16 @@ public class EclihandFilter extends GenericFilterBean {
 		HttpServletResponse response = (HttpServletResponse) resp;
 
 		// Get authorization header
-		String credentials = request.getHeader("Authorization");
+		String authorizationHeader = request.getHeader("Authorization");
 
 		// If there's not credentials return...
-		if (credentials == null) {
+		if (authorizationHeader == null) {
 			chain.doFilter(request, response);
 			return;
 		}
 
 		// Authorization header is in the form <public_access_key>:<signature>
-		String auth[] = credentials.split(":");
+		String auth[] = authorizationHeader.split(":");
 
 		// get md5 content and content-type if the request is POST or PUT method
 		boolean hasContent = METHOD_HAS_CONTENT.contains(request.getMethod());
@@ -79,21 +84,20 @@ public class EclihandFilter extends GenericFilterBean {
 
 		// a rest credential is composed by request data to sign and the
 		// signature
-		// EclihandCredentials restCredential = new
-		// EclihandCredentials(toSign.toString(), auth[1]);
+		EclihandCredentials restCredential = new EclihandCredentials(toSign.toString(), auth[1]);
 
 		// calculate UTC time from timestamp (usually Date header is GMT but
 		// still...)
 		Date date = null;
-		// try {
-		// date = DateUtils.parseDate(timestamp);
-		// } catch (DateParseException | IllegalArgumentException ex) {
-		// ex.printStackTrace();
-		// }
+		try {
+			date = DateUtils.parseDate(timestamp, new String[] { "EEE, dd MMM yyyy HH:mm:ss Z" });
+		} catch (ParseException e) {
+			LOGGER.warn("Error parsing http header date {}", timestamp, e);
+		}
 
 		// Create an authentication token
 		Authentication authentication = null;
-		// authentication = new EclihandToken(auth[0], restCredential, date);
+		authentication = new EclihandToken(auth[0], restCredential, date);
 
 		try {
 			// Request the authentication manager to authenticate the token
@@ -105,12 +109,11 @@ public class EclihandFilter extends GenericFilterBean {
 			SecurityContextHolder.getContext().setAuthentication(successfulAuthentication);
 			// Continue with the Filters
 			chain.doFilter(request, response);
-		} catch (EclihandRuntimeException authenticationException) {
+		} catch (AuthenticationException authenticationException) {
 			// If it fails clear this threads context and kick off the
 			// authentication entry point process.
 			SecurityContextHolder.clearContext();
-			// authenticationEntryPoint.commence(request, response,
-			// authenticationException);
+			authenticationEntryPoint.commence(request, response, authenticationException);
 		}
 	}
 }
