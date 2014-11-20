@@ -3,23 +3,18 @@ package com.pedrero.eclihand.rest.security;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.Resource;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.model.dto.UserDto;
 import com.pedrero.eclihand.service.UserService;
 
-@Component
 public class EclihandUserDetailsService implements UserDetailsService {
 
-	@Resource
 	private UserService userService;
 
 	@Override
@@ -36,6 +31,14 @@ public class EclihandUserDetailsService implements UserDetailsService {
 						Collectors.mapping((authorization) -> new SimpleGrantedAuthority(authorization.getCredential()
 								.name()), Collectors.toSet()));
 		return new User(retrieved.getLogin(), retrieved.getPassword(), authorities);
+	}
+
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
 
 }

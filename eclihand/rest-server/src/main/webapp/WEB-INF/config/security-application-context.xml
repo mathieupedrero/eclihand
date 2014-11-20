@@ -5,18 +5,29 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-	
-	  <http auto-config='true'>
-	    <intercept-url pattern="/**" access="ROLE_ADMIN" />
-	  </http>
-  
-	<authentication-manager>
-		<authentication-provider>
-			<user-service>
-				<user name="joecool" password="password" authorities="ROLE_USER, ROLE_ADMIN"/>
-				<user name="msmart" password="password" authorities="ROLE_USER"/>
-			</user-service>
-		</authentication-provider>
-	</authentication-manager>
+	    <!-- Defines security domains -->
+    <http create-session="stateless" entry-point-ref="authenticationEntryPoint" authentication-manager-ref="authenticationManager" use-expressions="true">
+        <custom-filter ref="eclihandAuthenticationFilter" position="FORM_LOGIN_FILTER" />
+        <intercept-url pattern="/**" access="isAuthenticated()" />
+    </http>
+ 
+    <beans:bean id="eclihandAuthenticationFilter" class="com.pedrero.eclihand.rest.security.EclihandFilter">
+        <beans:constructor-arg name="authenticationManager" ref="eclihandAuthenticationManager" />
+        <beans:constructor-arg name="authenticationEntryPoint">
+        	<beans:bean class="org.springframework.security.web.authentication.Http403ForbiddenAuthenticationEntryPoint"/>
+        </beans:constructor-arg>
+    </beans:bean>
+        
+    <beans:bean id="eclihandAuthenticationProvider" class="com.pedrero.eclihand.rest.security.EclihandAuthenticationProvider">
+    	<beans:property name="userDetailsService">
+    		<beans:ref local="eclihandUserDetailsService"/>
+    	</beans:property>
+    </beans:bean>
+    
+    <beans:bean id="eclihandUserDetailsService" autowire="byType" class="com.pedrero.eclihand.rest.security.EclihandUserDetailsService" />
+ 
+    <authentication-manager id="eclihandAuthenticationManager">
+        <authentication-provider ref="eclihandAuthenticationProvider" />
+    </authentication-manager>
 
 </beans:beans>

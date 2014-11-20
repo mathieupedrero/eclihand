@@ -11,9 +11,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.codec.Base64;
-import org.springframework.stereotype.Component;
 
-@Component
 public class EclihandAuthenticationProvider extends DaoAuthenticationProvider {
 
 	private static final String HMAC_SHA256_ALGORITHM_NAME = "HmacSHA256";
