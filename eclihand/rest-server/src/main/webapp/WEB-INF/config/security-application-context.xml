@@ -6,7 +6,7 @@
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
 	    <!-- Defines security domains -->
-    <http create-session="stateless" entry-point-ref="authenticationEntryPoint" authentication-manager-ref="authenticationManager" use-expressions="true">
+    <http create-session="stateless" entry-point-ref="eclihandEntryPoint" authentication-manager-ref="eclihandAuthenticationManager" use-expressions="true">
         <custom-filter ref="eclihandAuthenticationFilter" position="FORM_LOGIN_FILTER" />
         <intercept-url pattern="/**" access="isAuthenticated()" />
     </http>
@@ -14,7 +14,7 @@
     <beans:bean id="eclihandAuthenticationFilter" class="com.pedrero.eclihand.rest.security.EclihandFilter">
         <beans:constructor-arg name="authenticationManager" ref="eclihandAuthenticationManager" />
         <beans:constructor-arg name="authenticationEntryPoint">
-        	<beans:bean class="org.springframework.security.web.authentication.Http403ForbiddenAuthenticationEntryPoint"/>
+        	<beans:bean class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint"/>
         </beans:constructor-arg>
     </beans:bean>
         
@@ -22,6 +22,9 @@
     	<beans:property name="userDetailsService">
     		<beans:ref local="eclihandUserDetailsService"/>
     	</beans:property>
+    </beans:bean>
+        
+    <beans:bean id="eclihandEntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint">
     </beans:bean>
     
     <beans:bean id="eclihandUserDetailsService" autowire="byType" class="com.pedrero.eclihand.rest.security.EclihandUserDetailsService" />

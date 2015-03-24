@@ -11,6 +11,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
@@ -22,25 +23,25 @@ public class AuthenticationSimulator {
 	private static final String HMAC_SHA256_ALGORITHM_NAME = "HmacSHA256";
 
 	public static void main(String[] args) throws IOException {
-		// testService();
+		testService("http://localhost:8080/eclihand-server/teams","toto","toto");
 
 	}
 
-	public static void testService(String path, String username, String password) throws IOException {
+	public static void testService(final String path, final String username, final String password) throws IOException {
 
 		HttpPut request = new HttpPut(path);
 
 		// content plain text
 		String contentToEncode = "{\"items\":[{\"id\":1,\"value\":3},{\"id\":234,\"value\":8}]}";
-		String contentType = "application/json";
-		StringEntity data = new StringEntity(contentToEncode, contentType, HTTP.UTF_8);
+		StringEntity data = new StringEntity(contentToEncode, ContentType.APPLICATION_JSON);
 
 		String date = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z").format(new Date());
 
 		// create signature: method + content md5 + content-type + date + uri
 		StringBuilder signature = new StringBuilder();
-		// signature.append(method).append("\n").append(content).append("\n").append(contentType).append("\n")
-		// .append(date).append("\n").append(uriPath);
+		final String method = "POST";
+		signature.append(method).append("\n").append(contentToEncode).append("\n").append(ContentType.APPLICATION_JSON.getMimeType()).append("\n")
+		.append(date).append("\n").append(path);
 
 		request.addHeader(new BasicHeader("Date", date));
 		String auth = username + ":" + calculateHMAC(password, signature.toString());

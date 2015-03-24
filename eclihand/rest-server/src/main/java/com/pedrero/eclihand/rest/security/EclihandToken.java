@@ -11,10 +11,10 @@ public class EclihandToken extends UsernamePasswordAuthenticationToken {
 	private static final long serialVersionUID = 8643494609806411501L;
 
 	private final Object principal;
-	private final EclihandCredentials credentials;
+	private final EclihandRequestCredentials credentials;
 	private final Date timestamp;
 
-	public EclihandToken(Object principal, EclihandCredentials credentials, Date timestamp) {
+	public EclihandToken(Object principal, EclihandRequestCredentials credentials, Date timestamp) {
 		super(principal, credentials);
 		this.principal = principal;
 		this.credentials = credentials;
@@ -31,7 +31,7 @@ public class EclihandToken extends UsernamePasswordAuthenticationToken {
 	}
 
 	@Override
-	public EclihandCredentials getCredentials() {
+	public EclihandRequestCredentials getCredentials() {
 		return credentials;
 	}
 

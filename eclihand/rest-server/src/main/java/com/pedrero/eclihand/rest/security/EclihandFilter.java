@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -26,6 +27,8 @@ import org.springframework.web.filter.GenericFilterBean;
 
 public class EclihandFilter extends GenericFilterBean {
 
+	private static final String AUTHORIZATION_HEADER_NAME = "Authorization";
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(EclihandFilter.class);
 
 	// Enable Multi-Read for PUT and POST requests
@@ -35,6 +38,9 @@ public class EclihandFilter extends GenericFilterBean {
 		METHOD_HAS_CONTENT.add("PUT");
 		METHOD_HAS_CONTENT.add("POST");
 	}
+	
+	@Resource
+	private SecurityUtilities securityUtilities;
 
 	private final AuthenticationManager authenticationManager;
 	private final AuthenticationEntryPoint authenticationEntryPoint;
@@ -54,7 +60,7 @@ public class EclihandFilter extends GenericFilterBean {
 		HttpServletResponse response = (HttpServletResponse) resp;
 
 		// Get authorization header
-		String authorizationHeader = request.getHeader("Authorization");
+		String authorizationHeader = request.getHeader(AUTHORIZATION_HEADER_NAME);
 
 		// If there's not credentials return...
 		if (authorizationHeader == null) {
@@ -64,6 +70,7 @@ public class EclihandFilter extends GenericFilterBean {
 
 		// Authorization header is in the form <public_access_key>:<signature>
 		String auth[] = authorizationHeader.split(":");
+		
 
 		// get md5 content and content-type if the request is POST or PUT method
 		boolean hasContent = METHOD_HAS_CONTENT.contains(request.getMethod());
@@ -75,12 +82,13 @@ public class EclihandFilter extends GenericFilterBean {
 
 		// calculate content to sign
 		StringBuilder toSign = new StringBuilder();
-		toSign.append(request.getMethod()).append("\n").append(contentMd5).append("\n").append(contentType)
-				.append("\n").append(timestamp).append("\n").append(request.getRequestURI());
+		//toSign.append(request.getMethod()).append("\n").append(contentMd5).append("\n").append(contentType)
+		//		.append("\n").append(timestamp).append("\n").append();
 
 		// a rest credential is composed by request data to sign and the
 		// signature
-		EclihandCredentials restCredential = new EclihandCredentials(toSign.toString(), auth[1]);
+		//EclihandRequestContent content = new EclihandRequestContent(request.getRequestURI(), date, request.getMethod(), request.getPayload(), contentType)
+		//EclihandCredentials restCredential = securityUtilities.buildCredentialsFrom(userName, content, signature)
 
 		// calculate UTC time from timestamp (usually Date header is GMT but
 		// still...)
@@ -92,8 +100,7 @@ public class EclihandFilter extends GenericFilterBean {
 		}
 
 		// Create an authentication token
-		Authentication authentication = null;
-		authentication = new EclihandToken(auth[0], restCredential, date);
+		Authentication authentication = new EclihandToken(auth[0], null, date);
 
 		try {
 			// Request the authentication manager to authenticate the token
