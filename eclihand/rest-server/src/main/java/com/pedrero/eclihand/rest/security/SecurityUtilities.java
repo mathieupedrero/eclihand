@@ -8,6 +8,7 @@ import java.util.TreeSet;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.apache.http.client.utils.DateUtils;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Component;
@@ -24,20 +25,22 @@ public class SecurityUtilities {
 		METHOD_HAS_CONTENT.add("POST");
 	}
 
-	public EclihandRequestCredentials computeCredentialsFrom(String userName, String secret, EclihandRequestContent content){
+	public EclihandRequestCredentials computeCredentialsFrom(String userName, String secret,
+			EclihandRequestContent content) {
 		String signature = calculateHMAC(secret, computeDataFragmentFrom(content));
-		
+
 		return new EclihandRequestCredentials(userName, content, signature);
 	}
 
-	public EclihandRequestCredentials buildCredentialsFrom(String userName, EclihandRequestContent content, String signature){
+	public EclihandRequestCredentials buildCredentialsFrom(String userName, EclihandRequestContent content,
+			String signature) {
 		return new EclihandRequestCredentials(userName, content, signature);
 	}
-	
-	public String computeDataFragmentFrom(EclihandRequestContent content){
+
+	public String computeDataFragmentFrom(EclihandRequestContent content) {
 		// get md5 content and content-type if the request is POST or PUT method
 		boolean hasContent = METHOD_HAS_CONTENT.contains(content.getMethod());
-		
+
 		String contentMd5 = hasContent ? md5PasswordEncoder.encodePassword(content.getContent(), null) : "";
 		String contentType = hasContent ? content.getContentType() : "";
 
@@ -47,13 +50,13 @@ public class SecurityUtilities {
 				.append("\n").append(printDate(content.getDate())).append("\n").append(content.getUri());
 		return toSign.toString();
 	}
-	
-	private Date parseDate(String dateString){
-		return new Date(Long.parseLong(dateString));
+
+	public Date parseDate(String dateString) {
+		return DateUtils.parseDate(dateString);
 	}
-	
-	private String printDate(Date date){
-		return Long.toString(date.getTime());
+
+	public String printDate(Date date) {
+		return DateUtils.formatDate(date);
 	}
 
 	private String calculateHMAC(String secret, String data) {
