@@ -18,7 +18,8 @@ public class EclihandUserDetailsService implements UserDetailsService {
 	private UserService userService;
 
 	@Override
-	public UserDetails loadUserByUsername(String arg0) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String arg0)
+			throws UsernameNotFoundException {
 		UserDto retrieved = userService.retrieveByLogin(arg0);
 		if (retrieved == null) {
 			throw new UsernameNotFoundException("Username was not found");
@@ -28,9 +29,12 @@ public class EclihandUserDetailsService implements UserDetailsService {
 				.stream()
 				.flatMap((profile) -> profile.getAuthorizations().stream())
 				.collect(
-						Collectors.mapping((authorization) -> new SimpleGrantedAuthority(authorization.getCredential()
-								.name()), Collectors.toSet()));
-		return new User(retrieved.getLogin(), retrieved.getPassword(), authorities);
+						Collectors.mapping(
+								(authorization) -> new SimpleGrantedAuthority(
+										authorization.getCredential().name()),
+								Collectors.toSet()));
+		return new User(retrieved.getLogin(), retrieved.getPassword(),
+				authorities);
 	}
 
 	public UserService getUserService() {

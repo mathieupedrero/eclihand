@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SecurityUtilities {
+	private static final String DATE_HEADER_NAME = "Date";
 	private static final String HMAC_SHA256_ALGORITHM_NAME = "HmacSHA256";
 	// Enable Multi-Read for PUT and POST requests
 	private static final Set<String> METHOD_HAS_CONTENT = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
@@ -25,11 +26,14 @@ public class SecurityUtilities {
 		METHOD_HAS_CONTENT.add("POST");
 	}
 
-	public EclihandRequestCredentials computeCredentialsFrom(String userName, String secret,
-			EclihandRequestContent content) {
-		String signature = calculateHMAC(secret, computeDataFragmentFrom(content));
-
-		return new EclihandRequestCredentials(userName, content, signature);
+	
+	public EclihandRequestContent buildRequestContentFrom(EclihandRequestWrapper requestWrapper){
+		return new EclihandRequestContent(requestWrapper.getRequestURI(), parseDate(requestWrapper.getHeader(DATE_HEADER_NAME)), requestWrapper.getMethod(),
+				requestWrapper.getPayload(), requestWrapper.getContentType());
+	}
+	
+	public String signRequest(String secret, EclihandRequestContent content) {
+		return calculateHMAC(secret, computeDataFragmentFrom(content));
 	}
 
 	public EclihandRequestCredentials buildCredentialsFrom(String userName, EclihandRequestContent content,

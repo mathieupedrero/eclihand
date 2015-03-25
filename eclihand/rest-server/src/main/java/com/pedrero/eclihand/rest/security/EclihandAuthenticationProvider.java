@@ -32,10 +32,10 @@ public class EclihandAuthenticationProvider extends DaoAuthenticationProvider {
 			throw new BadCredentialsException("Invalid username or password.");
 		}
 
-		EclihandRequestCredentials expectedCredentials=securityUtilities.computeCredentialsFrom(userDetails.getUsername(), userDetails.getPassword(), restToken.getCredentials().getContent());
+		String expectedSignature=securityUtilities.signRequest(userDetails.getPassword(), restToken.getCredentials().getContent());
 		
 		// check if signatures match
-		if (!restToken.getCredentials().getSignature().equals(expectedCredentials.getSignature())) {
+		if (!expectedSignature.equals(restToken.getCredentials().getSignature())) {
 			throw new BadCredentialsException("Invalid username or password.");
 		}
 	}

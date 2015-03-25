@@ -1,6 +1,5 @@
 package com.pedrero.eclihand.rest.security;
 
-import java.util.Date;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
@@ -12,17 +11,11 @@ public class EclihandToken extends UsernamePasswordAuthenticationToken {
 
 	private final Object principal;
 	private final EclihandRequestCredentials credentials;
-	private final Date timestamp;
 
-	public EclihandToken(Object principal, EclihandRequestCredentials credentials, Date timestamp) {
+	public EclihandToken(Object principal, EclihandRequestCredentials credentials) {
 		super(principal, credentials);
 		this.principal = principal;
 		this.credentials = credentials;
-		this.timestamp = timestamp;
-	}
-
-	public Date getTimestamp() {
-		return timestamp;
 	}
 
 	@Override

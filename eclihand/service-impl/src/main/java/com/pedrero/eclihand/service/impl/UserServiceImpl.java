@@ -21,7 +21,8 @@ import com.pedrero.eclihand.service.PlayerService;
 import com.pedrero.eclihand.service.UserService;
 
 @Service
-public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User> implements UserService {
+public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User>
+		implements UserService {
 	public static final String AGE_WHEN_PLAYING_FOR_TEAM = "age.when.playing.for.team";
 
 	@Resource
@@ -76,7 +77,8 @@ public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User> implem
 	@Override
 	@Transactional
 	public UserDto login(String login, String md5EncodedPassword) {
-		User loggedIn = getDao().findByLoginAndPassword(login, md5EncodedPassword);
+		User loggedIn = getDao().findByLoginAndPassword(login,
+				md5EncodedPassword);
 		return loggedIn == null ? null : getConverter().convertToDto(loggedIn);
 	}
 
@@ -84,6 +86,7 @@ public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User> implem
 	 * @see com.pedrero.eclihand.service.UserService#retrieveByLogin(java.lang.String)
 	 */
 	@Override
+	@Transactional
 	public UserDto retrieveByLogin(String login) {
 		return getConverter().convertToDto(getDao().findByLogin(login));
 	}
