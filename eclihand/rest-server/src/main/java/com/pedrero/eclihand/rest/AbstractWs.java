@@ -11,7 +11,8 @@ import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.model.dto.PageableDto;
 import com.pedrero.eclihand.service.DataObjectService;
 
-public abstract class AbstractWs<T extends DataObjectDto> {
+@RequestMapping(produces = { IRestWebService.APPLICATION_JSON }, consumes = { IRestWebService.APPLICATION_JSON })
+public abstract class AbstractWs<T extends DataObjectDto> implements IRestWebService {
 
 	public AbstractWs() {
 		super();

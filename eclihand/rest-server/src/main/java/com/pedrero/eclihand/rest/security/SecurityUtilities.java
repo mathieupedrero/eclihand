@@ -9,12 +9,16 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.http.client.utils.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SecurityUtilities {
+	private static final Logger LOGGER = LoggerFactory.getLogger(SecurityUtilities.class);
+
 	private static final String DATE_HEADER_NAME = "Date";
 	private static final String HMAC_SHA256_ALGORITHM_NAME = "HmacSHA256";
 	// Enable Multi-Read for PUT and POST requests
@@ -26,13 +30,15 @@ public class SecurityUtilities {
 		METHOD_HAS_CONTENT.add("POST");
 	}
 
-	
-	public EclihandRequestContent buildRequestContentFrom(EclihandRequestWrapper requestWrapper){
-		return new EclihandRequestContent(requestWrapper.getRequestURI(), parseDate(requestWrapper.getHeader(DATE_HEADER_NAME)), requestWrapper.getMethod(),
+	public EclihandRequestContent buildRequestContentFrom(EclihandRequestWrapper requestWrapper) {
+		return new EclihandRequestContent(requestWrapper.getRequestURI(),
+				parseDate(requestWrapper.getHeader(DATE_HEADER_NAME)), requestWrapper.getMethod(),
 				requestWrapper.getPayload(), requestWrapper.getContentType());
 	}
-	
+
 	public String signRequest(String secret, EclihandRequestContent content) {
+		LOGGER.debug("Going to sign request [{} {} {} {} {}] with secret {}", content.getUri(), content.getDate(),
+				content.getMethod(), content.getContent(), content.getContentType(), secret);
 		return calculateHMAC(secret, computeDataFragmentFrom(content));
 	}
 

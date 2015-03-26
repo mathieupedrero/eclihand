@@ -318,7 +318,7 @@
 		<org.springframework.data.version>1.7.0.RELEASE</org.springframework.data.version>
 		<org.springframework.security.version>3.2.5.RELEASE</org.springframework.security.version>
 		<org.springframework.version>4.1.1.RELEASE</org.springframework.version>
-		<slf4j.version>1.6.4</slf4j.version>
+		<slf4j.version>1.7.10</slf4j.version>
 		<vaadin.version>7.1.8</vaadin.version>
 		<jackson.version>2.4.0</jackson.version>
 	</properties>
