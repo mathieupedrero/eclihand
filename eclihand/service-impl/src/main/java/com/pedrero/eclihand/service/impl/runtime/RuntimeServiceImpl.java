@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,9 +17,12 @@ import com.pedrero.eclihand.service.runtime.TimeConsistencyException;
 @Service
 @Transactional
 public class RuntimeServiceImpl implements IRuntimeService {
-	private final static Logger LOGGER = LoggerFactory.getLogger(RuntimeServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(RuntimeServiceImpl.class);
 
 	private final Map<String, Session> RUNTIME_SESSIONS = new HashMap<String, RuntimeServiceImpl.Session>();
+
+	private static final Long TIME_SHIFT_TOLERANCE_MILLIS = 600000l;
+	private static final Long TOKEN_LIFE_DURATION = 1200000l;
 
 	@Override
 	public String registerClientRequest(String login, Date clientTimeRequestDate) throws TimeConsistencyException {
@@ -35,6 +39,11 @@ public class RuntimeServiceImpl implements IRuntimeService {
 			return currentSession.securityToken;
 		}
 		Date serverTime = giveServerTime();
+		long timeShift = Math.abs(serverTime.getTime() - clientTimeRequestDate.getTime());
+		if (timeShift > TIME_SHIFT_TOLERANCE_MILLIS) {
+			LOGGER.error("Timeshift between client time and server time is too big ({} ms)", clientTimeRequestDate);
+			throw new TimeConsistencyException("Timeshift between client time and server time is too big");
+		}
 		Session newSession = new Session(serverTime, clientTimeRequestDate, computeTokenFor());
 		RUNTIME_SESSIONS.put(login, newSession);
 		return newSession.securityToken;
@@ -43,6 +52,18 @@ public class RuntimeServiceImpl implements IRuntimeService {
 	@Override
 	public Date giveServerTime() {
 		return new Date();
+	}
+
+	@Scheduled(fixedRate = 10000)
+	public void cleanTokens() {
+		LOGGER.debug("Going to clean client sessions");
+		if (!RUNTIME_SESSIONS.isEmpty()) {
+			final Date serverTime = giveServerTime();
+			RUNTIME_SESSIONS
+					.entrySet()
+					.removeIf(
+							entry -> (serverTime.getTime() - entry.getValue().lastActivityServerDate.getTime() < TOKEN_LIFE_DURATION));
+		}
 	}
 
 	private String computeTokenFor() {
@@ -54,9 +75,9 @@ public class RuntimeServiceImpl implements IRuntimeService {
 		private Date lastActivityClientDate;
 		private final String securityToken;
 
-		public Session(Date lastActivityServerDate, Date lastActivityClientDate, String securityToken) {
+		public Session(Date creationServerDate, Date lastActivityClientDate, String securityToken) {
 			super();
-			this.lastActivityServerDate = lastActivityServerDate;
+			this.lastActivityServerDate = creationServerDate;
 			this.lastActivityClientDate = lastActivityClientDate;
 			this.securityToken = securityToken;
 		}
