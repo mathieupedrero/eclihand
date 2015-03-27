@@ -1,9 +1,10 @@
-package com.pedrero.eclihand.service;
+package com.pedrero.eclihand.service.biz;
 
 import java.util.Set;
 
 import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.model.dto.UserDto;
+import com.pedrero.eclihand.service.common.DataObjectService;
 
 public interface UserService extends DataObjectService<UserDto> {
 

@@ -1,4 +1,4 @@
-package com.pedrero.eclihand.service.impl;
+package com.pedrero.eclihand.service.impl.biz;
 
 import javax.annotation.Resource;
 
@@ -8,7 +8,7 @@ import com.pedrero.eclihand.converter.ProfileConverter;
 import com.pedrero.eclihand.dao.ProfileDao;
 import com.pedrero.eclihand.model.domain.Profile;
 import com.pedrero.eclihand.model.dto.ProfileDto;
-import com.pedrero.eclihand.service.ProfileService;
+import com.pedrero.eclihand.service.biz.ProfileService;
 
 @Service
 public class ProfileServiceImpl extends DataObjectServiceImpl<ProfileDto, Profile> implements ProfileService {

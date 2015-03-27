@@ -1,4 +1,4 @@
-package com.pedrero.eclihand.service.impl;
+package com.pedrero.eclihand.service.impl.biz;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,7 +10,7 @@ import com.pedrero.eclihand.dao.DataObjectDao;
 import com.pedrero.eclihand.model.domain.DataObject;
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.model.dto.PageableDto;
-import com.pedrero.eclihand.service.DataObjectService;
+import com.pedrero.eclihand.service.common.DataObjectService;
 
 public abstract class DataObjectServiceImpl<T extends DataObjectDto, U extends DataObject> implements
 		DataObjectService<T> {

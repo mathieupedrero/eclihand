@@ -3,7 +3,7 @@ package com.pedrero.eclihand.ui.window.impl;
 import javax.annotation.Resource;
 
 import com.pedrero.eclihand.model.dto.PlayerDto;
-import com.pedrero.eclihand.service.DataObjectService;
+import com.pedrero.eclihand.service.common.DataObjectService;
 import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.ui.window.GenericSearchModalWindow;
 import com.pedrero.eclihand.utils.ui.UICallback;

@@ -12,7 +12,7 @@ import com.pedrero.eclihand.navigation.EclihandNavigator;
 import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.places.PlayerPlace;
 import com.pedrero.eclihand.navigation.places.PlayersPlace;
-import com.pedrero.eclihand.service.PlayerService;
+import com.pedrero.eclihand.service.biz.PlayerService;
 import com.pedrero.eclihand.utils.spring.EclihandBeanFactory;
 import com.pedrero.eclihand.utils.text.MessageResolver;
 import com.pedrero.eclihand.utils.ui.EclihandLayoutFactory;

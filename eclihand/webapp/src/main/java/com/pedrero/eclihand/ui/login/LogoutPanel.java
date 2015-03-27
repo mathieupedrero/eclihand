@@ -13,7 +13,7 @@ import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.navigation.AbstractEclihandComponent;
 import com.pedrero.eclihand.navigation.EclihandNavigator;
 import com.pedrero.eclihand.navigation.places.WelcomePlace;
-import com.pedrero.eclihand.service.UserService;
+import com.pedrero.eclihand.service.biz.UserService;
 import com.pedrero.eclihand.ui.Authentication;
 import com.pedrero.eclihand.ui.UIManager;
 import com.pedrero.eclihand.utils.text.MessageResolver;

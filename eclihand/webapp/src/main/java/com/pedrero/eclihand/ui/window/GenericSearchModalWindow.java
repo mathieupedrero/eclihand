@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.model.dto.DataObjectDto;
-import com.pedrero.eclihand.service.DataObjectService;
+import com.pedrero.eclihand.service.common.DataObjectService;
 import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.Identifiable;
 import com.pedrero.eclihand.utils.text.MessageResolver;

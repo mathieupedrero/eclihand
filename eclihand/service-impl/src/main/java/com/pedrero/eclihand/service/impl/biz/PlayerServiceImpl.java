@@ -1,4 +1,4 @@
-package com.pedrero.eclihand.service.impl;
+package com.pedrero.eclihand.service.impl.biz;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -19,7 +19,7 @@ import com.pedrero.eclihand.model.domain.Player;
 import com.pedrero.eclihand.model.domain.Team;
 import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.TeamDto;
-import com.pedrero.eclihand.service.PlayerService;
+import com.pedrero.eclihand.service.biz.PlayerService;
 
 @Service
 public class PlayerServiceImpl extends DataObjectServiceImpl<PlayerDto, Player> implements PlayerService {

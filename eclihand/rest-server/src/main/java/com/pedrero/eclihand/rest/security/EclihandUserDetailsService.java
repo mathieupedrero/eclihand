@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.pedrero.eclihand.model.dto.UserDto;
-import com.pedrero.eclihand.service.UserService;
+import com.pedrero.eclihand.service.biz.UserService;
 
 public class EclihandUserDetailsService implements UserDetailsService {
 

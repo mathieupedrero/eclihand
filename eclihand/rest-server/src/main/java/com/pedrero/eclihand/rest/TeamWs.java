@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pedrero.eclihand.model.dto.TeamDto;
-import com.pedrero.eclihand.service.TeamService;
+import com.pedrero.eclihand.service.biz.TeamService;
 
 @RestController
 @RequestMapping(consumes = "application/json", produces = "application/json", value = "/team")

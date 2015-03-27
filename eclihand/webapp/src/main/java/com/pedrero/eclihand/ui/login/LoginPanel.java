@@ -17,7 +17,7 @@ import com.pedrero.eclihand.controller.security.ISecurityRule;
 import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.model.dto.UserDto;
 import com.pedrero.eclihand.navigation.AbstractEclihandComponent;
-import com.pedrero.eclihand.service.UserService;
+import com.pedrero.eclihand.service.biz.UserService;
 import com.pedrero.eclihand.ui.Authentication;
 import com.pedrero.eclihand.ui.UIManager;
 import com.pedrero.eclihand.utils.text.MessageResolver;

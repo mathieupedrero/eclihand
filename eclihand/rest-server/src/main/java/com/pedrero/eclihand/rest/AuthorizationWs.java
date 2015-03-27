@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pedrero.eclihand.model.dto.AuthorizationDto;
-import com.pedrero.eclihand.service.AuthorizationService;
+import com.pedrero.eclihand.service.biz.AuthorizationService;
 
 @RestController
 @RequestMapping(consumes = "application/json", produces = "application/json", value = "/authorization")

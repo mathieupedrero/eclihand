@@ -12,7 +12,7 @@ import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.navigation.AbstractEclihandView;
 import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.places.TeamsPlace;
-import com.pedrero.eclihand.service.TeamService;
+import com.pedrero.eclihand.service.biz.TeamService;
 import com.pedrero.eclihand.ui.panel.entity.EditMode;
 import com.pedrero.eclihand.ui.table.GenericTable;
 import com.pedrero.eclihand.utils.spring.EclihandBeanFactory;

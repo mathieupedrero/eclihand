@@ -1,6 +1,6 @@
 package com.pedrero.eclihand.ui;
 
-import com.pedrero.eclihand.service.UserService;
+import com.pedrero.eclihand.service.biz.UserService;
 import com.pedrero.eclihand.servlet.SpringVaadinServlet;
 import com.pedrero.eclihand.ui.window.EclihandMainWindow;
 import com.pedrero.eclihand.utils.text.LocaleContainer;

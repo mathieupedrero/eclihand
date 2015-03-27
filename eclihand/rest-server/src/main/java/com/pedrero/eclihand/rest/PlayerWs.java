@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pedrero.eclihand.model.dto.PlayerDto;
-import com.pedrero.eclihand.service.PlayerService;
+import com.pedrero.eclihand.service.biz.PlayerService;
 
 @RestController
 @RequestMapping(consumes = "application/json", produces = "application/json", value = "/player")

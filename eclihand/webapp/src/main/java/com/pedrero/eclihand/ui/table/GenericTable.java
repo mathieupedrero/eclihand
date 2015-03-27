@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.pedrero.eclihand.model.dto.DataObjectDto;
-import com.pedrero.eclihand.service.DataObjectService;
+import com.pedrero.eclihand.service.common.DataObjectService;
 import com.pedrero.eclihand.ui.panel.entity.AbstractEntityComponent;
 import com.pedrero.eclihand.ui.panel.entity.EditMode;
 import com.pedrero.eclihand.ui.table.config.TableColumnConfig;

@@ -1,4 +1,4 @@
-package com.pedrero.eclihand.service.impl;
+package com.pedrero.eclihand.service.impl.biz;
 
 import javax.annotation.Resource;
 
@@ -8,7 +8,7 @@ import com.pedrero.eclihand.converter.PersonConverter;
 import com.pedrero.eclihand.dao.PersonDao;
 import com.pedrero.eclihand.model.domain.Person;
 import com.pedrero.eclihand.model.dto.PersonDto;
-import com.pedrero.eclihand.service.PersonService;
+import com.pedrero.eclihand.service.biz.PersonService;
 
 @Service
 public class PersonServiceImpl extends DataObjectServiceImpl<PersonDto, Person> implements PersonService {

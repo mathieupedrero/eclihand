@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.model.dto.PageableDto;
-import com.pedrero.eclihand.service.DataObjectService;
+import com.pedrero.eclihand.service.common.DataObjectService;
 
 @RequestMapping(produces = { IRestWebService.APPLICATION_JSON }, consumes = { IRestWebService.APPLICATION_JSON })
 public abstract class AbstractWs<T extends DataObjectDto> implements IRestWebService {

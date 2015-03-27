@@ -1,4 +1,4 @@
-package com.pedrero.eclihand.service.impl;
+package com.pedrero.eclihand.service.impl.biz;
 
 import javax.annotation.Resource;
 
@@ -8,7 +8,7 @@ import com.pedrero.eclihand.converter.AuthorizationConverter;
 import com.pedrero.eclihand.dao.AuthorizationDao;
 import com.pedrero.eclihand.model.domain.Authorization;
 import com.pedrero.eclihand.model.dto.AuthorizationDto;
-import com.pedrero.eclihand.service.AuthorizationService;
+import com.pedrero.eclihand.service.biz.AuthorizationService;
 
 @Service
 public class AuthorizationServiceImpl extends DataObjectServiceImpl<AuthorizationDto, Authorization> implements

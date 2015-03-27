@@ -1,4 +1,4 @@
-package com.pedrero.eclihand.service;
+package com.pedrero.eclihand.service.common;
 
 import java.util.List;
 

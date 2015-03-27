@@ -1,4 +1,4 @@
-package com.pedrero.eclihand.service.impl;
+package com.pedrero.eclihand.service.impl.biz;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,8 +17,8 @@ import com.pedrero.eclihand.model.domain.Profile;
 import com.pedrero.eclihand.model.domain.User;
 import com.pedrero.eclihand.model.domain.UserType;
 import com.pedrero.eclihand.model.dto.UserDto;
-import com.pedrero.eclihand.service.PlayerService;
-import com.pedrero.eclihand.service.UserService;
+import com.pedrero.eclihand.service.biz.PlayerService;
+import com.pedrero.eclihand.service.biz.UserService;
 
 @Service
 public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User>
@@ -83,7 +83,7 @@ public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User>
 	}
 
 	/**
-	 * @see com.pedrero.eclihand.service.UserService#retrieveByLogin(java.lang.String)
+	 * @see com.pedrero.eclihand.service.biz.UserService#retrieveByLogin(java.lang.String)
 	 */
 	@Override
 	@Transactional
