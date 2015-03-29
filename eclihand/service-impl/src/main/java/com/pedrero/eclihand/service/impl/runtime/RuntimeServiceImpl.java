@@ -17,7 +17,8 @@ import com.pedrero.eclihand.service.runtime.TimeConsistencyException;
 @Service
 @Transactional
 public class RuntimeServiceImpl implements IRuntimeService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(RuntimeServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RuntimeServiceImpl.class);
 
 	private final Map<String, Session> RUNTIME_SESSIONS = new HashMap<String, RuntimeServiceImpl.Session>();
 
@@ -25,26 +26,36 @@ public class RuntimeServiceImpl implements IRuntimeService {
 	private static final Long TOKEN_LIFE_DURATION = 1200000l;
 
 	@Override
-	public String registerClientRequest(String login, Date clientTimeRequestDate) throws TimeConsistencyException {
+	public String registerClientRequest(String login, Date clientTimeRequestDate)
+			throws TimeConsistencyException {
 		if (RUNTIME_SESSIONS.containsKey(login)) {
 			LOGGER.debug("A session allready exists for user [{}]", login);
 			Session currentSession = RUNTIME_SESSIONS.get(login);
-			if (!clientTimeRequestDate.after(currentSession.lastActivityClientDate)) {
-				LOGGER.error("New client request is older ({}) than the latest executed query ({})",
-						clientTimeRequestDate, currentSession.lastActivityClientDate);
-				throw new TimeConsistencyException("New client request is older than the latest executed query");
+			if (!clientTimeRequestDate
+					.after(currentSession.lastActivityClientDate)) {
+				LOGGER.error(
+						"New client request is older ({}) than the latest executed query ({})",
+						clientTimeRequestDate,
+						currentSession.lastActivityClientDate);
+				throw new TimeConsistencyException(
+						"New client request is older than the latest executed query");
 			}
 			currentSession.lastActivityClientDate = clientTimeRequestDate;
 			currentSession.lastActivityServerDate = giveServerTime();
 			return currentSession.securityToken;
 		}
 		Date serverTime = giveServerTime();
-		long timeShift = Math.abs(serverTime.getTime() - clientTimeRequestDate.getTime());
+		long timeShift = Math.abs(serverTime.getTime()
+				- clientTimeRequestDate.getTime());
 		if (timeShift > TIME_SHIFT_TOLERANCE_MILLIS) {
-			LOGGER.error("Timeshift between client time and server time is too big ({} ms)", clientTimeRequestDate);
-			throw new TimeConsistencyException("Timeshift between client time and server time is too big");
+			LOGGER.error(
+					"Timeshift between client time and server time is too big ({} ms)",
+					clientTimeRequestDate);
+			throw new TimeConsistencyException(
+					"Timeshift between client time and server time is too big");
 		}
-		Session newSession = new Session(serverTime, clientTimeRequestDate, computeTokenFor());
+		Session newSession = new Session(serverTime, clientTimeRequestDate,
+				computeTokenFor());
 		RUNTIME_SESSIONS.put(login, newSession);
 		return newSession.securityToken;
 	}
@@ -54,15 +65,17 @@ public class RuntimeServiceImpl implements IRuntimeService {
 		return new Date();
 	}
 
+	@Override
 	@Scheduled(fixedRate = 10000)
 	public void cleanTokens() {
-		LOGGER.debug("Going to clean client sessions");
+		LOGGER.debug("{} - Going to clean client sessions", this.hashCode());
 		if (!RUNTIME_SESSIONS.isEmpty()) {
 			final Date serverTime = giveServerTime();
-			RUNTIME_SESSIONS
-					.entrySet()
+			RUNTIME_SESSIONS.entrySet()
 					.removeIf(
-							entry -> (serverTime.getTime() - entry.getValue().lastActivityServerDate.getTime() < TOKEN_LIFE_DURATION));
+							entry -> (serverTime.getTime()
+									- entry.getValue().lastActivityServerDate
+											.getTime() < TOKEN_LIFE_DURATION));
 		}
 	}
 
@@ -75,7 +88,8 @@ public class RuntimeServiceImpl implements IRuntimeService {
 		private Date lastActivityClientDate;
 		private final String securityToken;
 
-		public Session(Date creationServerDate, Date lastActivityClientDate, String securityToken) {
+		public Session(Date creationServerDate, Date lastActivityClientDate,
+				String securityToken) {
 			super();
 			this.lastActivityServerDate = creationServerDate;
 			this.lastActivityClientDate = lastActivityClientDate;

@@ -11,10 +11,16 @@ public interface IRuntimeService {
 	 * @return
 	 * @throws TimeConsistencyException
 	 */
-	String registerClientRequest(String login, Date clientTimeRequestDate) throws TimeConsistencyException;
+	String registerClientRequest(String login, Date clientTimeRequestDate)
+			throws TimeConsistencyException;
 
 	/**
 	 * @return The server time
 	 */
 	Date giveServerTime();
+
+	/**
+	 * cleans old session tokens
+	 */
+	void cleanTokens();
 }

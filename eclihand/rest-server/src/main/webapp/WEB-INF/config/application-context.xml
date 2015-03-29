@@ -18,11 +18,12 @@
 		
 	<import resource="security-application-context.xml" />
 
-	<context:spring-configured />
+<!-- 	<context:spring-configured /> -->
 	<context:annotation-config />
 	<mvc:annotation-driven />
 	
-	<task:scheduler id="myScheduler" pool-size="10"/>
+		
+	<task:annotation-driven/>
 	
 	
     <jpa:repositories base-package="com.pedrero.eclihand.dao.impl"/>
