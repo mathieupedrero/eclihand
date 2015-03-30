@@ -7,7 +7,7 @@
 	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/config/application-context.xml</param-value> <!-- /WEB-INF/config/security-application-context.xml -->
+		<param-value>/WEB-INF/config/eclihand-application-context.xml</param-value> <!-- /WEB-INF/config/security-application-context.xml -->
 	</context-param>
 	
 	<filter>
