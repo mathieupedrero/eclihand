@@ -23,7 +23,7 @@ public class AuthenticationSimulator {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationSimulator.class);
 
 	public static void main(String[] args) throws IOException {
-		testService("http://localhost:8080", "/eclihand-server/team/all", "admin", "admin");
+		testService("http://localhost:8080", "/eclihand-server/team/all", null, null);
 
 	}
 
@@ -46,10 +46,11 @@ public class AuthenticationSimulator {
 			assert false;
 		}
 
-		String encodedPassword = new String(Base64.encode(md.digest(password.getBytes())));
-
-		String auth = username + ":" + SECURITY_UTILITIES.signRequest(encodedPassword, content);
-		request.addHeader(new BasicHeader("Authorization", auth));
+		if (username != null && password != null) {
+			String encodedPassword = new String(Base64.encode(md.digest(password.getBytes())));
+			String auth = username + ":" + SECURITY_UTILITIES.signRequest(encodedPassword, content);
+			request.addHeader(new BasicHeader("Authorization", auth));
+		}
 		request.addHeader("Content-type", ContentType.APPLICATION_JSON.getMimeType());
 
 		// send request

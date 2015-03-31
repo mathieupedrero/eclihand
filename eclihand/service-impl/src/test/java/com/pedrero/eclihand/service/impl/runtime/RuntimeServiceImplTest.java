@@ -45,8 +45,9 @@ public class RuntimeServiceImplTest {
 	@Test()
 	public void registerClientRequestTest() throws TimeConsistencyException {
 		String login = "registerOlderRequestTest";
-		Date firstDate = new Date(10l);
-		Date secondDate = new Date(20l);
+		Date now = RUNTIME_SERVICE.giveServerTime();
+		Date firstDate = new Date(now.getTime() - 10l);
+		Date secondDate = new Date(now.getTime());
 		Assert.assertEquals("doesn't return same token", RUNTIME_SERVICE.registerClientRequest(login, firstDate),
 				RUNTIME_SERVICE.registerClientRequest(login, secondDate));
 	}

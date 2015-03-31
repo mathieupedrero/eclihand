@@ -1,6 +1,5 @@
 package com.pedrero.eclihand.rest.security;
 
-
 import javax.annotation.Resource;
 
 import org.springframework.security.authentication.BadCredentialsException;
@@ -10,7 +9,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class EclihandAuthenticationProvider extends DaoAuthenticationProvider {
-	
+
 	@Resource
 	private SecurityUtilities securityUtilities;
 
@@ -22,18 +21,17 @@ public class EclihandAuthenticationProvider extends DaoAuthenticationProvider {
 	@Override
 	protected void additionalAuthenticationChecks(UserDetails userDetails,
 			UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+
 		EclihandToken restToken = (EclihandToken) authentication;
+		EclihandUser user = (EclihandUser) userDetails;
 
-		// get secret access key from api key
-		String secret = userDetails.getPassword();
-
-		// if that username does not exist, throw exception
-		if (secret == null) {
-			throw new BadCredentialsException("Invalid username or password.");
+		if (user.isGuestUser()) {
+			return;
 		}
 
-		String expectedSignature=securityUtilities.signRequest(userDetails.getPassword(), restToken.getCredentials().getContent());
-		
+		String expectedSignature = securityUtilities.signRequest(userDetails.getPassword(), restToken.getCredentials()
+				.getContent());
+
 		// check if signatures match
 		if (!expectedSignature.equals(restToken.getCredentials().getSignature())) {
 			throw new BadCredentialsException("Invalid username or password.");
