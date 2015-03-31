@@ -32,7 +32,7 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/config/application-context.xml</param-value> <!-- /WEB-INF/config/security-application-context.xml -->
+			<param-value>/WEB-INF/config/eclihand-servlet-context.xml</param-value> <!-- /WEB-INF/config/security-application-context.xml -->
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
