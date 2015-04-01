@@ -9,8 +9,6 @@ public class UserDto extends IllustrableDto {
 
 	private String login;
 
-	private String password;
-
 	private UserType userType;
 
 	private Set<ProfileDto> profiles = new HashSet<ProfileDto>();
@@ -21,14 +19,6 @@ public class UserDto extends IllustrableDto {
 
 	public void setLogin(String login) {
 		this.login = login;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public UserType getUserType() {

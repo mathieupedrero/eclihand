@@ -1,8 +1,7 @@
-package com.pedrero.eclihand.service.runtime;
+package com.pedrero.eclihand.service.runtime.exception;
 
-import com.pedrero.eclihand.service.common.ServiceException;
 
-public class TimeConsistencyException extends ServiceException {
+public class TimeConsistencyException extends EclihandAuthenticationException {
 
 	/**
 	 * 

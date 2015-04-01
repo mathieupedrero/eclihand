@@ -94,6 +94,10 @@
       <a>otherProperties</a>
       <b>otherProperties</b>
     </field-exclude>
+    <field-exclude>
+      <a>password</a>
+      <b>password</b>
+    </field-exclude>
   </mapping>  
   <mapping map-id="user-light"> 
     <class-a>com.pedrero.eclihand.model.domain.impl.UserImpl</class-a>
@@ -105,6 +109,10 @@
     <field-exclude>
       <a>otherProperties</a>
       <b>otherProperties</b>
+    </field-exclude>
+    <field-exclude>
+      <a>password</a>
+      <b>password</b>
     </field-exclude>
   </mapping> 
             
