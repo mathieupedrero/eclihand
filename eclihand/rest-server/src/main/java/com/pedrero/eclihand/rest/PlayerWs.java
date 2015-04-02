@@ -9,8 +9,8 @@ import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.service.biz.PlayerService;
 
 @RestController
-@RequestMapping(consumes = "application/json", produces = "application/json", value = "/player")
-public class PlayerWs extends AbstractWs<PlayerDto> {
+@RequestMapping(consumes = IRestWebService.APPLICATION_JSON, produces = IRestWebService.APPLICATION_JSON, value = "/player")
+public class PlayerWs extends AbstractEntityWs<PlayerDto> {
 
 	@Resource
 	private PlayerService playerService;

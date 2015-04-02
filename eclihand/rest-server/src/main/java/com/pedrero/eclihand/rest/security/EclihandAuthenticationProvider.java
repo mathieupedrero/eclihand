@@ -8,7 +8,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.pedrero.eclihand.service.runtime.RuntimeService;
+import com.pedrero.eclihand.service.biz.transerval.AuthenticationService;
 import com.pedrero.eclihand.service.runtime.exception.EclihandAuthenticationException;
 
 public class EclihandAuthenticationProvider extends DaoAuthenticationProvider {
@@ -17,7 +17,7 @@ public class EclihandAuthenticationProvider extends DaoAuthenticationProvider {
 	private SecurityUtilities securityUtilities;
 
 	@Resource
-	private RuntimeService runtimeService;
+	private AuthenticationService authenticationService;
 
 	@Override
 	public boolean supports(Class<?> authentication) {
@@ -35,8 +35,8 @@ public class EclihandAuthenticationProvider extends DaoAuthenticationProvider {
 			return;
 		}
 		try {
-			runtimeService.checkRequestTimeConsistencyForUser(userDetails.getUsername(), restToken.getCredentials()
-					.getContent().getDate());
+			authenticationService.checkRequestTimeConsistencyForUser(userDetails.getUsername(), restToken
+					.getCredentials().getContent().getDate());
 
 			String expectedSignature = securityUtilities.signRequest(userDetails.getPassword(), restToken
 					.getCredentials().getContent());

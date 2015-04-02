@@ -19,10 +19,12 @@ import com.pedrero.eclihand.model.domain.UserType;
 import com.pedrero.eclihand.model.dto.UserDto;
 import com.pedrero.eclihand.service.biz.PlayerService;
 import com.pedrero.eclihand.service.biz.UserService;
+import com.pedrero.eclihand.service.runtime.exception.BadCredentialsException;
 
 @Service
-public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User>
-		implements UserService {
+@Transactional
+public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User> implements UserService {
+
 	public static final String AGE_WHEN_PLAYING_FOR_TEAM = "age.when.playing.for.team";
 
 	@Resource
@@ -56,7 +58,6 @@ public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User>
 	}
 
 	@Override
-	@Transactional
 	public Set<Credential> retrieveCredentialsFor(UserDto user) {
 		Set<Credential> credentials = new HashSet<Credential>();
 		for (Profile profile : getDao().findById(user.getId()).getProfiles()) {
@@ -68,25 +69,23 @@ public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User>
 	}
 
 	@Override
-	@Transactional
 	public UserDto retrieveGuestUser() {
 		User guestUser = getDao().findByUserType(UserType.GUEST);
 		return getConverter().convertToDto(guestUser);
 	}
 
 	@Override
-	@Transactional
-	public UserDto login(String login, String md5EncodedPassword) {
-		User loggedIn = getDao().findByLoginAndPassword(login,
-				md5EncodedPassword);
-		return loggedIn == null ? null : getConverter().convertToDto(loggedIn);
+	public void checkCredentials(String login, String md5EncodedPassword) throws BadCredentialsException {
+		User loggedIn = getDao().findByLoginAndPassword(login, md5EncodedPassword);
+		if (loggedIn == null) {
+			throw new BadCredentialsException();
+		}
 	}
 
 	/**
 	 * @see com.pedrero.eclihand.service.biz.UserService#retrieveByLogin(java.lang.String)
 	 */
 	@Override
-	@Transactional
 	public UserDto retrieveByLogin(String login) {
 		return getConverter().convertToDto(getDao().findByLogin(login));
 	}

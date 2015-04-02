@@ -8,11 +8,12 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import com.pedrero.eclihand.service.runtime.RuntimeService;
 import com.pedrero.eclihand.service.runtime.exception.TimeConsistencyException;
 
 public class RuntimeServiceImplTest {
 
-	private final RuntimeServiceImpl RUNTIME_SERVICE = new RuntimeServiceImpl();
+	private final RuntimeService RUNTIME_SERVICE = new RuntimeServiceImpl();
 
 	@Test
 	public void serverTimeConsistencyTest() {

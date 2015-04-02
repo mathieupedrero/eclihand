@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pedrero.eclihand.service.runtime.RuntimeService;
-import com.pedrero.eclihand.service.runtime.exception.EclihandAuthenticationException;
 import com.pedrero.eclihand.service.runtime.exception.NoCurrentSessionException;
 import com.pedrero.eclihand.service.runtime.exception.TimeConsistencyException;
 
@@ -26,6 +25,9 @@ public class RuntimeServiceImpl implements RuntimeService {
 	private static final Long TIME_SHIFT_TOLERANCE_MILLIS = 600000l;
 	private static final Long TOKEN_LIFE_DURATION = 1200000l;
 
+	/* (non-Javadoc)
+	 * @see com.pedrero.eclihand.service.impl.runtime.RuntimeService#createNewSessionForUser(java.lang.String, java.util.Date)
+	 */
 	@Override
 	public String createNewSessionForUser(String login, Date clientTimeRequestDate) throws TimeConsistencyException {
 		Date serverTime = giveServerTime();
@@ -39,6 +41,9 @@ public class RuntimeServiceImpl implements RuntimeService {
 		return newSession.securityToken;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.pedrero.eclihand.service.impl.runtime.RuntimeService#findTokenFor(java.lang.String)
+	 */
 	@Override
 	public String findTokenFor(String login) throws NoCurrentSessionException {
 		if (RUNTIME_SESSIONS.containsKey(login)) {
@@ -48,9 +53,27 @@ public class RuntimeServiceImpl implements RuntimeService {
 		throw new NoCurrentSessionException();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.pedrero.eclihand.service.impl.runtime.RuntimeService#findTokenCheckingTimeConsistencyFor(java.lang.String, java.util.Date)
+	 */
+	@Override
+	public String findTokenCheckingTimeConsistencyFor(String login, Date clientTimeRequestDate)
+			throws NoCurrentSessionException, TimeConsistencyException {
+		if (RUNTIME_SESSIONS.containsKey(login)) {
+			LOGGER.debug("A session exists for user [{}]", login);
+			Session currentSession = RUNTIME_SESSIONS.get(login);
+			checkClientDateYoungerThanLastSessionActivity(clientTimeRequestDate, currentSession);
+			return currentSession.securityToken;
+		}
+		throw new NoCurrentSessionException();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.pedrero.eclihand.service.impl.runtime.RuntimeService#checkRequestTimeConsistencyForUser(java.lang.String, java.util.Date)
+	 */
 	@Override
 	public void checkRequestTimeConsistencyForUser(String login, Date clientTimeRequestDate)
-			throws EclihandAuthenticationException {
+			throws NoCurrentSessionException, TimeConsistencyException {
 		if (RUNTIME_SESSIONS.containsKey(login)) {
 			LOGGER.debug("A session exists for user [{}]", login);
 			Session currentSession = RUNTIME_SESSIONS.get(login);
@@ -59,14 +82,20 @@ public class RuntimeServiceImpl implements RuntimeService {
 		throw new NoCurrentSessionException();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.pedrero.eclihand.service.impl.runtime.RuntimeService#giveServerTime()
+	 */
 	@Override
 	public Date giveServerTime() {
 		return new Date();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.pedrero.eclihand.service.impl.runtime.RuntimeService#cleanSessions()
+	 */
 	@Override
 	@Scheduled(fixedRate = 10000)
-	public void cleanTokens() {
+	public void cleanSessions() {
 		LOGGER.debug("{} - Going to clean client sessions", this.hashCode());
 		if (!RUNTIME_SESSIONS.isEmpty()) {
 			final Date serverTime = giveServerTime();

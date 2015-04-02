@@ -5,6 +5,7 @@ import java.util.Set;
 import com.pedrero.eclihand.model.domain.Credential;
 import com.pedrero.eclihand.model.dto.UserDto;
 import com.pedrero.eclihand.service.common.DataObjectService;
+import com.pedrero.eclihand.service.runtime.exception.BadCredentialsException;
 
 public interface UserService extends DataObjectService<UserDto> {
 
@@ -30,7 +31,7 @@ public interface UserService extends DataObjectService<UserDto> {
 	 * @param md5EncodedPassword
 	 * @return
 	 */
-	public UserDto login(String login, String md5EncodedPassword);
+	public void checkCredentials(String login, String md5EncodedPassword) throws BadCredentialsException;
 
 	/**
 	 * Retrieves an uver given it's login.

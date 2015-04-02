@@ -9,8 +9,8 @@ import com.pedrero.eclihand.model.dto.UserDto;
 import com.pedrero.eclihand.service.biz.UserService;
 
 @RestController
-@RequestMapping(consumes = "application/json", produces = "application/json", value = "/user")
-public class UserWs extends AbstractWs<UserDto> {
+@RequestMapping(consumes = IRestWebService.APPLICATION_JSON, produces = IRestWebService.APPLICATION_JSON, value = "/user")
+public class UserWs extends AbstractEntityWs<UserDto> {
 
 	@Resource
 	private UserService userService;

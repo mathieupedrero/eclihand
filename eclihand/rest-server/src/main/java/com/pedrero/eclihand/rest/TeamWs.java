@@ -10,8 +10,8 @@ import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.service.biz.TeamService;
 
 @RestController
-@RequestMapping(consumes = "application/json", produces = "application/json", value = "/team")
-public class TeamWs extends AbstractWs<TeamDto> {
+@RequestMapping(consumes = IRestWebService.APPLICATION_JSON, produces = IRestWebService.APPLICATION_JSON, value = "/team")
+public class TeamWs extends AbstractEntityWs<TeamDto> {
 
 	@Resource
 	private TeamService teamService;

@@ -1,48 +1,10 @@
 package com.pedrero.eclihand.rest;
 
-import java.util.List;
-
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.pedrero.eclihand.model.dto.DataObjectDto;
-import com.pedrero.eclihand.model.dto.PageableDto;
-import com.pedrero.eclihand.service.common.DataObjectService;
-
+@RestController
 @RequestMapping(produces = { IRestWebService.APPLICATION_JSON }, consumes = { IRestWebService.APPLICATION_JSON })
-public abstract class AbstractWs<T extends DataObjectDto> implements IRestWebService {
-
-	public AbstractWs() {
-		super();
-	}
-
-	protected abstract DataObjectService<T> getService();
-
-	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
-	public T findById(@PathVariable(value = "id") Long id) {
-		return getService().findById(id);
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "/all")
-	public List<T> findAll() {
-		return getService().findAll();
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "/page")
-	public List<T> find(@RequestBody PageableDto pageable) {
-		return getService().findAll(pageable);
-	}
-
-	@RequestMapping(method = RequestMethod.POST)
-	public Long save(@RequestBody T player) {
-		return getService().save(player).getId();
-	}
-
-	@RequestMapping(method = RequestMethod.PUT)
-	public void update(@RequestBody T player) {
-		getService().update(player);
-	}
+public abstract class AbstractWs implements IRestWebService {
 
 }

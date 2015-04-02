@@ -9,8 +9,8 @@ import com.pedrero.eclihand.model.dto.ProfileDto;
 import com.pedrero.eclihand.service.biz.ProfileService;
 
 @RestController
-@RequestMapping(consumes = "application/json", produces = "application/json", value = "/profile")
-public class ProfileWs extends AbstractWs<ProfileDto> {
+@RequestMapping(consumes = IRestWebService.APPLICATION_JSON, produces = IRestWebService.APPLICATION_JSON, value = "/profile")
+public class ProfileWs extends AbstractEntityWs<ProfileDto> {
 
 	@Resource
 	private ProfileService profileService;

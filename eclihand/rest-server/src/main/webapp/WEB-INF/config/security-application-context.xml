@@ -13,19 +13,14 @@
  
     <beans:bean id="eclihandAuthenticationFilter" class="com.pedrero.eclihand.rest.security.EclihandFilter">
         <beans:constructor-arg name="authenticationManager" ref="eclihandAuthenticationManager" />
-        <beans:constructor-arg name="authenticationEntryPoint">
-        	<beans:bean class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint"/>
-        </beans:constructor-arg>
+        <beans:constructor-arg name="authenticationEntryPoint" ref="eclihandEntryPoint" />
     </beans:bean>
         
     <beans:bean id="eclihandAuthenticationProvider" class="com.pedrero.eclihand.rest.security.EclihandAuthenticationProvider">
-    	<beans:property name="userDetailsService">
-    		<beans:ref local="eclihandUserDetailsService"/>
-    	</beans:property>
+    	<beans:property name="userDetailsService" ref="eclihandUserDetailsService" />
     </beans:bean>
         
-    <beans:bean id="eclihandEntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint">
-    </beans:bean>
+    <beans:bean id="eclihandEntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint"/>
     
     <beans:bean id="eclihandUserDetailsService" autowire="byType" class="com.pedrero.eclihand.rest.security.EclihandUserDetailsService" />
  

@@ -15,9 +15,9 @@ import org.springframework.stereotype.Component;
 
 import com.pedrero.eclihand.controller.security.ISecurityRule;
 import com.pedrero.eclihand.model.domain.Credential;
-import com.pedrero.eclihand.model.dto.UserDto;
 import com.pedrero.eclihand.navigation.AbstractEclihandComponent;
 import com.pedrero.eclihand.service.biz.UserService;
+import com.pedrero.eclihand.service.runtime.exception.BadCredentialsException;
 import com.pedrero.eclihand.ui.Authentication;
 import com.pedrero.eclihand.ui.UIManager;
 import com.pedrero.eclihand.utils.text.MessageResolver;
@@ -104,13 +104,13 @@ public class LoginPanel extends AbstractEclihandComponent {
 
 				md5Password = buf.toString();
 
-				UserDto loggedIn = userService.login(loginField.getValue(), md5Password);
-				if (loggedIn == null) {
-					LOGGER.info("Erreur de login pour {} - {}", loginField.getValue(), md5Password);
-				} else {
+				try {
+					userService.checkCredentials(loginField.getValue(), md5Password);
 					LOGGER.info("Logged in pour {} - {}", loginField.getValue(), md5Password);
-					authentication.setAuthenticatedUser(loggedIn);
-					uiManager.refreshFrameElements();
+					// authentication.setAuthenticatedUser(loggedIn);
+					// uiManager.refreshFrameElements();
+				} catch (BadCredentialsException e) {
+					LOGGER.info("Erreur de login pour {} - {}", loginField.getValue(), md5Password);
 				}
 			}
 		});

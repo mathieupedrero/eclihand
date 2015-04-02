@@ -13,10 +13,14 @@ public class EclihandUser extends User {
 
 	private final Boolean guestUser;
 
-	public EclihandUser(String username, String password, Collection<? extends GrantedAuthority> authorities,
-			Boolean isGuest) {
+	public EclihandUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
 		super(username, password, authorities);
-		this.guestUser = isGuest;
+		this.guestUser = false;
+	}
+
+	public EclihandUser(String username, Collection<? extends GrantedAuthority> authorities) {
+		super(username, username, authorities);
+		this.guestUser = true;
 	}
 
 	public Boolean isGuestUser() {
