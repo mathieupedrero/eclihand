@@ -11,17 +11,16 @@ import com.pedrero.eclihand.service.biz.transerval.AuthenticationService;
 import com.pedrero.eclihand.service.runtime.exception.EclihandAuthenticationException;
 
 @Controller
-public class PasswordAuthenticationProvider extends
-		EclihandAuthenticationProvider {
+public class PasswordAuthenticationProvider extends EclihandAuthenticationProvider {
 
 	@Resource
 	private AuthenticationService authenticationService;
 
 	@Override
-	protected String findSessionTokenFor(UserDetails userDetails,
-			Date clientTimeRequest) throws EclihandAuthenticationException {
-		return authenticationService.authenticate(userDetails.getUsername(),
-				userDetails.getPassword(), clientTimeRequest);
+	protected String findSessionTokenFor(UserDetails userDetails, Date clientTimeRequest)
+			throws EclihandAuthenticationException {
+		return authenticationService.authenticate(userDetails.getUsername(), userDetails.getPassword(),
+				clientTimeRequest);
 	}
 
 }

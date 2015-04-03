@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +17,7 @@ import com.pedrero.eclihand.model.dto.UserDto;
 import com.pedrero.eclihand.service.biz.UserService;
 
 public abstract class AbstractUserDetailsService implements UserDetailsService {
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractUserDetailsService.class);
 
 	@Resource
 	private UserService userService;
@@ -32,6 +35,7 @@ public abstract class AbstractUserDetailsService implements UserDetailsService {
 			isGuest = false;
 		}
 		if (retrieved == null) {
+			LOGGER.error("Username {} was not found", arg0);
 			throw new UsernameNotFoundException("Username was not found");
 		}
 		Set<GrantedAuthority> authorities = retrieved

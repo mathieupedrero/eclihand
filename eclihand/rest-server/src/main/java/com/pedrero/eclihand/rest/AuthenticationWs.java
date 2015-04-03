@@ -17,6 +17,6 @@ public class AuthenticationWs extends AbstractWs {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/touch")
 	public String touchAndRetrieveToken() {
-		return null;
+		return "OKAY!";
 	}
 }

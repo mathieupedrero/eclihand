@@ -1,7 +1,6 @@
 package com.pedrero.eclihand.rest.security;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 
 public class EclihandToken extends UsernamePasswordAuthenticationToken {
 
@@ -25,13 +24,6 @@ public class EclihandToken extends UsernamePasswordAuthenticationToken {
 
 	public EclihandToken(String userName, EclihandRequestCredentials credentials) {
 		this(new Principal(userName), credentials);
-	}
-
-	public EclihandToken(Authentication fromSuccessAuthentication) {
-		super(fromSuccessAuthentication.getPrincipal(), fromSuccessAuthentication.getCredentials(),
-				fromSuccessAuthentication.getAuthorities());
-		this.principal = (Principal) fromSuccessAuthentication.getPrincipal();
-		this.credentials = (EclihandRequestCredentials) fromSuccessAuthentication.getCredentials();
 	}
 
 	@Override

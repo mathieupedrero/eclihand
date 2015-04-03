@@ -5,6 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.ContentType;
@@ -23,12 +24,18 @@ public class AuthenticationSimulator {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationSimulator.class);
 
 	public static void main(String[] args) throws IOException {
-		testService("http://localhost:8080", "/eclihand-server/team/all", null, null);
+		testService("http://localhost:8080", "/eclihand-server/team/all");
+		String token = testService("http://localhost:8080", "/eclihand-server/authentication/touch", "admin", "admin",
+				true);
+		testService("http://localhost:8080", "/eclihand-server/team/all", "admin", token, false);
+		testService("http://localhost:8080", "/eclihand-server/team/all", "admin", "admin", false);
+		testService("http://localhost:8080", "/eclihand-server/authentication/touch", "admin", "admin", false);
+		testService("http://localhost:8080", "/eclihand-server/authentication/touch", "admin", token, false);
 
 	}
 
-	public static void testService(final String path, final String uri, final String username, final String password)
-			throws IOException {
+	public static String testService(final String path, final String uri, final String username, final String password,
+			Boolean encode) throws IOException {
 
 		HttpGet request = new HttpGet(path + uri);
 
@@ -39,17 +46,22 @@ public class AuthenticationSimulator {
 
 		request.addHeader(new BasicHeader("Date", date));
 
-		MessageDigest md = null;
-		try {
-			md = MessageDigest.getInstance("SHA-1");
-		} catch (NoSuchAlgorithmException e) {
-			assert false;
-		}
-
 		if (username != null && password != null) {
-			String encodedPassword = new String(Base64.encode(md.digest(password.getBytes())));
-			String auth = username + ":" + SECURITY_UTILITIES.signRequest(encodedPassword, content);
-			request.addHeader(new BasicHeader("Authorization", auth));
+
+			if (encode) {
+				MessageDigest md = null;
+				try {
+					md = MessageDigest.getInstance("SHA-1");
+				} catch (NoSuchAlgorithmException e) {
+					assert false;
+				}
+				String encodedPassword = new String(Base64.encode(md.digest(password.getBytes())));
+				String auth = username + ":" + SECURITY_UTILITIES.signRequest(encodedPassword, content);
+				request.addHeader(new BasicHeader("Authorization", auth));
+			} else {
+				String auth = username + ":" + SECURITY_UTILITIES.signRequest(password, content);
+				request.addHeader(new BasicHeader("Authorization", auth));
+			}
 		}
 		request.addHeader("Content-type", ContentType.APPLICATION_JSON.getMimeType());
 
@@ -64,8 +76,17 @@ public class AuthenticationSimulator {
 				LOGGER.error("Echec du Test d'authentification - status {}", status);
 			}
 			LOGGER.info("Contenu[{}]", responseString);
+			Header tokenHeader = response.getFirstHeader("x-session-id");
+			if (tokenHeader != null) {
+				return tokenHeader.getValue();
+			}
+			return null;
 		}
 
 	}
 
+	public static String testService(final String path, final String uri) throws IOException {
+		return testService(path, uri, null, null, null);
+
+	}
 }
