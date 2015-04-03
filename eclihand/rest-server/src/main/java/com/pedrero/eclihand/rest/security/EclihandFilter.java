@@ -24,7 +24,8 @@ public class EclihandFilter extends GenericFilterBean {
 	private static final String AUTHORIZATION_HEADER_NAME = "Authorization";
 
 	// Enable Multi-Read for PUT and POST requests
-	private static final Set<String> METHOD_HAS_CONTENT = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+	private static final Set<String> METHOD_HAS_CONTENT = new TreeSet<String>(
+			String.CASE_INSENSITIVE_ORDER);
 
 	static {
 		METHOD_HAS_CONTENT.add("PUT");
@@ -37,20 +38,23 @@ public class EclihandFilter extends GenericFilterBean {
 	private final AuthenticationManager authenticationManager;
 	private final AuthenticationEntryPoint authenticationEntryPoint;
 
-	public EclihandFilter(AuthenticationManager authenticationManager, AuthenticationEntryPoint authenticationEntryPoint) {
+	public EclihandFilter(AuthenticationManager authenticationManager,
+			AuthenticationEntryPoint authenticationEntryPoint) {
 		this.authenticationManager = authenticationManager;
 		this.authenticationEntryPoint = authenticationEntryPoint;
 	}
 
 	@Override
-	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException,
-			ServletException {
+	public void doFilter(ServletRequest req, ServletResponse resp,
+			FilterChain chain) throws IOException, ServletException {
 		// use wrapper to read multiple times the content
-		EclihandRequestWrapper request = new EclihandRequestWrapper((HttpServletRequest) req);
+		EclihandRequestWrapper request = new EclihandRequestWrapper(
+				(HttpServletRequest) req);
 		HttpServletResponse response = (HttpServletResponse) resp;
 
 		// Get authorization header
-		String authorizationHeader = request.getHeader(AUTHORIZATION_HEADER_NAME);
+		String authorizationHeader = request
+				.getHeader(AUTHORIZATION_HEADER_NAME);
 
 		final Authentication authentication;
 
@@ -62,13 +66,14 @@ public class EclihandFilter extends GenericFilterBean {
 			// <public_access_key>:<signature>
 			String auth[] = authorizationHeader.split(":");
 
-			EclihandRequestContent requestContent = securityUtilities.buildRequestContentFrom(request);
+			EclihandRequestContent requestContent = securityUtilities
+					.buildRequestContentFrom(request);
 
 			String userName = auth[0];
 			String signature = auth[1];
 
-			EclihandRequestCredentials restCredential = securityUtilities.buildCredentialsFrom(userName,
-					requestContent, signature);
+			EclihandRequestCredentials restCredential = securityUtilities
+					.buildCredentialsFrom(userName, requestContent, signature);
 
 			// Create an authentication token
 			authentication = new EclihandToken(userName, restCredential);
@@ -77,13 +82,20 @@ public class EclihandFilter extends GenericFilterBean {
 		try {
 			// Request the authentication manager to authenticate the token
 			// (throws exception)
-			Authentication successfulAuthentication = authenticationManager.authenticate(authentication);
+			Authentication successfulAuthentication = authenticationManager
+					.authenticate(authentication);
 
 			// Pass the successful token to the SecurityHolder where it can be
 			// retrieved by this thread at any stage.
-			SecurityContextHolder.getContext().setAuthentication(successfulAuthentication);
+			SecurityContextHolder.getContext().setAuthentication(
+					successfulAuthentication);
 
-			response.setHeader("x-session-id", ((EclihandToken)successfulAuthentication).getCredentials().);
+			String sessionToken = ((EclihandToken) successfulAuthentication)
+					.getCredentials().getSessionToken();
+
+			if (sessionToken != null) {
+				response.setHeader("x-session-id", sessionToken);
+			}
 
 			// Continue with the Filters
 			chain.doFilter(request, response);
@@ -91,7 +103,8 @@ public class EclihandFilter extends GenericFilterBean {
 			// If it fails clear this threads context and kick off the
 			// authentication entry point process.
 			SecurityContextHolder.clearContext();
-			authenticationEntryPoint.commence(request, response, authenticationException);
+			authenticationEntryPoint.commence(request, response,
+					authenticationException);
 		}
 	}
 }

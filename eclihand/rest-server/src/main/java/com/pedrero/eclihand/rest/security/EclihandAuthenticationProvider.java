@@ -1,5 +1,7 @@
 package com.pedrero.eclihand.rest.security;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
 import org.springframework.security.authentication.BadCredentialsException;
@@ -9,16 +11,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.pedrero.eclihand.service.biz.transerval.AuthenticationService;
 import com.pedrero.eclihand.service.runtime.exception.EclihandAuthenticationException;
 
-public class EclihandAuthenticationProvider extends DaoAuthenticationProvider {
+public abstract class EclihandAuthenticationProvider extends
+		DaoAuthenticationProvider {
 
 	@Resource
 	private SecurityUtilities securityUtilities;
-
-	@Resource
-	private AuthenticationService authenticationService;
 
 	@Override
 	public boolean supports(Class<?> authentication) {
@@ -27,7 +26,8 @@ public class EclihandAuthenticationProvider extends DaoAuthenticationProvider {
 
 	@Override
 	protected void additionalAuthenticationChecks(UserDetails userDetails,
-			UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+			UsernamePasswordAuthenticationToken authentication)
+			throws AuthenticationException {
 
 		EclihandToken restToken = (EclihandToken) authentication;
 		EclihandUser user = (EclihandUser) userDetails;
@@ -35,26 +35,35 @@ public class EclihandAuthenticationProvider extends DaoAuthenticationProvider {
 		if (user.isGuestUser()) {
 			return;
 		}
+
+		String expectedSignature = securityUtilities.signRequest(userDetails
+				.getPassword(), restToken.getCredentials().getContent());
+
+		// check if signatures match
+		if (!expectedSignature
+				.equals(restToken.getCredentials().getSignature())) {
+			throw new BadCredentialsException("Invalid username or password.");
+		}
+
 		try {
-			authenticationService.checkRequestTimeConsistencyForUser(userDetails.getUsername(), restToken
-					.getCredentials().getContent().getDate());
+			restToken.getCredentials().setSessionToken(
+					findSessionTokenFor(userDetails, restToken.getCredentials()
+							.getContent().getDate()));
 
-			String expectedSignature = securityUtilities.signRequest(userDetails.getPassword(), restToken
-					.getCredentials().getContent());
-
-			// check if signatures match
-			if (!expectedSignature.equals(restToken.getCredentials().getSignature())) {
-				throw new BadCredentialsException("Invalid username or password.");
-			}
 		} catch (EclihandAuthenticationException e) {
-			throw new BadCredentialsException("Bad credentials. Try to log in again", e);
+			throw new BadCredentialsException(
+					"Bad credentials. Try to log in again", e);
 		}
 	}
 
+	protected abstract String findSessionTokenFor(UserDetails userDetails,
+			Date clientTimeRequest) throws EclihandAuthenticationException;
+
 	@Override
-	protected EclihandToken createSuccessAuthentication(Object principal, Authentication authentication,
-			UserDetails user) {
-		Authentication createSuccessAuthentication = super.createSuccessAuthentication(principal, authentication, user);
+	protected EclihandToken createSuccessAuthentication(Object principal,
+			Authentication authentication, UserDetails user) {
+		Authentication createSuccessAuthentication = super
+				.createSuccessAuthentication(principal, authentication, user);
 		return new EclihandToken(createSuccessAuthentication);
 	}
 

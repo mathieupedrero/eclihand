@@ -50,12 +50,12 @@
 
 	<!--Authentication Providers -->
 	<beans:bean id="passwordAuthenticationProvider"
-		class="com.pedrero.eclihand.rest.security.EclihandAuthenticationProvider">
+		class="com.pedrero.eclihand.rest.security.PasswordAuthenticationProvider">
 		<beans:property name="userDetailsService" ref="sessionTokenUserDetailsService" />
 	</beans:bean>
 
 	<beans:bean id="sessionTokenAuthenticationProvider"
-		class="com.pedrero.eclihand.rest.security.EclihandAuthenticationProvider">
+		class="com.pedrero.eclihand.rest.security.SessionTokenAuthenticationProvider">
 		<beans:property name="userDetailsService" ref="sessionTokenUserDetailsService" />
 	</beans:bean>
 
