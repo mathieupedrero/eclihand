@@ -82,6 +82,9 @@ public class EclihandFilter extends GenericFilterBean {
 			// Pass the successful token to the SecurityHolder where it can be
 			// retrieved by this thread at any stage.
 			SecurityContextHolder.getContext().setAuthentication(successfulAuthentication);
+
+			response.setHeader("x-session-id", ((EclihandToken)successfulAuthentication).getCredentials().);
+
 			// Continue with the Filters
 			chain.doFilter(request, response);
 		} catch (AuthenticationException authenticationException) {

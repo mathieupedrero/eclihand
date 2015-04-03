@@ -1,31 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-	    <!-- Defines security domains -->
-    <http create-session="stateless" entry-point-ref="eclihandEntryPoint" authentication-manager-ref="eclihandAuthenticationManager" use-expressions="true">
-        <custom-filter ref="eclihandAuthenticationFilter" position="FORM_LOGIN_FILTER" />
-        <intercept-url pattern="/**" access="isAuthenticated()" />
-    </http>
- 
-    <beans:bean id="eclihandAuthenticationFilter" class="com.pedrero.eclihand.rest.security.EclihandFilter">
-        <beans:constructor-arg name="authenticationManager" ref="eclihandAuthenticationManager" />
-        <beans:constructor-arg name="authenticationEntryPoint" ref="eclihandEntryPoint" />
-    </beans:bean>
-        
-    <beans:bean id="eclihandAuthenticationProvider" class="com.pedrero.eclihand.rest.security.EclihandAuthenticationProvider">
-    	<beans:property name="userDetailsService" ref="eclihandUserDetailsService" />
-    </beans:bean>
-        
-    <beans:bean id="eclihandEntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint"/>
-    
-    <beans:bean id="eclihandUserDetailsService" autowire="byType" class="com.pedrero.eclihand.rest.security.EclihandUserDetailsService" />
- 
-    <authentication-manager id="eclihandAuthenticationManager">
-        <authentication-provider ref="eclihandAuthenticationProvider" />
-    </authentication-manager>
+	<!-- Defines security domains -->
+	<http pattern="/authentication/touch" create-session="stateless" entry-point-ref="eclihandEntryPoint"
+		authentication-manager-ref="passwordAuthenticationManager"
+		use-expressions="true">
+		<custom-filter ref="passwordAuthenticationFilter"
+			position="FORM_LOGIN_FILTER" />
+		<intercept-url pattern="/authentication/touch" access="isAuthenticated()" />
+	</http>
+
+	<http create-session="stateless" entry-point-ref="eclihandEntryPoint"
+		authentication-manager-ref="sessionTokenAuthenticationManager"
+		use-expressions="true">
+		<custom-filter ref="sessionTokenAuthenticationFilter"
+			position="FORM_LOGIN_FILTER" />
+		<intercept-url pattern="/**" access="isAuthenticated()" />
+	</http>
+
+	<beans:bean id="passwordAuthenticationFilter"
+		class="com.pedrero.eclihand.rest.security.EclihandFilter">
+		<beans:constructor-arg name="authenticationManager"
+			ref="passwordAuthenticationManager" />
+		<beans:constructor-arg name="authenticationEntryPoint"
+			ref="eclihandEntryPoint" />
+	</beans:bean>
+
+	<beans:bean id="sessionTokenAuthenticationFilter"
+		class="com.pedrero.eclihand.rest.security.EclihandFilter">
+		<beans:constructor-arg name="authenticationManager"
+			ref="sessionTokenAuthenticationManager" />
+		<beans:constructor-arg name="authenticationEntryPoint"
+			ref="eclihandEntryPoint" />
+	</beans:bean>
+
+	<beans:bean id="eclihandEntryPoint"
+		class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint" />
+
+	<authentication-manager id="passwordAuthenticationManager">
+		<authentication-provider ref="passwordAuthenticationProvider" />
+	</authentication-manager>
+
+	<authentication-manager id="sessionTokenAuthenticationManager">
+		<authentication-provider ref="sessionTokenAuthenticationProvider" />
+	</authentication-manager>
+
+	<!--Authentication Providers -->
+	<beans:bean id="passwordAuthenticationProvider"
+		class="com.pedrero.eclihand.rest.security.EclihandAuthenticationProvider">
+		<beans:property name="userDetailsService" ref="sessionTokenUserDetailsService" />
+	</beans:bean>
+
+	<beans:bean id="sessionTokenAuthenticationProvider"
+		class="com.pedrero.eclihand.rest.security.EclihandAuthenticationProvider">
+		<beans:property name="userDetailsService" ref="sessionTokenUserDetailsService" />
+	</beans:bean>
 
 </beans:beans>

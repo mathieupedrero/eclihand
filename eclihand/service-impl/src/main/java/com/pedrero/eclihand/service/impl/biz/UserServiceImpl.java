@@ -90,4 +90,12 @@ public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User> implem
 		return getConverter().convertToDto(getDao().findByLogin(login));
 	}
 
+	/**
+	 * @see com.pedrero.eclihand.service.biz.UserService#retrievePasswordByLogin(java.lang.String)
+	 */
+	@Override
+	public String retrievePasswordByLogin(String login) {
+		return getDao().findByLogin(login).getPassword();
+	}
+
 }

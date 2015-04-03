@@ -34,11 +34,19 @@ public interface UserService extends DataObjectService<UserDto> {
 	public void checkCredentials(String login, String md5EncodedPassword) throws BadCredentialsException;
 
 	/**
-	 * Retrieves an uver given it's login.
+	 * Retrieves an user given it's login.
 	 * 
 	 * @param login
 	 * @return
 	 */
 	public UserDto retrieveByLogin(String login);
+
+	/**
+	 * Retrieves an user password given it's login.
+	 * 
+	 * @param login
+	 * @return
+	 */
+	public String retrievePasswordByLogin(String login);
 
 }

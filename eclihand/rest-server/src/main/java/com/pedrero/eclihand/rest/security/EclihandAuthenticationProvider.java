@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -48,6 +49,13 @@ public class EclihandAuthenticationProvider extends DaoAuthenticationProvider {
 		} catch (EclihandAuthenticationException e) {
 			throw new BadCredentialsException("Bad credentials. Try to log in again", e);
 		}
+	}
+
+	@Override
+	protected EclihandToken createSuccessAuthentication(Object principal, Authentication authentication,
+			UserDetails user) {
+		Authentication createSuccessAuthentication = super.createSuccessAuthentication(principal, authentication, user);
+		return new EclihandToken(createSuccessAuthentication);
 	}
 
 }
