@@ -18,7 +18,7 @@ public class PasswordUserDetailsService extends AbstractUserDetailsService {
 
 	@Override
 	protected String retrieveSecretSignKeyForUser(String login) throws UsernameNotFoundException {
-		LOGGER.info("Going to retrieve passwort for user {}", login);
+		LOGGER.info("Going to retrieve password for user {}", login);
 		return userService.retrievePasswordByLogin(login);
 	}
 

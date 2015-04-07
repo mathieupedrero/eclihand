@@ -12,6 +12,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -20,6 +22,8 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.web.filter.GenericFilterBean;
 
 public class EclihandFilter extends GenericFilterBean {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(EclihandFilter.class);
 
 	private static final String AUTHORIZATION_HEADER_NAME = "Authorization";
 
@@ -52,11 +56,12 @@ public class EclihandFilter extends GenericFilterBean {
 		// Get authorization header
 		String authorizationHeader = request.getHeader(AUTHORIZATION_HEADER_NAME);
 
-		final Authentication authentication;
+		final AuthenticationToken authentication;
 
 		// If there's not credentials return...
 		if (authorizationHeader == null) {
-			authentication = new EclihandToken();
+			LOGGER.info("No authentication in HTTP request - guest user authentication");
+			authentication = new AuthenticationToken();
 		} else {
 			// Authorization header is in the form
 			// <public_access_key>:<signature>
@@ -67,11 +72,13 @@ public class EclihandFilter extends GenericFilterBean {
 			String userName = auth[0];
 			String signature = auth[1];
 
+			LOGGER.info("Going to authenticate user [{}]", userName);
+
 			EclihandRequestCredentials restCredential = securityUtilities.buildCredentialsFrom(userName,
 					requestContent, signature);
 
 			// Create an authentication token
-			authentication = new EclihandToken(userName, restCredential);
+			authentication = new AuthenticationToken(userName, restCredential);
 		}
 
 		try {
@@ -83,21 +90,18 @@ public class EclihandFilter extends GenericFilterBean {
 			// retrieved by this thread at any stage.
 			SecurityContextHolder.getContext().setAuthentication(successfulAuthentication);
 
-			EclihandRequestCredentials eclihandRequestCredentials = (EclihandRequestCredentials) successfulAuthentication
-					.getCredentials();
-
-			if (eclihandRequestCredentials != null) {
-				String sessionToken = eclihandRequestCredentials.getSessionToken();
-				if (sessionToken != null) {
-					response.setHeader("x-session-id", sessionToken);
-				}
+			if (successfulAuthentication instanceof RunningSessionAuthenticationToken) {
+				response.setHeader("x-session-id",
+						((RunningSessionAuthenticationToken) successfulAuthentication).getSessionToken());
 			}
 
 			// Continue with the Filters
+			LOGGER.info("Athentication granted for [{}]", authentication.getPrincipal());
 			chain.doFilter(request, response);
 		} catch (AuthenticationException authenticationException) {
 			// If it fails clear this threads context and kick off the
 			// authentication entry point process.
+			LOGGER.info("Athentication denied for [{}]", authentication.getPrincipal());
 			SecurityContextHolder.clearContext();
 			authenticationEntryPoint.commence(request, response, authenticationException);
 		}

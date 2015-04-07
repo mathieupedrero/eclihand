@@ -2,7 +2,7 @@ package com.pedrero.eclihand.rest.security;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-public class EclihandToken extends UsernamePasswordAuthenticationToken {
+public class AuthenticationToken extends UsernamePasswordAuthenticationToken {
 
 	/**
 	 * 
@@ -12,17 +12,17 @@ public class EclihandToken extends UsernamePasswordAuthenticationToken {
 	private final Principal principal;
 	private final EclihandRequestCredentials credentials;
 
-	public EclihandToken() {
+	public AuthenticationToken() {
 		this(new Principal(null), null);
 	}
 
-	private EclihandToken(Principal principal, EclihandRequestCredentials credentials) {
+	private AuthenticationToken(Principal principal, EclihandRequestCredentials credentials) {
 		super(principal, credentials);
 		this.principal = principal;
 		this.credentials = credentials;
 	}
 
-	public EclihandToken(String userName, EclihandRequestCredentials credentials) {
+	public AuthenticationToken(String userName, EclihandRequestCredentials credentials) {
 		this(new Principal(userName), credentials);
 	}
 
@@ -47,6 +47,11 @@ public class EclihandToken extends UsernamePasswordAuthenticationToken {
 		@Override
 		public String getName() {
 			return name;
+		}
+
+		@Override
+		public String toString() {
+			return "Principal [name=" + name + "]";
 		}
 
 	}

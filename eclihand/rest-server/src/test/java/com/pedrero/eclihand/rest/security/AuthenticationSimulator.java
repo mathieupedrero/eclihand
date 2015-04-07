@@ -28,7 +28,7 @@ public class AuthenticationSimulator {
 		String token = testService("http://localhost:8080", "/eclihand-server/authentication/touch", "admin", "admin",
 				true);
 		testService("http://localhost:8080", "/eclihand-server/team/all", "admin", token, false);
-		testService("http://localhost:8080", "/eclihand-server/team/all", "admin", "admin", false);
+		testService("http://localhost:8080", "/eclihand-server/team/all", "admin", "admin", true);
 		testService("http://localhost:8080", "/eclihand-server/authentication/touch", "admin", "admin", false);
 		testService("http://localhost:8080", "/eclihand-server/authentication/touch", "admin", token, false);
 
@@ -47,7 +47,7 @@ public class AuthenticationSimulator {
 		request.addHeader(new BasicHeader("Date", date));
 
 		if (username != null && password != null) {
-
+			final String auth;
 			if (encode) {
 				MessageDigest md = null;
 				try {
@@ -56,12 +56,11 @@ public class AuthenticationSimulator {
 					assert false;
 				}
 				String encodedPassword = new String(Base64.encode(md.digest(password.getBytes())));
-				String auth = username + ":" + SECURITY_UTILITIES.signRequest(encodedPassword, content);
-				request.addHeader(new BasicHeader("Authorization", auth));
+				auth = username + ":" + SECURITY_UTILITIES.signRequest(encodedPassword, content);
 			} else {
-				String auth = username + ":" + SECURITY_UTILITIES.signRequest(password, content);
-				request.addHeader(new BasicHeader("Authorization", auth));
+				auth = username + ":" + SECURITY_UTILITIES.signRequest(password, content);
 			}
+			request.addHeader(new BasicHeader("Authorization", auth));
 		}
 		request.addHeader("Content-type", ContentType.APPLICATION_JSON.getMimeType());
 

@@ -11,7 +11,7 @@
 		</encoder>
 	</appender>
 
-	<logger name="com.pedrero" level="debug" additivity="false">
+	<logger name="com.pedrero" level="info" additivity="false">
 		<appender-ref ref="STDOUT" />
 	</logger>
 	<logger name="org.springframework" additivity="false">

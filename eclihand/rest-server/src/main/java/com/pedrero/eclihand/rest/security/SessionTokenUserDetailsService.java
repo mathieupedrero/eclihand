@@ -20,9 +20,10 @@ public class SessionTokenUserDetailsService extends AbstractUserDetailsService {
 	@Override
 	protected String retrieveSecretSignKeyForUser(String login) {
 		try {
+			LOGGER.info("Going to retrieve session token for user {}", login);
 			return authenticationService.findTokenFor(login);
 		} catch (NoCurrentSessionException e) {
-			LOGGER.error("Erro while retrieving secret for user {} : {}", login, e.getMessage());
+			LOGGER.warn("Error while retrieving secret for user {} : {}", login, e.getMessage());
 			throw new UsernameNotFoundException("No session exists for user", e);
 		}
 	}

@@ -40,7 +40,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	public String authenticate(String login, String password, Date clientTimeRequestDate)
 			throws BadCredentialsException, TimeConsistencyException {
-		LOGGER.info("User [] tries to log in", login);
+		LOGGER.info("User [{}] tries to log in", login);
 		userService.checkCredentials(login, password);
 		try {
 			return runtimeService.findTokenCheckingTimeConsistencyFor(login, clientTimeRequestDate);
