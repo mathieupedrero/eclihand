@@ -26,8 +26,8 @@ INSERT INTO ILL_ILLUSTRABLE VALUES (6);
 INSERT INTO ILL_ILLUSTRABLE VALUES (7);
 INSERT INTO ILL_ILLUSTRABLE VALUES (16);
 
-INSERT INTO USR_USER VALUES (1,'admin',encode(digest('admin', 'sha1'), 'base64'), 'ADMIN');
-INSERT INTO USR_USER VALUES (16,'invite',encode(digest('invite', 'sha1'), 'base64'), 'GUEST');
+INSERT INTO USR_USER VALUES (1,'admin',encode(digest('admin' || digest('admin', 'sha1'), 'sha1'), 'base64'), 'ADMIN');
+INSERT INTO USR_USER VALUES (16,'invite',encode(digest('invite' || digest('invite', 'sha1'), 'sha1'), 'base64'), 'GUEST');
 
 INSERT INTO PRF_PROFILE VALUES (2,'ADMIN');
 INSERT INTO PRF_PROFILE VALUES (3,'PRESIDENT');

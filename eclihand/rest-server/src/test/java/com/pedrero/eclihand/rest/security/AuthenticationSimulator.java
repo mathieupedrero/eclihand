@@ -55,7 +55,12 @@ public class AuthenticationSimulator {
 				} catch (NoSuchAlgorithmException e) {
 					assert false;
 				}
-				String encodedPassword = new String(Base64.encode(md.digest(password.getBytes())));
+				byte[] encodedPasswordByte = md.digest(password.getBytes());
+				byte[] usernameByte = username.getBytes();
+				byte[] toEncode = new byte[encodedPasswordByte.length + usernameByte.length];
+				System.arraycopy(usernameByte, 0, toEncode, 0, usernameByte.length);
+				System.arraycopy(encodedPasswordByte, 0, toEncode, usernameByte.length, encodedPasswordByte.length);
+				String encodedPassword = new String(Base64.encode(md.digest(toEncode)));
 				auth = username + ":" + SECURITY_UTILITIES.signRequest(encodedPassword, content);
 			} else {
 				auth = username + ":" + SECURITY_UTILITIES.signRequest(password, content);

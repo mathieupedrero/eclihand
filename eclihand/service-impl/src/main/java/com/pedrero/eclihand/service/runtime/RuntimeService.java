@@ -2,8 +2,6 @@ package com.pedrero.eclihand.service.runtime;
 
 import java.util.Date;
 
-import org.springframework.scheduling.annotation.Scheduled;
-
 import com.pedrero.eclihand.service.runtime.exception.NoCurrentSessionException;
 import com.pedrero.eclihand.service.runtime.exception.TimeConsistencyException;
 

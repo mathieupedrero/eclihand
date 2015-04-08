@@ -9,6 +9,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.pedrero.eclihand.service.runtime.RuntimeService;
+import com.pedrero.eclihand.service.runtime.exception.NoCurrentSessionException;
 import com.pedrero.eclihand.service.runtime.exception.TimeConsistencyException;
 
 public class RuntimeServiceImplTest {
@@ -27,11 +28,11 @@ public class RuntimeServiceImplTest {
 	}
 
 	@Test(expected = TimeConsistencyException.class)
-	public void registerSameDateRequestTest() throws TimeConsistencyException {
+	public void registerSameDateRequestTest() throws TimeConsistencyException, NoCurrentSessionException {
 		String login = "registerSameDateRequestTest";
 		Date sameDate = new Date();
 		RUNTIME_SERVICE.createNewSessionForUser(login, sameDate);
-		RUNTIME_SERVICE.createNewSessionForUser(login, sameDate);
+		RUNTIME_SERVICE.checkRequestTimeConsistencyForUser(login, sameDate);
 	}
 
 	@Test(expected = TimeConsistencyException.class)
@@ -44,13 +45,22 @@ public class RuntimeServiceImplTest {
 	}
 
 	@Test()
-	public void registerClientRequestTest() throws TimeConsistencyException {
+	public void registerClientRequestTestWithTimeCheck() throws TimeConsistencyException, NoCurrentSessionException {
 		String login = "registerOlderRequestTest";
 		Date now = RUNTIME_SERVICE.giveServerTime();
 		Date firstDate = new Date(now.getTime() - 10l);
 		Date secondDate = new Date(now.getTime());
 		Assert.assertEquals("doesn't return same token", RUNTIME_SERVICE.createNewSessionForUser(login, firstDate),
-				RUNTIME_SERVICE.createNewSessionForUser(login, secondDate));
+				RUNTIME_SERVICE.findTokenCheckingTimeConsistencyFor(login, secondDate));
+	}
+
+	@Test()
+	public void registerClientRequestTest() throws TimeConsistencyException, NoCurrentSessionException {
+		String login = "registerOlderRequestTest";
+		Date now = RUNTIME_SERVICE.giveServerTime();
+		Date firstDate = new Date(now.getTime() - 10l);
+		Assert.assertEquals("doesn't return same token", RUNTIME_SERVICE.createNewSessionForUser(login, firstDate),
+				RUNTIME_SERVICE.findTokenFor(login));
 	}
 
 }
