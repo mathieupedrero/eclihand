@@ -8,10 +8,12 @@
  * Controller of the webClientApp
  */
 angular.module('webClientApp')
-  .controller('MainCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('MainCtrl', function($scope, loginService) {
+    console.log('Main control log');
+    console.log(loginService.login);
+    $scope.login = "Mon Login";
+    $scope.password = "Mon Password";
+    $scope.onLogin = function() {
+      loginService.login($scope.login, $scope.password);
+    };
   });
