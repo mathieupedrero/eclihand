@@ -15,7 +15,7 @@ angular.module('webClientApp')
         var signature = login + ':' + btoa(CryptoJS.SHA1(CryptoJS.SHA1(password)));
         var request = {
           method: 'GET',
-          url: 'http://localhost:8080/eclihand-server/authentication/touch',
+          url: 'http://localhost/eclihand-server/authentication/touch',
           headers: {
             'Authorization': 'Basic ' + signature,
             'Bonjouir': 'Basic ' + signature,
