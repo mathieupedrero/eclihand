@@ -1,6 +1,6 @@
 package com.pedrero.eclihand.model.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.pedrero.eclihand.model.domain.Gender;
 
@@ -9,7 +9,7 @@ public class PersonDto extends IllustrableDto {
 
 	private String lastName;
 
-	private Date birthDate;
+	private LocalDate birthDate;
 
 	private Gender gender;
 
@@ -29,11 +29,11 @@ public class PersonDto extends IllustrableDto {
 		this.lastName = lastName;
 	}
 
-	public Date getBirthDate() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 

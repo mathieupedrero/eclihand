@@ -101,7 +101,8 @@ public class EclihandFilter extends GenericFilterBean {
 		} catch (AuthenticationException authenticationException) {
 			// If it fails clear this threads context and kick off the
 			// authentication entry point process.
-			LOGGER.info("Athentication denied for [{}]", authentication.getPrincipal());
+			LOGGER.info("Athentication denied for [{} - reanson {}]", authentication.getPrincipal(),
+					authenticationException.getMessage());
 			SecurityContextHolder.clearContext();
 			authenticationEntryPoint.commence(request, response, authenticationException);
 		}

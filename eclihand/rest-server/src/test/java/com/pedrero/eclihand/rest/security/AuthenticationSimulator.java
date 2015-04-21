@@ -24,13 +24,12 @@ public class AuthenticationSimulator {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationSimulator.class);
 
 	public static void main(String[] args) throws IOException {
-		testService("http://localhost:8080", "/eclihand-server/team/all");
-		String token = testService("http://localhost:8080", "/eclihand-server/authentication/touch", "admin", "admin",
-				true);
-		testService("http://localhost:8080", "/eclihand-server/team/all", "admin", token, false);
-		testService("http://localhost:8080", "/eclihand-server/team/all", "admin", "admin", true);
-		testService("http://localhost:8080", "/eclihand-server/authentication/touch", "admin", "admin", false);
-		testService("http://localhost:8080", "/eclihand-server/authentication/touch", "admin", token, false);
+		testService("http://localhost", "/eclihand-server/team/all");
+		String token = testService("http://localhost", "/eclihand-server/authentication/touch", "admin", "admin", true);
+		testService("http://localhost", "/eclihand-server/team/all", "admin", token, false);
+		testService("http://localhost", "/eclihand-server/team/all", "admin", "admin", true);
+		testService("http://localhost", "/eclihand-server/authentication/touch", "admin", "admin", false);
+		testService("http://localhost", "/eclihand-server/authentication/touch", "admin", token, false);
 
 	}
 
