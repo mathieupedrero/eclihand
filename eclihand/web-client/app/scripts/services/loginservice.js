@@ -18,8 +18,7 @@ angular.module('webClientApp')
           url: 'http://localhost/eclihand-server/authentication/touch',
           headers: {
             'Authorization': 'Basic ' + signature,
-            'Bonjouir': 'Basic ' + signature,
-            'Content-Type': 'Basic ' + signature
+			'X-ecli-Date' : new Date().toJSON()
           }
         }
 
@@ -29,5 +28,7 @@ angular.module('webClientApp')
           console.log('erreur de login de [' + login + '], password[' + password + '], ' + 'headers[' + request.headers.Authorization + ']')
         });
       }
+	  
+	  
     };
   });

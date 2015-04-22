@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 public class SecurityUtilities {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SecurityUtilities.class);
 
-	private static final String DATE_HEADER_NAME = "Date";
+	private static final String DATE_HEADER_NAME = "X-ecli-Date";
 	private static final String HMAC_SHA256_ALGORITHM_NAME = "HmacSHA256";
 	// Enable Multi-Read for PUT and POST requests
 	private static final Set<String> METHOD_HAS_CONTENT = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
