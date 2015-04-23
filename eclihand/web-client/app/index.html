@@ -105,7 +105,8 @@
   <script src="bower_components/angular-touch/angular-touch.js"></script>
   <!-- endbower -->
   <!-- endbuild -->
-  <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha1.js"></script>
+  <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
+  <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/hmac-sha256.js"></script>
 
 
   <!-- build:js({.tmp,app}) scripts/scripts.js -->
@@ -114,6 +115,8 @@
   <script src="scripts/controllers/about.js"></script>
   <script src="scripts/controllers/login.js"></script>
   <script src="scripts/services/loginservice.js"></script>
+  <script src="scripts/services/httpeclihandserverinterceptor.js"></script>
+  <script src="scripts/services/requestutils.js"></script>
   <!-- endbuild -->
 
 </body>

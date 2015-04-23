@@ -50,7 +50,7 @@ public class AuthenticationSimulator {
 			if (encode) {
 				MessageDigest md = null;
 				try {
-					md = MessageDigest.getInstance("SHA-1");
+					md = MessageDigest.getInstance("SHA-256");
 				} catch (NoSuchAlgorithmException e) {
 					assert false;
 				}

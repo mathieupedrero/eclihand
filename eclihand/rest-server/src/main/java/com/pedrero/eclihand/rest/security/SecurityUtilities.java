@@ -1,6 +1,7 @@
 package com.pedrero.eclihand.rest.security;
 
 import java.security.GeneralSecurityException;
+import java.security.MessageDigest;
 import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
@@ -11,7 +12,6 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.http.client.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +23,7 @@ public class SecurityUtilities {
 	private static final String HMAC_SHA256_ALGORITHM_NAME = "HmacSHA256";
 	// Enable Multi-Read for PUT and POST requests
 	private static final Set<String> METHOD_HAS_CONTENT = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-	private final Md5PasswordEncoder md5PasswordEncoder = new Md5PasswordEncoder();
+	private final MessageDigest md5PasswordEncoder = MessageDigest.getInstance("SHA-256");
 
 	static {
 		METHOD_HAS_CONTENT.add("PUT");

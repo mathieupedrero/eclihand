@@ -8,18 +8,20 @@
  * Factory in the webClientApp.
  */
 angular.module('webClientApp')
-  .factory('loginService', function loginService($http) {
+  .factory('loginService', ['$http','requestUtils',function loginService($http,requestUtils) {
     // Public API here
     return {
+	
       login: function(login, password) {
-        var signature = login + ':' + btoa(CryptoJS.SHA1(CryptoJS.SHA1(password)));
+	  
+	  var encodedPassword = btoa(CryptoJS.SHA256(login + CryptoJS.SHA256(password)));
+		
         var request = {
-          method: 'GET',
-          url: 'http://localhost/eclihand-server/authentication/touch',
-          headers: {
-            'Authorization': 'Basic ' + signature,
-			'X-ecli-Date' : new Date().toJSON()
-          }
+			method: 'GET',
+			url: 'http://localhost/eclihand-server/authentication/touch',
+			transformResponse : function(value) {
+				return requestUtils.signRequest(value,login,encodedPassword);
+			}
         }
 
         return $http(request).success(function(data, headers) {
@@ -31,4 +33,4 @@ angular.module('webClientApp')
 	  
 	  
     };
-  });
+  }]);
