@@ -2,6 +2,8 @@ package com.pedrero.eclihand.rest.security;
 
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
@@ -12,8 +14,9 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.http.client.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Component;
+
+import com.pedrero.eclihand.model.exception.EclihandRuntimeException;
 
 @Component
 public class SecurityUtilities {
@@ -23,7 +26,6 @@ public class SecurityUtilities {
 	private static final String HMAC_SHA256_ALGORITHM_NAME = "HmacSHA256";
 	// Enable Multi-Read for PUT and POST requests
 	private static final Set<String> METHOD_HAS_CONTENT = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-	private final MessageDigest md5PasswordEncoder = MessageDigest.getInstance("SHA-256");
 
 	static {
 		METHOD_HAS_CONTENT.add("PUT");
@@ -51,7 +53,11 @@ public class SecurityUtilities {
 		// get md5 content and content-type if the request is POST or PUT method
 		boolean hasContent = METHOD_HAS_CONTENT.contains(content.getMethod());
 
-		String contentMd5 = hasContent ? md5PasswordEncoder.encodePassword(content.getContent(), null) : "";
+		MessageDigest messageDigest;
+		messageDigest = getMessageDigestInstance();
+
+		String contentMd5 = hasContent ? Base64.getEncoder().encodeToString(
+				messageDigest.digest(content.getContent().getBytes())) : "";
 		String contentType = hasContent ? content.getContentType() : "";
 
 		// calculate content to sign
@@ -59,6 +65,14 @@ public class SecurityUtilities {
 		toSign.append(content.getMethod()).append("\n").append(contentMd5).append("\n").append(contentType)
 				.append("\n").append(printDate(content.getDate())).append("\n").append(content.getUri());
 		return toSign.toString();
+	}
+
+	private MessageDigest getMessageDigestInstance() {
+		try {
+			return MessageDigest.getInstance("SHA-256");
+		} catch (NoSuchAlgorithmException e) {
+			throw new EclihandRuntimeException("Couldn't find message digest", e);
+		}
 	}
 
 	public Date parseDate(String dateString) {
@@ -75,7 +89,7 @@ public class SecurityUtilities {
 			Mac mac = Mac.getInstance(HMAC_SHA256_ALGORITHM_NAME);
 			mac.init(signingKey);
 			byte[] rawHmac = mac.doFinal(data.getBytes());
-			String result = new String(Base64.encode(rawHmac));
+			String result = new String(Base64.getEncoder().encode(rawHmac));
 			return result;
 		} catch (GeneralSecurityException e) {
 			throw new IllegalArgumentException();

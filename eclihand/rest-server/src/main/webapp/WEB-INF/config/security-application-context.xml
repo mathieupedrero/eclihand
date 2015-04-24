@@ -5,8 +5,8 @@
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
 	<!-- Defines security domains -->
-	<http pattern="/authentication/touch" create-session="stateless" entry-point-ref="eclihandEntryPoint"
-		authentication-manager-ref="passwordAuthenticationManager"
+	<http pattern="/authentication/touch" create-session="stateless"
+		entry-point-ref="eclihandEntryPoint" authentication-manager-ref="passwordAuthenticationManager"
 		use-expressions="true">
 		<custom-filter ref="passwordAuthenticationFilter"
 			position="FORM_LOGIN_FILTER" />

@@ -17,6 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.codec.Base64;
 
+import com.pedrero.eclihand.model.exception.EclihandRuntimeException;
+
 public class AuthenticationSimulator {
 
 	private static final SecurityUtilities SECURITY_UTILITIES = new SecurityUtilities();
@@ -31,6 +33,23 @@ public class AuthenticationSimulator {
 		testService("http://localhost", "/eclihand-server/authentication/touch", "admin", "admin", false);
 		testService("http://localhost", "/eclihand-server/authentication/touch", "admin", token, false);
 
+	}
+
+	private static MessageDigest getMessageDigestInstance() {
+		try {
+			return MessageDigest.getInstance("SHA-256");
+		} catch (NoSuchAlgorithmException e) {
+			throw new EclihandRuntimeException("Couldn't find message digest", e);
+		}
+	}
+
+	private static byte[] concat(byte[] a, byte[] b) {
+		int aLen = a.length;
+		int bLen = b.length;
+		byte[] c = new byte[aLen + bLen];
+		System.arraycopy(a, 0, c, 0, aLen);
+		System.arraycopy(b, 0, c, aLen, bLen);
+		return c;
 	}
 
 	public static String testService(final String path, final String uri, final String username, final String password,
@@ -48,18 +67,10 @@ public class AuthenticationSimulator {
 		if (username != null && password != null) {
 			final String auth;
 			if (encode) {
-				MessageDigest md = null;
-				try {
-					md = MessageDigest.getInstance("SHA-256");
-				} catch (NoSuchAlgorithmException e) {
-					assert false;
-				}
-				byte[] encodedPasswordByte = md.digest(password.getBytes());
-				byte[] usernameByte = username.getBytes();
-				byte[] toEncode = new byte[encodedPasswordByte.length + usernameByte.length];
-				System.arraycopy(usernameByte, 0, toEncode, 0, usernameByte.length);
-				System.arraycopy(encodedPasswordByte, 0, toEncode, usernameByte.length, encodedPasswordByte.length);
-				String encodedPassword = new String(Base64.encode(md.digest(toEncode)));
+				MessageDigest md = getMessageDigestInstance();
+				byte[] sha256EncodedPassword = md.digest(password.getBytes());
+				String encodedPassword = new String(Base64.encode(md.digest(concat(username.getBytes(),
+						sha256EncodedPassword))));
 				auth = username + ":" + SECURITY_UTILITIES.signRequest(encodedPassword, content);
 			} else {
 				auth = username + ":" + SECURITY_UTILITIES.signRequest(password, content);
@@ -67,6 +78,7 @@ public class AuthenticationSimulator {
 			request.addHeader(new BasicHeader("Authorization", auth));
 		}
 		request.addHeader("Content-type", ContentType.APPLICATION_JSON.getMimeType());
+		request.addHeader("X-ecli-Date", SECURITY_UTILITIES.printDate(new Date()));
 
 		// send request
 		try (CloseableHttpClient client = HttpClientBuilder.create().build()) {

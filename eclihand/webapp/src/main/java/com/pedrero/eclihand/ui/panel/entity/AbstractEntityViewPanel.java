@@ -4,10 +4,9 @@ import static com.pedrero.eclihand.controller.security.SecurityRuleUtils.userHas
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang.NotImplementedException;
-
 import com.pedrero.eclihand.controller.security.ISecurityRule;
 import com.pedrero.eclihand.model.domain.Credential;
+import com.pedrero.eclihand.model.exception.EclihandRuntimeException;
 import com.pedrero.eclihand.navigation.AbstractEclihandView;
 import com.pedrero.eclihand.navigation.EclihandPlace;
 import com.pedrero.eclihand.navigation.EclihandView;
@@ -37,7 +36,7 @@ public abstract class AbstractEntityViewPanel extends AbstractEclihandView imple
 	}
 
 	protected Component editComponent() {
-		throw new NotImplementedException();
+		throw new EclihandRuntimeException();
 	};
 
 	/**
