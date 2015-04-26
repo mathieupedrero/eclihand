@@ -1,0 +1,22 @@
+{
+    "jscodehints.detectedExclusions": [
+        "/home/mathieu/projects/eclihand/eclihand/web-client/bower_components/jquery/src/css/var/rnumnonpx.js",
+        "/home/mathieu/projects/eclihand/eclihand/web-client/bower_components/bootstrap/js/button.js",
+        "/home/mathieu/projects/eclihand/eclihand/web-client/bower_components/jquery/src/queue/delay.js",
+        "/home/mathieu/projects/eclihand/eclihand/web-client/bower_components/jquery/src/css/defaultDisplay.js",
+        "/home/mathieu/projects/eclihand/eclihand/web-client/bower_components/jquery/src/css/var/cssExpand.js",
+        "/home/mathieu/projects/eclihand/eclihand/web-client/bower_components/jquery/src/css/var/getStyles.js",
+        "/home/mathieu/projects/eclihand/eclihand/web-client/bower_components/jquery/src/var/strundefined.js",
+        "/home/mathieu/projects/eclihand/eclihand/web-client/bower_components/jquery/src/css/var/isHidden.js",
+        "/home/mathieu/projects/eclihand/eclihand/web-client/bower_components/jquery/src/css/addGetHookIf.js",
+        "/home/mathieu/projects/eclihand/eclihand/web-client/bower_components/jquery/src/effects/animatedSelector.js",
+        "/home/mathieu/projects/eclihand/eclihand/web-client/bower_components/jquery/src/css/hiddenVisibleSelectors.js",
+        "/home/mathieu/projects/eclihand/eclihand/web-client/bower_components/jquery/src/css/swap.js",
+        "/home/mathieu/projects/eclihand/eclihand/web-client/bower_components/jquery/src/css/support.js",
+        "/home/mathieu/projects/eclihand/eclihand/web-client/bower_components/jquery/src/css/curCSS.js",
+        "/home/mathieu/projects/eclihand/eclihand/web-client/bower_components/jquery/src/var/pnum.js",
+        "/home/mathieu/projects/eclihand/eclihand/web-client/bower_components/jquery/src/manipulation/var/rcheckableType.js",
+        "/home/mathieu/projects/eclihand/eclihand/web-client/bower_components/jquery/src/core/parseHTML.js",
+        "/home/mathieu/projects/eclihand/eclihand/web-client/app/scripts/services/loginservice.js"
+    ]
+}
