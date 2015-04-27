@@ -1,6 +1,8 @@
 package com.pedrero.eclihand.service.impl.runtime;
 
-import java.util.Date;
+import java.time.Clock;
+import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -25,14 +27,18 @@ public class RuntimeServiceImpl implements RuntimeService {
 	private static final Long TIME_SHIFT_TOLERANCE_MILLIS = 600000l;
 	private static final Long TOKEN_LIFE_DURATION = 1200000l;
 
-	/* (non-Javadoc)
-	 * @see com.pedrero.eclihand.service.impl.runtime.RuntimeService#createNewSessionForUser(java.lang.String, java.util.Date)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.pedrero.eclihand.service.impl.runtime.RuntimeService#
+	 * createNewSessionForUser(java.lang.String, java.util.Date)
 	 */
 	@Override
-	public String createNewSessionForUser(String login, Date clientTimeRequestDate) throws TimeConsistencyException {
-		Date serverTime = giveServerTime();
-		long timeShift = Math.abs(serverTime.getTime() - clientTimeRequestDate.getTime());
-		if (timeShift > TIME_SHIFT_TOLERANCE_MILLIS) {
+	public String createNewSessionForUser(String login, ZonedDateTime clientTimeRequestDate)
+			throws TimeConsistencyException {
+		ZonedDateTime serverTime = giveServerTime();
+		Duration timeShift = Duration.between(clientTimeRequestDate, serverTime);
+		if (timeShift.toMillis() > TIME_SHIFT_TOLERANCE_MILLIS) {
 			LOGGER.error("Timeshift between client time and server time is too big ({} ms)", clientTimeRequestDate);
 			throw new TimeConsistencyException("Timeshift between client time and server time is too big");
 		}
@@ -41,8 +47,12 @@ public class RuntimeServiceImpl implements RuntimeService {
 		return newSession.securityToken;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.pedrero.eclihand.service.impl.runtime.RuntimeService#findTokenFor(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.service.impl.runtime.RuntimeService#findTokenFor
+	 * (java.lang.String)
 	 */
 	@Override
 	public String findTokenFor(String login) throws NoCurrentSessionException {
@@ -53,11 +63,14 @@ public class RuntimeServiceImpl implements RuntimeService {
 		throw new NoCurrentSessionException();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.pedrero.eclihand.service.impl.runtime.RuntimeService#findTokenCheckingTimeConsistencyFor(java.lang.String, java.util.Date)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.pedrero.eclihand.service.impl.runtime.RuntimeService#
+	 * findTokenCheckingTimeConsistencyFor(java.lang.String, java.util.Date)
 	 */
 	@Override
-	public String findTokenCheckingTimeConsistencyFor(String login, Date clientTimeRequestDate)
+	public String findTokenCheckingTimeConsistencyFor(String login, ZonedDateTime clientTimeRequestDate)
 			throws NoCurrentSessionException, TimeConsistencyException {
 		if (RUNTIME_SESSIONS.containsKey(login)) {
 			LOGGER.debug("A session exists for user [{}]", login);
@@ -68,11 +81,14 @@ public class RuntimeServiceImpl implements RuntimeService {
 		throw new NoCurrentSessionException();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.pedrero.eclihand.service.impl.runtime.RuntimeService#checkRequestTimeConsistencyForUser(java.lang.String, java.util.Date)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.pedrero.eclihand.service.impl.runtime.RuntimeService#
+	 * checkRequestTimeConsistencyForUser(java.lang.String, java.util.Date)
 	 */
 	@Override
-	public void checkRequestTimeConsistencyForUser(String login, Date clientTimeRequestDate)
+	public void checkRequestTimeConsistencyForUser(String login, ZonedDateTime clientTimeRequestDate)
 			throws NoCurrentSessionException, TimeConsistencyException {
 		if (RUNTIME_SESSIONS.containsKey(login)) {
 			LOGGER.debug("A session exists for user [{}]", login);
@@ -82,27 +98,33 @@ public class RuntimeServiceImpl implements RuntimeService {
 		throw new NoCurrentSessionException();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.pedrero.eclihand.service.impl.runtime.RuntimeService#giveServerTime()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.service.impl.runtime.RuntimeService#giveServerTime()
 	 */
 	@Override
-	public Date giveServerTime() {
-		return new Date();
+	public ZonedDateTime giveServerTime() {
+		return Clock.systemUTC().instant().atZone(Clock.systemUTC().getZone());
 	}
 
-	/* (non-Javadoc)
-	 * @see com.pedrero.eclihand.service.impl.runtime.RuntimeService#cleanSessions()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pedrero.eclihand.service.impl.runtime.RuntimeService#cleanSessions()
 	 */
 	@Override
 	@Scheduled(fixedRate = 10000)
 	public void cleanSessions() {
 		LOGGER.debug("{} - Going to clean client sessions", this.hashCode());
 		if (!RUNTIME_SESSIONS.isEmpty()) {
-			final Date serverTime = giveServerTime();
+			final ZonedDateTime serverTime = giveServerTime();
 			RUNTIME_SESSIONS
 					.entrySet()
 					.removeIf(
-							entry -> (serverTime.getTime() - entry.getValue().lastActivityServerDate.getTime() < TOKEN_LIFE_DURATION));
+							entry -> (Duration.between(entry.getValue().lastActivityServerDate, serverTime).toMillis() < TOKEN_LIFE_DURATION));
 		}
 	}
 
@@ -110,9 +132,9 @@ public class RuntimeServiceImpl implements RuntimeService {
 		return UUID.randomUUID().toString();
 	}
 
-	private void checkClientDateYoungerThanLastSessionActivity(Date clientTimeRequestDate, Session currentSession)
-			throws TimeConsistencyException {
-		if (!clientTimeRequestDate.after(currentSession.lastActivityClientDate)) {
+	private void checkClientDateYoungerThanLastSessionActivity(ZonedDateTime clientTimeRequestDate,
+			Session currentSession) throws TimeConsistencyException {
+		if (!clientTimeRequestDate.isAfter(currentSession.lastActivityClientDate)) {
 			LOGGER.error("New client request is older ({}) than the latest executed query ({})", clientTimeRequestDate,
 					currentSession.lastActivityClientDate);
 			throw new TimeConsistencyException("New client request is older than the latest executed query");
@@ -120,11 +142,11 @@ public class RuntimeServiceImpl implements RuntimeService {
 	}
 
 	class Session {
-		private final Date lastActivityServerDate;
-		private final Date lastActivityClientDate;
+		private final ZonedDateTime lastActivityServerDate;
+		private final ZonedDateTime lastActivityClientDate;
 		private final String securityToken;
 
-		public Session(Date creationServerDate, Date lastActivityClientDate, String securityToken) {
+		public Session(ZonedDateTime creationServerDate, ZonedDateTime lastActivityClientDate, String securityToken) {
 			super();
 			this.lastActivityServerDate = creationServerDate;
 			this.lastActivityClientDate = lastActivityClientDate;

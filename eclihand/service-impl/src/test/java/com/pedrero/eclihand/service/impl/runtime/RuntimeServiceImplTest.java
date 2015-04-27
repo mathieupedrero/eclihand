@@ -2,7 +2,9 @@ package com.pedrero.eclihand.service.impl.runtime;
 
 import static org.junit.Assert.fail;
 
-import java.util.Date;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZonedDateTime;
 
 import junit.framework.Assert;
 
@@ -18,11 +20,11 @@ public class RuntimeServiceImplTest {
 
 	@Test
 	public void serverTimeConsistencyTest() {
-		Date firstDate = new Date();
-		Date serverTime = RUNTIME_SERVICE.giveServerTime();
-		Date secondDate = new Date();
+		ZonedDateTime firstDate = Clock.systemUTC().instant().atZone(Clock.systemUTC().getZone());
+		ZonedDateTime serverTime = RUNTIME_SERVICE.giveServerTime();
+		ZonedDateTime secondDate = Clock.systemUTC().instant().atZone(Clock.systemUTC().getZone());
 
-		if (serverTime.before(firstDate) || secondDate.before(serverTime)) {
+		if (serverTime.isBefore(firstDate) || secondDate.isBefore(serverTime)) {
 			fail();
 		}
 	}
@@ -30,7 +32,7 @@ public class RuntimeServiceImplTest {
 	@Test(expected = TimeConsistencyException.class)
 	public void registerSameDateRequestTest() throws TimeConsistencyException, NoCurrentSessionException {
 		String login = "registerSameDateRequestTest";
-		Date sameDate = new Date();
+		ZonedDateTime sameDate = Clock.systemUTC().instant().atZone(Clock.systemUTC().getZone());
 		RUNTIME_SERVICE.createNewSessionForUser(login, sameDate);
 		RUNTIME_SERVICE.checkRequestTimeConsistencyForUser(login, sameDate);
 	}
@@ -38,8 +40,8 @@ public class RuntimeServiceImplTest {
 	@Test(expected = TimeConsistencyException.class)
 	public void registerOlderRequestTest() throws TimeConsistencyException {
 		String login = "registerOlderRequestTest";
-		Date firstDate = new Date(10l);
-		Date secondDate = new Date(20l);
+		ZonedDateTime firstDate = Instant.ofEpochMilli(10).atZone(Clock.systemUTC().getZone());
+		ZonedDateTime secondDate = Instant.ofEpochMilli(20).atZone(Clock.systemUTC().getZone());
 		RUNTIME_SERVICE.createNewSessionForUser(login, secondDate);
 		RUNTIME_SERVICE.createNewSessionForUser(login, firstDate);
 	}
@@ -47,9 +49,8 @@ public class RuntimeServiceImplTest {
 	@Test()
 	public void registerClientRequestTestWithTimeCheck() throws TimeConsistencyException, NoCurrentSessionException {
 		String login = "registerOlderRequestTest";
-		Date now = RUNTIME_SERVICE.giveServerTime();
-		Date firstDate = new Date(now.getTime() - 10l);
-		Date secondDate = new Date(now.getTime());
+		ZonedDateTime secondDate = RUNTIME_SERVICE.giveServerTime();
+		ZonedDateTime firstDate = secondDate.minusSeconds(20);
 		Assert.assertEquals("doesn't return same token", RUNTIME_SERVICE.createNewSessionForUser(login, firstDate),
 				RUNTIME_SERVICE.findTokenCheckingTimeConsistencyFor(login, secondDate));
 	}
@@ -57,8 +58,8 @@ public class RuntimeServiceImplTest {
 	@Test()
 	public void registerClientRequestTest() throws TimeConsistencyException, NoCurrentSessionException {
 		String login = "registerOlderRequestTest";
-		Date now = RUNTIME_SERVICE.giveServerTime();
-		Date firstDate = new Date(now.getTime() - 10l);
+		ZonedDateTime now = RUNTIME_SERVICE.giveServerTime();
+		ZonedDateTime firstDate = now.minusSeconds(20);
 		Assert.assertEquals("doesn't return same token", RUNTIME_SERVICE.createNewSessionForUser(login, firstDate),
 				RUNTIME_SERVICE.findTokenFor(login));
 	}

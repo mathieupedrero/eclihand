@@ -1,6 +1,6 @@
 package com.pedrero.eclihand.service.impl.biz.transversal;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 import javax.annotation.Resource;
 
@@ -27,7 +27,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	private RuntimeService runtimeService;
 
 	@Override
-	public void checkRequestTimeConsistencyForUser(String login, Date clientTimeRequestDate)
+	public void checkRequestTimeConsistencyForUser(String login, ZonedDateTime clientTimeRequestDate)
 			throws EclihandAuthenticationException {
 		runtimeService.checkRequestTimeConsistencyForUser(login, clientTimeRequestDate);
 	}
@@ -38,7 +38,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public String authenticate(String login, String password, Date clientTimeRequestDate)
+	public String authenticate(String login, String password, ZonedDateTime clientTimeRequestDate)
 			throws BadCredentialsException, TimeConsistencyException {
 		LOGGER.info("User [{}] tries to log in", login);
 		userService.checkCredentials(login, password);

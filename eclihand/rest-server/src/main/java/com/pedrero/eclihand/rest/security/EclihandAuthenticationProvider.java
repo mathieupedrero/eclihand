@@ -1,6 +1,6 @@
 package com.pedrero.eclihand.rest.security;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 import javax.annotation.Resource;
 
@@ -51,7 +51,7 @@ public abstract class EclihandAuthenticationProvider extends DaoAuthenticationPr
 		}
 	}
 
-	protected abstract String findSessionTokenFor(UserDetails userDetails, Date clientTimeRequest)
+	protected abstract String findSessionTokenFor(UserDetails userDetails, ZonedDateTime clientTimeRequest)
 			throws EclihandAuthenticationException;
 
 	@Override

@@ -1,6 +1,6 @@
 package com.pedrero.eclihand.rest.security;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 import javax.annotation.Resource;
 
@@ -11,15 +11,14 @@ import com.pedrero.eclihand.service.biz.transerval.AuthenticationService;
 import com.pedrero.eclihand.service.runtime.exception.EclihandAuthenticationException;
 
 @Controller
-public class SessionTokenAuthenticationProvider extends
-		EclihandAuthenticationProvider {
+public class SessionTokenAuthenticationProvider extends EclihandAuthenticationProvider {
 
 	@Resource
 	private AuthenticationService authenticationService;
 
 	@Override
-	protected String findSessionTokenFor(UserDetails userDetails,
-			Date clientTimeRequest) throws EclihandAuthenticationException {
+	protected String findSessionTokenFor(UserDetails userDetails, ZonedDateTime clientTimeRequest)
+			throws EclihandAuthenticationException {
 		return userDetails.getPassword();
 	}
 

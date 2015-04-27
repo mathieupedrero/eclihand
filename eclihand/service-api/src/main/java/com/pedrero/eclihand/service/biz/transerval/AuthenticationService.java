@@ -1,6 +1,6 @@
 package com.pedrero.eclihand.service.biz.transerval;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 import com.pedrero.eclihand.service.runtime.exception.BadCredentialsException;
 import com.pedrero.eclihand.service.runtime.exception.EclihandAuthenticationException;
@@ -9,7 +9,7 @@ import com.pedrero.eclihand.service.runtime.exception.TimeConsistencyException;
 
 public interface AuthenticationService {
 
-	void checkRequestTimeConsistencyForUser(String login, Date clientTimeRequestDate)
+	void checkRequestTimeConsistencyForUser(String login, ZonedDateTime clientTimeRequestDate)
 			throws EclihandAuthenticationException;
 
 	/**
@@ -33,7 +33,7 @@ public interface AuthenticationService {
 	 * @return the secret token associated with the authenticated user.
 	 * @throws BadCredentialsException
 	 */
-	String authenticate(String login, String password, Date clientTimeRequestDate) throws BadCredentialsException,
-			TimeConsistencyException;
+	String authenticate(String login, String password, ZonedDateTime clientTimeRequestDate)
+			throws BadCredentialsException, TimeConsistencyException;
 
 }

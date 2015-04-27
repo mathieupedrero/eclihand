@@ -11,11 +11,11 @@ angular.module('webClientApp')
   .factory('httpEclihandServerInterceptor', ['$rootScope', 'requestUtils',
     function($rootScope, requestUtils) {
       return {
-        request: function(request) {
-          if (request.headers["Authentication"] == null && $rootScope.userName != null && $rootScope.token) {
-            return requestUtils.signRequest(request, $rootScope.userName, $rootScope.token);
-          }
-          return request;
+		request: function(config) {
+			if (config['X-ecli-authMehod'] == requestUtils.authMethods.SESSION_TOKEN){
+				return requestUtils.signRequest(config, $rootScope.userName, $rootScope.token);
+			}
+			return config;
         }
       }
     }

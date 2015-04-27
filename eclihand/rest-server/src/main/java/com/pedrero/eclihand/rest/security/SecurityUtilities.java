@@ -3,15 +3,15 @@ package com.pedrero.eclihand.rest.security;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
-import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.apache.http.client.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -62,8 +62,8 @@ public class SecurityUtilities {
 
 		// calculate content to sign
 		StringBuilder toSign = new StringBuilder();
-		toSign.append(content.getMethod()).append("\n").append(contentMd5).append("\n").append(contentType)
-				.append("\n").append(printDate(content.getDate())).append("\n").append(content.getUri());
+		toSign.append(content.getMethod()).append(contentMd5).append(contentType).append(printDate(content.getDate()))
+				.append(content.getUri());
 		return toSign.toString();
 	}
 
@@ -75,12 +75,12 @@ public class SecurityUtilities {
 		}
 	}
 
-	public Date parseDate(String dateString) {
-		return DateUtils.parseDate(dateString);
+	public ZonedDateTime parseDate(String dateString) {
+		return ZonedDateTime.parse(dateString, DateTimeFormatter.ISO_ZONED_DATE_TIME);
 	}
 
-	public String printDate(Date date) {
-		return DateUtils.formatDate(date);
+	public String printDate(ZonedDateTime date) {
+		return DateTimeFormatter.ISO_ZONED_DATE_TIME.format(date);
 	}
 
 	private String calculateHMAC(String secret, String data) {
@@ -90,6 +90,7 @@ public class SecurityUtilities {
 			mac.init(signingKey);
 			byte[] rawHmac = mac.doFinal(data.getBytes());
 			String result = new String(Base64.getEncoder().encode(rawHmac));
+			LOGGER.debug("Calculated HMAC = {}", result);
 			return result;
 		} catch (GeneralSecurityException e) {
 			throw new IllegalArgumentException();
