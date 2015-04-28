@@ -3,7 +3,8 @@ package com.pedrero.eclihand.rest.security;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
+import java.time.Clock;
+import java.time.ZonedDateTime;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -57,7 +58,7 @@ public class AuthenticationSimulator {
 
 		HttpGet request = new HttpGet(path + uri);
 
-		Date javaDate = new Date();
+		ZonedDateTime javaDate = ZonedDateTime.ofInstant(Clock.systemUTC().instant(), Clock.systemUTC().getZone());
 		String date = SECURITY_UTILITIES.printDate(javaDate);
 
 		EclihandRequestContent content = new EclihandRequestContent(uri, javaDate, request.getMethod(), "", null);
@@ -78,7 +79,8 @@ public class AuthenticationSimulator {
 			request.addHeader(new BasicHeader("Authorization", auth));
 		}
 		request.addHeader("Content-type", ContentType.APPLICATION_JSON.getMimeType());
-		request.addHeader("X-ecli-Date", SECURITY_UTILITIES.printDate(new Date()));
+		request.addHeader("X-ecli-Date", SECURITY_UTILITIES.printDate(ZonedDateTime.ofInstant(Clock.systemUTC()
+				.instant(), Clock.systemUTC().getZone())));
 
 		// send request
 		try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
@@ -91,7 +93,7 @@ public class AuthenticationSimulator {
 				LOGGER.error("Echec du Test d'authentification - status {}", status);
 			}
 			LOGGER.info("Contenu[{}]", responseString);
-			Header tokenHeader = response.getFirstHeader("x-session-id");
+			Header tokenHeader = response.getFirstHeader("X-session-id");
 			if (tokenHeader != null) {
 				return tokenHeader.getValue();
 			}

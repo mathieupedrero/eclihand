@@ -8,7 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.pedrero.eclihand.model.dto.UserDto;
 import com.pedrero.eclihand.service.biz.UserService;
+import com.pedrero.eclihand.service.biz.transerval.AuthenticationContext;
 import com.pedrero.eclihand.service.biz.transerval.AuthenticationService;
 import com.pedrero.eclihand.service.runtime.RuntimeService;
 import com.pedrero.eclihand.service.runtime.exception.BadCredentialsException;
@@ -22,6 +24,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Resource
 	private UserService userService;
+
+	@Resource
+	private AuthenticationContext authenticationContext;
 
 	@Resource
 	private RuntimeService runtimeService;
@@ -47,5 +52,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		} catch (NoCurrentSessionException e) {
 			return runtimeService.createNewSessionForUser(login, clientTimeRequestDate);
 		}
+	}
+
+	@Override
+	public UserDto giveAuthenticatedUser() {
+		return userService.retrieveByLogin(authenticationContext.giveUsername());
 	}
 }

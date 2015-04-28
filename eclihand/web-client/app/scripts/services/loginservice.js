@@ -14,7 +14,7 @@ angular.module('webClientApp')
       // Public API here
       return {
         login: function(login, password) {
-			server.login(login, password);
+			var loggedIn = server.login(login, password);
         }
       };
     }

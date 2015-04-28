@@ -25,12 +25,12 @@ angular.module('webClientApp')
 				},
 	
 				defineMethod :function (method){
-					this.config['method'] = method;
+					this.config.method = method;
 					return this;
 				},
 			
 				defineUrl: function(root,uri){
-					this.config['url'] = root+uri;
+					this.config.url = root+uri;
 					this.config['X-ecli-uri'] = uri;
 					return this;
 				},
@@ -41,17 +41,17 @@ angular.module('webClientApp')
 				},
 			
 				defineData: function(data){
-					this.config['data'] = content;
+					this.config.data = content;
 					return this;
 				},
 			
 				defineContentType: function(contentType){
-					this.config['headers']['Content-Type'] = contentType;
+					this.config.headers['Content-Type'] = contentType;
 					return this;
 				},
 			
 				defineXEcliDate: function(date){
-					this.config['headers']['X-ecli-Date'] = date;
+					this.config.headers['X-ecli-Date'] = date;
 					return this;
 				},
 			
@@ -70,25 +70,20 @@ angular.module('webClientApp')
 			if (config.data != null) {
 			  content = CryptoJS.SHA256(config.data).toString(CryptoJS.enc.Base64);
 			}
-			if (config.headers['contentType'] != null) {
-			  contentType = config.headers['contentType'];
+			if (config.headers.contentType != null) {
+			  contentType = config.headers.contentType;
 			}
 
-			var date = config.headers["X-ecli-Date"];
-			var uri = config["X-ecli-uri"];
-
-			console.log(method);
-			console.log(content);
-			console.log(contentType);
-			console.log(date);
-			console.log(uri);
+			var date = config.headers.X-ecli-Date;
+			var uri = config.X-ecli-uri;
 
 			var message = method + content + contentType + date + uri;
-			console.log(message);
+			console.log('message = '+message);
+			console.log('secret = '+token);
 			var signature = CryptoJS.HmacSHA256(message, token).toString(CryptoJS.enc.Base64);
 			console.log(signature);
 
-			config.headers["Authorization"] = userName + ":" + signature;
+			config.headers.Authorization = userName + ":" + signature;
 
 			return config;
 		}

@@ -85,6 +85,7 @@ public class SecurityUtilities {
 
 	private String calculateHMAC(String secret, String data) {
 		try {
+			LOGGER.debug("HMAC sources - data = {}, secret = {}", data, secret);
 			SecretKeySpec signingKey = new SecretKeySpec(secret.getBytes(), HMAC_SHA256_ALGORITHM_NAME);
 			Mac mac = Mac.getInstance(HMAC_SHA256_ALGORITHM_NAME);
 			mac.init(signingKey);

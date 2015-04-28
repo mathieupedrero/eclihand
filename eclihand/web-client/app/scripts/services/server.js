@@ -8,28 +8,38 @@
  * Factory in the webClientApp.
  */
 angular.module('webClientApp')
-  .factory('server', ['requestUtils','$http',function (requestUtils, $http) {
+  .factory('server', ['requestUtils','$http','$rootScope','MessagestackCtrl', function (requestUtils, $http, $rootScope,MessagestackCtrl) {
+		var onSuccess = function(headers) {
+			$rootScope.authenticatedUser.token = headers['X-session-id'];
+		}
+		var onError = function(data,status,headers) {
+			console.log(status);
+			if (status==403){
+				$rootScope.authenticatedUser = undefined;
+			}
+			MessagestackCtrl.addMessage(MessagestackCtrl.Criticity.ERROR, 'Erreur HTTP '+status);
+			throw headers;
+		}
+        var processDataRequest = function(config) {
+			return $http(config).success(onSuccess).error(onError);
+        }
+        var processVoidRequest = function(config) {
+			$http(config).success(onSuccess).error(onError);
+        }
 
     // Public API here
     return {
         login: function(login, password) {
-			var encodedPassword = CryptoJS.SHA256(CryptoJS.enc.Utf8.parse(login).concat(CryptoJS.SHA256(password))).toString(CryptoJS.enc.Base64);
-			console.log(encodedPassword);
-
+			$rootScope.authenticatedUser = {};
 			var config = requestUtils.configBuilder()
 						.defineAuthMethod(requestUtils.authMethods.NO_ONE)
 						.defineMethod('GET')
-						.defineContentType('application/json')
 						.defineUrl('http://localhost','/eclihand-server/authentication/touch')
 						.defineXEcliDate(new Date().toJSON()).build();
-			
-			requestUtils.signRequest(config, login, password);
+			var encodedPassword = CryptoJS.SHA256(CryptoJS.enc.Utf8.parse(login).concat(CryptoJS.SHA256(password))).toString(CryptoJS.enc.Base64);
+			requestUtils.signRequest(config, login, encodedPassword);
 
-			return $http(config).success(function(data, headers) {
-				console.log('data[' + data + '],headers[' + headers + ']')
-			}).error(function() {
-				console.log('erreur de login de [' + login + '], password[' + password + '], ' + 'headers[' + config.headers.Authorization + ']')
-			});
+			$rootScope.authenticatedUser.user = processDataRequest(config);
         }
     };
   }]);

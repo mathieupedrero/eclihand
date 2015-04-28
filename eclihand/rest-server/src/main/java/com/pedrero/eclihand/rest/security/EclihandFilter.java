@@ -91,7 +91,7 @@ public class EclihandFilter extends GenericFilterBean {
 			SecurityContextHolder.getContext().setAuthentication(successfulAuthentication);
 
 			if (successfulAuthentication instanceof RunningSessionAuthenticationToken) {
-				response.setHeader("x-session-id",
+				response.setHeader("X-session-id",
 						((RunningSessionAuthenticationToken) successfulAuthentication).getSessionToken());
 			}
 

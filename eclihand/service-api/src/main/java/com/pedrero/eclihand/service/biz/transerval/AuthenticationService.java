@@ -2,6 +2,7 @@ package com.pedrero.eclihand.service.biz.transerval;
 
 import java.time.ZonedDateTime;
 
+import com.pedrero.eclihand.model.dto.UserDto;
 import com.pedrero.eclihand.service.runtime.exception.BadCredentialsException;
 import com.pedrero.eclihand.service.runtime.exception.EclihandAuthenticationException;
 import com.pedrero.eclihand.service.runtime.exception.NoCurrentSessionException;
@@ -35,5 +36,10 @@ public interface AuthenticationService {
 	 */
 	String authenticate(String login, String password, ZonedDateTime clientTimeRequestDate)
 			throws BadCredentialsException, TimeConsistencyException;
+
+	/**
+	 * @return the authenticated user for this query
+	 */
+	UserDto giveAuthenticatedUser();
 
 }
