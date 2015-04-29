@@ -8,16 +8,16 @@
  * Factory in the webClientApp.
  */
 angular.module('webClientApp')
-  .factory('server', ['requestUtils','$http','$rootScope','MessagestackCtrl', function (requestUtils, $http, $rootScope,MessagestackCtrl) {
+  .factory('server', ['requestUtils','$http','authenticatedUser','serverUrl','messageStack', function (requestUtils, $http, authenticatedUser, serverUrl, messageStack) {
 		var onSuccess = function(headers) {
-			$rootScope.authenticatedUser.token = headers['X-session-id'];
+			authenticatedUser.setToken(headers['X-session-id']);
 		}
 		var onError = function(data,status,headers) {
 			console.log(status);
 			if (status==403){
-				$rootScope.authenticatedUser = undefined;
+				authenticatedUser.clean();
 			}
-			MessagestackCtrl.addMessage(MessagestackCtrl.Criticity.ERROR, 'Erreur HTTP '+status);
+			messageStack.addMessage(messageStack.Criticity.ERROR, 'Erreur HTTP '+status);
 			throw headers;
 		}
         var processDataRequest = function(config) {
@@ -30,16 +30,16 @@ angular.module('webClientApp')
     // Public API here
     return {
         login: function(login, password) {
-			$rootScope.authenticatedUser = {};
+			authenticatedUser.clean();
 			var config = requestUtils.configBuilder()
 						.defineAuthMethod(requestUtils.authMethods.NO_ONE)
 						.defineMethod('GET')
-						.defineUrl('http://localhost','/eclihand-server/authentication/touch')
+						.defineUrl(serverUrl,'/eclihand-server/authentication/touch')
 						.defineXEcliDate(new Date().toJSON()).build();
 			var encodedPassword = CryptoJS.SHA256(CryptoJS.enc.Utf8.parse(login).concat(CryptoJS.SHA256(password))).toString(CryptoJS.enc.Base64);
 			requestUtils.signRequest(config, login, encodedPassword);
 
-			$rootScope.authenticatedUser.user = processDataRequest(config);
-        }
+			authenticatedUser.setUser(processDataRequest(config));
+        },
     };
   }]);

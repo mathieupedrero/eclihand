@@ -67,12 +67,16 @@
     <div ng-view=""></div>
   </div>
 
-  <div class="footer">
-    <div class="container">
-      <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team - Mot de passe : {{password}}</p>
-
-
-      <p>Nothing here {{'yet' + '!'}}</p>
+  <div class="footer container" ng-app="webClientApp" ng-controller="MessagestackCtrl">
+    <div class="col-lg-3 col-md-4 col-sm-8" ng-hide="messages.length == 0">
+		<ul class="messages">
+			<li ng-repeat="message in messages">
+				<div class="alert alert-danger alert-dismissible" role="alert">
+					<button type="button" class="close" ng-click="removeMessage($index)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<strong>Warning!</strong>{{message.message}}
+				</div>
+			</li>
+		</ul>
     </div>
   </div>
 
@@ -121,6 +125,9 @@
   <script src="scripts/services/requestutils.js"></script>
   <script src="scripts/services/server.js"></script>
   <script src="scripts/controllers/messagestack.js"></script>
+  <script src="scripts/services/serverurl.js"></script>
+  <script src="scripts/services/messagestack.js"></script>
+  <script src="scripts/services/authenticateduser.js"></script>
   <!-- endbuild -->
 
 </body>

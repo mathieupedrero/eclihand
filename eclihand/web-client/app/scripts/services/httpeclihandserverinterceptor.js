@@ -8,12 +8,12 @@
  * Factory in the webClientApp.
  */
 angular.module('webClientApp')
-  .factory('httpEclihandServerInterceptor', ['$rootScope', 'requestUtils',
-    function($rootScope, requestUtils) {
+  .factory('httpEclihandServerInterceptor', ['authenticatedUser', 'requestUtils',
+    function(authenticatedUser, requestUtils) {
 		return {
 			request: function(config) {
-				if ($rootScope.authenticatedUser !=null && config['X-ecli-authMehod'] == requestUtils.authMethods.SESSION_TOKEN){
-					return requestUtils.signRequest(config, $rootScope.authenticatedUser.user.login, $rootScope.authenticatedUser.token);
+				if (authenticatedUser.getToken() != null && config['X-ecli-authMehod'] == requestUtils.authMethods.SESSION_TOKEN){
+					return requestUtils.signRequest(config, authenticatedUser.getUser().login, authenticatedUser.getToken());
 				}
 				return config;
 			}

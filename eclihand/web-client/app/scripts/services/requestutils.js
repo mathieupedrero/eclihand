@@ -61,9 +61,7 @@ angular.module('webClientApp')
 			}
 		},
 	
-	
 		signRequest: function(config, userName, token) {
-			console.log(config);
 			var method = config.method;
 			var content = '';
 			var contentType = '';
@@ -73,13 +71,10 @@ angular.module('webClientApp')
 			if (config.headers.contentType != null) {
 			  contentType = config.headers.contentType;
 			}
-
-			var date = config.headers.X-ecli-Date;
-			var uri = config.X-ecli-uri;
-
+			var date = config.headers['X-ecli-Date'];
+			var uri = config['X-ecli-uri'];
+			
 			var message = method + content + contentType + date + uri;
-			console.log('message = '+message);
-			console.log('secret = '+token);
 			var signature = CryptoJS.HmacSHA256(message, token).toString(CryptoJS.enc.Base64);
 			console.log(signature);
 
