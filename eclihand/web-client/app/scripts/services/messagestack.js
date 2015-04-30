@@ -8,9 +8,11 @@
  * Factory in the webClientApp.
  */
 angular.module('webClientApp')
-  .factory('messageStack', function () {
+  .factory('messageStack',['$modal', function ($modal) {
 
     var messages = [];
+	
+	var modal;
 
     // Public API here
     return {
@@ -24,15 +26,26 @@ angular.module('webClientApp')
 			messages.push({
 				criticity:criticity,
 				message:message
-			})
+			});
+			
+			if (modal==null){
+				modal = $modal.open({
+				  templateUrl: 'messageModalContent.html',
+				  controller: 'MessagestackCtrl'
+				});
+			}
 		},
 		
 		removeMessage : function(index){
 			messages.splice(index,1);
+			
+			if (messages.length==0 && modal != null){
+				modal.close();
+			}
 		},
 		
 		getMessages : function(){
 			return messages;
 		}
     };
-  });
+  }]);
