@@ -14,4 +14,12 @@ angular.module('webClientApp')
 		$scope.removeMessage = function(index){
 			messageStack.removeMessage(index);
 		};
+		
+		$scope.$watch('messages.length', function (newValue, oldValue) {
+			if (newValue==0){
+				$('#myModal').modal('hide');
+			}else{
+				$('#myModal').modal('show');
+			}
+		});
   }]);

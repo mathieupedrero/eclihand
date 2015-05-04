@@ -35,7 +35,7 @@
             <span class="icon-bar"></span>
           </button>
 
-          <a class="navbar-brand" href="#/">webClient</a>
+          <a class="navbar-brand" href="#/">webClient : {{'common.hello' | translate}}</a>
         </div>
 
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
@@ -82,19 +82,24 @@
 			</div>
 		</div>
   </div> -->
-  
+
 <!-- Modal -->
-    <script type="text/ng-template" id="messageModalContent.html">
-        <div class="modal-header">
-            <h3 class="modal-title">I'm a modal!</h3>
-        </div>
-        <div class="modal-body">
-            {{messages[0].message}}
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="ok()">OK</button>
-        </div>
-    </script>
+<div class="modal fade" id="myModal" tabindex="-1" ng-app="webClientApp" ng-controller="MessagestackCtrl" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">{{'common.error' | translate}}</h4>
+      </div>
+      <div class="modal-body">
+        {{messages[0].message}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="removeMessage(0)">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
   <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -123,6 +128,7 @@
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
   <script src="bower_components/angular-touch/angular-touch.js"></script>
+  <script src="bower_components/angular-translate/angular-translate.js"></script>
   <!-- endbower -->
   <!-- endbuild -->
   <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
@@ -144,6 +150,9 @@
   <script src="scripts/services/serverurl.js"></script>
   <script src="scripts/services/messagestack.js"></script>
   <script src="scripts/services/authenticateduser.js"></script>
+  <script src="scripts/services/messages.js"></script>
+  <script src="scripts/services/frmessages.js"></script>
+  <script src="scripts/services/enmessages.js"></script>
   <!-- endbuild -->
 
 </body>

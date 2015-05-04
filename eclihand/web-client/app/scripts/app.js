@@ -18,10 +18,10 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-	'ui.bootstrap'
+	'pascalprecht.translate'
   ])
-  .config(['$routeProvider', '$httpProvider',
-    function($routeProvider, $httpProvider) {
+  .config(['$routeProvider', '$httpProvider', '$translateProvider', 'frMessages', 'enMessages',
+    function($routeProvider, $httpProvider, $translateProvider, frMessages, enMessages ) {
       $routeProvider
         .when('/', {
           templateUrl: 'views/main.html',
@@ -39,6 +39,11 @@ angular
           redirectTo: '/'
         });
 
-      $httpProvider.interceptors.push('httpEclihandServerInterceptor');
+		$httpProvider.interceptors.push('httpEclihandServerInterceptor');
+	  
+		$translateProvider.translations('en', enMessages);
+		$translateProvider.translations('fr', frMessages);
+		
+		$translateProvider.preferredLanguage('fr');
     }
   ]);
