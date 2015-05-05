@@ -16,4 +16,30 @@ angular.module('webClientApp')
     $scope.onLogin = function() {
       loginService.login($scope.login, $scope.password);
     };
+	
+	$scope.myData=[
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10},
+		{name:"Mathieu",number:10}
+	];
   });

@@ -10,5 +10,6 @@
 angular.module('webClientApp')
   .constant('enMessages', {
 		'common.hello' : 'Hello!',
-		'common.error' : 'Error'
+		'common.error' : 'Error',
+		'common.refresh' : 'Refresh'
 	});
