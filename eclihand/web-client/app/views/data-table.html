@@ -1,0 +1,24 @@
+<div>
+	<div id="{{id}}" class="dropdown">
+	  <button class="btn btn-default dropdown-toggle" type="button" id="{{id}}-page-size-select" data-toggle="dropdown" aria-expanded="true">
+		{{'data_table.results_per_page' | translate:translationData}}
+		<span class="caret"></span>
+	  </button>
+	  <ul class="dropdown-menu" role="menu" aria-labelledby="{{id}}-page-size-select">
+		<li role="presentation" ng-repeat="choice in pageSizeChoices"><a role="menuitem" tabindex="-1" ng-click="selectPageSize(choice)">{{choice}}</a></li>
+	  </ul>
+	</div>
+	<table class="table table-stripped table-condensed">
+		<thead>
+			<tr ng-transclude>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="element in source | pagination:page:pageSize">
+				<td ng-repeat="column in columns">
+					{{element[column.field]}}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

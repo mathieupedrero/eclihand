@@ -9,11 +9,11 @@
 angular.module('webClientApp')
   .directive('eclColumn', function () {
     return {
-      template: '<th>{{title}}</th>',
+      template: '<td>{{title}}</td>',
 	  replace: true,
 	  require: '^eclTable',
       restrict: 'E',
-	  scope: {title: '=columnTitle'},
+	  scope: {field: '@columnField',title: '@columnTitle'},
       link: function postLink(scope, element, attrs, eclTableController) {
         eclTableController.addColumn(scope);
       }

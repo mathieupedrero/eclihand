@@ -9,43 +9,38 @@
 angular.module('webClientApp')
   .directive('eclTable', function () {
     return {
-		template: '<table class="table table-stripped table-condensed">' +
-					'<thead>' +
-						'<tr ng-transclude>' +
-						'</tr>' +
-					'</thead>' +
-					'<tbody>' +
-						'<tr ng-repeat="element in elements | pagination:page:pageSize">' +
-							'<th ng-repeat="column in comumns">' +
-								'{{element[column.title]}}' +
-							'</th>' +
-						'</tr>' +
-					'</tbody>' +
-				'</table>' +
-				'ma var = {{$scope.bonjourVar}}'+
-				'<button type="button" class="btn btn-default" ng-click="refresh">{{"common.refresh" | translate}}</button>',
+		templateUrl: 'views/data-table.html',
+		replace: true,
         transclude: true,
 		restrict: 'E',
-		scope: {source: '=tableSource'},
+		scope: {id: '=id', source: '=tableSource', message: '=tableMessage'},
 		
         controller: ['$scope',function($scope){
-            var columns = [];
-            var elements = [];
-            var totalNumber;
-			this.page = 1;
-			this.pageSize = 10;
-			$scope.bonjourVar = 'Baonjour !!';
+			$scope.columns = [];
+			var totalNumber;
+			$scope.page = 1;
+			$scope.pageSize = 10;
+			$scope.pageSizeChoices = [5,10,20];
 			
-            this.addColumn = function(column){
-                columns.push(column);
+			$scope.translationData={pageSize:$scope.pageSize};
+			
+			this.addColumn = function(column){
+				$scope.columns.push(column);
+			};
+			
+			this.lastPage = function(){
+				return $scope.source.length;
+			};
+				
+			$scope.selectPageSize = function(pageSize){
+				$scope.pageSize = pageSize;
+				$scope.translationData.pageSize = pageSize;
             };
-            this.getPage = function(page){
-                columns.push(column);
-            };
-            $scope.refresh = function(){
-				$scope.bonjourVar = 'Baonjour !!!';
-				console.log($scope.source);
-				elements = $scope.source;
+				
+			$scope.directPaginationButtons = function(currentPage){
+				var pages = [];
+				var surroundingButtonsNumber = 2;
+				for (i=Math.max(1,currentPage-2);i<=Math.min()
             };
         }]
     };

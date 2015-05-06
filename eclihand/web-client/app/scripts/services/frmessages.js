@@ -11,5 +11,9 @@ angular.module('webClientApp')
   .constant('frMessages', {
 		'common.hello' : 'Bonjour !',
 		'common.error' : 'Erreur',
-		'common.refresh' : 'Actualiser'
+		'common.refresh' : 'Actualiser',
+		'common.name' : 'Nom',
+		'common.number' : 'Nombre',
+		
+		'data_table.results_per_page' : '{{pageSize}} résultats par page'
 	});

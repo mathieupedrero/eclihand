@@ -7,7 +7,7 @@
   <p><a class="btn btn-lg btn-success" ng-href="#/">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
 </div>
 
-<ecl-table tableSource="myData">
-	<ecl-column column-title="name"></ecl-column>
-	<ecl-column column-title="number"></ecl-column>
+<ecl-table table-source="myData" table-message="'Baonjour'">
+	<ecl-column column-title="{{'common.name'|translate}}" column-field="name"></ecl-column>
+	<ecl-column column-title="{{'common.number'|translate}}" column-field="number"></ecl-column>
 </ecl-table>
