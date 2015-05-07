@@ -18,7 +18,7 @@ angular.module('webClientApp')
 			user = newUser;
 		},
 		getUser: function () {
-			return newUser;
+			return user;
 		},
 		  
 		setToken: function (newToken) {
@@ -31,5 +31,9 @@ angular.module('webClientApp')
 		clean: function() {
 			token=null;
 			user=null;
+		},
+		  
+		isAuthenticated: function() {
+			return user!=null;
 		}
   }});

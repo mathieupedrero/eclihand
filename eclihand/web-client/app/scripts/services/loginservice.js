@@ -11,7 +11,6 @@ angular.module('webClientApp')
   .factory('loginService', ['server',
     function(server) {
 
-      // Public API here
       return {
         login: function(login, password) {
 			var loggedIn = server.login(login, password);

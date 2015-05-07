@@ -39,7 +39,7 @@
         </div>
 
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
-          <form class="navbar-form navbar-right">
+          <form class="navbar-form navbar-right" ng-hide="{{authehticatedUser!=null}}">
             <div class="form-group">
               <input type="text" placeholder="Login" class="form-control" ng-model="login">
             </div>
@@ -48,6 +48,9 @@
             </div>
             <button type="submit" class="btn btn-success" ng-click="onLogin()">Sign in</button>
           </form>
+		  <div ng-show="{{authehticatedUser!=null}}">
+			Bienvenue !!
+		  </div>
 
           <ul class="nav navbar-nav navbar-right">
             <li class="active"><a href="#/">Home</a>

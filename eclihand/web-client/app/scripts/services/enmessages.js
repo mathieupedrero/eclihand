@@ -15,5 +15,8 @@ angular.module('webClientApp')
 		'common.name' : 'Name',
 		'common.number' : 'Number',
 		
-		'data_table.results_per_page' : '{{pageSize}} results per page'
+		'data_table.results_per_page' : '{{pageSize}} results per page',
+		'data_table.forward_buttons' : 'forward buttons',
+		'data_table.backward_buttons' : 'backward buttons',
+		'data_table.page_selection_buttons' : 'page selection button'
 	});

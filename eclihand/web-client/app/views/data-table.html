@@ -1,30 +1,28 @@
 <div class="container">
-  <div class="col-lg-offset-3 col-lg-8">
-    <div class="btn-group" role="group" aria-label="backward" ng-hide="directPaginationButtons.indexOf(1)>=0">
-      <button type="button" class="btn btn-default" ng-click="selectPage(1)"><span class="glyphicon glyphicon-fast-backward" />
-      </button>
-      <button type="button" class="btn btn-default" ng-click="selectPage(page-1)"><span class="glyphicon glyphicon-step-backward" />
-      </button>
-    </div>
-    <div class="btn-group" role="group" aria-label="direct pagination">
-      <button type="button" class="btn btn-default" ng-repeat="pageDirection in directPaginationButtons" ng-click="selectPage(pageDirection)" ng-disabled="page==pageDirection">{{pageDirection}}</button>
-    </div>
-    <div class="btn-group" role="group" aria-label="backward" ng-hide="directPaginationButtons.indexOf(lastPage)>=0">
-      <button type="button" class="btn btn-default" ng-click="selectPage(page+1)"><span class="glyphicon glyphicon-step-forward" />
-      </button>
-      <button type="button" class="btn btn-default" ng-click="selectPage(lastPage)"><span class="glyphicon glyphicon-fast-forward" />
-      </button>
-    </div>
-  </div>
-  <div id="{{id}}" class="dropdown col-lg-1">
-    <button class="btn btn-default dropdown-toggle" type="button" id="{{id}}-page-size-select" data-toggle="dropdown" aria-expanded="true">
-      {{'data_table.results_per_page' | translate:translationData}}
-      <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="{{id}}-page-size-select">
-      <li role="presentation" ng-repeat="choice in pageSizeChoices"><a role="menuitem" tabindex="-1" ng-click="selectPageSize(choice)">{{choice}}</a>
-      </li>
-    </ul>
+	<div ng-show="shouldPaginate">
+	  <div class="col-lg-offset-3 col-lg-8">
+		<div class="btn-group" role="group" aria-label="{{data_table.backward_buttons|translate}}">
+		  <button type="button" class="btn btn-xs" ng-click="selectPage(1)" ng-disabled="page==1"><span class="glyphicon glyphicon-fast-backward" /></button>
+		  <button type="button" class="btn btn-xs" ng-click="selectPage(page-1)" ng-disabled="page==1"><span class="glyphicon glyphicon-step-backward" /></button>
+		</div>
+		<div class="btn-group" role="group" aria-label="{{data_table.page_selection_buttons|translate}}">
+		  <button type="button" class="btn btn-xs" ng-repeat="pageDirection in directPaginationButtons" ng-click="selectPage(pageDirection)" ng-disabled="page==pageDirection">{{pageDirection}}</button>
+		</div>
+		<div class="btn-group" role="group" aria-label="{{data_table.forward_buttons|translate}}">
+		  <button type="button" class="btn btn-xs" ng-click="selectPage(page+1)" ng-disabled="page==lastPage"><span class="glyphicon glyphicon-step-forward" /></button>
+		  <button type="button" class="btn btn-xs" ng-click="selectPage(lastPage)" ng-disabled="page==lastPage"><span class="glyphicon glyphicon-fast-forward" /></button>
+		</div>
+	  </div>
+	  <div id="{{id}}" class="dropdown col-lg-1">
+		<button class="btn btn-xs dropdown-toggle" type="button" id="{{id}}-page-size-select" data-toggle="dropdown" aria-expanded="true">
+		  {{'data_table.results_per_page' | translate:translationData}}
+		  <span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" role="menu" aria-labelledby="{{id}}-page-size-select">
+		  <li role="presentation" ng-repeat="choice in sizeChoices"><a role="menuitem" tabindex="-1" ng-click="selectPageSize(choice)">{{choice}}</a>
+		  </li>
+		</ul>
+	  </div>
   </div>
   <table class="table table-stripped table-condensed">
     <thead>
@@ -32,7 +30,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="element in source | pagination:page:pageSize">
+      <tr ng-repeat="element in displayedData">
         <td ng-repeat="column in columns">
           {{element[column.field]}}
         </td>
