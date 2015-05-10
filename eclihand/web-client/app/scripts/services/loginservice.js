@@ -8,12 +8,15 @@
  * Factory in the webClientApp.
  */
 angular.module('webClientApp')
-  .factory('loginService', ['server',
-    function(server) {
+  .factory('loginService', ['server', 'authenticatedUser',
+    function(server, authenticatedUser) {
 
       return {
         login: function(login, password) {
-			var loggedIn = server.login(login, password);
+          var loggedIn = server.login(login, password, function(user) {
+            console.log(user);
+            authenticatedUser.setUser(user);
+          });
         }
       };
     }
