@@ -24,6 +24,8 @@ angular.module('webClientApp')
           userName: $scope.userLogin()
         };
       }
+	  
+	  $scope.theList=[1,2,3];
 
       $scope.myData = [{
         name: "Mathieu",
