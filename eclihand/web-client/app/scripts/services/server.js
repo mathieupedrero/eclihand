@@ -43,7 +43,7 @@ angular.module('webClientApp')
           var encodedPassword = CryptoJS.SHA256(CryptoJS.enc.Utf8.parse(login).concat(CryptoJS.SHA256(password))).toString(CryptoJS.enc.Base64);
           requestUtils.signRequest(config, login, encodedPassword);
 
-          authenticatedUser.setUser(processDataRequest(config, dataProcessor));
+          processDataRequest(config, dataProcessor);
         },
       };
     }
