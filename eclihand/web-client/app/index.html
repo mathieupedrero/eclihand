@@ -41,9 +41,9 @@
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
 
           <form class="navbar-form navbar-right" ng-hide="authenticatedUser()!=undefined">
-            <div class="form-group" ecl-list-tool-tip="theList">
+            <ecl-validated-form-group ecl-form-group-error-list="theList">
               <input type="text" placeholder="Login" class="form-control input-sm" ng-model="login">
-            </div>
+            </ecl-validated-form-group>
             <div class="form-group">
               <input type="password" placeholder="Password" class="form-control input-sm" ng-model="password">
             </div>
@@ -163,6 +163,8 @@
   <script src="scripts/directives/ecltable.js"></script>
   <script src="scripts/filters/pagination.js"></script>
   <script src="scripts/directives/ecllisttooltip.js"></script>
+  <script src="scripts/directives/eclvalidatedformgroup.js"></script>
+  <script src="scripts/services/eclutils.js"></script>
   <!-- endbuild -->
 
 </body>

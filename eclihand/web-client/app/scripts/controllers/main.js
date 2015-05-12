@@ -18,7 +18,11 @@ angular.module('webClientApp')
       $scope.userLogin = authenticatedUser.getUserName;
       $scope.onLogin = function() {
         var newArray = [];
-        $scope.theList = newArray;
+        if ($scope.theList.length==0){
+			$scope.theList=$scope.theListOld;
+		}else{
+			$scope.theList = newArray;
+		}
         loginService.login($scope.login, $scope.password);
       };
       $scope.translationData = function() {
@@ -28,6 +32,7 @@ angular.module('webClientApp')
       }
 
       $scope.theList = [1, 2, 3];
+      $scope.theListOld = [1, 2, 3];
 
       $scope.myData = [{
         name: "Mathieu",
