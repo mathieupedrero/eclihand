@@ -17,6 +17,7 @@ angular.module('webClientApp')
     'common.refresh': 'Refresh',
     'common.name': 'Name',
     'common.number': 'Number',
+	'common.mandatory_field':'Field is mandatory',
 
     'data_table.results_per_page': '{{pageSize}} results per page',
     'data_table.forward_buttons': 'forward buttons',

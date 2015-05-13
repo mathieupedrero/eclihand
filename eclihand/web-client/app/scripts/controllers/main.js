@@ -8,22 +8,26 @@
  * Controller of the webClientApp
  */
 angular.module('webClientApp')
-  .controller('MainCtrl', ['$scope', 'loginService', 'authenticatedUser',
-    function($scope, loginService, authenticatedUser) {
+  .controller('MainCtrl', ['$scope', 'loginService', 'authenticatedUser','surfaceConstraintChecks',
+    function($scope, loginService, authenticatedUser,surfaceConstraintChecks) {
       console.log('Main control log');
       console.log(loginService.login);
-      $scope.login = "Mon Login";
-      $scope.password = "Mon Password";
+      $scope.login='';
+      $scope.loginFieldErrors = [];
+      $scope.password='';
+      $scope.passwordFieldErrors = [];
       $scope.authenticatedUser = authenticatedUser.getUser;
       $scope.userLogin = authenticatedUser.getUserName;
       $scope.onLogin = function() {
-        var newArray = [];
-        if ($scope.theList.length==0){
-			$scope.theList=$scope.theListOld;
-		}else{
-			$scope.theList = newArray;
+		var loginField = surfaceConstraintChecks.createField(this.login);
+		var passwordField = surfaceConstraintChecks.createField(this.password);
+		var formValidated = surfaceConstraintChecks.mandatoryField(loginField);
+		formValidated &= surfaceConstraintChecks.mandatoryField(passwordField);
+		$scope.loginFieldErrors = loginField.errorList;
+		$scope.passwordFieldErrors = passwordField.errorList;
+		if (formValidated){
+			loginService.login(this.login, this.password);
 		}
-        loginService.login($scope.login, $scope.password);
       };
       $scope.translationData = function() {
         return {

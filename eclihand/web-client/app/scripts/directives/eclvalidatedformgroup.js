@@ -10,28 +10,10 @@ angular.module('webClientApp')
   .directive('eclValidatedFormGroup', ['eclUtils', '$compile',function (eclUtils, $compile) {
     return {
       restrict: 'E',
-	  template: '<div class="form-group"><div ecl-list-tool-tip="errorList" ng-transclude></div></div>',
 	  transclude:true,
       replace: true,
-	  scope: {errorList:'=eclFormGroupErrorList'},
-	  compile : function compile(element, attrs) {
-		return {
-          pre: function preLink(scope, iElement, iAttrs, controller) { 
-			var updateFormGroup = function(newVal, oldVal){
-				var emptyNew = eclUtils.isNullOrEmpty(newVal); 
-				var emptyOld = eclUtils.isNullOrEmpty(oldVal); 
-				if (emptyNew && !emptyOld){
-					element.removeClass('has-error');
-				}else if (!emptyNew && emptyOld){
-					element.addClass('has-error');
-				}
-			};
-			updateFormGroup(scope.errorList,null);
-			scope.$watch('errorList',updateFormGroup);
-		  },
-          post: function postLink(scope, iElement, iAttrs, controller) {  
-          }
-		}
-	  }
+	  template: function (elem, attr){return '<div class="form-group" ng-class="('+attr['eclFormGroupErrorList']+'.length>0) ? \'has-error\' : \'\'" ecl-list-tool-tip="'+attr['eclFormGroupErrorList']+'" ng-transclude></div>';},
+	  transclude:true,
+      replace: true
     };
   }]);

@@ -41,12 +41,12 @@
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
 
           <form class="navbar-form navbar-right" ng-hide="authenticatedUser()!=undefined">
-            <ecl-validated-form-group ecl-form-group-error-list="theList">
+            <ecl-validated-form-group ecl-form-group-error-list="loginFieldErrors">
               <input type="text" placeholder="Login" class="form-control input-sm" ng-model="login">
             </ecl-validated-form-group>
-            <div class="form-group">
+            <ecl-validated-form-group ecl-form-group-error-list="passwordFieldErrors">
               <input type="password" placeholder="Password" class="form-control input-sm" ng-model="password">
-            </div>
+            </ecl-validated-form-group>
             <button type="submit" class="btn btn-success btn-sm" ng-click="onLogin()">Sign in</button>
           </form>
 
@@ -165,6 +165,7 @@
   <script src="scripts/directives/ecllisttooltip.js"></script>
   <script src="scripts/directives/eclvalidatedformgroup.js"></script>
   <script src="scripts/services/eclutils.js"></script>
+  <script src="scripts/services/surfaceconstraintchecks.js"></script>
   <!-- endbuild -->
 
 </body>

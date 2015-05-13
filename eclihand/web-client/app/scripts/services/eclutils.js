@@ -12,6 +12,9 @@ angular.module('webClientApp')
     return {
       isNullOrEmpty: function (array) {
         return array == null || array.length==0;
+      },
+      isNullOrEmptyString: function (string) {
+        return string == null || string=='';
       }
     };
   });
