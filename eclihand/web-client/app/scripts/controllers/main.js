@@ -12,33 +12,37 @@ angular.module('webClientApp')
     function($scope, loginService, authenticatedUser,surfaceConstraintChecks) {
       console.log('Main control log');
       console.log(loginService.login);
-      $scope.login='';
-      $scope.loginFieldErrors = [];
-      $scope.password='';
-      $scope.passwordFieldErrors = [];
-      $scope.authenticatedUser = authenticatedUser.getUser;
-      $scope.userLogin = authenticatedUser.getUserName;
+        $scope.data={};
+      $scope.data.login='';
+      $scope.data.loginFieldErrors = [];
+      $scope.data.password='';
+      $scope.data.passwordFieldErrors = [];
+      $scope.data.authenticatedUser = authenticatedUser.getUser;
+      $scope.data.userLogin = authenticatedUser.getUserName;
+        
       $scope.onLogin = function() {
-		var loginField = surfaceConstraintChecks.createField(this.login);
-		var passwordField = surfaceConstraintChecks.createField(this.password);
+		var loginField = surfaceConstraintChecks.createField(this.data.login);
+		var passwordField = surfaceConstraintChecks.createField(this.data.password);
 		var formValidated = surfaceConstraintChecks.mandatoryField(loginField);
 		formValidated &= surfaceConstraintChecks.mandatoryField(passwordField);
-		$scope.loginFieldErrors = loginField.errorList;
-		$scope.passwordFieldErrors = passwordField.errorList;
+		$scope.data.loginFieldErrors = loginField.errorList;
+		$scope.data.passwordFieldErrors = passwordField.errorList;
 		if (formValidated){
-			loginService.login(this.login, this.password);
+            console.log('Loggin form validated. Going to log in...');
+			loginService.login(this.data.login, this.data.password);
 		}
       };
-      $scope.translationData = function() {
+        
+      $scope.data.translationData = function() {
         return {
           userName: $scope.userLogin()
         };
       }
 
-      $scope.theList = [1, 2, 3];
-      $scope.theListOld = [1, 2, 3];
+      $scope.data.theList = [1, 2, 3];
+      $scope.data.theListOld = [1, 2, 3];
 
-      $scope.myData = [{
+      $scope.data.myData = [{
         name: "Mathieu",
         number: 1
       }, {

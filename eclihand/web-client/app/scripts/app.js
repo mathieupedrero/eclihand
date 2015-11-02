@@ -43,6 +43,7 @@ angular
 	  
 		$translateProvider.translations('en', enMessages);
 		$translateProvider.translations('fr', frMessages);
+        $translateProvider.useSanitizeValueStrategy('escape');
 		
 		$translateProvider.preferredLanguage('fr');
     }

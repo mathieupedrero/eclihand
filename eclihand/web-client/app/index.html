@@ -41,11 +41,11 @@
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
 
           <form class="navbar-form navbar-right" ng-hide="authenticatedUser()!=undefined">
-            <ecl-validated-form-group ecl-form-group-error-list="loginFieldErrors">
-              <input type="text" placeholder="Login" class="form-control input-sm" ng-model="login">
+            <ecl-validated-form-group ecl-form-group-error-list="data.loginFieldErrors">
+              <input type="text" placeholder="Login" class="form-control input-sm" ng-model="data.login">
             </ecl-validated-form-group>
-            <ecl-validated-form-group ecl-form-group-error-list="passwordFieldErrors">
-              <input type="password" placeholder="Password" class="form-control input-sm" ng-model="password">
+            <ecl-validated-form-group ecl-form-group-error-list="data.passwordFieldErrors">
+              <input type="password" placeholder="Password" class="form-control input-sm" ng-model="data.password">
             </ecl-validated-form-group>
             <button type="submit" class="btn btn-success btn-sm" ng-click="onLogin()">Sign in</button>
           </form>

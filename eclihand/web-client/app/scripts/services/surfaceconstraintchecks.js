@@ -17,7 +17,7 @@ angular.module('webClientApp')
 		};
       },
       mandatoryField: function (field) {
-	  console.log(field.value+ 'checked');
+	  console.log('value [' + field.value + '] checked');
 		if (eclUtils.isNullOrEmptyString(field.value)){
 			field.errorList.push('common.mandatory_field');
 			return false;

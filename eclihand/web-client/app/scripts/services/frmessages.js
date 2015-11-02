@@ -12,12 +12,19 @@ angular.module('webClientApp')
     'eclihand.title': 'Eclihand',
     'eclihand.toggle_navigation': 'Bouton d\'affichage du menu',
 
+    'eclihand.error.required': 'Champ requis',
+    'eclihand.error.minlength': 'Valeur trop courte',
+    'eclihand.error.maxlength': 'Valeur trop longue',
+    'eclihand.error.email': 'E-mail invalide',
+    'eclihand.error.number': 'Caractères alphabétiques non valides',
+
+
     'common.hello': 'Bonjour {{userName}}!',
     'common.error': 'Erreur',
     'common.refresh': 'Actualiser',
     'common.name': 'Nom',
     'common.number': 'Nombre',
-	'common.mandatory_field':'Le champs est obligatoire',
+    'common.mandatory_field': 'Le champs est obligatoire',
 
     'data_table.results_per_page': '{{pageSize}} résultats par page',
     'data_table.forward_buttons': 'boutons d\'avance',

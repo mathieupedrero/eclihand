@@ -12,12 +12,18 @@ angular.module('webClientApp')
     'eclihand.title': 'Eclihand',
     'eclihand.toggle_navigation': 'Toggle navigation',
 
+    'eclihand.error.required': 'Required field',
+    'eclihand.error.minlength': 'Too short value',
+    'eclihand.error.maxlength': 'Too long value',
+    'eclihand.error.email': 'Invalid e-mail address',
+    'eclihand.error.number': 'Numbers only',
+
     'common.hello': 'Hello {{userName}}!',
     'common.error': 'Error',
     'common.refresh': 'Refresh',
     'common.name': 'Name',
     'common.number': 'Number',
-	'common.mandatory_field':'Field is mandatory',
+    'common.mandatory_field': 'Field is mandatory',
 
     'data_table.results_per_page': '{{pageSize}} results per page',
     'data_table.forward_buttons': 'forward buttons',
