@@ -22,9 +22,10 @@ angular.module('webClientApp')
 			ERROR : 2
 		},
 		
-		addMessage : function(criticity,message){
+		addMessage : function(criticity,title,message){
 			messages.push({
 				criticity:criticity,
+				title:title,
 				message:message
 			});
 		},

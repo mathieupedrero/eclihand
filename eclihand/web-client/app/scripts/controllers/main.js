@@ -8,26 +8,21 @@
  * Controller of the webClientApp
  */
 angular.module('webClientApp')
-  .controller('MainCtrl', ['$scope', 'loginService', 'authenticatedUser','surfaceConstraintChecks',
-    function($scope, loginService, authenticatedUser,surfaceConstraintChecks) {
+  .controller('MainCtrl', ['$scope', 'loginService', 'authenticatedUser',
+    function($scope, loginService, authenticatedUser) {
       console.log('Main control log');
       console.log(loginService.login);
         $scope.data={};
       $scope.data.login='';
-      $scope.data.loginFieldErrors = [];
       $scope.data.password='';
-      $scope.data.passwordFieldErrors = [];
+      $scope.data.loginFormSubmitted=false;
+	  
       $scope.data.authenticatedUser = authenticatedUser.getUser;
       $scope.data.userLogin = authenticatedUser.getUserName;
         
-      $scope.onLogin = function() {
-		var loginField = surfaceConstraintChecks.createField(this.data.login);
-		var passwordField = surfaceConstraintChecks.createField(this.data.password);
-		var formValidated = surfaceConstraintChecks.mandatoryField(loginField);
-		formValidated &= surfaceConstraintChecks.mandatoryField(passwordField);
-		$scope.data.loginFieldErrors = loginField.errorList;
-		$scope.data.passwordFieldErrors = passwordField.errorList;
-		if (formValidated){
+      $scope.onLogin = function(isValid) {
+		this.data.loginFormSubmitted=true;
+		if (isValid){
             console.log('Loggin form validated. Going to log in...');
 			loginService.login(this.data.login, this.data.password);
 		}

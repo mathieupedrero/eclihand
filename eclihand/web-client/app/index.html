@@ -40,14 +40,14 @@
 
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
 
-          <form class="navbar-form navbar-right" ng-hide="authenticatedUser()!=undefined">
-            <ecl-validated-form-group ecl-form-group-error-list="data.loginFieldErrors">
-              <input type="text" placeholder="Login" class="form-control input-sm" ng-model="data.login">
-            </ecl-validated-form-group>
-            <ecl-validated-form-group ecl-form-group-error-list="data.passwordFieldErrors">
-              <input type="password" placeholder="Password" class="form-control input-sm" ng-model="data.password">
-            </ecl-validated-form-group>
-            <button type="submit" class="btn btn-success btn-sm" ng-click="onLogin()">Sign in</button>
+          <form name="loginForm" class="navbar-form navbar-right" ng-submit="onLogin(loginForm.$valid)" ng-hide="authenticatedUser()!=undefined" novalidate>
+            <div class="form-group" ng-class="{ 'has-error' : loginForm.loginInput.$invalid && data.loginFormSubmitted }" >
+              <input name="loginInput" type="text" placeholder="Login" class="form-control input-sm" ng-model="data.login" required>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : loginForm.passwordInput.$invalid && data.loginFormSubmitted }" >
+              <input name="passwordInput" type="password" placeholder="Password" class="form-control input-sm" ng-model="data.password" required>
+            </div>
+            <button name="validButton" type="submit" class="btn btn-success btn-sm">Sign in</button>
           </form>
 
           <div class="navbar-text navbar-right" ng-show="authenticatedUser()!=undefined">
@@ -93,15 +93,15 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="removeMessage(0)"><span aria-hidden="true">&times;</span>
           </button>
-          <h4 class="modal-title" id="myModalLabel">{{'common.error' | translate}}</h4>
+          <h4 class="modal-title" id="myModalLabel">{{messages[0].title.key | translate:messages[0].title.params}}</h4>
         </div>
         <div class="modal-body">
-          {{messages[0].message}}
+          {{messages[0].message.key | translate:messages[0].message.params}}
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="removeMessage(0)">Close</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="removeMessage(0)">{{'common.close'|translate}}</button>
         </div>
       </div>
     </div>

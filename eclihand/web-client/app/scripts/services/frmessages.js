@@ -25,6 +25,9 @@ angular.module('webClientApp')
     'common.name': 'Nom',
     'common.number': 'Nombre',
     'common.mandatory_field': 'Le champs est obligatoire',
+    'common.http_error': 'Erreur HTTP [{{status}}]',
+    'common.http_status': 'Status [{{statusText}}]',
+    'common.close': 'Fermer',
 
     'data_table.results_per_page': '{{pageSize}} résultats par page',
     'data_table.forward_buttons': 'boutons d\'avance',

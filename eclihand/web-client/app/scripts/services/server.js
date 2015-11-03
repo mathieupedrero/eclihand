@@ -16,12 +16,14 @@ angular.module('webClientApp')
           dataProcessor(data);
         }
       }
-      var onError = function(data, status, headers) {
+      var onError = function(data, status, headers, config, statusText) {
         console.log(status);
         if (status == 403) {
           authenticatedUser.clean();
         }
-        messageStack.addMessage(messageStack.Criticity.ERROR, 'Erreur HTTP ' + status);
+		var title = {key:"common.http_error",params:{status:status}};
+		var message = {key:"common.http_error",params:{status:status}};
+        messageStack.addMessage(messageStack.Criticity.ERROR, title ,message);
         throw headers;
       }
       var processDataRequest = function(config, dataProcessor) {
