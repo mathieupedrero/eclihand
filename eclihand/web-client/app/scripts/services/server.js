@@ -10,32 +10,42 @@
 angular.module('webClientApp')
   .factory('server', ['requestUtils', '$http', 'authenticatedUser', 'serverUrl', 'messageStack',
     function(requestUtils, $http, authenticatedUser, serverUrl, messageStack) {
-      var onSuccess = function(dataProcessor) {
+      var onSuccess = function(listener) {
         return function(data, status, headers) {
           authenticatedUser.setToken(headers['X-session-id']);
-          dataProcessor(data);
+            if (status==200){
+                listener(data);
+            }else if (status==204){
+                listener();
+            }
         }
       }
-      var onError = function(data, status, headers, config, statusText) {
-        console.log(status);
-        if (status == 403) {
-          authenticatedUser.clean();
-        }
-		var title = {key:"common.http_error",params:{status:status}};
-		var message = {key:"common.http_error",params:{status:status}};
-        messageStack.addMessage(messageStack.Criticity.ERROR, title ,message);
-        throw headers;
+      
+      var onError = function(listener){
+          return function(data, status, headers, config, statusText) {
+            if (status == 403) {
+              authenticatedUser.clean();
+            }
+            if (status==500 && listener !=null){
+                listener(data);
+            }else{
+                var title = {key:"common.http_error",params:{status:status}};
+                var message = {key:"common.http_error",params:{status:status}};
+                messageStack.addMessage(messageStack.Criticity.ERROR, title ,message);
+            }
+            throw headers;
+          }
       }
-      var processDataRequest = function(config, dataProcessor) {
-        return $http(config).success(onSuccess(dataProcessor)).error(onError);
+      
+      var processRequest = function(config, errorListener, listener) {
+        return $http(config).success(onSuccess(listener)).error(onError(errorListener));
       }
-      var processVoidRequest = function(config) {
-        $http(config).success(onSuccess).error(onError);
-      }
+      
+      
 
       // Public API here
       return {
-        login: function(login, password, dataProcessor) {
+        login: function(login, password, listener) {
           authenticatedUser.clean();
           var config = requestUtils.configBuilder()
             .defineAuthMethod(requestUtils.authMethods.NO_ONE)
@@ -45,7 +55,7 @@ angular.module('webClientApp')
           var encodedPassword = CryptoJS.SHA256(CryptoJS.enc.Utf8.parse(login).concat(CryptoJS.SHA256(password))).toString(CryptoJS.enc.Base64);
           requestUtils.signRequest(config, login, encodedPassword);
 
-          processDataRequest(config, dataProcessor);
+          processRequest(config, null, listener);
         },
       };
     }
