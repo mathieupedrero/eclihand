@@ -8,7 +8,9 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pedrero.eclihand.converter.UserConverter;
+import com.pedrero.eclihand.converter.Converter;
+import com.pedrero.eclihand.converter.in.UserDtoToUser;
+import com.pedrero.eclihand.converter.out.UserToUserDto;
 import com.pedrero.eclihand.dao.PlayerDao;
 import com.pedrero.eclihand.dao.UserDao;
 import com.pedrero.eclihand.model.domain.Authorization;
@@ -28,7 +30,10 @@ public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User> implem
 	public static final String AGE_WHEN_PLAYING_FOR_TEAM = "age.when.playing.for.team";
 
 	@Resource
-	private UserConverter userConverter;
+	private UserToUserDto outUserConverter;
+
+	@Resource
+	private UserDtoToUser inUserConverter;
 
 	@Resource
 	private UserDao userDao;
@@ -40,12 +45,12 @@ public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User> implem
 	private PlayerService playerService;
 
 	@Override
-	public UserConverter getConverter() {
-		return userConverter;
+	public UserToUserDto getOutConverter() {
+		return outUserConverter;
 	}
 
-	public void setTeamConverter(UserConverter userConverter) {
-		this.userConverter = userConverter;
+	public void setTeamConverter(UserToUserDto userConverter) {
+		this.outUserConverter = userConverter;
 	}
 
 	@Override
@@ -71,7 +76,7 @@ public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User> implem
 	@Override
 	public UserDto retrieveGuestUser() {
 		User guestUser = getDao().findByUserType(UserType.GUEST);
-		return getConverter().convertToDto(guestUser);
+		return getOutConverter().apply(guestUser);
 	}
 
 	@Override
@@ -87,7 +92,7 @@ public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User> implem
 	 */
 	@Override
 	public UserDto retrieveByLogin(String login) {
-		return getConverter().convertToDto(getDao().findByLogin(login));
+		return getOutConverter().apply(getDao().findByLogin(login));
 	}
 
 	/**
@@ -96,6 +101,11 @@ public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User> implem
 	@Override
 	public String retrievePasswordByLogin(String login) {
 		return getDao().findByLogin(login).getPassword();
+	}
+
+	@Override
+	public Converter<UserDto, User> getInConverter() {
+		return inUserConverter;
 	}
 
 }

@@ -1,8 +1,14 @@
 package com.pedrero.eclihand.model.dto;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public class DataObjectDto {
+public class DataObjectDto implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8099683731413298491L;
 
 	private Long id;
 

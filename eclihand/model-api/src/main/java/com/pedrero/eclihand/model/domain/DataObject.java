@@ -1,6 +1,8 @@
 package com.pedrero.eclihand.model.domain;
 
-public interface DataObject {
+import java.io.Serializable;
+
+public interface DataObject extends Serializable {
 
 	public abstract Long getId();
 

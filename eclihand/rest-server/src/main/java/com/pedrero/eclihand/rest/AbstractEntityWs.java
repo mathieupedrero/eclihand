@@ -35,9 +35,4 @@ public abstract class AbstractEntityWs<T extends DataObjectDto> extends Abstract
 		return getService().save(entity).getId();
 	}
 
-	@RequestMapping(method = RequestMethod.PUT)
-	public void update(@RequestBody T entity) {
-		getService().update(entity);
-	}
-
 }

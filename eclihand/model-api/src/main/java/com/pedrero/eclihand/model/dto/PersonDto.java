@@ -5,6 +5,11 @@ import java.time.LocalDate;
 import com.pedrero.eclihand.model.domain.Gender;
 
 public class PersonDto extends IllustrableDto {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3018349078497224383L;
+
 	private String firstName;
 
 	private String lastName;

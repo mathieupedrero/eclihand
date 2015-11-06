@@ -7,6 +7,11 @@ import com.pedrero.eclihand.model.domain.UserType;
 
 public class UserDto extends IllustrableDto {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3700956477005349287L;
+
 	private String login;
 
 	private UserType userType;

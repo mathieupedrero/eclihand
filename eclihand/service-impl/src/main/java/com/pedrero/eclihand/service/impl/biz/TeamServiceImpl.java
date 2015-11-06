@@ -7,10 +7,11 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pedrero.eclihand.converter.TeamConverter;
+import com.pedrero.eclihand.converter.Converter;
+import com.pedrero.eclihand.converter.in.TeamDtoToTeam;
+import com.pedrero.eclihand.converter.out.TeamToTeamDto;
 import com.pedrero.eclihand.dao.PlayerDao;
 import com.pedrero.eclihand.dao.TeamDao;
-import com.pedrero.eclihand.model.domain.Player;
 import com.pedrero.eclihand.model.domain.Team;
 import com.pedrero.eclihand.model.dto.PlayerDto;
 import com.pedrero.eclihand.model.dto.TeamDto;
@@ -22,7 +23,10 @@ public class TeamServiceImpl extends DataObjectServiceImpl<TeamDto, Team> implem
 	public static final String AGE_WHEN_PLAYING_FOR_TEAM = "age.when.playing.for.team";
 
 	@Resource
-	private TeamConverter teamConverter;
+	private TeamToTeamDto outTeamConverter;
+
+	@Resource
+	private TeamDtoToTeam inTeamConverter;
 
 	@Resource
 	private TeamDao teamDao;
@@ -35,36 +39,9 @@ public class TeamServiceImpl extends DataObjectServiceImpl<TeamDto, Team> implem
 
 	@Override
 	@Transactional
-	public TeamDto update(TeamDto dto) {
-		Team team = teamDao.findById(dto.getId());
-		for (Player player : team.getPlayers()) {
-			player.getTeams().remove(team);
-		}
-		team.getPlayers().clear();
-		for (PlayerDto teamDto : dto.getPlayers()) {
-			Player player = playerDao.findById(teamDto.getId());
-			player.getTeams().add(team);
-			team.getPlayers().add(player);
-		}
-		return super.update(dto);
-	}
-
-	@Override
-	@Transactional
-	public void delete(TeamDto dto) {
-		Team toDelete = teamDao.findById(dto.getId());
-		for (Player player : toDelete.getPlayers()) {
-			player.getTeams().remove(toDelete);
-		}
-		toDelete.getPlayers().clear();
-		teamDao.delete(toDelete);
-	}
-
-	@Override
-	@Transactional
 	public TeamDto findTeamToDisplay(Long id) {
 		Team entity = teamDao.findById(id);
-		TeamDto toReturn = teamConverter.convertToDto(entity);
+		TeamDto toReturn = outTeamConverter.apply(entity);
 		for (PlayerDto player : toReturn.getPlayers()) {
 			Integer ageWhenPlayingForTeam = playerService.computeAgeForPlayerWhenPlayingForTeam(player.getId(),
 					entity.getId());
@@ -75,12 +52,12 @@ public class TeamServiceImpl extends DataObjectServiceImpl<TeamDto, Team> implem
 	}
 
 	@Override
-	public TeamConverter getConverter() {
-		return teamConverter;
+	public TeamToTeamDto getOutConverter() {
+		return outTeamConverter;
 	}
 
-	public void setTeamConverter(TeamConverter teamConverter) {
-		this.teamConverter = teamConverter;
+	public void setTeamConverter(TeamToTeamDto teamConverter) {
+		this.outTeamConverter = teamConverter;
 	}
 
 	@Override
@@ -90,6 +67,11 @@ public class TeamServiceImpl extends DataObjectServiceImpl<TeamDto, Team> implem
 
 	public void setTeamDao(TeamDao teamDao) {
 		this.teamDao = teamDao;
+	}
+
+	@Override
+	public Converter<TeamDto, Team> getInConverter() {
+		return inTeamConverter;
 	}
 
 }

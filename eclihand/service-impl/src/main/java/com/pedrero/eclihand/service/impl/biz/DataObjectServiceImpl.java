@@ -18,30 +18,22 @@ public abstract class DataObjectServiceImpl<T extends DataObjectDto, U extends D
 	@Override
 	@Transactional
 	public T save(T dto) {
-		U domain = getConverter().convertToEntity(dto);
+		U domain = getInConverter().apply(dto);
 		U saved = getDao().save(domain);
-		return getConverter().convertToDto(saved);
-	}
-
-	@Override
-	@Transactional
-	public T update(T dto) {
-		U domain = getDao().findById(dto.getId());
-		getConverter().lightFeedEntityWithDto(domain, dto);
-		return getConverter().convertToDto(domain);
+		return getOutConverter().apply(saved);
 	}
 
 	@Override
 	@Transactional
 	public T findById(Long id) {
 		U retrieved = getDao().findById(id);
-		return getConverter().convertToDto(retrieved);
+		return getOutConverter().apply(retrieved);
 	}
 
 	@Override
 	@Transactional
 	public void delete(T dto) {
-		U toDelete = getConverter().convertToEntity(dto);
+		U toDelete = getInConverter().apply(dto);
 		getDao().delete(toDelete);
 
 	}
@@ -49,24 +41,25 @@ public abstract class DataObjectServiceImpl<T extends DataObjectDto, U extends D
 	@Override
 	@Transactional
 	public List<T> findAll() {
-		return getDao().findAllObjects().stream().map(getConverter()::convertToDto).collect(Collectors.toList());
+		return getDao().findAllObjects().stream().map(getOutConverter()).collect(Collectors.toList());
 	}
 
 	@Override
 	public List<T> findAll(PageableDto pageable) {
-		return getDao().findAllObjects(pageable).stream().map(getConverter()::convertToDto)
-				.collect(Collectors.toList());
+		return getDao().findAllObjects(pageable).stream().map(getOutConverter()).collect(Collectors.toList());
 	}
 
 	@Override
 	@Transactional
 	public List<T> searchByCriterium(Object criterium) {
-		return getDao().findByIndexLikeIgnoreCase("%" + criterium.toString() + "%").stream()
-				.map(getConverter()::convertToDto).collect(Collectors.toList());
+		return getDao().findByIndexLikeIgnoreCase("%" + criterium.toString() + "%").stream().map(getOutConverter())
+				.collect(Collectors.toList());
 	}
 
 	abstract public DataObjectDao<U> getDao();
 
-	abstract public Converter<U, T> getConverter();
+	abstract public Converter<U, T> getOutConverter();
+
+	abstract public Converter<T, U> getInConverter();
 
 }

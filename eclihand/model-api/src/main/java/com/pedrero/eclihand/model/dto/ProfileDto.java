@@ -5,6 +5,11 @@ import java.util.Set;
 
 public class ProfileDto extends IllustrableDto {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1984471066293805378L;
+
 	private String name;
 
 	private Set<AuthorizationDto> authorizations = new HashSet<AuthorizationDto>();

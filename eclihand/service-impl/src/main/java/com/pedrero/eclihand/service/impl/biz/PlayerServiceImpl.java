@@ -9,26 +9,33 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pedrero.eclihand.converter.PersonConverter;
-import com.pedrero.eclihand.converter.PlayerConverter;
+import com.pedrero.eclihand.converter.Converter;
+import com.pedrero.eclihand.converter.in.PersonDtoToPerson;
+import com.pedrero.eclihand.converter.in.PlayerDtoToPlayer;
+import com.pedrero.eclihand.converter.out.PersonToPersonDto;
+import com.pedrero.eclihand.converter.out.PlayerToPlayerDto;
 import com.pedrero.eclihand.dao.PersonDao;
 import com.pedrero.eclihand.dao.PlayerDao;
 import com.pedrero.eclihand.dao.TeamDao;
-import com.pedrero.eclihand.model.domain.Person;
 import com.pedrero.eclihand.model.domain.Player;
 import com.pedrero.eclihand.model.domain.Team;
 import com.pedrero.eclihand.model.dto.PlayerDto;
-import com.pedrero.eclihand.model.dto.TeamDto;
 import com.pedrero.eclihand.service.biz.PlayerService;
 
 @Service
 public class PlayerServiceImpl extends DataObjectServiceImpl<PlayerDto, Player> implements PlayerService {
 
 	@Resource
-	private PlayerConverter playerConverter;
+	private PlayerToPlayerDto outPlayerConverter;
 
 	@Resource
-	private PersonConverter personConverter;
+	private PlayerDtoToPlayer inPlayerConverter;
+
+	@Resource
+	private PersonToPersonDto outPersonConverter;
+
+	@Resource
+	private PersonDtoToPerson inPersonConverter;
 
 	@Resource
 	private PlayerDao playerDao;
@@ -40,12 +47,12 @@ public class PlayerServiceImpl extends DataObjectServiceImpl<PlayerDto, Player> 
 	private TeamDao teamDao;
 
 	@Override
-	public PlayerConverter getConverter() {
-		return playerConverter;
+	public PlayerToPlayerDto getOutConverter() {
+		return outPlayerConverter;
 	}
 
-	public void setPlayerConverter(PlayerConverter playerConverter) {
-		this.playerConverter = playerConverter;
+	public void setPlayerConverter(PlayerToPlayerDto playerConverter) {
+		this.outPlayerConverter = playerConverter;
 	}
 
 	@Override
@@ -55,45 +62,6 @@ public class PlayerServiceImpl extends DataObjectServiceImpl<PlayerDto, Player> 
 
 	public void setDao(PlayerDao playerDao) {
 		this.playerDao = playerDao;
-	}
-
-	@Override
-	@Transactional
-	public PlayerDto save(PlayerDto dto) {
-		Player domain = getConverter().convertToEntity(dto);
-		Player saved = getDao().save(domain);
-		Person playerPerson;
-		if (dto.getId() != null) {
-			playerPerson = personDao.findById(dto.getId());
-			personConverter.lightFeedEntityWithDto(playerPerson, dto.getPlayerPerson());
-		} else {
-			playerPerson = personConverter.convertToEntity(dto.getPlayerPerson());
-			personDao.save(playerPerson);
-		}
-		saved.setPlayerPerson(playerPerson);
-		Player player = playerDao.findById(saved.getId());
-		for (TeamDto teamDto : dto.getTeams()) {
-			Team team = teamDao.findById(teamDto.getId());
-			team.getPlayers().add(player);
-			player.getTeams().add(team);
-		}
-		return playerConverter.convertToDto(saved);
-	}
-
-	@Override
-	@Transactional
-	public PlayerDto update(PlayerDto dto) {
-		Player player = playerDao.findById(dto.getId());
-		for (Team team : player.getTeams()) {
-			team.getPlayers().remove(player);
-		}
-		player.getTeams().clear();
-		for (TeamDto teamDto : dto.getTeams()) {
-			Team team = teamDao.findById(teamDto.getId());
-			team.getPlayers().add(player);
-			player.getTeams().add(team);
-		}
-		return super.update(dto);
 	}
 
 	@Override
@@ -130,9 +98,14 @@ public class PlayerServiceImpl extends DataObjectServiceImpl<PlayerDto, Player> 
 	public List<PlayerDto> searchByCriterium(Object criterium) {
 		List<PlayerDto> result = new ArrayList<PlayerDto>();
 		for (Player player : getDao().findByPlayerPersonIndexLikeIgnoreCase("%" + criterium.toString() + "%")) {
-			result.add(getConverter().convertToDto(player));
+			result.add(getOutConverter().apply(player));
 		}
 		return result;
+	}
+
+	@Override
+	public Converter<PlayerDto, Player> getInConverter() {
+		return inPlayerConverter;
 	}
 
 }

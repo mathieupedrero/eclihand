@@ -5,6 +5,11 @@ import java.util.List;
 import com.pedrero.eclihand.model.domain.Gender;
 
 public class TeamDto extends IllustrableDto {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7393948532688578828L;
+
 	private Integer year;
 
 	private List<PlayerDto> players;

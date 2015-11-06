@@ -4,7 +4,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.pedrero.eclihand.converter.ProfileConverter;
+import com.pedrero.eclihand.converter.in.ProfileDtoToProfile;
+import com.pedrero.eclihand.converter.out.ProfileToProfileDto;
 import com.pedrero.eclihand.dao.ProfileDao;
 import com.pedrero.eclihand.model.domain.Profile;
 import com.pedrero.eclihand.model.dto.ProfileDto;
@@ -13,18 +14,17 @@ import com.pedrero.eclihand.service.biz.ProfileService;
 @Service
 public class ProfileServiceImpl extends DataObjectServiceImpl<ProfileDto, Profile> implements ProfileService {
 	@Resource
-	private ProfileConverter profileConverter;
+	private ProfileToProfileDto outProfileConverter;
+
+	@Resource
+	private ProfileDtoToProfile inProfileConverter;
 
 	@Resource
 	private ProfileDao profileDao;
 
 	@Override
-	public ProfileConverter getConverter() {
-		return profileConverter;
-	}
-
-	public void setProfileConverter(ProfileConverter profileConverter) {
-		this.profileConverter = profileConverter;
+	public ProfileToProfileDto getOutConverter() {
+		return outProfileConverter;
 	}
 
 	@Override
@@ -34,5 +34,10 @@ public class ProfileServiceImpl extends DataObjectServiceImpl<ProfileDto, Profil
 
 	public void setProfileDao(ProfileDao profileDao) {
 		this.profileDao = profileDao;
+	}
+
+	@Override
+	public ProfileDtoToProfile getInConverter() {
+		return inProfileConverter;
 	}
 }

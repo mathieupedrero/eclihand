@@ -8,8 +8,6 @@ import com.pedrero.eclihand.model.dto.PageableDto;
 public interface DataObjectService<T extends DataObjectDto> {
 	public T save(T dto);
 
-	public T update(T dto);
-
 	public T findById(Long id);
 
 	public void delete(T dto);
