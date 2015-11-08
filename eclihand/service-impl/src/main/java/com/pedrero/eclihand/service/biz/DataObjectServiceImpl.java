@@ -1,4 +1,4 @@
-package com.pedrero.eclihand.service.impl.biz;
+package com.pedrero.eclihand.service.biz;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package com.pedrero.eclihand.service.impl.runtime;
+package com.pedrero.eclihand.service.runtime;
 
 import java.time.Clock;
 import java.time.Duration;
@@ -13,7 +13,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pedrero.eclihand.service.runtime.RuntimeService;
 import com.pedrero.eclihand.service.runtime.exception.NoCurrentSessionException;
 import com.pedrero.eclihand.service.runtime.exception.TimeConsistencyException;
 

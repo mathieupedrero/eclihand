@@ -1,4 +1,4 @@
-package com.pedrero.eclihand.service.impl.biz;
+package com.pedrero.eclihand.service.biz;
 
 import javax.annotation.Resource;
 

@@ -4,12 +4,12 @@ import java.util.Set;
 
 public interface Player extends Illustrable {
 
-	public abstract Person getPlayerPerson();
+	Person getPlayerPerson();
 
-	public abstract void setPlayerPerson(Person playerPerson);
+	void setPlayerPerson(Person playerPerson);
 
-	public abstract Set<Team> getTeams();
+	Set<Team> getTeams();
 
-	public abstract void setTeams(Set<Team> teams);
+	void setTeams(Set<Team> teams);
 
 }

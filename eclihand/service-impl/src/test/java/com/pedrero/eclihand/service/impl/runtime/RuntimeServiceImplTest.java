@@ -11,6 +11,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.pedrero.eclihand.service.runtime.RuntimeService;
+import com.pedrero.eclihand.service.runtime.RuntimeServiceImpl;
 import com.pedrero.eclihand.service.runtime.exception.NoCurrentSessionException;
 import com.pedrero.eclihand.service.runtime.exception.TimeConsistencyException;
 

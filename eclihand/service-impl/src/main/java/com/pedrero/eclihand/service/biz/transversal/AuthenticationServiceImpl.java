@@ -1,4 +1,4 @@
-package com.pedrero.eclihand.service.impl.biz.transversal;
+package com.pedrero.eclihand.service.biz.transversal;
 
 import java.time.ZonedDateTime;
 

@@ -26,7 +26,8 @@ public class AuthorizationImpl extends DataObjectImpl implements Authorization {
 		return credential;
 	}
 
-	public void setName(Credential credential) {
+	@Override
+	public void setCredential(Credential credential) {
 		this.credential = credential;
 	}
 }
