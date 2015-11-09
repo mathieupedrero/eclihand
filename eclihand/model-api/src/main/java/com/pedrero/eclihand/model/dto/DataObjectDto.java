@@ -1,7 +1,6 @@
 package com.pedrero.eclihand.model.dto;
 
 import java.io.Serializable;
-import java.util.Map;
 
 public class DataObjectDto implements Serializable {
 
@@ -13,8 +12,6 @@ public class DataObjectDto implements Serializable {
 	private Long id;
 
 	private String index;
-
-	private Map<String, Object> otherProperties;
 
 	public DataObjectDto() {
 		super();
@@ -34,14 +31,6 @@ public class DataObjectDto implements Serializable {
 
 	public void setIndex(String index) {
 		this.index = index;
-	}
-
-	public Map<String, Object> getOtherProperties() {
-		return otherProperties;
-	}
-
-	public void setOtherProperties(Map<String, Object> otherProperties) {
-		this.otherProperties = otherProperties;
 	}
 
 }

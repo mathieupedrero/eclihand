@@ -1,6 +1,7 @@
 package com.pedrero.eclihand.converter.in;
 
 import static com.pedrero.eclihand.converter.ConverterUtils.map;
+import static com.pedrero.eclihand.converter.in.InConverterUtils.mapIllustrableFields;
 
 import javax.annotation.Resource;
 
@@ -25,6 +26,7 @@ public class PersonDtoToPersonImpl implements PersonDtoToPerson {
 			return null;
 		}
 		Person result = domainObjectsFactory.createPerson();
+		mapIllustrableFields(source, result);
 		map(source::getFirstName, result::setFirstName);
 		map(source::getLastName, result::setLastName);
 		map(source::getBirthDate, result::setBirthDate, localDateToDate);

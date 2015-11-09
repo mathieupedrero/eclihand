@@ -1,31 +1,19 @@
 package com.pedrero.eclihand.converter.in;
 
-import java.time.Clock;
-import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.function.Function;
 
-import org.dozer.DozerConverter;
+import org.springframework.stereotype.Component;
 
-public class ZonedDateTimeToDate extends DozerConverter<ZonedDateTime, Date> {
-
-	public ZonedDateTimeToDate(Class<ZonedDateTime> prototypeA, Class<Date> prototypeB) {
-		super(prototypeA, prototypeB);
-	}
+@Component
+public class ZonedDateTimeToDate implements Function<ZonedDateTime, Date> {
 
 	@Override
-	public Date convertTo(ZonedDateTime source, Date destination) {
+	public Date apply(ZonedDateTime source) {
 		if (source == null) {
 			return null;
 		}
 		return Date.from(source.toInstant());
-	}
-
-	@Override
-	public ZonedDateTime convertFrom(Date source, ZonedDateTime destination) {
-		if (source == null) {
-			return null;
-		}
-		return ZonedDateTime.ofInstant(Instant.ofEpochMilli(source.getTime()), Clock.systemUTC().getZone());
 	}
 }

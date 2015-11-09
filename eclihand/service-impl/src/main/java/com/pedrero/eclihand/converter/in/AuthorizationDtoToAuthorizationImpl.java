@@ -1,6 +1,7 @@
 package com.pedrero.eclihand.converter.in;
 
 import static com.pedrero.eclihand.converter.ConverterUtils.map;
+import static com.pedrero.eclihand.converter.in.InConverterUtils.mapDataObjectFields;
 
 import javax.annotation.Resource;
 
@@ -11,8 +12,7 @@ import com.pedrero.eclihand.model.domain.factory.DomainObjectsFactory;
 import com.pedrero.eclihand.model.dto.AuthorizationDto;
 
 @Component
-public class AuthorizationDtoToAuthorizationImpl implements
-		AuthorizationDtoToAuthorization {
+public class AuthorizationDtoToAuthorizationImpl implements AuthorizationDtoToAuthorization {
 
 	@Resource
 	private DomainObjectsFactory domainObjectsFactory;
@@ -23,6 +23,7 @@ public class AuthorizationDtoToAuthorizationImpl implements
 			return null;
 		}
 		Authorization result = domainObjectsFactory.createAuthorization();
+		mapDataObjectFields(source, result);
 		map(source::getCredential, result::setCredential);
 		return result;
 	}
