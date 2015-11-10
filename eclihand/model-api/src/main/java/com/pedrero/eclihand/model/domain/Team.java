@@ -10,6 +10,8 @@ public interface Team extends Illustrable {
 
 	public Set<Player> getPlayers();
 
+	public void setPlayers(Set<Player> players);
+
 	public Gender getGender();
 
 	public void setGender(Gender gender);

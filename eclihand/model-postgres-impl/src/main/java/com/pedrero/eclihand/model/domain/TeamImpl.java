@@ -28,7 +28,7 @@ public class TeamImpl extends IllustrableImpl implements Team {
 
 	@ManyToMany
 	@JoinTable(name = "PLA_PLAYER_TEA_TEAM", joinColumns = @JoinColumn(name = "TEA_ID"), inverseJoinColumns = @JoinColumn(name = "PLA_ID"))
-	private final Set<PlayerImpl> players = new HashSet<PlayerImpl>();
+	private Set<PlayerImpl> players = new HashSet<PlayerImpl>();
 
 	@Column(name = "TEA_GENDER")
 	@Enumerated(EnumType.STRING)
@@ -48,6 +48,12 @@ public class TeamImpl extends IllustrableImpl implements Team {
 	@Override
 	public Set<Player> getPlayers() {
 		return (Set) players;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public void setPlayers(Set<Player> players) {
+		this.players = (Set) players;
 	}
 
 	@Override

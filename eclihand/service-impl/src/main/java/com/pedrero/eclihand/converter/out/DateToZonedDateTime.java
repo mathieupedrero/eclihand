@@ -4,25 +4,12 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.function.Function;
 
-import org.dozer.DozerConverter;
-
-public class DateToZonedDateTime extends DozerConverter<ZonedDateTime, Date> {
-
-	public DateToZonedDateTime(Class<ZonedDateTime> prototypeA, Class<Date> prototypeB) {
-		super(prototypeA, prototypeB);
-	}
+public class DateToZonedDateTime implements Function<Date, ZonedDateTime> {
 
 	@Override
-	public Date convertTo(ZonedDateTime source, Date destination) {
-		if (source == null) {
-			return null;
-		}
-		return Date.from(source.toInstant());
-	}
-
-	@Override
-	public ZonedDateTime convertFrom(Date source, ZonedDateTime destination) {
+	public ZonedDateTime apply(Date source) {
 		if (source == null) {
 			return null;
 		}

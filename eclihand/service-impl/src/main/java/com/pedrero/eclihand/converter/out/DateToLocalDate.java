@@ -5,26 +5,14 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.function.Function;
 
-import org.dozer.DozerConverter;
+import org.springframework.stereotype.Component;
 
-public class DateToLocalDate extends DozerConverter<LocalDate, Date> {
-
-	public DateToLocalDate(Class<LocalDate> prototypeA, Class<Date> prototypeB) {
-		super(prototypeA, prototypeB);
-	}
-
+@Component
+public class DateToLocalDate implements Function<Date, LocalDate> {
 	@Override
-	public Date convertTo(LocalDate source, Date destination) {
-		if (source == null) {
-			return null;
-		}
-		Instant instant = source.atStartOfDay().atZone(Clock.systemUTC().getZone()).toInstant();
-		return Date.from(instant);
-	}
-
-	@Override
-	public LocalDate convertFrom(Date source, LocalDate destination) {
+	public LocalDate apply(Date source) {
 		if (source == null) {
 			return null;
 		}
