@@ -13,13 +13,15 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.pedrero.eclihand.model.exception.EclihandMessage;
 import com.pedrero.eclihand.service.runtime.exception.NoCurrentSessionException;
 import com.pedrero.eclihand.service.runtime.exception.TimeConsistencyException;
 
 @Service
 @Transactional
 public class RuntimeServiceImpl implements RuntimeService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(RuntimeServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RuntimeServiceImpl.class);
 
 	private final Map<String, Session> RUNTIME_SESSIONS = new HashMap<String, RuntimeServiceImpl.Session>();
 
@@ -33,15 +35,21 @@ public class RuntimeServiceImpl implements RuntimeService {
 	 * createNewSessionForUser(java.lang.String, java.util.Date)
 	 */
 	@Override
-	public String createNewSessionForUser(String login, ZonedDateTime clientTimeRequestDate)
+	public String createNewSessionForUser(String login,
+			ZonedDateTime clientTimeRequestDate)
 			throws TimeConsistencyException {
 		ZonedDateTime serverTime = giveServerTime();
-		Duration timeShift = Duration.between(clientTimeRequestDate, serverTime);
+		Duration timeShift = Duration
+				.between(clientTimeRequestDate, serverTime);
 		if (timeShift.toMillis() > TIME_SHIFT_TOLERANCE_MILLIS) {
-			LOGGER.error("Timeshift between client time and server time is too big ({} ms)", clientTimeRequestDate);
-			throw new TimeConsistencyException("Timeshift between client time and server time is too big");
+			LOGGER.error(
+					"Timeshift between client time and server time is too big ({} ms)",
+					clientTimeRequestDate);
+			throw new TimeConsistencyException(new EclihandMessage(
+					"error.time_shift_too_large"));
 		}
-		Session newSession = new Session(serverTime, clientTimeRequestDate, computeTokenFor());
+		Session newSession = new Session(serverTime, clientTimeRequestDate,
+				computeTokenFor());
 		RUNTIME_SESSIONS.put(login, newSession);
 		return newSession.securityToken;
 	}
@@ -69,12 +77,14 @@ public class RuntimeServiceImpl implements RuntimeService {
 	 * findTokenCheckingTimeConsistencyFor(java.lang.String, java.util.Date)
 	 */
 	@Override
-	public String findTokenCheckingTimeConsistencyFor(String login, ZonedDateTime clientTimeRequestDate)
+	public String findTokenCheckingTimeConsistencyFor(String login,
+			ZonedDateTime clientTimeRequestDate)
 			throws NoCurrentSessionException, TimeConsistencyException {
 		if (RUNTIME_SESSIONS.containsKey(login)) {
 			LOGGER.debug("A session exists for user [{}]", login);
 			Session currentSession = RUNTIME_SESSIONS.get(login);
-			checkClientDateYoungerThanLastSessionActivity(clientTimeRequestDate, currentSession);
+			checkClientDateYoungerThanLastSessionActivity(
+					clientTimeRequestDate, currentSession);
 			return currentSession.securityToken;
 		}
 		throw new NoCurrentSessionException();
@@ -87,12 +97,14 @@ public class RuntimeServiceImpl implements RuntimeService {
 	 * checkRequestTimeConsistencyForUser(java.lang.String, java.util.Date)
 	 */
 	@Override
-	public void checkRequestTimeConsistencyForUser(String login, ZonedDateTime clientTimeRequestDate)
+	public void checkRequestTimeConsistencyForUser(String login,
+			ZonedDateTime clientTimeRequestDate)
 			throws NoCurrentSessionException, TimeConsistencyException {
 		if (RUNTIME_SESSIONS.containsKey(login)) {
 			LOGGER.debug("A session exists for user [{}]", login);
 			Session currentSession = RUNTIME_SESSIONS.get(login);
-			checkClientDateYoungerThanLastSessionActivity(clientTimeRequestDate, currentSession);
+			checkClientDateYoungerThanLastSessionActivity(
+					clientTimeRequestDate, currentSession);
 		}
 		throw new NoCurrentSessionException();
 	}
@@ -123,7 +135,9 @@ public class RuntimeServiceImpl implements RuntimeService {
 			RUNTIME_SESSIONS
 					.entrySet()
 					.removeIf(
-							entry -> (Duration.between(entry.getValue().lastActivityServerDate, serverTime).toMillis() < TOKEN_LIFE_DURATION));
+							entry -> (Duration.between(
+									entry.getValue().lastActivityServerDate,
+									serverTime).toMillis() < TOKEN_LIFE_DURATION));
 		}
 	}
 
@@ -131,12 +145,17 @@ public class RuntimeServiceImpl implements RuntimeService {
 		return UUID.randomUUID().toString();
 	}
 
-	private void checkClientDateYoungerThanLastSessionActivity(ZonedDateTime clientTimeRequestDate,
-			Session currentSession) throws TimeConsistencyException {
-		if (!clientTimeRequestDate.isAfter(currentSession.lastActivityClientDate)) {
-			LOGGER.error("New client request is older ({}) than the latest executed query ({})", clientTimeRequestDate,
+	private void checkClientDateYoungerThanLastSessionActivity(
+			ZonedDateTime clientTimeRequestDate, Session currentSession)
+			throws TimeConsistencyException {
+		if (!clientTimeRequestDate
+				.isAfter(currentSession.lastActivityClientDate)) {
+			LOGGER.error(
+					"New client request is older ({}) than the latest executed query ({})",
+					clientTimeRequestDate,
 					currentSession.lastActivityClientDate);
-			throw new TimeConsistencyException("New client request is older than the latest executed query");
+			throw new TimeConsistencyException(new EclihandMessage(
+					"error.new_request_is_older_than_previous_one"));
 		}
 	}
 
@@ -145,7 +164,8 @@ public class RuntimeServiceImpl implements RuntimeService {
 		private final ZonedDateTime lastActivityClientDate;
 		private final String securityToken;
 
-		public Session(ZonedDateTime creationServerDate, ZonedDateTime lastActivityClientDate, String securityToken) {
+		public Session(ZonedDateTime creationServerDate,
+				ZonedDateTime lastActivityClientDate, String securityToken) {
 			super();
 			this.lastActivityServerDate = creationServerDate;
 			this.lastActivityClientDate = lastActivityClientDate;

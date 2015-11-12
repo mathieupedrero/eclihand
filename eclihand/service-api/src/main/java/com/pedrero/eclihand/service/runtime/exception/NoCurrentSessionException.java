@@ -1,5 +1,6 @@
 package com.pedrero.eclihand.service.runtime.exception;
 
+import com.pedrero.eclihand.model.exception.EclihandMessage;
 
 public class NoCurrentSessionException extends EclihandAuthenticationException {
 
@@ -11,11 +12,11 @@ public class NoCurrentSessionException extends EclihandAuthenticationException {
 	public NoCurrentSessionException() {
 	}
 
-	public NoCurrentSessionException(String message, Throwable cause) {
+	public NoCurrentSessionException(EclihandMessage message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public NoCurrentSessionException(String message) {
+	public NoCurrentSessionException(EclihandMessage message) {
 		super(message);
 	}
 

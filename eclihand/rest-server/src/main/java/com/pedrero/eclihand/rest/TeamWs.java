@@ -23,7 +23,7 @@ public class TeamWs extends AbstractEntityWs<TeamDto> {
 
 	@Override
 	public TeamDto findById(@PathVariable(value = "id") Long id) {
-		return teamService.findTeamToDisplay(id);
+		return teamService.findById(id);
 	}
 
 }

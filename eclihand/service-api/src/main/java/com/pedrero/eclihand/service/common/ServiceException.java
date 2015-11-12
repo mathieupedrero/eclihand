@@ -1,6 +1,7 @@
 package com.pedrero.eclihand.service.common;
 
 import com.pedrero.eclihand.model.exception.EclihandException;
+import com.pedrero.eclihand.model.exception.EclihandMessage;
 
 public class ServiceException extends EclihandException {
 
@@ -12,11 +13,11 @@ public class ServiceException extends EclihandException {
 	public ServiceException() {
 	}
 
-	public ServiceException(String message, Throwable cause) {
+	public ServiceException(EclihandMessage message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public ServiceException(String message) {
+	public ServiceException(EclihandMessage message) {
 		super(message);
 	}
 

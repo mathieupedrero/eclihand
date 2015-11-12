@@ -22,7 +22,6 @@
 		<module>dao-hibernate-impl</module>
 		<module>service-api</module>
 		<module>service-impl</module>
-		<module>webapp</module>
 		<module>rest-server</module>
 	</modules>
 	<dependencyManagement>

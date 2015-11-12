@@ -1,5 +1,6 @@
 package com.pedrero.eclihand.service.runtime.exception;
 
+import com.pedrero.eclihand.model.exception.EclihandMessage;
 import com.pedrero.eclihand.service.common.ServiceException;
 
 public class EclihandAuthenticationException extends ServiceException {
@@ -12,11 +13,12 @@ public class EclihandAuthenticationException extends ServiceException {
 	public EclihandAuthenticationException() {
 	}
 
-	public EclihandAuthenticationException(String message, Throwable cause) {
+	public EclihandAuthenticationException(EclihandMessage message,
+			Throwable cause) {
 		super(message, cause);
 	}
 
-	public EclihandAuthenticationException(String message) {
+	public EclihandAuthenticationException(EclihandMessage message) {
 		super(message);
 	}
 

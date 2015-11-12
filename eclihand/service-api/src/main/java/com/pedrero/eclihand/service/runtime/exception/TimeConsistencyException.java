@@ -1,5 +1,6 @@
 package com.pedrero.eclihand.service.runtime.exception;
 
+import com.pedrero.eclihand.model.exception.EclihandMessage;
 
 public class TimeConsistencyException extends EclihandAuthenticationException {
 
@@ -11,11 +12,11 @@ public class TimeConsistencyException extends EclihandAuthenticationException {
 	public TimeConsistencyException() {
 	}
 
-	public TimeConsistencyException(String message, Throwable cause) {
+	public TimeConsistencyException(EclihandMessage message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public TimeConsistencyException(String message) {
+	public TimeConsistencyException(EclihandMessage message) {
 		super(message);
 	}
 

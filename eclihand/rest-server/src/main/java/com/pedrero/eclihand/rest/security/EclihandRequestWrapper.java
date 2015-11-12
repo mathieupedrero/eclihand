@@ -13,14 +13,17 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.pedrero.eclihand.model.exception.EclihandMessage;
 import com.pedrero.eclihand.model.exception.EclihandRuntimeException;
 
 public class EclihandRequestWrapper extends HttpServletRequestWrapper {
-	private final static Logger LOGGER = LoggerFactory.getLogger(EclihandRequestWrapper.class);
+	private final static Logger LOGGER = LoggerFactory
+			.getLogger(EclihandRequestWrapper.class);
 
 	private final String payload;
 
-	public EclihandRequestWrapper(HttpServletRequest request) throws EclihandRuntimeException {
+	public EclihandRequestWrapper(HttpServletRequest request)
+			throws EclihandRuntimeException {
 		super(request);
 		// read the original payload into the payload variable
 		StringBuilder stringBuilder = new StringBuilder();
@@ -29,7 +32,8 @@ public class EclihandRequestWrapper extends HttpServletRequestWrapper {
 			// read the payload into the StringBuilder
 			InputStream inputStream = request.getInputStream();
 			if (inputStream != null) {
-				bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+				bufferedReader = new BufferedReader(new InputStreamReader(
+						inputStream));
 				char[] charBuffer = new char[128];
 				int bytesRead = -1;
 				while ((bytesRead = bufferedReader.read(charBuffer)) > 0) {
@@ -41,7 +45,8 @@ public class EclihandRequestWrapper extends HttpServletRequestWrapper {
 			}
 		} catch (IOException ex) {
 			LOGGER.error("Error reading the request payload", ex);
-			throw new EclihandRuntimeException("Error reading the request payload", ex);
+			throw new EclihandRuntimeException(new EclihandMessage(
+					"error.reading_request_payload"), ex);
 		} finally {
 			if (bufferedReader != null) {
 				try {
@@ -56,7 +61,8 @@ public class EclihandRequestWrapper extends HttpServletRequestWrapper {
 
 	@Override
 	public ServletInputStream getInputStream() throws IOException {
-		final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(payload.getBytes());
+		final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
+				payload.getBytes());
 		ServletInputStream inputStream = new ServletInputStream() {
 			@Override
 			public int read() throws IOException {

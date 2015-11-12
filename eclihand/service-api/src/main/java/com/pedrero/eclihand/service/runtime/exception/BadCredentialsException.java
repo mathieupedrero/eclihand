@@ -1,5 +1,7 @@
 package com.pedrero.eclihand.service.runtime.exception;
 
+import com.pedrero.eclihand.model.exception.EclihandMessage;
+
 public class BadCredentialsException extends EclihandAuthenticationException {
 
 	/**
@@ -10,11 +12,11 @@ public class BadCredentialsException extends EclihandAuthenticationException {
 	public BadCredentialsException() {
 	}
 
-	public BadCredentialsException(String message, Throwable cause) {
+	public BadCredentialsException(EclihandMessage message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public BadCredentialsException(String message) {
+	public BadCredentialsException(EclihandMessage message) {
 		super(message);
 	}
 
