@@ -1,0 +1,14 @@
+
+
+          <form name="registrationForm" class="navbar-form navbar-right" ng-submit="register(loginForm.$valid)" novalidate>
+            <div class="form-group" ng-class="{ 'has-error' : registrationForm.loginInput.$invalid && data.loginFormSubmitted }" >
+              <input name="loginInput" type="text" placeholder="Login" class="form-control input-sm" ng-model="data.login" required>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : loginForm.passwordInput.$invalid && data.loginFormSubmitted }" >
+              <input name="passwordInput" type="password" placeholder="Password" class="form-control input-sm" ng-model="data.password" required>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : loginForm.checkPasswordInput.$invalid && data.loginFormSubmitted }" >
+              <input name="checkPasswordInput" type="password" placeholder="Password" class="form-control input-sm" ng-model="data.password" required>
+            </div>
+            <button name="validButton" type="submit" class="btn btn-success btn-sm">{{'common.validate'|translate}}</button>
+          </form>

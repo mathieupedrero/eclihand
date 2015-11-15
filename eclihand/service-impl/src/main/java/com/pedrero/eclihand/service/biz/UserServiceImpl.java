@@ -19,13 +19,12 @@ import com.pedrero.eclihand.model.domain.Profile;
 import com.pedrero.eclihand.model.domain.User;
 import com.pedrero.eclihand.model.domain.UserType;
 import com.pedrero.eclihand.model.dto.UserDto;
-import com.pedrero.eclihand.service.biz.PlayerService;
-import com.pedrero.eclihand.service.biz.UserService;
 import com.pedrero.eclihand.service.runtime.exception.BadCredentialsException;
 
 @Service
 @Transactional
-public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User> implements UserService {
+public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User>
+		implements UserService {
 
 	public static final String AGE_WHEN_PLAYING_FOR_TEAM = "age.when.playing.for.team";
 
@@ -80,8 +79,10 @@ public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User> implem
 	}
 
 	@Override
-	public void checkCredentials(String login, String md5EncodedPassword) throws BadCredentialsException {
-		User loggedIn = getDao().findByLoginAndPassword(login, md5EncodedPassword);
+	public void checkCredentials(String login, String md5EncodedPassword)
+			throws BadCredentialsException {
+		User loggedIn = getDao().findByLoginAndPassword(login,
+				md5EncodedPassword);
 		if (loggedIn == null) {
 			throw new BadCredentialsException();
 		}
@@ -106,6 +107,13 @@ public class UserServiceImpl extends DataObjectServiceImpl<UserDto, User> implem
 	@Override
 	public Converter<UserDto, User> getInConverter() {
 		return inUserConverter;
+	}
+
+	@Override
+	public void createUser(UserDto toCreate, String withToken) {
+		User user = getInConverter().apply(toCreate);
+		user.setUserType(UserType.COMMON);
+		user.setPassword(withToken);
 	}
 
 }

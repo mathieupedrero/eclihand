@@ -23,6 +23,7 @@ public class UserToUserDtoImpl implements UserToUserDto {
 		}
 		UserDto result = new UserDto();
 		map(source::getLogin, result::setLogin);
+		map(source::getMailAddress, result::setMailAddress);
 		map(source::getUserType, result::setUserType);
 		map(source::getProfiles, result::setProfiles,
 				inSet(profileToProfileDto));

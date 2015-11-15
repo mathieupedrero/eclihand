@@ -26,6 +26,9 @@ public class UserImpl extends IllustrableImpl implements User {
 	@Column(name = "USR_LOGIN")
 	private String login;
 
+	@Column(name = "USR_MAIL_ADDRESS")
+	private String mailAddress;
+
 	@Column(name = "USR_PASSWORD")
 	private String password;
 
@@ -42,8 +45,19 @@ public class UserImpl extends IllustrableImpl implements User {
 		return login;
 	}
 
+	@Override
 	public void setLogin(String login) {
 		this.login = login;
+	}
+
+	@Override
+	public String getMailAddress() {
+		return mailAddress;
+	}
+
+	@Override
+	public void setMailAddress(String mailAddress) {
+		this.mailAddress = mailAddress;
 	}
 
 	@Override
@@ -51,6 +65,7 @@ public class UserImpl extends IllustrableImpl implements User {
 		return password;
 	}
 
+	@Override
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -60,6 +75,7 @@ public class UserImpl extends IllustrableImpl implements User {
 		return userType;
 	}
 
+	@Override
 	public void setUserType(UserType userType) {
 		this.userType = userType;
 	}
@@ -70,6 +86,7 @@ public class UserImpl extends IllustrableImpl implements User {
 		return (Set) profiles;
 	}
 
+	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void setProfiles(Set<Profile> profiles) {
 		this.profiles = (Set) profiles;

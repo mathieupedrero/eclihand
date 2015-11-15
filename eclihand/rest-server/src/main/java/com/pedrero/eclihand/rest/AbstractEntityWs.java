@@ -2,6 +2,8 @@ package com.pedrero.eclihand.rest;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +13,8 @@ import com.pedrero.eclihand.model.dto.DataObjectDto;
 import com.pedrero.eclihand.model.dto.PageableDto;
 import com.pedrero.eclihand.service.common.DataObjectService;
 
-public abstract class AbstractEntityWs<T extends DataObjectDto> extends AbstractWs {
+public abstract class AbstractEntityWs<T extends DataObjectDto> extends
+		AbstractWs {
 
 	protected abstract DataObjectService<T> getService();
 
@@ -31,7 +34,7 @@ public abstract class AbstractEntityWs<T extends DataObjectDto> extends Abstract
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public Long save(@RequestBody T entity) {
+	public Long save(@Valid @RequestBody T entity) {
 		return getService().save(entity).getId();
 	}
 

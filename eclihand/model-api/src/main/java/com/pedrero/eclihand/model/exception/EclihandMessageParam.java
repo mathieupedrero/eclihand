@@ -11,7 +11,8 @@ public class EclihandMessageParam {
 		}
 		if (param instanceof Collection<?>) {
 			return new EclihandMessageParam(((Collection<?>) param).stream()
-					.map(o -> buildParamFor(o)).collect(Collectors.toList()));
+					.map(EclihandMessageParam::buildParamFor)
+					.collect(Collectors.toList()));
 		}
 		return new EclihandMessageParam(param);
 	}

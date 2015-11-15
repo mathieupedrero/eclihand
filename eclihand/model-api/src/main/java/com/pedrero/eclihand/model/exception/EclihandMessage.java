@@ -2,25 +2,31 @@ package com.pedrero.eclihand.model.exception;
 
 import static com.pedrero.eclihand.model.exception.EclihandMessageParam.buildParamFor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EclihandMessage {
+
+	public static NamedParam param(String name, Object param) {
+		return new NamedParam(name, param);
+	}
+
 	private final String key;
-	private final List<EclihandMessageParam> params;
+	private final Map<String, EclihandMessageParam> paramsByName;
 
 	public EclihandMessage(String key) {
 		super();
 		this.key = key;
-		this.params = new ArrayList<EclihandMessageParam>();
+		this.paramsByName = new HashMap<String, EclihandMessageParam>();
 	}
 
-	public EclihandMessage(String key, Object... params) {
+	public EclihandMessage(String key, NamedParam... namedParams) {
 		super();
 		this.key = key;
-		this.params = new ArrayList<EclihandMessageParam>();
-		for (Object param : params) {
-			this.params.add(buildParamFor(param));
+		this.paramsByName = new HashMap<String, EclihandMessageParam>();
+		for (NamedParam namedParam : namedParams) {
+			this.paramsByName.put(namedParam.name,
+					buildParamFor(namedParam.param));
 		}
 	}
 
@@ -28,8 +34,19 @@ public class EclihandMessage {
 		return key;
 	}
 
-	public List<EclihandMessageParam> getParams() {
-		return params;
+	public Map<String, EclihandMessageParam> getParamsByName() {
+		return paramsByName;
+	}
+
+	private static class NamedParam {
+		final String name;
+		final Object param;
+
+		public NamedParam(String name, Object param) {
+			super();
+			this.name = name;
+			this.param = param;
+		}
 	}
 
 }

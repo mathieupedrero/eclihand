@@ -28,9 +28,15 @@ angular.module('webClientApp')
     'common.http_error': 'Erreur HTTP [{{status}}]',
     'common.http_status': 'Status [{{statusText}}]',
     'common.close': 'Fermer',
+    'common.validate': 'Valider',
 
     'data_table.results_per_page': '{{pageSize}} résultats par page',
     'data_table.forward_buttons': 'boutons d\'avance',
     'data_table.backward_buttons': 'boutons de retour arrière',
-    'data_table.page_selection_buttons': 'boutons de sélection de page'
+    'data_table.page_selection_buttons': 'boutons de sélection de page',
+    
+    
+    'menu.home': 'Accueil',
+    'menu.registration': 'S\'inscrire',
+    'menu.contact': 'Contact'
   });

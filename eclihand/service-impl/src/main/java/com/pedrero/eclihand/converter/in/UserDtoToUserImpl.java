@@ -31,8 +31,10 @@ public class UserDtoToUserImpl implements UserDtoToUser {
 		User result = domainObjectsFactory.createUser();
 		mapIllustrableFields(source, result);
 		map(source::getLogin, result::setLogin);
+		map(source::getMailAddress, result::setMailAddress);
 		map(source::getUserType, result::setUserType);
-		map(source::getProfiles, result::setProfiles, inSet(fromRepository(profileDao)));
+		map(source::getProfiles, result::setProfiles,
+				inSet(fromRepository(profileDao)));
 		return result;
 	}
 }

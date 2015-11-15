@@ -31,7 +31,8 @@ public interface UserService extends DataObjectService<UserDto> {
 	 * @param md5EncodedPassword
 	 * @return
 	 */
-	public void checkCredentials(String login, String md5EncodedPassword) throws BadCredentialsException;
+	public void checkCredentials(String login, String md5EncodedPassword)
+			throws BadCredentialsException;
 
 	/**
 	 * Retrieves an user given it's login.
@@ -48,5 +49,13 @@ public interface UserService extends DataObjectService<UserDto> {
 	 * @return
 	 */
 	public String retrievePasswordByLogin(String login);
+
+	/**
+	 * Creates the submitted user with given authentication token
+	 * 
+	 * @param toCreate
+	 * @param withCredential
+	 */
+	public void createUser(UserDto toCreate, String withToken);
 
 }

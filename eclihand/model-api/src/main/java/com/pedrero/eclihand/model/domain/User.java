@@ -8,6 +8,10 @@ public interface User extends Illustrable {
 
 	void setLogin(String login);
 
+	String getMailAddress();
+
+	void setMailAddress(String mailAddress);
+
 	String getPassword();
 
 	void setPassword(String password);

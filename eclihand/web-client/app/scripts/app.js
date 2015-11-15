@@ -27,9 +27,9 @@ angular
           templateUrl: 'views/main.html',
           controller: 'MainCtrl'
         })
-        .when('/about', {
-          templateUrl: 'views/about.html',
-          controller: 'AboutCtrl'
+        .when('/registration', {
+          templateUrl: 'views/registration.html',
+          controller: 'RegistrationCtrl'
         })
         .when('/login', {
           templateUrl: 'views/login.html',

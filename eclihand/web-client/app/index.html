@@ -47,7 +47,7 @@
             <div class="form-group" ng-class="{ 'has-error' : loginForm.passwordInput.$invalid && data.loginFormSubmitted }" >
               <input name="passwordInput" type="password" placeholder="Password" class="form-control input-sm" ng-model="data.password" required>
             </div>
-            <button name="validButton" type="submit" class="btn btn-success btn-sm">Sign in</button>
+            <button name="validButton" type="submit" class="btn btn-success btn-sm">{{'common.validate'|translate}}</button>
           </form>
 
           <div class="navbar-text navbar-right" ng-show="authenticatedUser()!=undefined">
@@ -55,11 +55,11 @@
           </div>
 
           <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a href="#/">Home</a>
+            <li class="active"><a href="#/">{{'menu.home'|translate}}</a>
             </li>
-            <li><a ng-href="#/about">About</a>
+            <li><a ng-href="#/registration">{{'menu.registration'|translate}}</a>
             </li>
-            <li><a ng-href="#/">Contact</a>
+            <li><a ng-href="#/">{{'menu.contact'|translate}}</a>
             </li>
           </ul>
         </div>

@@ -3,6 +3,8 @@ package com.pedrero.eclihand.model.dto;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.constraints.Size;
+
 import com.pedrero.eclihand.model.domain.UserType;
 
 public class UserDto extends IllustrableDto {
@@ -12,7 +14,11 @@ public class UserDto extends IllustrableDto {
 	 */
 	private static final long serialVersionUID = -3700956477005349287L;
 
+	@Size(min = 6, max = 32)
 	private String login;
+
+	@Size(min = 3, max = 254)
+	private String mailAddress;
 
 	private UserType userType;
 
@@ -24,6 +30,14 @@ public class UserDto extends IllustrableDto {
 
 	public void setLogin(String login) {
 		this.login = login;
+	}
+
+	public String getMailAddress() {
+		return mailAddress;
+	}
+
+	public void setMailAddress(String mailAddress) {
+		this.mailAddress = mailAddress;
 	}
 
 	public UserType getUserType() {
