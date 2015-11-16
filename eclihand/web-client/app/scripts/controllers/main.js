@@ -12,7 +12,7 @@ angular.module('webClientApp')
     function($scope, loginService, authenticatedUser) {
       console.log('Main control log');
       console.log(loginService.login);
-        $scope.data={};
+      $scope.data={};
       $scope.data.login='';
       $scope.data.password='';
       $scope.data.loginFormSubmitted=false;
@@ -20,7 +20,7 @@ angular.module('webClientApp')
       $scope.data.authenticatedUser = authenticatedUser.getUser;
       $scope.data.userLogin = authenticatedUser.getUserName;
         
-      $scope.onLogin = function(isValid) {
+      $scope.register = function(isValid) {
 		this.data.loginFormSubmitted=true;
 		if (isValid){
             console.log('Loggin form validated. Going to log in...');

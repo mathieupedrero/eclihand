@@ -28,6 +28,9 @@ angular.module('webClientApp')
     'common.http_status': 'Status [{{statusText}}]',
     'common.close': 'Close',
     'common.validate': 'Validate',
+    'common.login': 'Login',
+    'common.password': 'Password',
+    'common.mail_address': 'e-mail address',
 
     'data_table.results_per_page': '{{pageSize}} results per page',
     'data_table.forward_buttons': 'forward buttons',
@@ -36,5 +39,10 @@ angular.module('webClientApp')
     
     'menu.home': 'Home',
     'menu.registration': 'Registration',
-    'menu.contact': 'Contact'
+    'menu.contact': 'Contact',
+	
+	'registration.title': 'Welcome on Eclihand',
+	'registration.subtitle': 'Create new account',
+	'registration.confirm_password': 'Confirm Password',
+	'registration.why_register': 'Registration allows you to create the page of your favourite team, or to join its network on Eclihand if it allready exists.'
   });

@@ -42,10 +42,10 @@
 
           <form name="loginForm" class="navbar-form navbar-right" ng-submit="onLogin(loginForm.$valid)" ng-hide="authenticatedUser()!=undefined" novalidate>
             <div class="form-group" ng-class="{ 'has-error' : loginForm.loginInput.$invalid && data.loginFormSubmitted }" >
-              <input name="loginInput" type="text" placeholder="Login" class="form-control input-sm" ng-model="data.login" required>
+              <input name="loginInput" type="text" placeholder="{{'common.login'|translate}}" class="form-control input-sm" ng-model="data.login" required>
             </div>
             <div class="form-group" ng-class="{ 'has-error' : loginForm.passwordInput.$invalid && data.loginFormSubmitted }" >
-              <input name="passwordInput" type="password" placeholder="Password" class="form-control input-sm" ng-model="data.password" required>
+              <input name="passwordInput" type="password" placeholder="{{'common.password'|translate}}" class="form-control input-sm" ng-model="data.password" required>
             </div>
             <button name="validButton" type="submit" class="btn btn-success btn-sm">{{'common.validate'|translate}}</button>
           </form>
@@ -146,7 +146,7 @@
   <!-- build:js({.tmp,app}) scripts/scripts.js -->
   <script src="scripts/app.js"></script>
   <script src="scripts/controllers/main.js"></script>
-  <script src="scripts/controllers/about.js"></script>
+  <script src="scripts/controllers/registration.js"></script>
   <script src="scripts/controllers/login.js"></script>
   <script src="scripts/services/loginservice.js"></script>
   <script src="scripts/services/httpeclihandserverinterceptor.js"></script>

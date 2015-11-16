@@ -41,7 +41,7 @@ angular.module('webClientApp')
 				},
 			
 				defineData: function(data){
-					this.config.data = content;
+					this.config.data = data;
 					return this;
 				},
 			

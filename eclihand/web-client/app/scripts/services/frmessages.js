@@ -29,6 +29,9 @@ angular.module('webClientApp')
     'common.http_status': 'Status [{{statusText}}]',
     'common.close': 'Fermer',
     'common.validate': 'Valider',
+    'common.login': 'Login',
+    'common.password': 'Mot de passe',
+    'common.mail_address': 'Adresse e-mail',
 
     'data_table.results_per_page': '{{pageSize}} résultats par page',
     'data_table.forward_buttons': 'boutons d\'avance',
@@ -38,5 +41,10 @@ angular.module('webClientApp')
     
     'menu.home': 'Accueil',
     'menu.registration': 'S\'inscrire',
-    'menu.contact': 'Contact'
+    'menu.contact': 'Contact',
+	
+	'registration.title': 'Bienvenue sur Eclihand !',
+	'registration.subtitle': 'Créer un compte',
+	'registration.confirm_password': 'Confirmation mot de passe',
+	'registration.why_register': 'Créer un compte vous permet de créer la page de votre club, où bien de rejoindre son réseau si celle-ci existe déjà.'
   });

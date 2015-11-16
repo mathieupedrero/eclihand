@@ -1,14 +1,32 @@
 
+<div class="page-header">
+  <h1>{{'registration.title'|translate}} <small>{{'registration.subtitle'|translate}}</small></h1>
+  <p>{{'registration.why_register'|translate}}</p>
+</div>
 
-          <form name="registrationForm" class="navbar-form navbar-right" ng-submit="register(loginForm.$valid)" novalidate>
+          <form name="registrationForm" class="form" ng-submit="register(registrationForm.$valid)" novalidate>
             <div class="form-group" ng-class="{ 'has-error' : registrationForm.loginInput.$invalid && data.loginFormSubmitted }" >
-              <input name="loginInput" type="text" placeholder="Login" class="form-control input-sm" ng-model="data.login" required>
+			  <label for="loginInput">{{'common.login'|translate}}</label>
+              <input name="loginInput" id="loginInput" type="text" placeholder="{{'common.login'|translate}}" class="form-control input-sm" ng-model="data.login" required>
             </div>
+			
             <div class="form-group" ng-class="{ 'has-error' : loginForm.passwordInput.$invalid && data.loginFormSubmitted }" >
-              <input name="passwordInput" type="password" placeholder="Password" class="form-control input-sm" ng-model="data.password" required>
+			  <label for="passwordInput">{{'common.password'|translate}}</label>
+              <input name="passwordInput" id="passwordInput" type="password" placeholder="{{'common.password'|translate}}" class="form-control input-sm" ng-model="data.password" required>
             </div>
+			
             <div class="form-group" ng-class="{ 'has-error' : loginForm.checkPasswordInput.$invalid && data.loginFormSubmitted }" >
-              <input name="checkPasswordInput" type="password" placeholder="Password" class="form-control input-sm" ng-model="data.password" required>
+			  <label for="checkPasswordInput">{{'registration.confirm_password'|translate}}</label>
+              <input name="checkPasswordInput" id="checkPasswordInput" type="password" placeholder="{{'registration.confirm_password'|translate}}" class="form-control input-sm" ng-model="data.password">
             </div>
+			
+            <div class="form-group" ng-class="{ 'has-error' : registrationForm.mailAddressInput.$invalid && data.loginFormSubmitted }" >
+			  <label for="mailAddressInput">{{'common.mail_address'|translate}}</label>
+			  <div class="input-group">
+				  <span class="input-group-addon" id="mail-input-addon">@</span>
+				  <input name="mailAddressInput" id="mailAddressInput" type="text" placeholder="{{'common.mail_address'|translate}}" class="form-control input-sm" ng-model="data.mailAddress" aria-describedby="mail-input-addon" required>
+			  </div>
+            </div>
+			
             <button name="validButton" type="submit" class="btn btn-success btn-sm">{{'common.validate'|translate}}</button>
           </form>
