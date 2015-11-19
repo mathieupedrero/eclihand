@@ -13,7 +13,7 @@ import com.pedrero.eclihand.rest.request.UserCreationRequest;
 import com.pedrero.eclihand.service.biz.UserService;
 
 @RestController
-@RequestMapping(consumes = IRestWebService.APPLICATION_JSON, produces = IRestWebService.APPLICATION_JSON, value = "/user")
+@RequestMapping(value = "/user")
 public class UserWs extends AbstractEntityWs<UserDto> {
 
 	@Resource
@@ -24,10 +24,9 @@ public class UserWs extends AbstractEntityWs<UserDto> {
 		return userService;
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/create")
+	@RequestMapping(consumes = IRestWebService.APPLICATION_JSON, method = RequestMethod.POST, value = "/create")
 	public void create(@Valid @RequestBody UserCreationRequest request) {
-		getService().createUser(request.getUserToCreate(),
-				request.getPasswordToken());
+		getService().createUser(request.getUserToCreate(), request.getPasswordToken());
 	}
 
 }

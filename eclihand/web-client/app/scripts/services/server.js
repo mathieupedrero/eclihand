@@ -76,7 +76,6 @@ angular.module('webClientApp')
             .defineData(userCreationRequest)
             .defineUrl(serverUrl, '/eclihand-server/user/create')
             .defineXEcliDate(new Date().toJSON()).build();
-          requestUtils.signRequest(config, login, encodedPassword);
 
           processRequest(config, null, successListener);
         }

@@ -10,12 +10,12 @@
               <input name="loginInput" id="loginInput" type="text" placeholder="{{'common.login'|translate}}" class="form-control input-sm" ng-model="data.login" required>
             </div>
 			
-            <div class="form-group" ng-class="{ 'has-error' : loginForm.passwordInput.$invalid && data.loginFormSubmitted }" >
+            <div class="form-group" ng-class="{ 'has-error' : registrationForm.passwordInput.$invalid && data.loginFormSubmitted }" >
 			  <label for="passwordInput">{{'common.password'|translate}}</label>
               <input name="passwordInput" id="passwordInput" type="password" placeholder="{{'common.password'|translate}}" class="form-control input-sm" ng-model="data.password" required>
             </div>
 			
-            <div class="form-group" ng-class="{ 'has-error' : loginForm.checkPasswordInput.$invalid && data.loginFormSubmitted }" >
+            <div class="form-group" ng-class="{ 'has-error' : registrationForm.checkPasswordInput.$invalid && data.loginFormSubmitted }" >
 			  <label for="checkPasswordInput">{{'registration.confirm_password'|translate}}</label>
               <input name="checkPasswordInput" id="checkPasswordInput" type="password" placeholder="{{'registration.confirm_password'|translate}}" class="form-control input-sm" ng-model="data.password">
             </div>

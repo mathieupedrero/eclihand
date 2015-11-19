@@ -20,7 +20,7 @@ angular.module('webClientApp')
       $scope.data.authenticatedUser = authenticatedUser.getUser;
       $scope.data.userLogin = authenticatedUser.getUserName;
         
-      $scope.register = function(isValid) {
+      $scope.onLogin = function(isValid) {
 		this.data.loginFormSubmitted=true;
 		if (isValid){
             console.log('Loggin form validated. Going to log in...');
