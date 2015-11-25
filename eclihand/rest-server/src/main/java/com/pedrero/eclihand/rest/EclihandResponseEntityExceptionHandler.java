@@ -2,7 +2,9 @@ package com.pedrero.eclihand.rest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,7 +16,7 @@ import com.pedrero.eclihand.model.exception.EclihandRuntimeException;
 @ControllerAdvice
 public class EclihandResponseEntityExceptionHandler {
 
-	private final Logger LOGGER = LoggerFactory.getLogger(EclihandResponseEntityExceptionHandler.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(EclihandResponseEntityExceptionHandler.class);
 
 	@ExceptionHandler(value = EclihandRuntimeException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -23,11 +25,16 @@ public class EclihandResponseEntityExceptionHandler {
 		return ex.getEclihandMessage();
 	}
 
-	@ExceptionHandler(value = RuntimeException.class)
-	public void handle(RuntimeException e) {
-		LOGGER.info("Returning HTTP 400 Bad Request", e);
-		e.printStackTrace();
-		throw e;
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ResponseBody
+	public EclihandMessage handleException(MethodArgumentNotValidException ex) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Field validation exception {}", ex.getBindingResult().getAllErrors().get(0)
+					.getDefaultMessage(), ex);
+			LocaleContextHolder.getLocale();
+		}
+		return null;
 	}
 
 }

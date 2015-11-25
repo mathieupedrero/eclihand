@@ -64,8 +64,7 @@ angular.module('webClientApp')
 		  
 		  var userCreationRequest = {
 			userToCreate:{
-				login:login,
-				mailAddress:mailAddress,
+				login:login
 			},
 			passwordToken:encodedPassword
 		  };
